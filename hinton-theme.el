@@ -1,0 +1,21 @@
+(deftheme hinton
+  "Created 2015-07-24.")
+
+(custom-theme-set-faces
+ 'hinton
+ '(helm-buffer-file ((t (:foreground "white"))))
+ '(helm-match ((t (:background "gray16"))))
+ '(helm-source-header ((t (:weight bold :underline nil :box nil :foreground "#F6F6F6" :background "dark slate gray"))))
+ '(mode-line ((t (:background "black" :foreground "gray60" :inverse-video nil :box (:line-width 1 :style released-button) :height 86 :family "Sans"))))
+ '(mode-line-inactive ((t (:background "#404045" :foreground "gray60" :inverse-video nil :box (:line-width 1 :style released-button) :height 86 :family "Sans"))))
+ '(sml/filename ((t (:inherit sml/global :foreground "deep sky blue" :weight bold))))
+ '(org-meta-line ((t (:foreground "#9D9D9D" :height 1.0))))
+ '(org-todo ((t (:foreground "dark orange" :weight bold))))
+ '(org-done ((t (:foreground "dark gray" :weight bold))))
+ '(font-lock-type-face ((t (:foreground "white" :underline nil))))
+ '(mc/cursor-face ((t (:background "OrangeRed1"))))
+ '(mc/region-face ((t (:inherit region :background "orangered3"))))
+ '(hl-line ((t (:background "gray20"))))
+ '(default ((t (:height 120 :family "Ubuntu Mono")))))
+
+(provide-theme 'hinton)
