@@ -8,11 +8,27 @@
                   "%f"
                   default-directory)))
 
+
+
 (require 'package)
 (require 'cl)
 
 (defun h/ed (x)
   (concat user-emacs-directory x))
+
+(push (h/ed "site-lisp") load-path)
+
+(let ((backup-directory (h/ed "state/backups/")))
+  (setq backup-directory-alist
+        `((".*" . ,backup-directory)))
+  (setq auto-save-file-name-transforms
+        `((".*" ,backup-directory t))))
+
+(setq auto-save-list-file-prefix
+      (h/ed "state/auto-save-list/.saves-"))
+
+(make-directory (h/ed "state/backups/") t)
+(make-directory (h/ed "state/auto-save-list/") t)
 
 (setq package-archives
       '(("melpa-stable" . "http://stable.melpa.org/packages/")
@@ -65,7 +81,10 @@
   (message "loading packages.el")
   (load (h/ed "packages.el"))
   (message "finishing")
+  ;; TODO package-refresh-contents
   (req-package-finish)
   (load (h/ed "keys.el")))
 
 (add-hook 'after-init-hook #'h/load-packages)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
