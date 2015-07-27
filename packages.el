@@ -194,8 +194,8 @@
   :config
   (setq helm-echo-input-in-header-line nil
         helm-quick-update t
-        helm-idle-delay 0.01
-        helm-input-idle-delay 0.01
+        helm-idle-delay 0.001
+        helm-input-idle-delay 0.001
         helm-always-two-windows nil
         helm-ff-auto-update-initial-value nil
         helm-display-header-line nil
