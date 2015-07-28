@@ -1,5 +1,5 @@
 (deftheme hinton
-  "Created 2015-07-24.")
+  "Created 2015-07-28.")
 
 (custom-theme-set-faces
  'hinton
@@ -13,9 +13,8 @@
  '(org-todo ((t (:foreground "dark orange" :weight bold))))
  '(org-done ((t (:foreground "dark gray" :weight bold))))
  '(font-lock-type-face ((t (:foreground "white" :underline nil))))
- '(mc/cursor-face ((t (:background "OrangeRed1"))))
- '(mc/region-face ((t (:inherit region :background "orangered3"))))
  '(hl-line ((t (:background "gray20"))))
- '(default ((t (:height 120 :family "Ubuntu Mono")))))
+ '(default ((t (:height 120 :family "Ubuntu Mono"))))
+ '(org-archived ((t (:foreground "dim gray" :weight thin)))))
 
 (provide-theme 'hinton)
