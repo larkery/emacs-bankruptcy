@@ -32,6 +32,10 @@
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol try-expand-line)))
  '(ido-create-new-buffer (quote always))
  '(ispell-program-name "aspell")
+ '(jiralib-host "cseresearch")
+ '(jiralib-url "http://cseresearch.atlassian.net/")
+ '(jiralib-wsdl-descriptor-url
+   "http://cseresearch.atlassian.net/rpc/soap/jirasoapservice-v2?wsdl")
  '(kill-ring-max 1000)
  '(mark-ring-max 1000)
  '(message-auto-save-directory "~/temp/messages/")
@@ -111,11 +115,15 @@
     (("s" "NHM Support" entry
       (file "~/work/nhm/support.org")
       "* %^{Ticket|%a}" :clock-in t :clock-resume t)
-     ("t" "Miscellaneous task" entry
+     ("i" "Clock in on task" entry
       (file "~/work/scratch.org")
-      "* %^{Caption}" :clock-in t :clock-resume t))))
+      "* TODO %t %^{Caption}%?" :clock-in t :clock-resume t)
+     ("c" "Future task" entry
+      (file+headline "~/work/scratch.org" "Unfiled tasks")
+      "** TODO %t %?%a"))))
  '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-history-length 8)
+ '(org-clock-in-resume t)
  '(org-clock-in-switch-to-state
    (lambda
      (todo)

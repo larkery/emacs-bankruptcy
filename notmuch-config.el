@@ -82,12 +82,22 @@
     (if (member "flagged" (notmuch-search-get-tags))
         (notmuch-search-remove-tag (list "-flagged"))
       (notmuch-search-add-tag (list "+flagged"))))
+
+  (defun h/notmuch/capture ()
+    "make an email go into an org capture template"
+    (interactive)
+    (require 'org-notmuch)
+    ;(org-store-link 0)
+    (org-capture t "c"))
+
+  (bind-key "k" #'h/notmuch/capture notmuch-show-mode-map)
   
   (bind-key "." 'h/notmuch/toggle-flagged notmuch-search-mode-map)
   (bind-key "d" 'h/notmuch/mark-deleted notmuch-search-mode-map)
   (bind-key "g" 'notmuch-refresh-this-buffer notmuch-search-mode-map)
   (bind-key "<tab>" 'notmuch-show-toggle-message notmuch-show-mode-map)
-
+  
+  
   (bind-key "C-c i" #'h/notmuch/goto-inbox)
   (bind-key "C-c m" #'notmuch-mua-new-mail)
   (add-hook 'notmuch-show-hook #'h/hack-file-links)

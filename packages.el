@@ -66,7 +66,9 @@
 (req-package org
   :bind
   (("C-c a" . org-agenda)
-   ("C-c l" . org-capture))
+   ("C-c l" . org-store-link)
+   ("C-c c" . org-capture))
+  
   :config
   (add-hook 'org-mode-hook
             (lambda ()
