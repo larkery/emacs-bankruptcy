@@ -45,6 +45,7 @@
  '(message-kill-buffer-on-exit t)
  '(message-send-mail-function (quote message-send-mail-with-sendmail))
  '(message-sendmail-envelope-from (quote header))
+ '(message-signature nil)
  '(mm-inline-text-html-with-images t)
  '(mm-inlined-types
    (quote
@@ -85,6 +86,7 @@
                    (:foreground "orange")))))))
  '(notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)$")
  '(notmuch-wash-signature-lines-max 30)
+ '(notmuch-wash-signature-regexp "^\\(-- ?\\|_+\\|\\*\\*\\*\\*\\*+\\)$")
  '(org-agenda-custom-commands
    (quote
     (("n" "Agenda and all TODO's"
@@ -252,6 +254,7 @@
  '(org-todo-state-tags-triggers nil)
  '(org-use-property-inheritance (quote ("CODE")))
  '(org-use-speed-commands t)
+ '(recentf-auto-cleanup (quote never))
  '(safe-local-variable-values
    (quote
     ((eval add-hook

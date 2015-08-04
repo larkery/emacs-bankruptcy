@@ -37,7 +37,9 @@
   (("M-g g" . avy-goto-line)
    ("M-g M-g" . avy-goto-line)
    ("M-g w" . avy-goto-word-1)
-   ("M-g M-w" . avy-goto-word-0)))
+   ("M-g M-w" . avy-goto-word-0)
+   ("M-g M-c" . avy-goto-char)
+   ))
 
 (req-package smart-mode-line
   :config
@@ -73,10 +75,15 @@
   (add-hook 'org-mode-hook
             (lambda ()
               (visual-line-mode 1)
-              (setq mode-name "OM")))
+              (setq mode-name "OM")
+              (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
+              ))
+  
   (add-hook 'org-agenda-finalize-hook 'org-agenda-to-appt)
   (run-at-time "24:01" 3600 'org-agenda-to-appt)
 
+  (bind-key "C-M-i" #'completion-at-point org-mode-map)
+  
   (defvar h/clockin-timer nil)
 
   (defun h/start-clockin-timer (&optional time)
@@ -162,7 +169,9 @@
   :diminish (projectile-mode . " p")
   :config
   (setq projectile-completion-system 'helm)
-  (projectile-global-mode))
+  (projectile-global-mode)
+  (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build" "./gradlew test")
+  )
 
 (req-package helm-projectile
   
@@ -208,7 +217,8 @@
 (req-package recentf
   :config  
   (setq recentf-save-file (h/ed "state/recentf")
-        recentf-max-menu-items 100)
+        recentf-max-menu-items 1000
+        recentf-max-saved-items 1000)
   (recentf-mode 1))
 
 (req-package wgrep
