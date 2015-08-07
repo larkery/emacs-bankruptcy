@@ -1,3 +1,5 @@
+(require 'cl)
+
 (defun h/open-windows-path (url)
   (let* ((parsed (url-generic-parse-url url))
          (type (url-type parsed))
@@ -61,7 +63,6 @@
       (while (and (setq r (notmuch-show-goto-message-next))
                   (not (member "unread" (notmuch-show-get-tags))))))
     (recenter 1))
-  
 
   (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
   (bind-key "U" #'h/notmuch/show-only-unread notmuch-show-mode-map)
@@ -69,20 +70,42 @@
   (defun h/notmuch/goto-inbox ()
     (interactive)
     (notmuch-search "tag:inbox"))
+
+  (defun h/notmuch/flip-tags (&rest tags)
+    (notmuch-search-tag
+     (let ((existing-tags (notmuch-search-get-tags)) (amendments nil))
+       (dolist (tag tags)
+         (push
+          (concat
+           (if (member tag existing-tags) "-" "+")
+           tag)
+          amendments))
+       amendments)
+     ))
   
-  (defun h/notmuch/mark-deleted ()
-    "Mark this email as deleted."
-    (interactive)
-    (notmuch-search-add-tag (list "+deleted"))
-    (notmuch-search-next-thread))
+  (defmacro h/notmuch-toggler (tag)
+    `(lambda ()
+       (interactive)
+       (h/notmuch/flip-tags ,tag)
+       (notmuch-search-next-thread)))
 
-  (defun h/notmuch/toggle-flagged ()
-    "Toggle the flag on this email."
+  ;; todo: glue in refiler for this
+  (defun h/notmuch/sleep ()
     (interactive)
-    (if (member "flagged" (notmuch-search-get-tags))
-        (notmuch-search-remove-tag (list "-flagged"))
-      (notmuch-search-add-tag (list "+flagged"))))
+    (if (member "asleep" (notmuch-search-get-tags))
+        (notmuch-search-tag (loop
+                             for tag in (notmuch-search-get-tags)
+                             if (string-prefix-p "asleep" tag)
+                             collect (concat "-" tag)))
 
+      (notmuch-search-tag (list "-inbox"
+                                "+asleep"
+                                (concat "+asleep-until-"
+                                        (format-time-string
+                                         "%Y-%m-%d"
+                                         (time-add (current-time)
+                                                   (days-to-time 4))))))))
+  
   (defun h/notmuch/capture ()
     "make an email go into an org capture template"
     (interactive)
@@ -92,12 +115,21 @@
 
   (bind-key "k" #'h/notmuch/capture notmuch-show-mode-map)
   
-  (bind-key "." 'h/notmuch/toggle-flagged notmuch-search-mode-map)
-  (bind-key "d" 'h/notmuch/mark-deleted notmuch-search-mode-map)
+  (bind-key "." (h/notmuch-toggler "flagged")
+            notmuch-search-mode-map)
+
+  (bind-key "d" (h/notmuch-toggler "deleted")
+            notmuch-search-mode-map)
+
+  (bind-key "u" (h/notmuch-toggler "unread")
+            notmuch-search-mode-map)
+
+  (bind-key "," #'h/notmuch/sleep
+            notmuch-search-mode-map)
+  
   (bind-key "g" 'notmuch-refresh-this-buffer notmuch-search-mode-map)
   (bind-key "<tab>" 'notmuch-show-toggle-message notmuch-show-mode-map)
-  
-  
+
   (bind-key "C-c i" #'h/notmuch/goto-inbox)
   (bind-key "C-c m" #'notmuch-mua-new-mail)
   (add-hook 'notmuch-show-hook #'h/hack-file-links)
