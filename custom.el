@@ -103,7 +103,7 @@
                 ("code")))))))))
  '(org-agenda-files
    (quote
-    ("~/work/district-heat/district-heat.org" "~/work/nhm/training/training.org" "~/work/nhm/ccc/carbon-budget/carbon-budget.org" "~/work/misc.org" "~/work/nhm/ccc/ccc.org" "~/work/chariot/chariot.org" "~/work/referral-app/referral-app.org" "~/work/nhm/nhm.org" "~/work/heat-networks/heat-networks.org" "~/work/nhm/stock/stock.org" "~/work/development.org" "~/work/scratch.org" "~/work/nhm/support.org" "~/work/exchange.org" "~/work/nhm/hideem/hideem.org" "~/work/lim/lim.org" "~/work/nhm/rhi/rhi.org")))
+    ("~/work/nhm/standalone/standalone.org" "~/work/district-heat/district-heat.org" "~/work/nhm/training/training.org" "~/work/nhm/ccc/carbon-budget/carbon-budget.org" "~/work/misc.org" "~/work/nhm/ccc/ccc.org" "~/work/chariot/chariot.org" "~/work/referral-app/referral-app.org" "~/work/nhm/nhm.org" "~/work/heat-networks/heat-networks.org" "~/work/nhm/stock/stock.org" "~/work/development.org" "~/work/scratch.org" "~/work/nhm/support.org" "~/work/exchange.org" "~/work/nhm/hideem/hideem.org" "~/work/lim/lim.org" "~/work/nhm/rhi/rhi.org")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")
@@ -169,7 +169,7 @@
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default)
-     ("\\.pdf\\'" . emacs))))
+     ("\\.pdf\\'" . default))))
  '(org-fontify-whole-heading-line t)
  '(org-goto-interface (quote outline-path-completion))
  '(org-latex-classes
@@ -223,6 +223,7 @@
     ("latexmk -pdflatex='xelatex --shell-escape -interaction nonstopmode -output-directory %o' -pdf -f %f")))
  '(org-latex-to-pdf-process (quote ("latexmk -pdf -e '$pdflatex=q/xelatex %O %S/' %f")))
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
+ '(org-odt-with-latex t)
  '(org-outline-path-complete-in-steps nil)
  '(org-refile-targets
    (quote

@@ -114,10 +114,10 @@
       (h/start-clockin-timer 1800)
       ))
 
-  (add-hook 'org-clock-in-hook #'h/cancel-clockin-timer)
-  (add-hook 'org-clock-out-hook #'h/start-clockin-timer)
-
-  (h/start-clockin-timer)
+  (when (string= system-name "turnpike.cse.org.uk")
+    (add-hook 'org-clock-in-hook #'h/cancel-clockin-timer)
+    (add-hook 'org-clock-out-hook #'h/start-clockin-timer)
+    (h/start-clockin-timer))
   
   (require 'org-contacts))
 
