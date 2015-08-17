@@ -83,41 +83,47 @@
   (run-at-time "24:01" 3600 'org-agenda-to-appt)
 
   (bind-key "C-M-i" #'completion-at-point org-mode-map)
-  
-  (defvar h/clockin-timer nil)
 
-  (defun h/start-clockin-timer (&optional time)
-    (h/cancel-clockin-timer)
-    (setq h/clockin-timer
-          (run-with-idle-timer
-           (or time 30)
-           nil
-           #'h/maybe-suggest-clocking-in)))
-
-  (defun h/cancel-clockin-timer ()
-    (when h/clockin-timer
-      (cancel-timer h/clockin-timer))
-    (setq h/clockin-timer nil))
-  
-  (defun h/maybe-suggest-clocking-in ()
-    (interactive)
-    (require 'org-clock)
-    (let ((dow (elt (decode-time) 6)))
-      (when (and
-             (< 0 dow 6) ;; during the week
-             (not (org-clocking-p))
-             (let ((use-dialog-box
-                    (not (frame-list))))
-               (y-or-n-p "Clock in now? ")))
-        (helm-org-agenda-files-headings))
-      ;; think about asking again in half an hour whatever happened
-      (h/start-clockin-timer 1800)
-      ))
 
   (when (string= system-name "turnpike.cse.org.uk")
+    (require 'helm-org)
+    (load (h/ed "helm-clock.el"))
+    
+    (defvar h/clockin-timer nil)
+
+    (defun h/start-clockin-timer (&optional time)
+      (h/cancel-clockin-timer)
+      (setq h/clockin-timer
+            (run-with-idle-timer
+             (or time 30)
+             nil
+             #'h/maybe-suggest-clocking-in)))
+
+    (defun h/cancel-clockin-timer ()
+      (when h/clockin-timer
+        (cancel-timer h/clockin-timer))
+      (setq h/clockin-timer nil))
+    
+    (defun h/maybe-suggest-clocking-in ()
+      (interactive)
+      (require 'org-clock)
+      (let ((dow (elt (decode-time) 6)))
+        (when (and
+               (< 0 dow 6) ;; during the week
+               (not (org-clocking-p))
+               (let ((use-dialog-box
+                      (not (frame-list))))
+                 (y-or-n-p "Clock in now? ")))
+          (h/helm-org-clock))
+        ;; think about asking again in half an hour whatever happened
+        (h/start-clockin-timer 1800)
+        ))
+
     (add-hook 'org-clock-in-hook #'h/cancel-clockin-timer)
     (add-hook 'org-clock-out-hook #'h/start-clockin-timer)
-    (h/start-clockin-timer))
+    (h/start-clockin-timer)
+    (add-hook 'org-clock-in-hook #'org-clock-save)
+    (add-hook 'org-clock-out-hook #'org-clock-save))
   
   (require 'org-contacts))
 
@@ -131,6 +137,7 @@
 
 (req-package smartparens
   :config
+  (require 'smartparens-config)
   (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
   (sp-with-modes sp--lisp-modes
     (sp-local-pair "(" nil :bind "C-("))
@@ -180,7 +187,13 @@
   :config
   (helm-projectile-on))
 
-(req-package ggtags)
+(req-package ggtags
+  :init
+  (add-hook 'java-mode-hook 'ggtags-mode))
+
+(add-hook 'java-mode-hook 'subword-mode)
+(add-hook 'java-mode-hook
+          #'(lambda nil (c-set-style "stroustrup")))
 
 (req-package smartscan
   :config

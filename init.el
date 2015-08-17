@@ -88,3 +88,4 @@
 (add-hook 'after-init-hook #'h/load-packages)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(setq set-mark-command-repeat-pop t)
