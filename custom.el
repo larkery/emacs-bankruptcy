@@ -60,7 +60,10 @@
  '(mouse-autoselect-window t)
  '(notmuch-archive-tags (quote ("-inbox" "-unread")))
  '(notmuch-crypto-process-mime t)
- '(notmuch-fcc-dirs (quote (("tom.hinton@cse.org.uk" . "cse/Sent Items"))))
+ '(notmuch-fcc-dirs
+   (quote
+    (("tom.hinton@cse.org.uk" . "cse/Sent Items")
+     ("larkery.com" . "fm/Sent Items"))))
  '(notmuch-hello-sections
    (quote
     (notmuch-hello-insert-search notmuch-hello-insert-alltags notmuch-hello-insert-inbox)))

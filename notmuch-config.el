@@ -69,7 +69,7 @@
 
   (defun h/notmuch/goto-inbox ()
     (interactive)
-    (notmuch-search "tag:inbox"))
+    (notmuch-search "tag:inbox AND path:cse/**"))
 
   (defun h/notmuch/flip-tags (&rest tags)
     (notmuch-search-tag

@@ -181,7 +181,6 @@
   )
 
 (req-package helm-projectile
-  
   :bind (("M-g f" . helm-projectile)
          ("M-g p" . helm-projectile-switch-project))
   :config
@@ -223,7 +222,7 @@
   :config
   (setq-default save-place t)
   (setq save-place-file (h/ed "state/saved-places")))
-  
+
 (req-package dired+
   :commands dired)
 
