@@ -89,6 +89,17 @@
   (require 'org-contacts)
   (require 'org-notmuch)
 
+  (defun h/drawer-hack (o &rest a)
+    (let ((org-clock-into-drawer nil))
+      (apply o a)))
+  
+  ;; hack things which use org-clock-into-drawer wrongly
+  (advice-add
+   'org-clock-jump-to-current-clock
+   :around #'h/drawer-hack)
+
+  
+  
   (when (string= system-name "turnpike.cse.org.uk")
     (require 'org)
     (require 'helm)
