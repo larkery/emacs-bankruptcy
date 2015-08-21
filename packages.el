@@ -66,6 +66,8 @@
   (appt-activate t))
 
 (req-package org
+  :require (helm notmuch)
+  :demand
   :bind
   (("C-c a" . org-agenda)
    ("C-c l" . org-store-link)
@@ -84,8 +86,12 @@
 
   (bind-key "C-M-i" #'completion-at-point org-mode-map)
 
+  (require 'org-contacts)
+  (require 'org-notmuch)
 
   (when (string= system-name "turnpike.cse.org.uk")
+    (require 'org)
+    (require 'helm)
     (require 'helm-org)
     (load (h/ed "helm-clock.el"))
     
@@ -125,7 +131,7 @@
     (add-hook 'org-clock-in-hook #'org-clock-save)
     (add-hook 'org-clock-out-hook #'org-clock-save))
   
-  (require 'org-contacts))
+  )
 
 (req-package org-journal
   :require org
