@@ -115,7 +115,7 @@
         (quote
          (:link t :maxlevel 2 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
- '(org-agenda-files (quote ("~/org/work/" "~/org/personal/" "~/org/journal/")))
+ '(org-agenda-files nil)
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")

@@ -80,6 +80,20 @@
               (setq mode-name "OM")
               (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
               ))
+
+  (defun h/load-org-agenda-files-recursively (dir)
+    (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
+
+    (unless (equal (directory-files dir nil org-agenda-file-regexp t) nil)
+      (add-to-list 'org-agenda-files dir))
+    
+    (dolist (file (directory-files dir nil nil t))
+           (unless (member file '("." ".."))
+             (let ((file (concat dir "/" file)))
+               (when (file-directory-p file)
+                 (h/load-org-agenda-files-recursively file))))))
+
+  (h/load-org-agenda-files-recursively org-directory)
   
   (add-hook 'org-agenda-finalize-hook 'org-agenda-to-appt)
   (run-at-time "24:01" 3600 'org-agenda-to-appt)
@@ -96,9 +110,7 @@
   ;; hack things which use org-clock-into-drawer wrongly
   (advice-add
    'org-clock-jump-to-current-clock
-   :around #'h/drawer-hack)
-
-  
+   :around #'h/drawer-hack)  
   
   (when (string= system-name "turnpike.cse.org.uk")
     (require 'org)
