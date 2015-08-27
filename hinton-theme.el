@@ -1,5 +1,5 @@
 (deftheme hinton
-  "Created 2015-08-21.")
+  "Created 2015-08-25.")
 
 (custom-theme-set-faces
  'hinton
@@ -12,6 +12,8 @@
  '(font-lock-type-face ((t (:foreground "white" :underline nil))))
  '(hl-line ((t (:background "gray20"))))
  '(org-archived ((t (:foreground "dim gray" :weight thin))))
+ '(font-lock-comment-face ((t (:foreground "gray60" :slant italic :weight light))))
+ '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
  '(default ((t (:foreground "#F1EAD7" :height 120 :family "Ubuntu mono")))))
 
 (provide-theme 'hinton)
