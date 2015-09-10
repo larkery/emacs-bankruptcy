@@ -396,3 +396,8 @@
         )
   (ido-mode 1)
   )
+
+(req-package
+  ido-ubiquitous
+  :config
+  (ido-ubiquitous-mode 1))
