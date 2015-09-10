@@ -402,3 +402,5 @@
   ido-ubiquitous
   :config
   (ido-ubiquitous-mode 1))
+
+;; alternatively: helm mode + helm-completing-read-handlers-alist
