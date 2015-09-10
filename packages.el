@@ -395,6 +395,7 @@
         ido-use-filename-at-point 'guess
         )
   (ido-mode 1)
+  (ido-everywhere)
   )
 
 (req-package
