@@ -1,3 +1,6 @@
+(req-package tao-theme)
+(req-package fish-mode)
+
 (req-package magit
   :commands magit
   :bind ("C-c g" . magit-status)
@@ -10,14 +13,13 @@
   (setq guide-key/idle-delay 0.5
         guide-key/recursive-key-sequence-flag t
         guide-key/popup-window-position 'bottom
-        guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g")
+        guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g" "M-s")
         guide-key/highlight-command-regexp
         '("bookmark"
           ("window" . "green")
           ("file" . "red")
           ("buffer" . "cyan")
           ("register" . "purple")))
-  
   
   (defun guide-key/my-hook-function-for-org-mode ()
     (guide-key/add-local-guide-key-sequence "C-c C-x")
@@ -66,7 +68,8 @@
   (appt-activate t))
 
 (req-package org
-  :require (helm notmuch)
+  :require (;helm
+            notmuch)
   :demand
   :bind
   (("C-c a" . org-agenda)
@@ -88,10 +91,10 @@
       (add-to-list 'org-agenda-files dir))
     
     (dolist (file (directory-files dir nil nil t))
-           (unless (member file '("." ".."))
-             (let ((file (concat dir "/" file)))
-               (when (file-directory-p file)
-                 (h/load-org-agenda-files-recursively file))))))
+      (unless (member file '("." ".."))
+        (let ((file (concat dir "/" file)))
+          (when (file-directory-p file)
+            (h/load-org-agenda-files-recursively file))))))
 
   (h/load-org-agenda-files-recursively org-directory)
   
@@ -112,50 +115,68 @@
    'org-clock-jump-to-current-clock
    :around #'h/drawer-hack)  
   
-  (when (string= system-name "turnpike.cse.org.uk")
-    (require 'org)
-    (require 'helm)
-    (require 'helm-org)
-    (load (h/ed "helm-clock.el"))
-    
-    (defvar h/clockin-timer nil)
-
-    (defun h/start-clockin-timer (&optional time)
-      (h/cancel-clockin-timer)
-      (setq h/clockin-timer
-            (run-with-idle-timer
-             (or time 30)
-             nil
-             #'h/maybe-suggest-clocking-in)))
-
-    (defun h/cancel-clockin-timer ()
-      (when h/clockin-timer
-        (cancel-timer h/clockin-timer))
-      (setq h/clockin-timer nil))
-    
-    (defun h/maybe-suggest-clocking-in ()
-      (interactive)
-      (require 'org-clock)
-      (let ((dow (elt (decode-time) 6)))
-        (when (and
-               (< 0 dow 6) ;; during the week
-               (not (org-clocking-p))
-               (let ((use-dialog-box
-                      (not (frame-list))))
-                 (y-or-n-p "Clock in now? ")))
-          (h/helm-org-clock))
-        ;; think about asking again in half an hour whatever happened
-        (h/start-clockin-timer 1800)
-        ))
-
-    (add-hook 'org-clock-in-hook #'h/cancel-clockin-timer)
-    (add-hook 'org-clock-out-hook #'h/start-clockin-timer)
-    (h/start-clockin-timer)
-    (add-hook 'org-clock-in-hook #'org-clock-save)
-    (add-hook 'org-clock-out-hook #'org-clock-save))
+  ;; (when (string= system-name "turnpike.cse.org.uk")
+  ;;   (require 'org)
+  ;;   (require 'helm)
+  ;;   (require 'helm-org)
+  ;;   (load (h/ed "helm-clock.el"))
   
-  )
+  ;;   (defvar h/clockin-timer nil)
 
+  ;;   (defun h/start-clockin-timer (&optional time)
+  ;;     (h/cancel-clockin-timer)
+  ;;     (setq h/clockin-timer
+  ;;           (run-with-idle-timer
+  ;;            (or time 30)
+  ;;            nil
+  ;;            #'h/maybe-suggest-clocking-in)))
+
+  ;;   (defun h/any-frames-visible ()
+  ;;     (some
+  ;;      (lambda (f)
+  ;;        (not (string-equal "initial_terminal" (terminal-name f))))
+  ;;      (visible-frame-list)))
+  
+  ;;   (defun h/cancel-clockin-timer ()
+  ;;     (when h/clockin-timer
+  ;;       (cancel-timer h/clockin-timer))
+  ;;     (setq h/clockin-timer nil))
+  
+  ;;   (defun h/maybe-suggest-clocking-in (&rest blah)
+  ;;     (interactive)
+
+  ;;     (h/cancel-clockin-timer)
+  ;;     (remove-hook 'after-make-frame-functions
+  ;;                  #'h/maybe-suggest-clocking-in)
+  
+  ;;     (require 'org-clock)
+
+  ;;     ;; this is unsafe when there is no frame.
+  ;;     (if (h/any-frames-visible)
+  ;;         (let ((dow (elt (decode-time) 6)))
+  ;;           (when (and
+  ;;                  (< 0 dow 6) ;; during the week
+  ;;                  (not (org-clocking-p))
+  ;;                  (let ((use-dialog-box t)
+  ;;                        (last-nonmenu-event nil))
+  ;;                    (y-or-n-p "Clock in now? ")))
+  ;;             (h/helm-org-clock))
+  ;;           ;; think about asking again in half an hour whatever happened
+  ;;           (h/start-clockin-timer 1800))
+  ;;       ;; if there are no frames visible, we should probably hook ourself up to make frame
+  ;;       (add-hook 'after-make-frame-functions
+  ;;                 #'h/maybe-suggest-clocking-in)
+  ;;       ))
+  
+
+  ;;   (add-hook 'org-clock-in-hook #'h/cancel-clockin-timer)
+  ;;   (add-hook 'org-clock-out-hook #'h/start-clockin-timer)
+  ;;   (h/start-clockin-timer)
+  ;;   (add-hook 'org-clock-in-hook #'org-clock-save)
+  ;;   (add-hook 'org-clock-out-hook #'org-clock-save))
+  ;; )
+
+  )
 (req-package org-journal
   :require org
   :config (setq org-journal-dir "~/journal/"))
@@ -169,13 +190,13 @@
   (require 'smartparens-config)
   (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
   (sp-with-modes sp--lisp-modes
-    (sp-local-pair "(" nil :bind "C-("))
+                 (sp-local-pair "(" nil :bind "C-("))
   
   (sp-with-modes '(html-mode nxml-mode sgml-mode)
-    (sp-local-pair "<" ">"))
+                 (sp-local-pair "<" ">"))
 
   (sp-with-modes sp--lisp-modes
-    (sp-local-pair "'" nil :actions nil))
+                 (sp-local-pair "'" nil :actions nil))
   
   (sp-local-tag '(html-mode nxml-mode sgml-mode)
                 "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags)
@@ -197,23 +218,22 @@
          ("C-<" . mc/mark-previous-like-this)
          ("C->" . mc/mark-next-like-this)))
 
-
 (req-package expand-region
-  :bind ("C-=" . er/expand-region))
+  :bind ("C-#" . er/expand-region))
 
 (req-package projectile
   :diminish (projectile-mode . " p")
   :config
-  (setq projectile-completion-system 'helm)
+  (setq projectile-completion-system 'grizz)
   (projectile-global-mode)
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build" "./gradlew test")
   )
 
-(req-package helm-projectile
-  :bind (("M-g f" . helm-projectile)
-         ("M-g p" . helm-projectile-switch-project))
-  :config
-  (helm-projectile-on))
+;; (req-package helm-projectile
+;;   :bind (("M-g f" . helm-projectile)
+;;          ("M-g p" . helm-projectile-switch-project))
+;;   :config
+;;   (helm-projectile-on))
 
 (req-package ggtags
   :init
@@ -227,12 +247,16 @@
   :config
   (add-hook 'prog-mode-hook #'smartscan-mode)
   (bind-key "M-p" #'smartscan-symbol-go-backward prog-mode-map)
-  (bind-key "M-p" #'smartscan-symbol-go-forward prog-mode-map))
+  (bind-key "M-n" #'smartscan-symbol-go-forward prog-mode-map))
 
 (req-package undo-tree
   :diminish undo-tree-mode
   :init
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+  (global-set-key (kbd "C-z") 'undo)
+  (defalias 'redo 'undo-tree-redo)
+  (global-set-key (kbd "C-S-z") 'redo)
+  (global-set-key (kbd "C-M-z") 'undo-tree-visualize))
 
 (load (h/ed "notmuch-config.el"))
 
@@ -252,8 +276,7 @@
   (setq-default save-place t)
   (setq save-place-file (h/ed "state/saved-places")))
 
-(req-package dired+
-  :commands dired)
+(req-package dired+ :commands dired)
 
 (req-package recentf
   :config  
@@ -273,90 +296,103 @@
 (req-package lacarte
   :bind ("M-`" . lacarte-execute-menu-command))
 
-(req-package helm
-  :diminish helm-mode
-  :bind (("M-x" . helm-M-x)
-         ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-buffers-list)
-         ("C-x C-r" . helm-recentf))
-  
+;; (req-package helm
+;;   :diminish helm-mode
+;;   :bind (("M-x" . helm-M-x)
+;;          ("C-x C-f" . helm-find-files)
+;;          ("C-x b" . helm-buffers-list)
+;;          ("C-x C-r" . helm-recentf))
+
+;;   :config
+;;   (setq helm-echo-input-in-header-line nil
+;;         helm-quick-update t
+;;         helm-idle-delay 0.001
+;;         helm-input-idle-delay 0.001
+;;         helm-always-two-windows nil
+;;         helm-ff-auto-update-initial-value nil
+;;         helm-display-header-line nil
+;;         helm-autoresize-max-height 40
+;;         helm-autoresize-min-height 15
+;;         helm-ff-skip-boring-files nil
+;;         helm-boring-file-regexp-list '("\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn$" "\\.hg$" "\\.git$" "\\.bzr$" "CVS$" "_darcs$" "_MTN$" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$" "\\.$" "\\..$" "^\\..+"))
+
+;;   (bind-key "<tab>" 'helm-execute-persistent-action helm-map)
+;;   (bind-key "C-i" 'helm-execute-persistent-action helm-map)
+;;   (bind-key "`" 'helm-select-action helm-map)
+;;   (bind-key "C-z" 'helm-select-action helm-map)
+
+;;   (bind-key "C-." (lambda ()
+;;                     (interactive)
+;;                     (setq helm-ff-skip-boring-files (not helm-ff-skip-boring-files))
+;;                     (helm-update))
+;;             helm-map)
+
+;;   (defun h/helm-fonts ()
+;;     (interactive)
+;;     (with-helm-buffer
+;;       (setq line-spacing 1)
+;;       (buffer-face-set '(:height 110))))
+
+;;   (add-hook 'helm-after-initialize-hook #'h/helm-fonts)
+
+;;   (helm-mode 1)
+;;   (helm-autoresize-mode 1)
+;;   (remove-hook 'helm-after-update-hook 'helm-ff-update-when-only-one-matched))
+
+;; (req-package helm-swoop
+;;   :bind ("C-." . helm-swoop))
+
+;; (req-package popwin)
+
+;; (defvar spacemacs-helm-display-help-buffer-regexp '("*.*Helm.*Help.**"))
+;; ;; display Helm buffer using 40% frame height
+;; (defvar spacemacs-helm-display-buffer-regexp `("*.*helm.**"
+;;                                                (display-buffer-in-side-window)
+;;                                                (inhibit-same-window . t)
+;;                                                (window-height . 0.4)))
+;; (defvar spacemacs-display-buffer-alist nil)
+;; (defun spacemacs//display-helm-at-bottom ()
+;;   "Display the helm buffer at the bottom of the frame."
+;;   ;; avoid Helm buffer being diplaye twice when user
+;;   ;; sets this variable to some function that pop buffer to
+;;   ;; a window. See https://github.com/syl20bnr/spacemacs/issues/1396
+;;   (let ((display-buffer-base-action '(nil)))
+;;     ;; backup old display-buffer-base-action
+;;     (setq spacemacs-display-buffer-alist display-buffer-alist)
+;;     ;; the only buffer to display is Helm, nothing else we must set this
+;;     ;; otherwise Helm cannot reuse its own windows for copyinng/deleting
+;;     ;; etc... because of existing popwin buffers in the alist
+;;     (setq display-buffer-alist nil)
+;;     (add-to-list 'display-buffer-alist spacemacs-helm-display-buffer-regexp)
+;;     ;; this or any specialized case of Helm buffer must be added AFTER
+;;     ;; `spacemacs-helm-display-buffer-regexp'. Otherwise,
+;;     ;; `spacemacs-helm-display-buffer-regexp' will be used before
+;;     ;; `spacemacs-helm-display-help-buffer-regexp' and display
+;;     ;; configuration for normal Helm buffer is applied for helm help
+;;     ;; buffer, making the help buffer unable to be displayed.
+;;     (add-to-list 'display-buffer-alist spacemacs-helm-display-help-buffer-regexp)
+;;     (popwin-mode -1)))
+
+;; (defun spacemacs//restore-previous-display-config ()
+;;   (popwin-mode 1)
+;;   ;; we must enable popwin-mode first then restore `display-buffer-alist'
+;;   ;; Otherwise, popwin keeps adding up its own buffers to `display-buffer-alist'
+;;   ;; and could slow down Emacs as the list grows
+;;   (setq display-buffer-alist spacemacs-display-buffer-alist))
+
+;; (add-hook 'helm-after-initialize-hook 'spacemacs//display-helm-at-bottom)
+;; ;;  Restore popwin-mode after a Helm session finishes.
+;; (add-hook 'helm-cleanup-hook 'spacemacs//restore-previous-display-config)
+
+(add-hook 'dired-load-hook (lambda () (require 'dired-x)))
+
+(req-package
+  ido
   :config
-  (setq helm-echo-input-in-header-line nil
-        helm-quick-update t
-        helm-idle-delay 0.001
-        helm-input-idle-delay 0.001
-        helm-always-two-windows nil
-        helm-ff-auto-update-initial-value nil
-        helm-display-header-line nil
-        helm-autoresize-max-height 40
-        helm-autoresize-min-height 15
-        helm-ff-skip-boring-files nil
-        helm-boring-file-regexp-list '("\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn$" "\\.hg$" "\\.git$" "\\.bzr$" "CVS$" "_darcs$" "_MTN$" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$" "\\.$" "\\..$" "^\\..+"))
-  
-  (bind-key "<tab>" 'helm-execute-persistent-action helm-map)
-  (bind-key "C-i" 'helm-execute-persistent-action helm-map)
-  (bind-key "`" 'helm-select-action helm-map)
-  (bind-key "C-z" 'helm-select-action helm-map)
-
-  (bind-key "C-." (lambda ()
-                    (interactive)
-                    (setq helm-ff-skip-boring-files (not helm-ff-skip-boring-files))
-                    (helm-update))
-            helm-map)
-
-  (defun h/helm-fonts ()
-    (interactive)
-    (with-helm-buffer
-      (setq line-spacing 1)
-      (buffer-face-set '(:height 110))))
-
-  (add-hook 'helm-after-initialize-hook #'h/helm-fonts)
-  
-  (helm-mode 1)
-  (helm-autoresize-mode 1)
-  (remove-hook 'helm-after-update-hook 'helm-ff-update-when-only-one-matched))
-
-(req-package helm-swoop
-  :bind ("C-." . helm-swoop))
-
-(req-package popwin)
-
-(defvar spacemacs-helm-display-help-buffer-regexp '("*.*Helm.*Help.**"))
-;; display Helm buffer using 40% frame height
-(defvar spacemacs-helm-display-buffer-regexp `("*.*helm.**"
-                                               (display-buffer-in-side-window)
-                                               (inhibit-same-window . t)
-                                               (window-height . 0.4)))
-(defvar spacemacs-display-buffer-alist nil)
-(defun spacemacs//display-helm-at-bottom ()
-  "Display the helm buffer at the bottom of the frame."
-  ;; avoid Helm buffer being diplaye twice when user
-  ;; sets this variable to some function that pop buffer to
-  ;; a window. See https://github.com/syl20bnr/spacemacs/issues/1396
-  (let ((display-buffer-base-action '(nil)))
-    ;; backup old display-buffer-base-action
-    (setq spacemacs-display-buffer-alist display-buffer-alist)
-    ;; the only buffer to display is Helm, nothing else we must set this
-    ;; otherwise Helm cannot reuse its own windows for copyinng/deleting
-    ;; etc... because of existing popwin buffers in the alist
-    (setq display-buffer-alist nil)
-    (add-to-list 'display-buffer-alist spacemacs-helm-display-buffer-regexp)
-    ;; this or any specialized case of Helm buffer must be added AFTER
-    ;; `spacemacs-helm-display-buffer-regexp'. Otherwise,
-    ;; `spacemacs-helm-display-buffer-regexp' will be used before
-    ;; `spacemacs-helm-display-help-buffer-regexp' and display
-    ;; configuration for normal Helm buffer is applied for helm help
-    ;; buffer, making the help buffer unable to be displayed.
-    (add-to-list 'display-buffer-alist spacemacs-helm-display-help-buffer-regexp)
-    (popwin-mode -1)))
-
-(defun spacemacs//restore-previous-display-config ()
-  (popwin-mode 1)
-  ;; we must enable popwin-mode first then restore `display-buffer-alist'
-  ;; Otherwise, popwin keeps adding up its own buffers to `display-buffer-alist'
-  ;; and could slow down Emacs as the list grows
-  (setq display-buffer-alist spacemacs-display-buffer-alist))
-
-(add-hook 'helm-after-initialize-hook 'spacemacs//display-helm-at-bottom)
-;;  Restore popwin-mode after a Helm session finishes.
-(add-hook 'helm-cleanup-hook 'spacemacs//restore-previous-display-config)
+  (setq ido-enable-flex-matching t
+        ido-everywhere t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point 'guess
+        )
+  (ido-mode 1)
+  )

@@ -1,7 +1,9 @@
 ;; chrome
 
-(load-theme 'tao-yin t)
-(load-theme 'hinton t)
+(ignore-errors
+  (load-theme 'tao-yin t)
+  (load-theme 'hinton t)
+  )
 
 ;;;;;;;;;;; horrible startup screen
 (setq inhibit-startup-screen t)
