@@ -18,6 +18,11 @@
 
 (push (h/ed "site-lisp") load-path)
 
+(defvar pcache-directory
+  (let ((dir (h/ed "state/pcache/")))
+    (make-directory dir t)
+    dir))
+
 (let ((backup-directory (h/ed "state/backups/")))
   (setq backup-directory-alist
         `((".*" . ,backup-directory)))
