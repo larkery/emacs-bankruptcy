@@ -138,6 +138,7 @@
 (req-package projectile
   :commands projectile-project-root projectile-find-file-dwim
   :bind (
+         ("M-g P" . projectile-switch-project)
          ("M-g f" . projectile-find-file-dwim)
          )
   :diminish (projectile-mode . " p")
@@ -162,41 +163,30 @@
   (defhydra hydra-projectile (:color teal
                                      :hint nil)
     "
-     PROJECTILE: %(projectile-project-root)
-
-     Find File            Search/Tags          Buffers                Cache
-------------------------------------------------------------------------------------------
-_F_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
- _ff_: file dwim       _g_: update gtags      _b_: switch to buffer  _x_: remove known project
- _fd_: file curr dir   _o_: multi-occur     _s-k_: Kill all buffers  _X_: cleanup non-existing
-  _r_: recent file                                               ^^^^_z_: cache current
-  _d_: dir
-  _D_: root dir
+%(projectile-project-root)
+Proj:   _p_roject |  _c_ompile     |  _R_emove     |   _i_buf    |  _b_uffer     |  _K_ill all
+File:   _f_ind    |  _r_ecentf     |  _d_irectory  |  root _D_ir |  _v_c
+Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 "
     ("a"   projectile-ag)
     ("b"   projectile-switch-to-buffer)
-    ("c"   projectile-invalidate-cache)
     ("d"   projectile-find-dir)
     ("D"   projectile-dired)
-    ("F" projectile-find-file)
-    ("ff"  projectile-find-file-dwim)
-    ("fd"  projectile-find-file-in-directory)
+    ("f"   projectile-find-file-dwim)
     ("g"   ggtags-update-tags)
-    ("s-g" ggtags-update-tags)
+    ("T"   ggtags-find-tag-dwim)
+    ("G"   projectile-grep)
+    ("R"   projectile-remove-current-project-from-known-projects)
     ("i"   projectile-ibuffer)
     ("K"   projectile-kill-buffers)
-    ("s-k" projectile-kill-buffers)
-    ("m"   projectile-multi-occur)
     ("o"   projectile-multi-occur)
-    ("s-p" projectile-switch-project "switch project")
     ("p"   projectile-switch-project)
-    ("s"   projectile-switch-project)
     ("r"   projectile-recentf)
-    ("x"   projectile-remove-known-project)
-    ("X"   projectile-cleanup-known-projects)
-    ("z"   projectile-cache-current-file)
+    ("c"   projectile-compile-project)
+    ("v"   projectile-vc)
     ("`"   hydra-projectile-other-window/body "other window")
-    ("q"   nil "cancel" :color blue))
+    ("q"   nil "cancel" :color blue)
+    ("C-g" nil "cancel" :color blue))
 
   (defhydra hydra-window (:color red
                                  :hint nil)
@@ -462,7 +452,7 @@ Frames: _f_rame new  _df_ delete
           (lambda () (setq ido-max-prospects h/old-ido-max-prospects)))
 
 (add-hook 'ido-setup-hook
-          #'ido-vertical-define-keys)
+          (lambda () (ido-vertical-define-keys)))
 
 (req-package dired-narrow
   :config
