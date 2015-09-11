@@ -136,18 +136,120 @@
   :bind ("C-#" . er/expand-region))
 
 (req-package projectile
+  :commands projectile-project-root projectile-find-file-dwim
+  :bind (
+         ("M-g f" . projectile-find-file-dwim)
+         )
   :diminish (projectile-mode . " p")
   :config
   (setq projectile-completion-system 'ido)
-  (projectile-global-mode)
+  (projectile-global-mode t)
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build" "./gradlew test")
   )
 
-;; (req-package helm-projectile
-;;   :bind (("M-g f" . helm-projectile)
-;;          ("M-g p" . helm-projectile-switch-project))
-;;   :config
-;;   (helm-projectile-on))
+(req-package hydra
+  :bind (("M-g p" . hydra-projectile/body)
+         ("M-g P" . hydra-projectile-other-window/body))
+  :config
+  (defhydra hydra-projectile-other-window (:color teal)
+    "projectile-other-window"
+    ("f"  projectile-find-file-other-window        "file")
+    ("g"  projectile-find-file-dwim-other-window   "file dwim")
+    ("d"  projectile-find-dir-other-window         "dir")
+    ("b"  projectile-switch-to-buffer-other-window "buffer")
+    ("q"  nil                                      "cancel" :color blue))
+
+  (defhydra hydra-projectile (:color teal
+                                     :hint nil)
+    "
+     PROJECTILE: %(projectile-project-root)
+
+     Find File            Search/Tags          Buffers                Cache
+------------------------------------------------------------------------------------------
+_F_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
+ _ff_: file dwim       _g_: update gtags      _b_: switch to buffer  _x_: remove known project
+ _fd_: file curr dir   _o_: multi-occur     _s-k_: Kill all buffers  _X_: cleanup non-existing
+  _r_: recent file                                               ^^^^_z_: cache current
+  _d_: dir
+  _D_: root dir
+"
+    ("a"   projectile-ag)
+    ("b"   projectile-switch-to-buffer)
+    ("c"   projectile-invalidate-cache)
+    ("d"   projectile-find-dir)
+    ("D"   projectile-dired)
+    ("F" projectile-find-file)
+    ("ff"  projectile-find-file-dwim)
+    ("fd"  projectile-find-file-in-directory)
+    ("g"   ggtags-update-tags)
+    ("s-g" ggtags-update-tags)
+    ("i"   projectile-ibuffer)
+    ("K"   projectile-kill-buffers)
+    ("s-k" projectile-kill-buffers)
+    ("m"   projectile-multi-occur)
+    ("o"   projectile-multi-occur)
+    ("s-p" projectile-switch-project "switch project")
+    ("p"   projectile-switch-project)
+    ("s"   projectile-switch-project)
+    ("r"   projectile-recentf)
+    ("x"   projectile-remove-known-project)
+    ("X"   projectile-cleanup-known-projects)
+    ("z"   projectile-cache-current-file)
+    ("`"   hydra-projectile-other-window/body "other window")
+    ("q"   nil "cancel" :color blue))
+
+  (defhydra hydra-window (:color red
+                                 :hint nil)
+    "
+ Split: _v_ert _x_:horz
+Delete: _o_nly  _da_ce  _dw_indow  _db_uffer  _df_rame
+  Move: _s_wap
+Frames: _f_rame new  _df_ delete
+  Misc: _m_ark _a_ce  _u_ndo  _r_edo"
+    ("h" windmove-left)
+    ("j" windmove-down)
+    ("k" windmove-up)
+    ("l" windmove-right)
+    ("H" hydra-move-splitter-left)
+    ("J" hydra-move-splitter-down)
+    ("K" hydra-move-splitter-up)
+    ("L" hydra-move-splitter-right)
+    ("|" (lambda ()
+           (interactive)
+           (split-window-right)
+           (windmove-right)))
+    ("_" (lambda ()
+           (interactive)
+           (split-window-below)
+           (windmove-down)))
+    ("v" split-window-right)
+    ("x" split-window-below)
+                                        ;("t" transpose-frame "'")
+    ;; winner-mode must be enabled
+    ("u" winner-undo)
+    ("r" winner-redo) ;;Fixme, not working?
+    ("o" delete-other-windows :exit t)
+    ("a" ace-window :exit t)
+    ("f" new-frame :exit t)
+    ("s" ace-swap-window)
+    ("da" ace-delete-window)
+    ("dw" delete-window)
+    ("db" kill-this-buffer)
+    ("df" delete-frame :exit t)
+    ("q" nil)
+                                        ;("i" ace-maximize-window "ace-one" :color blue)
+                                        ;("b" ido-switch-buffer "buf")
+    ("m" headlong-bookmark-jump))
+
+  (bind-key "C-5" #'hydra-window/body)
+
+  )
+
+(req-package back-button
+  :config
+  (back-button-mode)
+  (back-button-mode 1))
+
 
 (req-package ggtags
   :init
@@ -356,7 +458,11 @@
             ido-completion-map))
 
 (add-hook 'ido-setup-hook #'ido-bind-keys)
-(add-hook 'ido-setup-hook (lambda () (setq ido-max-prospects h/old-ido-max-prospects)))
+(add-hook 'ido-setup-hook
+          (lambda () (setq ido-max-prospects h/old-ido-max-prospects)))
+
+(add-hook 'ido-setup-hook
+          #'ido-vertical-define-keys)
 
 (req-package dired-narrow
   :config
