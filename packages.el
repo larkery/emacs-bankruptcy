@@ -395,7 +395,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   (bind-key "C-'" (lambda ()
                     (interactive)
                     (setq
-                     h/old-ido-max-prospects ido-max-prospects
                      ido-max-prospects
                      (min (- max-mini-window-height 10) (+ 10 ido-max-prospects))))
 
