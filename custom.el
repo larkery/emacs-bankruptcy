@@ -11,6 +11,8 @@
  '(ansi-term-color-vector
    [unspecified "#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"])
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
+ '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-program "xdg-open")
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)
  '(calendar-latitude 51.45)

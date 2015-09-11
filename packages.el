@@ -7,30 +7,7 @@
   :config
   (setq magit-last-seen-setup-instructions "1.4.0"))
 
-(req-package guide-key
-  :diminish guide-key-mode
-  :init
-  (setq guide-key/idle-delay 0.5
-        guide-key/recursive-key-sequence-flag t
-        guide-key/popup-window-position 'bottom
-        guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g" "M-s")
-        guide-key/highlight-command-regexp
-        '("bookmark"
-          ("window" . "green")
-          ("file" . "red")
-          ("buffer" . "cyan")
-          ("register" . "purple")))
-  
-  (defun guide-key/my-hook-function-for-org-mode ()
-    (guide-key/add-local-guide-key-sequence "C-c C-x")
-    (guide-key/add-local-highlight-command-regexp '("org-" . "cyan"))
-    (guide-key/add-local-highlight-command-regexp '("clock" . "hot pink"))
-    (guide-key/add-local-highlight-command-regexp '("table" . "orange"))
-    (guide-key/add-local-highlight-command-regexp '("archive" . "grey")))
-  
-  (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
 
-  (guide-key-mode 1))
 
 (req-package lispy)
 
@@ -106,77 +83,14 @@
   (require 'org-contacts)
   (require 'org-notmuch)
 
+  ;; hack things which use org-clock-into-drawer wrongly
   (defun h/drawer-hack (o &rest a)
     (let ((org-clock-into-drawer nil))
       (apply o a)))
+  (advice-add 'org-clock-jump-to-current-clock :around #'h/drawer-hack)
   
-  ;; hack things which use org-clock-into-drawer wrongly
-  (advice-add
-   'org-clock-jump-to-current-clock
-   :around #'h/drawer-hack)  
-  
-  ;; (when (string= system-name "turnpike.cse.org.uk")
-  ;;   (require 'org)
-  ;;   (require 'helm)
-  ;;   (require 'helm-org)
-  ;;   (load (h/ed "helm-clock.el"))
-  
-  ;;   (defvar h/clockin-timer nil)
-
-  ;;   (defun h/start-clockin-timer (&optional time)
-  ;;     (h/cancel-clockin-timer)
-  ;;     (setq h/clockin-timer
-  ;;           (run-with-idle-timer
-  ;;            (or time 30)
-  ;;            nil
-  ;;            #'h/maybe-suggest-clocking-in)))
-
-  ;;   (defun h/any-frames-visible ()
-  ;;     (some
-  ;;      (lambda (f)
-  ;;        (not (string-equal "initial_terminal" (terminal-name f))))
-  ;;      (visible-frame-list)))
-  
-  ;;   (defun h/cancel-clockin-timer ()
-  ;;     (when h/clockin-timer
-  ;;       (cancel-timer h/clockin-timer))
-  ;;     (setq h/clockin-timer nil))
-  
-  ;;   (defun h/maybe-suggest-clocking-in (&rest blah)
-  ;;     (interactive)
-
-  ;;     (h/cancel-clockin-timer)
-  ;;     (remove-hook 'after-make-frame-functions
-  ;;                  #'h/maybe-suggest-clocking-in)
-  
-  ;;     (require 'org-clock)
-
-  ;;     ;; this is unsafe when there is no frame.
-  ;;     (if (h/any-frames-visible)
-  ;;         (let ((dow (elt (decode-time) 6)))
-  ;;           (when (and
-  ;;                  (< 0 dow 6) ;; during the week
-  ;;                  (not (org-clocking-p))
-  ;;                  (let ((use-dialog-box t)
-  ;;                        (last-nonmenu-event nil))
-  ;;                    (y-or-n-p "Clock in now? ")))
-  ;;             (h/helm-org-clock))
-  ;;           ;; think about asking again in half an hour whatever happened
-  ;;           (h/start-clockin-timer 1800))
-  ;;       ;; if there are no frames visible, we should probably hook ourself up to make frame
-  ;;       (add-hook 'after-make-frame-functions
-  ;;                 #'h/maybe-suggest-clocking-in)
-  ;;       ))
-  
-
-  ;;   (add-hook 'org-clock-in-hook #'h/cancel-clockin-timer)
-  ;;   (add-hook 'org-clock-out-hook #'h/start-clockin-timer)
-  ;;   (h/start-clockin-timer)
-  ;;   (add-hook 'org-clock-in-hook #'org-clock-save)
-  ;;   (add-hook 'org-clock-out-hook #'org-clock-save))
-  ;; )
-
   )
+
 (req-package org-journal
   :require org
   :config (setq org-journal-dir "~/journal/"))
@@ -224,7 +138,7 @@
 (req-package projectile
   :diminish (projectile-mode . " p")
   :config
-  (setq projectile-completion-system 'grizz)
+  (setq projectile-completion-system 'ido)
   (projectile-global-mode)
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build" "./gradlew test")
   )
@@ -248,6 +162,31 @@
   (add-hook 'prog-mode-hook #'smartscan-mode)
   (bind-key "M-p" #'smartscan-symbol-go-backward prog-mode-map)
   (bind-key "M-n" #'smartscan-symbol-go-forward prog-mode-map))
+
+;; something about this breaks other maps if we let it happen here.
+;; maybe it is a bad interaction with guide-key mode or something
+;; anyway this is modified from undo-tree.el to avoid that problem
+(defvar undo-tree-map nil
+  "Keymap used in undo-tree-mode.")
+
+(unless undo-tree-map
+  (let ((map (make-sparse-keymap)))
+    ;; remap `undo' and `undo-only' to `undo-tree-undo'
+    (define-key map [remap undo] 'undo-tree-undo)
+    (define-key map [remap undo-only] 'undo-tree-undo)
+    ;; bind standard undo bindings (since these match redo counterparts)
+    (define-key map (kbd "C-/") 'undo-tree-undo)
+    (define-key map "\C-_" 'undo-tree-undo)
+    ;; redo doesn't exist normally, so define our own keybindings
+    (define-key map (kbd "C-?") 'undo-tree-redo)
+    (define-key map (kbd "M-_") 'undo-tree-redo)
+    ;; just in case something has defined `redo'...
+    (define-key map [remap redo] 'undo-tree-redo)
+    ;; we use "C-x u" for the undo-tree visualizer
+    (define-key map (kbd "\C-x u") 'undo-tree-visualize)
+    ;; bind register commands
+    ;; set keymap
+    (setq undo-tree-map map)))
 
 (req-package undo-tree
   :diminish undo-tree-mode
@@ -296,94 +235,6 @@
 (req-package lacarte
   :bind ("M-`" . lacarte-execute-menu-command))
 
-;; (req-package helm
-;;   :diminish helm-mode
-;;   :bind (("M-x" . helm-M-x)
-;;          ("C-x C-f" . helm-find-files)
-;;          ("C-x b" . helm-buffers-list)
-;;          ("C-x C-r" . helm-recentf))
-
-;;   :config
-;;   (setq helm-echo-input-in-header-line nil
-;;         helm-quick-update t
-;;         helm-idle-delay 0.001
-;;         helm-input-idle-delay 0.001
-;;         helm-always-two-windows nil
-;;         helm-ff-auto-update-initial-value nil
-;;         helm-display-header-line nil
-;;         helm-autoresize-max-height 40
-;;         helm-autoresize-min-height 15
-;;         helm-ff-skip-boring-files nil
-;;         helm-boring-file-regexp-list '("\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn$" "\\.hg$" "\\.git$" "\\.bzr$" "CVS$" "_darcs$" "_MTN$" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$" "\\.$" "\\..$" "^\\..+"))
-
-;;   (bind-key "<tab>" 'helm-execute-persistent-action helm-map)
-;;   (bind-key "C-i" 'helm-execute-persistent-action helm-map)
-;;   (bind-key "`" 'helm-select-action helm-map)
-;;   (bind-key "C-z" 'helm-select-action helm-map)
-
-;;   (bind-key "C-." (lambda ()
-;;                     (interactive)
-;;                     (setq helm-ff-skip-boring-files (not helm-ff-skip-boring-files))
-;;                     (helm-update))
-;;             helm-map)
-
-;;   (defun h/helm-fonts ()
-;;     (interactive)
-;;     (with-helm-buffer
-;;       (setq line-spacing 1)
-;;       (buffer-face-set '(:height 110))))
-
-;;   (add-hook 'helm-after-initialize-hook #'h/helm-fonts)
-
-;;   (helm-mode 1)
-;;   (helm-autoresize-mode 1)
-;;   (remove-hook 'helm-after-update-hook 'helm-ff-update-when-only-one-matched))
-
-;; (req-package helm-swoop
-;;   :bind ("C-." . helm-swoop))
-
-;; (req-package popwin)
-
-;; (defvar spacemacs-helm-display-help-buffer-regexp '("*.*Helm.*Help.**"))
-;; ;; display Helm buffer using 40% frame height
-;; (defvar spacemacs-helm-display-buffer-regexp `("*.*helm.**"
-;;                                                (display-buffer-in-side-window)
-;;                                                (inhibit-same-window . t)
-;;                                                (window-height . 0.4)))
-;; (defvar spacemacs-display-buffer-alist nil)
-;; (defun spacemacs//display-helm-at-bottom ()
-;;   "Display the helm buffer at the bottom of the frame."
-;;   ;; avoid Helm buffer being diplaye twice when user
-;;   ;; sets this variable to some function that pop buffer to
-;;   ;; a window. See https://github.com/syl20bnr/spacemacs/issues/1396
-;;   (let ((display-buffer-base-action '(nil)))
-;;     ;; backup old display-buffer-base-action
-;;     (setq spacemacs-display-buffer-alist display-buffer-alist)
-;;     ;; the only buffer to display is Helm, nothing else we must set this
-;;     ;; otherwise Helm cannot reuse its own windows for copyinng/deleting
-;;     ;; etc... because of existing popwin buffers in the alist
-;;     (setq display-buffer-alist nil)
-;;     (add-to-list 'display-buffer-alist spacemacs-helm-display-buffer-regexp)
-;;     ;; this or any specialized case of Helm buffer must be added AFTER
-;;     ;; `spacemacs-helm-display-buffer-regexp'. Otherwise,
-;;     ;; `spacemacs-helm-display-buffer-regexp' will be used before
-;;     ;; `spacemacs-helm-display-help-buffer-regexp' and display
-;;     ;; configuration for normal Helm buffer is applied for helm help
-;;     ;; buffer, making the help buffer unable to be displayed.
-;;     (add-to-list 'display-buffer-alist spacemacs-helm-display-help-buffer-regexp)
-;;     (popwin-mode -1)))
-
-;; (defun spacemacs//restore-previous-display-config ()
-;;   (popwin-mode 1)
-;;   ;; we must enable popwin-mode first then restore `display-buffer-alist'
-;;   ;; Otherwise, popwin keeps adding up its own buffers to `display-buffer-alist'
-;;   ;; and could slow down Emacs as the list grows
-;;   (setq display-buffer-alist spacemacs-display-buffer-alist))
-
-;; (add-hook 'helm-after-initialize-hook 'spacemacs//display-helm-at-bottom)
-;; ;;  Restore popwin-mode after a Helm session finishes.
-;; (add-hook 'helm-cleanup-hook 'spacemacs//restore-previous-display-config)
-
 (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
 
 (req-package
@@ -395,12 +246,167 @@
         ido-use-filename-at-point 'guess
         )
   (ido-mode 1)
-  (ido-everywhere)
-  )
+  (ido-everywhere))
 
 (req-package
   ido-ubiquitous
   :config
   (ido-ubiquitous-mode 1))
 
+(req-package smex
+  :commands smex
+  :bind ("M-x" . smex))
+
+(defun h/recentf-ido-find-file ()
+  "Find a recent file using Ido."
+  (interactive)
+  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+    (when file
+      (find-file file))))
+
+;; it would be nice to uniquify these names?
+
+(bind-key "C-x C-r" #'h/recentf-ido-find-file)
+
 ;; alternatively: helm mode + helm-completing-read-handlers-alist
+
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces t)
+
+;; before ido-vertical-mode is loaded, we need to advise
+;; horizontal mode to turn vertical mode on and off
+;; this is a pretty hacky hack.
+
+(defvar h/ido-vertical-match-limit 6) ;; if there are fewer than this many things, switch to horizontal
+(defvar h/already-hacking-ido nil) ;; to avoid death by recursion, find out if hack is already in
+
+;; the advice:
+(defun h/ido-vertical-hack (o &rest a)
+  (if h/already-hacking-ido
+      (apply o a) ;; if we are already in a hack, just do the original thing
+
+    (let* ((h/already-hacking-ido t) ;; prevent recursive calls to this
+           (nmatches (length ido-matches))
+           (vertical (or
+                      (>= nmatches h/ido-vertical-match-limit)
+                      (some (lambda (x) (> (length x) 60)) ;; long lines are annoying
+                            ido-matches)))
+           
+           (wrong (not (equalp vertical ido-vertical-mode))))
+      
+      (when wrong
+        (flet ((message #'ignore))
+          (call-interactively #'ido-vertical-mode t)))
+      
+      (let ((ido-max-prospects (min ido-max-prospects nmatches))) ;; also hack max-prospects.
+        (apply
+         (if wrong
+             ;; if we toggled mode, we need to use the other function
+             ;; the other function is determined by what mode we went to
+             ;; and will itself be advised with this advice
+             ;; (which is why we have the check above.)
+             (if vertical #'ido-vertical-completions #'ido-completions)
+           o) ;; if we didn't toggle mode, we can shortcircuit through to the original here.
+         a)))))
+
+(advice-add 'ido-completions :around #'h/ido-vertical-hack)
+
+(req-package ido-vertical-mode
+  :config
+  (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
+
+  (defun h/resize-minibuffer ()
+    (setq resize-mini-windows t)
+    (set (make-local-variable 'line-spacing) 0))
+
+  (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
+  (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
+
+  (advice-add 'ido-vertical-completions :around #'h/ido-vertical-hack)
+  
+  (ido-vertical-mode))
+
+(req-package swiper
+  :bind ("C-." . swiper))
+
+(req-package visual-regexp-steroids
+  :bind (("C-c r" . vr/replace)
+         ("C-c q" . vr/query-replace)
+         ("C-c m" . vr/mc-mark)
+         ("C-r" . vr/isearch-backward)
+         ("C-s" . vr/isearch-forward)
+         ))
+
+(req-package
+  ido-at-point
+  :config
+  (ido-at-point-mode t))
+
+
+(setq max-mini-window-height 50)
+(defvar h/old-ido-max-prospects ido-max-prospects)
+(defun ido-bind-keys ()
+  (bind-key "C-'" (lambda ()
+                    (interactive)
+                    (setq
+                     h/old-ido-max-prospects ido-max-prospects
+                     ido-max-prospects
+                     (min (- max-mini-window-height 10) (+ 10 ido-max-prospects))))
+
+            ido-completion-map))
+
+(add-hook 'ido-setup-hook #'ido-bind-keys)
+(add-hook 'ido-setup-hook (lambda () (setq ido-max-prospects h/old-ido-max-prospects)))
+
+(req-package dired-narrow
+  :config
+
+  (bind-key "C-n" #'dired-narrow dired-mode-map))
+
+(req-package dired-sort-menu)
+
+(req-package discover
+  :config
+  (global-discover-mode))
+
+(req-package browse-kill-ring+
+  :config
+  (require 'browse-kill-ring+))
+
+(req-package guide-key
+  :diminish guide-key-mode
+  :init
+  (setq guide-key/idle-delay 2
+        guide-key/recursive-key-sequence-flag t
+        guide-key/popup-window-position 'bottom
+        guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g" "M-s")
+        guide-key/highlight-command-regexp
+        '("bookmark"
+          ("dired" . "brown")
+          ("compile" . "pink")
+          ("window" . "green")
+          ("file" . "red")
+          ("buffer" . "cyan")
+          ("register" . "purple")
+          ("project" . "orange")
+          ))
+  
+  (defun guide-key/my-hook-function-for-org-mode ()
+    (guide-key/add-local-guide-key-sequence "C-c C-x")
+    (guide-key/add-local-highlight-command-regexp '("org-" . "cyan"))
+    (guide-key/add-local-highlight-command-regexp '("clock" . "hot pink"))
+    (guide-key/add-local-highlight-command-regexp '("table" . "orange"))
+    (guide-key/add-local-highlight-command-regexp '("archive" . "grey")))
+  
+  (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
+
+  (guide-key-mode 1))
+
+(req-package ws-butler
+  :config
+  (ws-butler-global-mode))
+
+(winner-mode 1)
+
+(req-package ace-window
+  :bind ("C-x o" . ace-window))
