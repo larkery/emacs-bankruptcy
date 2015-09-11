@@ -7,8 +7,6 @@
   :config
   (setq magit-last-seen-setup-instructions "1.4.0"))
 
-
-
 (req-package lispy)
 
 (req-package avy
@@ -130,7 +128,9 @@
   :bind (("C-;" . mc/mark-all-like-this-dwim)
          ("C-:" . mc/edit-beginnings-of-lines)
          ("C-<" . mc/mark-previous-like-this)
-         ("C->" . mc/mark-next-like-this)))
+         ("C->" . mc/mark-next-like-this))
+  :config
+  (setq mc/list-file (h/ed "state/mc-list-file.el")))
 
 (req-package expand-region
   :bind ("C-#" . er/expand-region))
@@ -187,52 +187,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
     ("`"   hydra-projectile-other-window/body "other window")
     ("q"   nil "cancel" :color blue)
     ("C-g" nil "cancel" :color blue))
-
-  (defhydra hydra-window (:color red
-                                 :hint nil)
-    "
- Split: _v_ert _x_:horz
-Delete: _o_nly  _da_ce  _dw_indow  _db_uffer  _df_rame
-  Move: _s_wap
-Frames: _f_rame new  _df_ delete
-  Misc: _m_ark _a_ce  _u_ndo  _r_edo"
-    ("h" windmove-left)
-    ("j" windmove-down)
-    ("k" windmove-up)
-    ("l" windmove-right)
-    ("H" hydra-move-splitter-left)
-    ("J" hydra-move-splitter-down)
-    ("K" hydra-move-splitter-up)
-    ("L" hydra-move-splitter-right)
-    ("|" (lambda ()
-           (interactive)
-           (split-window-right)
-           (windmove-right)))
-    ("_" (lambda ()
-           (interactive)
-           (split-window-below)
-           (windmove-down)))
-    ("v" split-window-right)
-    ("x" split-window-below)
-                                        ;("t" transpose-frame "'")
-    ;; winner-mode must be enabled
-    ("u" winner-undo)
-    ("r" winner-redo) ;;Fixme, not working?
-    ("o" delete-other-windows :exit t)
-    ("a" ace-window :exit t)
-    ("f" new-frame :exit t)
-    ("s" ace-swap-window)
-    ("da" ace-delete-window)
-    ("dw" delete-window)
-    ("db" kill-this-buffer)
-    ("df" delete-frame :exit t)
-    ("q" nil)
-                                        ;("i" ace-maximize-window "ace-one" :color blue)
-                                        ;("b" ido-switch-buffer "buf")
-    ("m" headlong-bookmark-jump))
-
   (bind-key "C-5" #'hydra-window/body)
-
   )
 
 (req-package back-button
@@ -336,7 +291,7 @@ Frames: _f_rame new  _df_ delete
         ido-everywhere t
         ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
-        )
+        ido-save-directory-list-file (h/ed "state/ido.last"))
   (ido-mode 1)
   (ido-everywhere))
 
@@ -504,5 +459,18 @@ Frames: _f_rame new  _df_ delete
 
 (winner-mode 1)
 
-(req-package ace-window
-  :bind ("C-x o" . ace-window))
+(smartrep-define-key
+    global-map
+    "C-x"
+  '(("o" . other-window)
+    ("0" . delete-window)
+    ("1" . delete-other-windows)
+    ("2" . split-window-horizontally)
+    ("3" . split-window-vertically)
+    ("B" . previous-buffer)
+    ))
+
+(smartrep-define-key
+    winner-mode-map
+    "C-c"
+  '(("<left>" . winner-undo)))
