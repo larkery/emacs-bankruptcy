@@ -389,7 +389,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :config
   (ido-at-point-mode t))
 
-
 (setq max-mini-window-height 50)
 (defvar h/old-ido-max-prospects ido-max-prospects)
 (defun ido-bind-keys ()
@@ -411,7 +410,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package dired-narrow
   :config
-
   (bind-key "C-n" #'dired-narrow dired-mode-map))
 
 (req-package dired-sort-menu)
@@ -459,18 +457,20 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (winner-mode 1)
 
-(smartrep-define-key
-    global-map
-    "C-x"
-  '(("o" . other-window)
-    ("0" . delete-window)
-    ("1" . delete-other-windows)
-    ("2" . split-window-horizontally)
-    ("3" . split-window-vertically)
-    ("B" . previous-buffer)
-    ))
+(req-package smartrep
+  :config
+  (smartrep-define-key
+   global-map
+   "C-x"
+   '(("o" . other-window)
+     ("0" . delete-window)
+     ("1" . delete-other-windows)
+     ("2" . split-window-horizontally)
+     ("3" . split-window-vertically)
+     ("B" . previous-buffer)
+     ))
 
-(smartrep-define-key
-    winner-mode-map
-    "C-c"
-  '(("<left>" . winner-undo)))
+  (smartrep-define-key
+   winner-mode-map
+   "C-c"
+   '(("<left>" . winner-undo))))
