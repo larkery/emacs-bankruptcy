@@ -368,9 +368,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ido-first-match ((t (:foreground "deep sky blue" :weight bold))))
  '(ido-incomplete-regexp ((t (:foreground "red"))))
- '(ido-only-match ((t (:foreground "cyan" :weight bold))))
- '(ido-subdir ((t (:foreground "dark orange"))))
+ '(ido-subdir ((t (:foreground "light gray"))))
  '(ido-virtual ((t (:slant italic))))
  '(notmuch-tag-face ((t (:foreground "orange")))))

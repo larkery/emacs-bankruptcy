@@ -351,7 +351,11 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package smex
   :commands smex
-  :bind ("M-x" . smex))
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands))
+  :config
+  (setq smex-save-file (h/ed "state/smex-items")))
+
 
 (progn
   (require 'ido-vertical-mode)
@@ -363,6 +367,18 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
   (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
   (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
+
+  (set-face-attribute 'ido-first-match nil
+                      :background nil
+                      :foreground "orange")
+  (set-face-attribute 'ido-vertical-first-match-face nil
+                      :background nil
+                      :foreground "orange")
+  (set-face-attribute 'ido-vertical-only-match-face nil
+                      :background nil
+                      :foreground nil)
+  (set-face-attribute 'ido-vertical-match-face nil
+                      :foreground nil)
 
   (ido-vertical-mode)
   (setf max-mini-window-height (+ 2 ido-max-prospects))
