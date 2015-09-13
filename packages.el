@@ -291,9 +291,58 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
         ido-everywhere t
         ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
-        ido-save-directory-list-file (h/ed "state/ido.last"))
+        ido-save-directory-list-file (h/ed "state/ido.last")
+        ido-use-faces t
+        ido-enable-flex-matching t
+        )
   (ido-mode 1)
-  (ido-everywhere))
+  (ido-everywhere)
+
+  ;; (defvar h/ido-vertical-match-limit 6) ;; if there are fewer than this many things, switch to horizontal
+  ;; (defvar h/already-hacking-ido nil) ;; to avoid death by recursion, find out if hack is already in
+
+  ;; ;; the advice:
+  ;; (defun h/ido-vertical-hack (o &rest a)
+  ;;   (if h/already-hacking-ido
+  ;;       (apply o a) ;; if we are already in a hack, just do the original thing
+
+  ;;     (let* ((h/already-hacking-ido t) ;; prevent recursive calls to this
+  ;;            (nmatches (length ido-matches))
+  ;;            (vertical (or
+  ;;                       (>= nmatches h/ido-vertical-match-limit)
+  ;;                       (some (lambda (x) (> (length x) 60)) ;; long lines are annoying
+  ;;                             ido-matches)))
+
+  ;;            (wrong (not (equalp vertical ido-vertical-mode))))
+
+  ;;       (when wrong
+  ;;         (flet ((message #'ignore))
+  ;;           (call-interactively #'ido-vertical-mode t)))
+
+  ;;       (let ((ido-max-prospects (min ido-max-prospects nmatches))) ;; also hack max-prospects.
+  ;;         (apply
+  ;;          (if wrong
+  ;;              ;; if we toggled mode, we need to use the other function
+  ;;              ;; the other function is determined by what mode we went to
+  ;;              ;; and will itself be advised with this advice
+  ;;              ;; (which is why we have the check above.)
+  ;;              (if vertical #'ido-vertical-completions #'ido-completions)
+  ;;            o) ;; if we didn't toggle mode, we can shortcircuit through to the original here.
+  ;;          a)))))
+
+  ;; (advice-add 'ido-completions :around #'h/ido-vertical-hack)
+
+  (defun h/recentf-ido-find-file ()
+    "Find a recent file using Ido."
+    (interactive)
+    (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+      (when file
+        (find-file file))))
+
+  ;; it would be nice to uniquify these names?
+
+  (bind-key "C-x C-r" #'h/recentf-ido-find-file)
+  )
 
 (req-package
   ido-ubiquitous
@@ -304,62 +353,8 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :commands smex
   :bind ("M-x" . smex))
 
-(defun h/recentf-ido-find-file ()
-  "Find a recent file using Ido."
-  (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
-    (when file
-      (find-file file))))
-
-;; it would be nice to uniquify these names?
-
-(bind-key "C-x C-r" #'h/recentf-ido-find-file)
-
-;; alternatively: helm mode + helm-completing-read-handlers-alist
-
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces t)
-
-;; before ido-vertical-mode is loaded, we need to advise
-;; horizontal mode to turn vertical mode on and off
-;; this is a pretty hacky hack.
-
-(defvar h/ido-vertical-match-limit 6) ;; if there are fewer than this many things, switch to horizontal
-(defvar h/already-hacking-ido nil) ;; to avoid death by recursion, find out if hack is already in
-
-;; the advice:
-(defun h/ido-vertical-hack (o &rest a)
-  (if h/already-hacking-ido
-      (apply o a) ;; if we are already in a hack, just do the original thing
-
-    (let* ((h/already-hacking-ido t) ;; prevent recursive calls to this
-           (nmatches (length ido-matches))
-           (vertical (or
-                      (>= nmatches h/ido-vertical-match-limit)
-                      (some (lambda (x) (> (length x) 60)) ;; long lines are annoying
-                            ido-matches)))
-           
-           (wrong (not (equalp vertical ido-vertical-mode))))
-      
-      (when wrong
-        (flet ((message #'ignore))
-          (call-interactively #'ido-vertical-mode t)))
-      
-      (let ((ido-max-prospects (min ido-max-prospects nmatches))) ;; also hack max-prospects.
-        (apply
-         (if wrong
-             ;; if we toggled mode, we need to use the other function
-             ;; the other function is determined by what mode we went to
-             ;; and will itself be advised with this advice
-             ;; (which is why we have the check above.)
-             (if vertical #'ido-vertical-completions #'ido-completions)
-           o) ;; if we didn't toggle mode, we can shortcircuit through to the original here.
-         a)))))
-
-(advice-add 'ido-completions :around #'h/ido-vertical-hack)
-
-(req-package ido-vertical-mode
-  :config
+(progn
+  (require 'ido-vertical-mode)
   (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
 
   (defun h/resize-minibuffer ()
@@ -369,9 +364,9 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
   (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
 
-  (advice-add 'ido-vertical-completions :around #'h/ido-vertical-hack)
-  
-  (ido-vertical-mode))
+  (ido-vertical-mode)
+  (setf max-mini-window-height (+ 2 ido-max-prospects))
+  )
 
 (req-package swiper
   :bind ("C-." . swiper))
@@ -388,24 +383,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   ido-at-point
   :config
   (ido-at-point-mode t))
-
-(setq max-mini-window-height 50)
-(defvar h/old-ido-max-prospects ido-max-prospects)
-(defun ido-bind-keys ()
-  (bind-key "C-'" (lambda ()
-                    (interactive)
-                    (setq
-                     ido-max-prospects
-                     (min (- max-mini-window-height 10) (+ 10 ido-max-prospects))))
-
-            ido-completion-map))
-
-(add-hook 'ido-setup-hook #'ido-bind-keys)
-(add-hook 'ido-setup-hook
-          (lambda () (setq ido-max-prospects h/old-ido-max-prospects)))
-
-(add-hook 'ido-setup-hook
-          (lambda () (ido-vertical-define-keys)))
 
 (req-package dired-narrow
   :config

@@ -71,7 +71,12 @@
    (quote
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol try-expand-line)))
  '(ido-create-new-buffer (quote always))
- '(ido-vertical-mode nil)
+ '(ido-separator " || ")
+ '(ido-use-virtual-buffers (quote auto))
+ '(ido-vertical-disable-if-short t)
+ '(ido-vertical-mode t)
+ '(ido-vertical-pad-list nil)
+ '(ido-vertical-show-count t)
  '(indicate-buffer-boundaries (quote right))
  '(indicate-empty-lines nil)
  '(ispell-program-name "aspell")
@@ -363,4 +368,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ido-first-match ((t (:foreground "deep sky blue" :weight bold))))
+ '(ido-incomplete-regexp ((t (:foreground "red"))))
+ '(ido-only-match ((t (:foreground "cyan" :weight bold))))
+ '(ido-subdir ((t (:foreground "dark orange"))))
+ '(ido-virtual ((t (:slant italic))))
  '(notmuch-tag-face ((t (:foreground "orange")))))
