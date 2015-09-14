@@ -287,55 +287,20 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 (req-package
   ido
   :config
-  (setq ido-enable-flex-matching t
+  (setq ido-enable-flex-matching nil
         ido-everywhere t
         ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
         ido-save-directory-list-file (h/ed "state/ido.last")
         ido-use-faces t
-        ido-enable-flex-matching t
         )
   (ido-mode 1)
-  (ido-everywhere)
-
-  ;; (defvar h/ido-vertical-match-limit 6) ;; if there are fewer than this many things, switch to horizontal
-  ;; (defvar h/already-hacking-ido nil) ;; to avoid death by recursion, find out if hack is already in
-
-  ;; ;; the advice:
-  ;; (defun h/ido-vertical-hack (o &rest a)
-  ;;   (if h/already-hacking-ido
-  ;;       (apply o a) ;; if we are already in a hack, just do the original thing
-
-  ;;     (let* ((h/already-hacking-ido t) ;; prevent recursive calls to this
-  ;;            (nmatches (length ido-matches))
-  ;;            (vertical (or
-  ;;                       (>= nmatches h/ido-vertical-match-limit)
-  ;;                       (some (lambda (x) (> (length x) 60)) ;; long lines are annoying
-  ;;                             ido-matches)))
-
-  ;;            (wrong (not (equalp vertical ido-vertical-mode))))
-
-  ;;       (when wrong
-  ;;         (flet ((message #'ignore))
-  ;;           (call-interactively #'ido-vertical-mode t)))
-
-  ;;       (let ((ido-max-prospects (min ido-max-prospects nmatches))) ;; also hack max-prospects.
-  ;;         (apply
-  ;;          (if wrong
-  ;;              ;; if we toggled mode, we need to use the other function
-  ;;              ;; the other function is determined by what mode we went to
-  ;;              ;; and will itself be advised with this advice
-  ;;              ;; (which is why we have the check above.)
-  ;;              (if vertical #'ido-vertical-completions #'ido-completions)
-  ;;            o) ;; if we didn't toggle mode, we can shortcircuit through to the original here.
-  ;;          a)))))
-
-  ;; (advice-add 'ido-completions :around #'h/ido-vertical-hack)
+  (ido-everywhere 1)
 
   (defun h/recentf-ido-find-file ()
     "Find a recent file using Ido."
     (interactive)
-    (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+    (let ((file (completing-read "Choose recent file: " recentf-list nil t)))
       (when file
         (find-file file))))
 
@@ -347,7 +312,8 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 (req-package
   ido-ubiquitous
   :config
-  (ido-ubiquitous-mode 1))
+  (ido-ubiquitous-mode 1)
+  )
 
 (req-package smex
   :commands smex
@@ -363,24 +329,40 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
   (defun h/resize-minibuffer ()
     (setq resize-mini-windows t)
-    (set (make-local-variable 'line-spacing) 0))
+    (set (make-local-variable 'line-spacing) 0)
+    )
 
+  (defun h/ido-keys ()
+    "Add my keybindings for Ido."
+    (setq ido-enable-regexp nil)
+    (define-key ido-completion-map " "
+      (lambda ()
+        (interactive)
+        (setq ido-enable-regexp t)
+        (insert ".+")))
+    ;; TODO: make this a bit nicer -
+    ;; perhaps do something which does ido-enable-regexp
+    ;; in the advice if there is a space and rewrites the query?
+    ;; not sure what function to advise for this though.
+    (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
+
+  (add-hook 'ido-setup-hook #'h/ido-keys)
   (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
   (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
 
   (set-face-attribute 'ido-first-match nil
-                      :background nil
-                      :foreground "orange")
+                      :background "#1a4b77" :foreground "white"
+                      )
   (set-face-attribute 'ido-vertical-first-match-face nil
-                      :background nil
-                      :foreground "orange")
+                      :background "#1a4b77" :foreground "white"
+                      )
   (set-face-attribute 'ido-vertical-only-match-face nil
-                      :background nil
-                      :foreground nil)
+                     :background "#1a4b77" :foreground "white"
+                     )
   (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground nil)
+                     :foreground nil)
 
-  (ido-vertical-mode)
+  (ido-vertical-mode t)
   (setf max-mini-window-height (+ 2 ido-max-prospects))
   )
 
@@ -414,34 +396,34 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :config
   (require 'browse-kill-ring+))
 
-(req-package guide-key
-  :diminish guide-key-mode
-  :init
-  (setq guide-key/idle-delay 2
-        guide-key/recursive-key-sequence-flag t
-        guide-key/popup-window-position 'bottom
-        guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g" "M-s")
-        guide-key/highlight-command-regexp
-        '("bookmark"
-          ("dired" . "brown")
-          ("compile" . "pink")
-          ("window" . "green")
-          ("file" . "red")
-          ("buffer" . "cyan")
-          ("register" . "purple")
-          ("project" . "orange")
-          ))
+;; (req-package guide-key
+;;   :diminish guide-key-mode
+;;   :init
+;;   (setq guide-key/idle-delay 2
+;;         guide-key/recursive-key-sequence-flag t
+;;         guide-key/popup-window-position 'bottom
+;;         guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g" "M-s")
+;;         guide-key/highlight-command-regexp
+;;         '("bookmark"
+;;           ("dired" . "brown")
+;;           ("compile" . "pink")
+;;           ("window" . "green")
+;;           ("file" . "red")
+;;           ("buffer" . "cyan")
+;;           ("register" . "purple")
+;;           ("project" . "orange")
+;;           ))
   
-  (defun guide-key/my-hook-function-for-org-mode ()
-    (guide-key/add-local-guide-key-sequence "C-c C-x")
-    (guide-key/add-local-highlight-command-regexp '("org-" . "cyan"))
-    (guide-key/add-local-highlight-command-regexp '("clock" . "hot pink"))
-    (guide-key/add-local-highlight-command-regexp '("table" . "orange"))
-    (guide-key/add-local-highlight-command-regexp '("archive" . "grey")))
+;;   (defun guide-key/my-hook-function-for-org-mode ()
+;;     (guide-key/add-local-guide-key-sequence "C-c C-x")
+;;     (guide-key/add-local-highlight-command-regexp '("org-" . "cyan"))
+;;     (guide-key/add-local-highlight-command-regexp '("clock" . "hot pink"))
+;;     (guide-key/add-local-highlight-command-regexp '("table" . "orange"))
+;;     (guide-key/add-local-highlight-command-regexp '("archive" . "grey")))
   
-  (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
+;;   (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
 
-  (guide-key-mode 1))
+;;   (guide-key-mode 1))
 
 (req-package ws-butler
   :config

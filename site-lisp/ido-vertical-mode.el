@@ -151,6 +151,12 @@ so we can restore it when turning `ido-vertical-mode' off")
          (ncomps lencomps)
          first)
 
+    ;; cut down the list of suggestions before doing anything else.
+    ;; we only care to display ido-max-prospects, and it is silly to
+    ;; re-match etc. everything else lower down.
+    (setq comps (-take (1+ ido-max-prospects) comps))
+    (setq ncomps (length comps))
+
     ;; Keep the height of the suggestions list constant by padding
     ;; when lencomps is too small. Also, if lencomps is too short, we
     ;; should not indicate that there are additional prospects.
@@ -158,13 +164,15 @@ so we can restore it when turning `ido-vertical-mode' off")
       (setq additional-items-indicator "\n")
       (when ido-vertical-pad-list
         (setq comps (append comps (make-list (- (1+ ido-max-prospects) lencomps) "")))
-        (setq ncomps (length comps))))
+        (setq ncomps (length comps))
+        ))
 
     (if (not ido-incomplete-regexp)
         (when ido-use-faces
           ;; Make a copy of [ido-matches], otherwise the selected string
           ;; could contain text properties which could lead to weird
           ;; artifacts, e.g. buffer-file-name having text properties.
+          ;; we are doing this to every item, included ones which are not displayed. this is dumb.
           (when (eq comps ido-matches)
             (setq comps (copy-sequence ido-matches)))
 
@@ -243,6 +251,7 @@ so we can restore it when turning `ido-vertical-mode' off")
                    (if (not ido-use-faces) (nth 7 ido-decorations)))) ;; [Matched]
           (t                            ;multiple matches
            (let* ((items (if (> ido-max-prospects 0) (1+ ido-max-prospects) 999))
+                  ;; this is rubbish.
                   (alternatives
                    (apply
                     #'concat

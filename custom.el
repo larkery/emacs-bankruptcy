@@ -18,6 +18,7 @@
  '(calendar-latitude 51.45)
  '(calendar-longitude -2.5833)
  '(calendar-week-start-day 1)
+ '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
@@ -72,14 +73,17 @@
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol try-expand-line)))
  '(ido-create-new-buffer (quote always))
  '(ido-separator " || ")
+ '(ido-show-dot-for-dired t)
  '(ido-use-virtual-buffers (quote auto))
- '(ido-vertical-disable-if-short t)
+ '(ido-vertical-disable-if-short nil)
  '(ido-vertical-mode t)
  '(ido-vertical-pad-list nil)
  '(ido-vertical-show-count t)
  '(indicate-buffer-boundaries (quote right))
  '(indicate-empty-lines nil)
  '(ispell-program-name "aspell")
+ '(ivy-display-style (quote fancy))
+ '(ivy-mode nil)
  '(jiralib-host "cseresearch")
  '(jiralib-url "http://cseresearch.atlassian.net/")
  '(jiralib-wsdl-descriptor-url
