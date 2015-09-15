@@ -72,8 +72,9 @@
    (quote
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol try-expand-line)))
  '(ido-create-new-buffer (quote always))
- '(ido-separator " || ")
- '(ido-show-dot-for-dired t)
+ '(ido-max-prospects 10)
+ '(ido-separator nil)
+ '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
  '(ido-vertical-disable-if-short nil)
  '(ido-vertical-mode t)
@@ -329,7 +330,14 @@
  '(recentf-auto-cleanup (quote never))
  '(safe-local-variable-values
    (quote
-    ((eval add-hook
+    ((js2-additional-externs "calc" "describe" "it" "expect")
+     (js2-additional-externs quote
+                             ("calc" "describe" "it" "expect"))
+     (js2-additional-externs quote
+                             ("calc"))
+     (js2-global-externs quote
+                         ("calc"))
+     (eval add-hook
            (quote after-save-hook)
            (lambda nil
              (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
@@ -373,6 +381,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ido-incomplete-regexp ((t (:foreground "red"))))
- '(ido-subdir ((t (:foreground "light gray"))))
+ '(ido-subdir ((t (:background "gray20"))))
  '(ido-virtual ((t (:slant italic))))
+ '(isearch ((t (:background "DodgerBlue4" :foreground "#E8E8E8" :weight bold))))
+ '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
+ '(js2-external-variable ((t (:strike-through t))))
+ '(js2-warning ((t (:underline (:color "white" :style wave)))))
  '(notmuch-tag-face ((t (:foreground "orange")))))

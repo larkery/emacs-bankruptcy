@@ -102,13 +102,13 @@
   (require 'smartparens-config)
   (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
   (sp-with-modes sp--lisp-modes
-                 (sp-local-pair "(" nil :bind "C-("))
+    (sp-local-pair "(" nil :bind "C-("))
   
   (sp-with-modes '(html-mode nxml-mode sgml-mode)
-                 (sp-local-pair "<" ">"))
+    (sp-local-pair "<" ">"))
 
   (sp-with-modes sp--lisp-modes
-                 (sp-local-pair "'" nil :actions nil))
+    (sp-local-pair "'" nil :actions nil))
   
   (sp-local-tag '(html-mode nxml-mode sgml-mode)
                 "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags)
@@ -292,8 +292,8 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
         ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
         ido-save-directory-list-file (h/ed "state/ido.last")
-        ido-use-faces t
-        )
+        ido-use-faces t)
+
   (ido-mode 1)
   (ido-everywhere 1)
 
@@ -307,13 +307,46 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   ;; it would be nice to uniquify these names?
 
   (bind-key "C-x C-r" #'h/recentf-ido-find-file)
-  )
+
+  (set-face-attribute 'ido-first-match nil
+                      :background "#1a4b77" :foreground "white")
+
+  (defvar h/auto-toggled-regexp nil)
+  (defun  h/hack-ido-set-matches (o &rest r)
+    (let ((original-text ido-text)
+          (original-enabled ido-enable-regexp))
+
+      (if (and (or h/auto-toggled-regexp
+                   (not ido-enable-regexp))
+               (string-match " " ido-text))
+          (setf ido-enable-regexp t
+                h/auto-toggled-regexp t
+                ido-text  (mapconcat
+                           (lambda (x) (concat "\\(" (regexp-quote x) "\\)"))
+                           (split-string ido-text " +")
+                           ".*"))
+        (when h/auto-toggled-regexp
+          (setf h/auto-toggled-regexp nil)
+          (setf ido-enable-regexp nil)))
+      (let ((result (apply o r)))
+        (unless ido-matches
+          ;; remove hack, because bad things
+          (setf ido-text original-text
+                ido-enable-regexp original-enabled))
+        result)))
+
+  (defun h/ido-keys ()
+    (define-key ido-completion-map " " #'self-insert-command)
+    (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
+
+  (add-hook 'ido-setup-hook #'h/ido-keys)
+
+  (advice-add 'ido-set-matches :around #'h/hack-ido-set-matches))
 
 (req-package
   ido-ubiquitous
   :config
-  (ido-ubiquitous-mode 1)
-  )
+  (ido-ubiquitous-mode 1))
 
 (req-package smex
   :commands smex
@@ -322,60 +355,42 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :config
   (setq smex-save-file (h/ed "state/smex-items")))
 
-
-(progn
-  (require 'ido-vertical-mode)
+(req-package ido-vertical-mode
+  :config
   (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
+  (setf max-mini-window-height (+ 3 ido-max-prospects))
+
+  (set-face-attribute 'ido-vertical-first-match-face nil
+                      :background "#1a4b77" :foreground "white")
+
+  (set-face-attribute 'ido-vertical-only-match-face nil
+                      :background "#1a4b77" :foreground "white")
+
+  (set-face-attribute 'ido-vertical-match-face nil
+                      :foreground nil)
 
   (defun h/resize-minibuffer ()
     (setq resize-mini-windows t)
-    (set (make-local-variable 'line-spacing) 0)
-    )
+    (set (make-local-variable 'line-spacing) 0))
 
-  (defun h/ido-keys ()
-    "Add my keybindings for Ido."
-    (setq ido-enable-regexp nil)
-    (define-key ido-completion-map " "
-      (lambda ()
-        (interactive)
-        (setq ido-enable-regexp t)
-        (insert ".+")))
-    ;; TODO: make this a bit nicer -
-    ;; perhaps do something which does ido-enable-regexp
-    ;; in the advice if there is a space and rewrites the query?
-    ;; not sure what function to advise for this though.
-    (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
-
-  (add-hook 'ido-setup-hook #'h/ido-keys)
   (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
   (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
 
-  (set-face-attribute 'ido-first-match nil
-                      :background "#1a4b77" :foreground "white"
-                      )
-  (set-face-attribute 'ido-vertical-first-match-face nil
-                      :background "#1a4b77" :foreground "white"
-                      )
-  (set-face-attribute 'ido-vertical-only-match-face nil
-                     :background "#1a4b77" :foreground "white"
-                     )
-  (set-face-attribute 'ido-vertical-match-face nil
-                     :foreground nil)
-
-  (ido-vertical-mode t)
-  (setf max-mini-window-height (+ 2 ido-max-prospects))
-  )
+  (ido-vertical-mode t))
 
 (req-package swiper
   :bind ("C-." . swiper))
 
+
 (req-package visual-regexp-steroids
+  :require pcre2el
   :bind (("C-c r" . vr/replace)
          ("C-c q" . vr/query-replace)
          ("C-c m" . vr/mc-mark)
          ("C-r" . vr/isearch-backward)
-         ("C-s" . vr/isearch-forward)
-         ))
+         ("C-s" . vr/isearch-forward))
+  :config
+  (setq vr/engine 'pcre2el))
 
 (req-package
   ido-at-point
@@ -413,14 +428,14 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 ;;           ("register" . "purple")
 ;;           ("project" . "orange")
 ;;           ))
-  
+
 ;;   (defun guide-key/my-hook-function-for-org-mode ()
 ;;     (guide-key/add-local-guide-key-sequence "C-c C-x")
 ;;     (guide-key/add-local-highlight-command-regexp '("org-" . "cyan"))
 ;;     (guide-key/add-local-highlight-command-regexp '("clock" . "hot pink"))
 ;;     (guide-key/add-local-highlight-command-regexp '("table" . "orange"))
 ;;     (guide-key/add-local-highlight-command-regexp '("archive" . "grey")))
-  
+
 ;;   (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
 
 ;;   (guide-key-mode 1))
@@ -434,17 +449,70 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 (req-package smartrep
   :config
   (smartrep-define-key
-   global-map
-   "C-x"
-   '(("o" . other-window)
-     ("0" . delete-window)
-     ("1" . delete-other-windows)
-     ("2" . split-window-horizontally)
-     ("3" . split-window-vertically)
-     ("B" . previous-buffer)
-     ))
+      global-map
+      "C-x"
+    '(("o" . other-window)
+      ("0" . delete-window)
+      ("1" . delete-other-windows)
+      ("3" . split-window-horizontally)
+      ("2" . split-window-vertically)
+      ("B" . previous-buffer)
+      ))
 
   (smartrep-define-key
-   winner-mode-map
-   "C-c"
-   '(("<left>" . winner-undo))))
+      winner-mode-map
+      "C-c"
+    '(("<left>" . winner-undo))))
+
+
+
+(defun idomenu--guess-default (index-alist symbol)
+  "Guess a default choice from the given symbol."
+  (when symbol
+    (catch 'found
+      (let ((regex (concat "\\_<" (regexp-quote symbol) "\\_>")))
+        (dolist (item index-alist)
+          (if (string-match regex (car item)) (throw 'found (car item))))))))
+
+(defun h/idomenu ()
+  (interactive)
+
+  (let ((index-alist (cdr (imenu--make-index-alist))))
+    (if (equal index-alist '(nil))
+        (message "No imenu tags in buffer")
+      (let* ((flat-list (h/flat-ido-menu "" index-alist))
+             (names (mapcar 'car flat-list))
+             (default (idomenu--guess-default flat-list (thing-at-point 'symbol)))
+             (chosen (completing-read "goto " names nil t nil nil default))
+             (choice (assoc chosen flat-list)))
+        (imenu choice)))))
+
+(defun h/flat-ido-menu (prefix the-alist)
+  (mapcan
+   (lambda (x)
+     (if (consp x)
+         (if (imenu--subalist-p x)
+             (h/flat-ido-menu (concat prefix (car x) "/")
+                              (cdr x))
+           (list (cons (concat prefix (car x))
+                       (cdr x))))))
+   the-alist))
+
+(bind-key "<menu>" #'h/idomenu)
+
+
+(req-package js2-mode
+  :mode "\\.js\\'")
+
+(req-package ac-js2
+  :require js2-mode
+  :config
+  (add-hook 'js2-mode-hook 'ac-js2-mode))
+
+(req-package pretty-symbols
+  :config
+  (add-hook 'prog-mode-hook #'pretty-symbols-mode))
+
+(req-package yasnippet
+  :config
+  (yas-global-mode))
