@@ -140,6 +140,7 @@
   :bind (
          ("M-g P" . projectile-switch-project)
          ("M-g f" . projectile-find-file-dwim)
+         ("M-g F" . projectile-find-file-in-known-projects)
          )
   :diminish (projectile-mode . " p")
   :config
@@ -189,12 +190,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
     ("C-g" nil "cancel" :color blue))
   (bind-key "C-5" #'hydra-window/body)
   )
-
-(req-package back-button
-  :config
-  (back-button-mode)
-  (back-button-mode 1))
-
 
 (req-package ggtags
   :init
@@ -284,8 +279,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
 
-(req-package
-  ido
+(req-package ido
   :config
   (setq ido-enable-flex-matching nil
         ido-everywhere t
@@ -403,6 +397,10 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package dired-sort-menu)
 
+(req-package dired-imenu
+  :config
+  (require 'dired-imenu))
+
 (req-package discover
   :config
   (global-discover-mode))
@@ -464,8 +462,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
       "C-c"
     '(("<left>" . winner-undo))))
 
-
-
 (defun idomenu--guess-default (index-alist symbol)
   "Guess a default choice from the given symbol."
   (when symbol
@@ -506,6 +502,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package ac-js2
   :require js2-mode
+  :diminish "js"
   :config
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
@@ -516,3 +513,18 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 (req-package yasnippet
   :config
   (yas-global-mode))
+
+(req-package popwin
+  :config
+  (require 'popwin)
+  (popwin-mode 1)
+  (bind-key "C-\\" popwin:keymap)
+  (setq
+   popwin:popup-window-height 0.4
+   popwin:special-display-config
+        '((help-mode :noselect nil :stick t)
+          ("*Occur*" :noselect nil :stick t)
+          ("*Ido Completions*" :noselect t)
+          ("*Completions*" :noselect t)
+          ))
+  )

@@ -343,6 +343,7 @@
              (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
            nil t))))
  '(sendmail-program "msmtp-enqueue")
+ '(sp-show-pair-delay 0)
  '(tab-width 4)
  '(tabbar-background-color "#353535")
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")

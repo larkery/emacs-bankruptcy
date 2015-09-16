@@ -4,7 +4,7 @@
 (bind-key "C-2" (lambda () (interactive) (split-window-vertically) (other-window 1 nil)))
 (bind-key "C-3" (lambda () (interactive) (split-window-horizontally) (other-window 1 nil)))
 (bind-key "C-4" 'make-frame-command)
-(bind-key "C-x k" 'kill-this-buffer)
+(bind-key "C-x k" (lambda () (interactive) (kill-buffer (buffer-name))))
 (bind-key "C-x C-k" 'kill-buffer)
 (bind-key "M-/" 'hippie-expand)
 
