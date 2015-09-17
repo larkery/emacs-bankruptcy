@@ -76,6 +76,7 @@
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
+ '(ido-vertical-columns 6)
  '(ido-vertical-disable-if-short nil)
  '(ido-vertical-mode t)
  '(ido-vertical-pad-list nil)
@@ -237,6 +238,7 @@
      ("\\.pdf\\'" . default))))
  '(org-fontify-whole-heading-line t)
  '(org-goto-interface (quote outline-path-completion))
+ '(org-journal-dir "~/org/journal/")
  '(org-latex-classes
    (quote
     (("beamer" "\\documentclass[presentation]{beamer}"
@@ -381,6 +383,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(fringe ((t (:background "#161616" :foreground "white"))))
  '(ido-incomplete-regexp ((t (:foreground "red"))))
  '(ido-subdir ((t (:background "gray20"))))
  '(ido-virtual ((t (:slant italic))))

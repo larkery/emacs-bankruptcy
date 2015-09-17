@@ -91,7 +91,7 @@
 
 (req-package org-journal
   :require org
-  :config (setq org-journal-dir "~/journal/"))
+  :config (setq org-journal-dir "~/org/journal/"))
 
 (req-package adaptive-wrap
   :config
@@ -528,3 +528,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
           ("*Completions*" :noselect t)
           ))
   )
+
+(req-package anzu
+  :confi
+  (global-anzu-mode +1))
