@@ -1,7 +1,6 @@
 (require 'cl)
 
 (defun h/open-windows-path (url)
-  (message (format "open %s" url))
   (let* ((parsed (url-generic-parse-url url))
          (type (url-type parsed))
          (fn (url-filename parsed)))

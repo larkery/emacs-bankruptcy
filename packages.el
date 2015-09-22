@@ -85,6 +85,7 @@
   (defun h/drawer-hack (o &rest a)
     (let ((org-clock-into-drawer nil))
       (apply o a)))
+
   (advice-add 'org-clock-jump-to-current-clock :around #'h/drawer-hack)
   
   )
@@ -360,9 +361,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package ido-vertical-mode
   :config
-  (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
-  (setf max-mini-window-height (+ 3 ido-max-prospects))
-
   (set-face-attribute 'ido-vertical-first-match-face nil
                       :background "#1a4b77" :foreground "white")
 
@@ -505,11 +503,11 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (bind-key "<menu>" #'h/idomenu)
 
-
 (req-package js2-mode
   :mode "\\.js\\'")
 
 (req-package ac-js2
+  :commands ac-js2-mode
   :require js2-mode
   :diminish "js"
   :config
@@ -540,4 +538,20 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package anzu
   :config
+  :diminish
   (global-anzu-mode +1))
+
+(req-package origami
+  :bind
+  :config
+  (global-origami-mode t)
+
+  (let ((the-hydra (defhydra hydra-fold
+              (:body-pre (call-interactively #'origami-recursively-toggle-node))
+              "fold"
+              ("<tab>" origami-recursively-toggle-node)
+              ("C-<tab>" origami-recursively-toggle-node)
+              ("n" origami-show-only-node)
+              ("w" origami-open-all-nodes)
+              ("A" origami-close-all-nodes))))
+    (bind-key "C-<tab>" origami-mode-map)))
