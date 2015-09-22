@@ -1,16 +1,20 @@
 (require 'cl)
 
 (defun h/open-windows-path (url)
+  (message (format "open %s" url))
   (let* ((parsed (url-generic-parse-url url))
          (type (url-type parsed))
          (fn (url-filename parsed)))
 
-    (when (equal "file" type)
+    (if (equal "file" type)
       (let ((unix-path
              (replace-regexp-in-string
               "^/+" "/"
               (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn)))))
-        (h/run-ignoring-results "xdg-open" (expand-file-name (concat "~/net/CSE" unix-path)))))))
+        (h/run-ignoring-results "xdg-open" (expand-file-name (concat "~/net/CSE" unix-path))))
+
+      (browse-url url)
+      )))
 
 (defun h/open-windows-mail-link ()
   (interactive)

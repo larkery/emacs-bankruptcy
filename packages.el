@@ -347,7 +347,16 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
   :config
-  (setq smex-save-file (h/ed "state/smex-items")))
+  (setq smex-save-file (h/ed "state/smex-items"))
+
+  ;; redefine bindings
+  (require 'smex)
+  (defun smex-prepare-ido-bindings ()
+    (define-key ido-completion-map (kbd "C-h f") 'smex-describe-function)
+    (define-key ido-completion-map (kbd "C-h w") 'smex-where-is)
+    (define-key ido-completion-map (kbd "M-.") 'smex-find-function)
+    (define-key ido-completion-map (kbd "C-a") 'move-beginning-of-line)))
+
 
 (req-package ido-vertical-mode
   :config
@@ -530,5 +539,5 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   )
 
 (req-package anzu
-  :confi
+  :config
   (global-anzu-mode +1))
