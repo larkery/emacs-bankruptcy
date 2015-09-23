@@ -67,6 +67,16 @@
                   (not (member "unread" (notmuch-show-get-tags))))))
     (recenter 1))
 
+  (bind-key
+   "U"
+   (lambda () (interactive) (notmuch-search-filter "tag:unread"))
+   notmuch-search-mode-map)
+
+  (bind-key
+   "S"
+   (lambda () (interactive) (notmuch-search-filter "tag:flagged"))
+   notmuch-search-mode-map)
+
   (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
   (bind-key "U" #'h/notmuch/show-only-unread notmuch-show-mode-map)
 
