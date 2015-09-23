@@ -129,9 +129,15 @@
   :bind (("C-;" . mc/mark-all-like-this-dwim)
          ("C-:" . mc/edit-beginnings-of-lines)
          ("C-<" . mc/mark-previous-like-this)
-         ("C->" . mc/mark-next-like-this))
+         ("C->" . mc/mark-next-like-this)
+         ;("M-[" . (lambda () (interactive) (mc/create-fake-cursor-at-point)))
+         ;("M-]" . (lambda () (interactive) (mc/maybe-multiple-cursors-mode)))
+         )
   :config
-  (setq mc/list-file (h/ed "state/mc-list-file.el")))
+  (setq mc/list-file (h/ed "state/mc-list-file.el"))
+
+  (require 'mc-hide-unmatched-lines-mode)
+  (bind-key "C-;" #'mc-hide-unmatched-lines-mode mc/keymap))
 
 (req-package expand-region
   :bind ("C-#" . er/expand-region))
