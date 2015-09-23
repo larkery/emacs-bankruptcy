@@ -382,6 +382,9 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
   (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
   (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
+  (add-hook 'ido-setup-hook
+            (lambda ()
+              (define-key ido-completion-map (kbd "<backtab>") #'ido-vertical-grid-left)))
 
   (ido-vertical-mode t))
 
@@ -560,4 +563,4 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
               ("n" origami-show-only-node)
               ("w" origami-open-all-nodes)
               ("A" origami-close-all-nodes))))
-    (bind-key "C-<tab>" origami-mode-map)))
+    (bind-key "C-<tab>" the-hydra origami-mode-map)))

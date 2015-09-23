@@ -20,6 +20,9 @@
  '(calendar-week-start-day 1)
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
+ '(custom-safe-themes
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(delete-selection-mode t)
  '(dired-dwim-target t)
  '(dired-enable-local-variables nil)
@@ -77,68 +80,9 @@
  '(ivy-mode nil)
  '(kill-ring-max 1000)
  '(mark-ring-max 1000)
- '(message-auto-save-directory "~/temp/messages/")
- '(message-cite-style (quote message-cite-style-gmail))
- '(message-fill-column nil)
- '(message-header-setup-hook (quote (notmuch-fcc-header-setup)))
- '(message-kill-buffer-on-exit t)
- '(message-send-mail-function (quote message-send-mail-with-sendmail))
- '(message-sendmail-envelope-from (quote header))
- '(message-signature nil)
- '(mm-inline-text-html-with-images t)
- '(mm-inlined-types
-   (quote
-    ("image/.*" "text/.*" "message/delivery-status" "message/rfc822" "message/partial" "message/external-body" "application/emacs-lisp" "application/x-emacs-lisp" "application/pgp-signature" "application/x-pkcs7-signature" "application/pkcs7-signature" "application/x-pkcs7-mime" "application/pkcs7-mime" "application/pgp")))
- '(mm-sign-option (quote guided))
- '(mm-text-html-renderer (quote w3m))
- '(mml2015-encrypt-to-self t)
+
  '(mouse-autoselect-window t)
- '(notmuch-archive-tags (quote ("-inbox" "-unread")))
- '(notmuch-crypto-process-mime t)
- '(notmuch-fcc-dirs
-   (quote
-    (("tom.hinton@cse.org.uk" . "cse/Sent Items")
-     ("larkery.com" . "fm/Sent Items"))))
- '(notmuch-hello-sections
-   (quote
-    (notmuch-hello-insert-search notmuch-hello-insert-alltags notmuch-hello-insert-inbox notmuch-hello-insert-saved-searches)))
- '(notmuch-mua-cite-function (quote message-cite-original-without-signature))
- '(notmuch-saved-searches
-   (quote
-    ((:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-     (:name "unread" :query "tag:unread" :key "u")
-     (:name "flagged" :query "tag:flagged" :key "f")
-     (:name "sent" :query "tag:sent" :key "t")
-     (:name "all mail" :query "*" :key "a")
-     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
-     (:name "all inbox" :query "tag:inbox" :key "i")
-     (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
- '(notmuch-search-line-faces
-   (quote
-    (("unread" :weight bold)
-     ("flagged" :foreground "deep sky blue"))))
- '(notmuch-search-oldest-first nil)
- '(notmuch-show-hook
-   (quote
-    (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
- '(notmuch-show-indent-messages-width 1)
- '(notmuch-tag-formats
-   (quote
-    (("unread"
-      (propertize tag
-                  (quote face)
-                  (quote
-                   (:foreground "red"))))
-     ("flagged"
-      (notmuch-tag-format-image-data tag
-                                     (notmuch-tag-star-icon))
-      (propertize tag
-                  (quote face)
-                  (quote
-                   (:foreground "orange")))))))
- '(notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)$")
- '(notmuch-wash-signature-lines-max 30)
- '(notmuch-wash-signature-regexp "^\\(-- ?\\|_+\\|\\*\\*\\*\\*\\*+\\)$")
+
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
@@ -333,7 +277,6 @@
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(url-configuration-directory "~/.emacs.d/state/url/")
- '(user-mail-address "tom.hinton@cse.org.uk")
  '(vc-annotate-background "#2B3B40")
  '(vc-annotate-color-map
    (quote
