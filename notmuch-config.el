@@ -77,7 +77,9 @@
   (defun h/notmuch/goto-inbox ()
     "convenience to go to the inbbox search"
     (interactive)
-    (notmuch-search "tag:inbox AND path:cse/**"))
+    (if (string-equal (system-name) "turnpike.cse.org.uk")
+        (notmuch-search "tag:inbox AND path:cse/**")
+      (notmuch-search "tag:inbox AND path:fm/**")))
 
   (defun h/notmuch/flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
