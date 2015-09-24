@@ -309,40 +309,15 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
   (bind-key "C-x C-r" #'h/recentf-ido-find-file)
 
-  (set-face-attribute 'ido-first-match nil
-                      :background "#1a4b77" :foreground "white")
-
-  (defvar h/auto-toggled-regexp nil)
-  (defun  h/hack-ido-set-matches (o &rest r)
-    (let ((original-text ido-text)
-          (original-enabled ido-enable-regexp))
-
-      (if (and (or h/auto-toggled-regexp
-                   (not ido-enable-regexp))
-               (string-match " " ido-text))
-          (setf ido-enable-regexp t
-                h/auto-toggled-regexp t
-                ido-text  (mapconcat
-                           (lambda (x) (concat "\\(" (regexp-quote x) "\\)"))
-                           (split-string ido-text " +")
-                           ".*"))
-        (when h/auto-toggled-regexp
-          (setf h/auto-toggled-regexp nil)
-          (setf ido-enable-regexp nil)))
-      (let ((result (apply o r)))
-        (unless ido-matches
-          ;; remove hack, because bad things
-          (setf ido-text original-text
-                ido-enable-regexp original-enabled))
-        result)))
-
   (defun h/ido-keys ()
-    (define-key ido-completion-map " " #'self-insert-command)
+    (define-key ido-completion-map (kbd "M-a") 'ido-toggle-ignore)
     (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
 
-  (add-hook 'ido-setup-hook #'h/ido-keys)
+  (add-hook 'ido-setup-hook #'h/ido-keys))
 
-  (advice-add 'ido-set-matches :around #'h/hack-ido-set-matches))
+(req-package ido-match-modes
+  :config
+  (ido-match-modes-toggle 1))
 
 (req-package
   ido-ubiquitous
@@ -356,7 +331,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :config
   (setq smex-save-file (h/ed "state/smex-items"))
 
-  ;; redefine bindings
+  ;; redefine bindings because smex alters tab
   (require 'smex)
   (defun smex-prepare-ido-bindings ()
     (define-key ido-completion-map (kbd "C-h f") 'smex-describe-function)
@@ -364,27 +339,10 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
     (define-key ido-completion-map (kbd "M-.") 'smex-find-function)
     (define-key ido-completion-map (kbd "C-a") 'move-beginning-of-line)))
 
+(setq resize-mini-windows t)
 
 (req-package ido-vertical-mode
   :config
-  (set-face-attribute 'ido-vertical-first-match-face nil
-                      :background "#1a4b77" :foreground "white")
-
-  (set-face-attribute 'ido-vertical-only-match-face nil
-                      :background "#1a4b77" :foreground "white")
-
-  (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground nil)
-
-  (defun h/resize-minibuffer ()
-    (setq resize-mini-windows t)
-    (set (make-local-variable 'line-spacing) 0))
-
-  (add-hook 'ido-minibuffer-setup-hook #'h/resize-minibuffer)
-  (add-hook 'minibuffer-setup-hook #'h/resize-minibuffer)
-  (add-hook 'ido-setup-hook
-            (lambda ()
-              (define-key ido-completion-map (kbd "<backtab>") #'ido-vertical-grid-left)))
 
   (ido-vertical-mode t))
 
