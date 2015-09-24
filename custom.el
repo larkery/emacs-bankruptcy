@@ -61,17 +61,22 @@
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
- '(ido-cannot-complete-command (quote ido-vertical-grid-right))
  '(ido-create-new-buffer (quote always))
+ '(ido-ignore-files
+   (quote
+    ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+")))
+ '(ido-match-modes-list (quote (words substring regex)))
  '(ido-max-prospects 10)
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
  '(ido-vertical-columns 10)
- '(ido-vertical-define-keys (quote grid-movement))
+ '(ido-vertical-common-match-format "%s")
+ '(ido-vertical-define-keys (quote grid-movement-with-tabs))
+ '(ido-vertical-fixed-rows nil)
  '(ido-vertical-mode t)
- '(ido-vertical-pad-list nil)
- '(ido-vertical-rows 3)
+ '(ido-vertical-only-match-format ">> %s")
+ '(ido-vertical-rows 4)
  '(ido-vertical-show-count t)
  '(indicate-buffer-boundaries (quote right))
  '(indicate-empty-lines nil)
@@ -80,9 +85,7 @@
  '(ivy-mode nil)
  '(kill-ring-max 1000)
  '(mark-ring-max 1000)
-
  '(mouse-autoselect-window t)
-
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
@@ -263,7 +266,8 @@
  '(recentf-auto-cleanup (quote never))
  '(safe-local-variable-values
    (quote
-    ((js2-additional-externs "calc" "describe" "it" "expect")
+    ((js2-additional-externs "calc" "describe" "it" "expect" "extend" "ncopies")
+     (js2-additional-externs "calc" "describe" "it" "expect")
      (js2-additional-externs quote
                              ("calc" "describe" "it" "expect"))
      (eval add-hook
@@ -310,7 +314,12 @@
  ;; If there is more than one, they won't work right.
  '(fringe ((t (:background "#161616" :foreground "white"))))
  '(ido-incomplete-regexp ((t (:foreground "red"))))
+ '(ido-match-modes-indicator-face ((t (:foreground "dark gray" :width condensed))))
  '(ido-subdir ((t (:background "gray20"))))
+ '(ido-vertical-common-match-face ((t (:foreground "dark gray" :slant italic))))
+ '(ido-vertical-first-match-face ((t (:background "#1a4b77" :foreground "white smoke"))))
+ '(ido-vertical-match-face ((t (:foreground "white" :weight bold))))
+ '(ido-vertical-only-match-face ((t (:background "#2a5b97" :foreground "white"))))
  '(ido-virtual ((t (:slant italic))))
  '(isearch ((t (:background "DodgerBlue4" :foreground "#E8E8E8" :weight bold))))
  '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
