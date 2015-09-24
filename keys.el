@@ -7,6 +7,9 @@
 (bind-key "C-x k" (lambda () (interactive) (kill-buffer (buffer-name))))
 (bind-key "C-x C-k" 'kill-buffer)
 (bind-key "M-/" 'hippie-expand)
+(bind-key "M-#" 'calc-dispatch)
+(autoload 'comint-dynamic-complete-filename "comint" nil t)
+(bind-key "M-]" 'comint-dynamic-complete-filename)
 
 (defun sacha/smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
