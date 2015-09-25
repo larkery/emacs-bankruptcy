@@ -325,6 +325,6 @@
  '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
  '(js2-external-variable ((t (:strike-through t))))
  '(js2-warning ((t (:underline (:color "white" :style wave)))))
- '(mode-line ((t (:background "DodgerBlue4" :foreground "gray60" :inverse-video nil :box nil :height 86))))
+ '(mode-line ((t (:background "#002040" :foreground "gray100" :inverse-video nil :box nil :height 86))))
  '(notmuch-tag-face ((t (:foreground "orange"))))
  '(org-mode-line-clock ((t (:inherit mode-line)))))
