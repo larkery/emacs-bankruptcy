@@ -10,6 +10,8 @@
 (bind-key "M-#" 'calc-dispatch)
 (autoload 'comint-dynamic-complete-filename "comint" nil t)
 (bind-key "M-]" 'comint-dynamic-complete-filename)
+(bind-key "C-!" 'winner-undo)
+(bind-key "C-\"" 'winner-redo)
 
 (defun sacha/smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
