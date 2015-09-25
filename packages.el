@@ -288,8 +288,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (req-package ido
   :config
-  (setq ido-enable-flex-matching nil
-        ido-everywhere t
+  (setq ido-everywhere t
         ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
         ido-save-directory-list-file (h/ed "state/ido.last")
@@ -383,36 +382,8 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :config
   (require 'browse-kill-ring+))
 
-;; (req-package guide-key
-;;   :diminish guide-key-mode
-;;   :init
-;;   (setq guide-key/idle-delay 2
-;;         guide-key/recursive-key-sequence-flag t
-;;         guide-key/popup-window-position 'bottom
-;;         guide-key/guide-key-sequence    '("C-h" "C-x" "C-c" "C-z" "M-g" "M-s")
-;;         guide-key/highlight-command-regexp
-;;         '("bookmark"
-;;           ("dired" . "brown")
-;;           ("compile" . "pink")
-;;           ("window" . "green")
-;;           ("file" . "red")
-;;           ("buffer" . "cyan")
-;;           ("register" . "purple")
-;;           ("project" . "orange")
-;;           ))
-
-;;   (defun guide-key/my-hook-function-for-org-mode ()
-;;     (guide-key/add-local-guide-key-sequence "C-c C-x")
-;;     (guide-key/add-local-highlight-command-regexp '("org-" . "cyan"))
-;;     (guide-key/add-local-highlight-command-regexp '("clock" . "hot pink"))
-;;     (guide-key/add-local-highlight-command-regexp '("table" . "orange"))
-;;     (guide-key/add-local-highlight-command-regexp '("archive" . "grey")))
-
-;;   (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
-
-;;   (guide-key-mode 1))
-
 (req-package ws-butler
+  :diminish
   :config
   (ws-butler-global-mode))
 
@@ -481,10 +452,12 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
 (req-package pretty-symbols
+  :diminish
   :config
   (add-hook 'prog-mode-hook #'pretty-symbols-mode))
 
 (req-package yasnippet
+  :diminish
   :config
   (yas-global-mode))
 
@@ -522,3 +495,86 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
               ("w" origami-open-all-nodes)
               ("A" origami-close-all-nodes))))
     (bind-key "C-<tab>" the-hydra origami-mode-map)))
+
+;; completing read on describe-prefix-bindings
+(defun first-line (string)
+  (car (split-string string "\n")))
+
+(defun describe-prefix-bindings (&rest args)
+  (interactive)
+  (let* ((buffer (current-buffer))
+         (key (this-command-keys))
+         (prefix (make-vector (1- (length key)) nil))
+         bindings
+         choices
+         the-command
+         (longest-binding 0)
+         (longest-command 0)
+         (pos 0)
+         re)
+
+    (dotimes (i (length prefix))
+      (aset prefix i (aref key i)))
+
+    (setf re
+          (rx-to-string `(sequence bol
+                                   (group ,(key-description prefix) (one-or-more
+                                                                     (optional blank)
+                                                                     (group (one-or-more (not blank)))))
+
+                                   "  " (maximal-match (zero-or-more " "))
+                                   (group (one-or-more (any "-" alnum))) eol)))
+
+    (save-excursion
+      (with-current-buffer (get-buffer-create " *bindings*")
+        (erase-buffer)
+        (describe-buffer-bindings buffer prefix)
+        ;; we want to iterate over the lines and think about them
+        (save-match-data
+          (goto-char 1)
+          (search-forward "Bindings Starting")
+
+          (while (search-forward-regexp re nil t 1)
+            (ignore-errors
+              (let* ((keyname (match-string 1))
+                     (command-name (match-string 3))
+                     (command (intern command-name)))
+                (when (commandp command)
+                  (setf longest-command (max longest-command (length command-name))
+                        longest-binding (max longest-binding (length keyname)))
+                  (push (list keyname command
+                              (first-line (or (documentation command)
+                                              "undocumented"))) bindings)))))
+
+          (erase-buffer)
+          ;; now we have the list of bindings, we can present them with completing read
+          ;; might be good to pad them to fit first
+
+          (dolist (x bindings)
+            (let ((key (nth 0 x))
+                  (command (nth 1 x))
+                  (description (nth 2 x)))
+              (add-face-text-property 0 (length key) 'font-lock-keyword-face nil key)
+              (push
+               (cons
+                (concat
+                 (pad-string key longest-binding)
+                 "  "
+                 (pad-string (symbol-name command) longest-command)
+                 "  "
+                 description)
+                command)
+               choices)))
+
+          (let* ((ido-vertical-rows 15)
+                 (ido-vertical-columns 1)
+                 (max-mini-window-height 18)
+                 (result
+                  (completing-read "Prefix commands: "
+                                   choices
+                                   nil
+                                   t))
+                 (command (cdr (assoc result choices))))
+            (setf the-command command)))))
+
+    (when the-command (call-interactively the-command))))
