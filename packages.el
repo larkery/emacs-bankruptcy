@@ -523,7 +523,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
                                                                      (group (one-or-more (not blank)))))
 
                                    "  " (maximal-match (zero-or-more " "))
-                                   (group (one-or-more (any "-" alnum))) eol)))
+                                   (group (one-or-more (not blank))) eol)))
 
     (save-excursion
       (with-current-buffer (get-buffer-create " *bindings*")
@@ -546,7 +546,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
                               (first-line (or (documentation command)
                                               "undocumented"))) bindings)))))
 
-          (erase-buffer)
+          (insert (format "regex: %s\n" re))
           ;; now we have the list of bindings, we can present them with completing read
           ;; might be good to pad them to fit first
 
@@ -579,3 +579,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
             (setf the-command command)))))
 
     (when the-command (call-interactively the-command))))
+
+
+(defmath as (e units)
+  (math-convert-units e units))
