@@ -78,6 +78,7 @@
  '(ido-vertical-only-match-format ">> %s")
  '(ido-vertical-rows 4)
  '(ido-vertical-show-count t)
+ '(ido-vertical-truncate-wide-column t)
  '(indicate-buffer-boundaries (quote right))
  '(indicate-empty-lines nil)
  '(ispell-program-name "aspell")
