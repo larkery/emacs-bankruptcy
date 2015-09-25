@@ -568,6 +568,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
           (let* ((ido-vertical-rows 15)
                  (ido-vertical-columns 1)
+                 (ido-vertical-truncate-wide-column t)
                  (max-mini-window-height 18)
                  (result
                   (completing-read "Prefix commands: "
