@@ -584,4 +584,6 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 (defmath as (e units)
   (math-convert-units e units))
 
-(add-hook 'prog-mode-hook #'which-function-mode)
+                                        ; (setq header-line-format '(which-func-mode ("" which-func-format)))
+
+(which-func-mode 1)
