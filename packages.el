@@ -558,9 +558,9 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
               (push
                (cons
                 (concat
-                 (pad-string key longest-binding)
+                 (ido-vertical--pad-string key longest-binding)
                  "  "
-                 (pad-string (symbol-name command) longest-command)
+                 (ido-vertical--pad-string (symbol-name command) longest-command)
                  "  "
                  description)
                 command)
