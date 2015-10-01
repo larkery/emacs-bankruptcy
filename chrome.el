@@ -1,7 +1,7 @@
 ;; chrome
 
 (ignore-errors
-  (load-theme 'waher t)
+  (load-theme 'soothe t)
   ;(load-theme 'hinton t)
   )
 

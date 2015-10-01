@@ -286,12 +286,14 @@
 
 (req-package
   ido-ubiquitous
+  :require ido
   :config
   (message "conf ido ub")
   (ido-ubiquitous-mode 1))
 
 (req-package smex
   :commands smex
+  :require ido
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
   :config
@@ -307,6 +309,7 @@
     (define-key ido-completion-map (kbd "C-a") 'move-beginning-of-line)))
 
 (req-package ido-vertical-mode
+  :requir ido
   :config
   (message "conf ido vert")
   (setq resize-mini-windows t)
@@ -333,6 +336,7 @@
 
 (req-package
   ido-at-point
+  :require ido
   :config
   (message "conf ido at point")
   (ido-at-point-mode t))
