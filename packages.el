@@ -153,7 +153,7 @@
   :config
   (setq projectile-completion-system 'ido)
   (projectile-global-mode t)
-  (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build" "./gradlew test")
+  (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build -q" "./gradlew test -q")
   )
 
 (req-package hydra

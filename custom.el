@@ -313,6 +313,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(compilation-error ((t (:inherit nil))))
  '(fringe ((t (:background "#161616" :foreground "white"))))
  '(ido-incomplete-regexp ((t (:foreground "red"))))
  '(ido-match-modes-indicator-face ((t (:foreground "dark gray" :width condensed))))
