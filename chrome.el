@@ -1,8 +1,8 @@
 ;; chrome
 
 (ignore-errors
-  (load-theme 'tao-yin t)
-  (load-theme 'hinton t)
+  (load-theme 'waher t)
+  ;(load-theme 'hinton t)
   )
 
 ;;;;;;;;;;; horrible startup screen

@@ -1,4 +1,3 @@
-(req-package tao-theme)
 (req-package fish-mode)
 
 (req-package magit
@@ -156,47 +155,7 @@
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build -q" "./gradlew test -q")
   )
 
-(req-package hydra
-  :bind (("M-g p" . hydra-projectile/body)
-         ("M-g P" . hydra-projectile-other-window/body))
-  :config
-  (defhydra hydra-projectile-other-window (:color teal)
-    "projectile-other-window"
-    ("f"  projectile-find-file-other-window        "file")
-    ("g"  projectile-find-file-dwim-other-window   "file dwim")
-    ("d"  projectile-find-dir-other-window         "dir")
-    ("b"  projectile-switch-to-buffer-other-window "buffer")
-    ("q"  nil                                      "cancel" :color blue))
-
-  (defhydra hydra-projectile (:color teal
-                                     :hint nil)
-    "
-%(projectile-project-root)
-Proj:   _p_roject |  _c_ompile     |  _R_emove     |   _i_buf    |  _b_uffer     |  _K_ill all
-File:   _f_ind    |  _r_ecentf     |  _d_irectory  |  root _D_ir |  _v_c
-Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
-"
-    ("a"   projectile-ag)
-    ("b"   projectile-switch-to-buffer)
-    ("d"   projectile-find-dir)
-    ("D"   projectile-dired)
-    ("f"   projectile-find-file-dwim)
-    ("g"   ggtags-update-tags)
-    ("T"   ggtags-find-tag-dwim)
-    ("G"   projectile-grep)
-    ("R"   projectile-remove-current-project-from-known-projects)
-    ("i"   projectile-ibuffer)
-    ("K"   projectile-kill-buffers)
-    ("o"   projectile-multi-occur)
-    ("p"   projectile-switch-project)
-    ("r"   projectile-recentf)
-    ("c"   projectile-compile-project)
-    ("v"   projectile-vc)
-    ("`"   hydra-projectile-other-window/body "other window")
-    ("q"   nil "cancel" :color blue)
-    ("C-g" nil "cancel" :color blue))
-  (bind-key "C-5" #'hydra-window/body)
-  )
+(req-package hydra)
 
 (req-package ggtags
   :init
@@ -286,8 +245,18 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
 (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
 
+(defmacro h/with-tall-ido (y)
+  `(let ((ido-vertical-rows 15)
+         (ido-vertical-columns 1)
+         (max-mini-window-height 18)
+         (ido-vertical-truncate-wide-column t))
+     ,y))
+
 (req-package ido
   :config
+
+  (message "conf ido")
+
   (setq ido-everywhere t
         ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
@@ -300,9 +269,10 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   (defun h/recentf-ido-find-file ()
     "Find a recent file using Ido."
     (interactive)
-    (let ((file (completing-read "Choose recent file: " recentf-list nil t)))
-      (when file
-        (find-file file))))
+    (h/with-tall-ido
+     (let ((file (completing-read "Choose recent file: " recentf-list nil t)))
+       (when file
+         (find-file file)))))
 
   ;; it would be nice to uniquify these names?
 
@@ -314,13 +284,10 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 
   (add-hook 'ido-setup-hook #'h/ido-keys))
 
-(req-package ido-match-modes
-  :config
-  (ido-match-modes-toggle 1))
-
 (req-package
   ido-ubiquitous
   :config
+  (message "conf ido ub")
   (ido-ubiquitous-mode 1))
 
 (req-package smex
@@ -328,6 +295,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
   :config
+  (message "conf smex")
   (setq smex-save-file (h/ed "state/smex-items"))
 
   ;; redefine bindings because smex alters tab
@@ -338,16 +306,20 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
     (define-key ido-completion-map (kbd "M-.") 'smex-find-function)
     (define-key ido-completion-map (kbd "C-a") 'move-beginning-of-line)))
 
-(setq resize-mini-windows t)
-
 (req-package ido-vertical-mode
   :config
-
+  (message "conf ido vert")
+  (setq resize-mini-windows t)
   (ido-vertical-mode t))
+
+(req-package ido-match-modes
+  :require (ido ido-vertical-mode ido-ubiquitous)
+  :config
+  (message "will now config ido-match-modes")
+  (ido-match-modes-toggle 1))
 
 (req-package swiper
   :bind ("C-." . swiper))
-
 
 (req-package visual-regexp-steroids
   :require pcre2el
@@ -362,6 +334,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
 (req-package
   ido-at-point
   :config
+  (message "conf ido at point")
   (ido-at-point-mode t))
 
 (req-package dired-narrow
@@ -383,7 +356,7 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   (require 'browse-kill-ring+))
 
 (req-package ws-butler
-  :diminish
+  :diminish ""
   :config
   (ws-butler-global-mode))
 
@@ -451,13 +424,13 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
   :config
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
-(req-package pretty-symbols
-  :diminish
-  :config
-  (add-hook 'prog-mode-hook #'pretty-symbols-mode))
+;; (req-package pretty-symbols
+;;   :diminish
+;;   :config
+;;   (add-hook 'prog-mode-hook #'pretty-symbols-mode))
 
 (req-package yasnippet
-  :diminish
+  :diminish (yas-minor-mode . " ↹")
   :config
   (yas-global-mode))
 
@@ -473,16 +446,14 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
           ("*Occur*" :noselect nil :stick t)
           ("*Ido Completions*" :noselect t)
           ("*Completions*" :noselect t)
-          ))
-  )
+          )))
 
 (req-package anzu
+  :diminish ""
   :config
-  :diminish
   (global-anzu-mode +1))
 
 (req-package origami
-  :bind
   :config
   (global-origami-mode t)
 
@@ -566,24 +537,31 @@ Search: _a_g      |  _g_tags upd   |  find _T_ag   |  _o_ccur    |  _G_rep
                 command)
                choices)))
 
-          (let* ((ido-vertical-rows 15)
-                 (ido-vertical-columns 1)
-                 (ido-vertical-truncate-wide-column t)
-                 (max-mini-window-height 18)
-                 (result
-                  (completing-read "Prefix commands: "
-                                   choices
-                                   nil
-                                   t))
+          (let* ((result
+                  (h/with-tall-ido
+                   (completing-read "Prefix commands: "
+                                    choices
+                                    nil
+                                    t)))
                  (command (cdr (assoc result choices))))
             (setf the-command command)))))
 
     (when the-command (call-interactively the-command))))
 
-
 (defmath as (e units)
   (math-convert-units e units))
 
-                                        ; (setq header-line-format '(which-func-mode ("" which-func-format)))
+(defun h/tabulate ()
+  (interactive)
+  (let ((a (region-beginning))
+        (b (region-end)))
+    (align-regexp
+     a b
+     "\\(\\s-*\\) "
+     0
+     1
+     t)
+    (indent-region a b)))
 
-(which-func-mode 1)
+
+(bind-key "C-x t" #'h/tabulate)

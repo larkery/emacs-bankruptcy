@@ -46,6 +46,7 @@
 
 (load (h/ed "chrome.el"))
 
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;;;;;;;;;; utf-8
@@ -83,11 +84,12 @@
      (package-install 'req-package)
      (package-install 'bind-key)
      (require 'req-package)))
-  (message "loading packages.el")
+  (message ">>> Loading packages.el")
   (load (h/ed "packages.el"))
-  (message "finishing")
+  (message ">>> Finishing")
   ;; TODO package-refresh-contents
   (req-package-finish)
+  (message ">>> Requirements finished")
   (load (h/ed "keys.el")))
 
 (add-hook 'after-init-hook #'h/load-packages)

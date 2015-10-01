@@ -22,7 +22,7 @@
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "7b4d9b8a6ada8e24ac9eecd057093b0572d7008dbd912328231d0cada776065a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(delete-selection-mode t)
  '(dired-dwim-target t)
  '(dired-enable-local-variables nil)
@@ -314,19 +314,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(compilation-error ((t (:inherit nil))))
- '(fringe ((t (:background "#161616" :foreground "white"))))
- '(ido-incomplete-regexp ((t (:foreground "red"))))
  '(ido-match-modes-indicator-face ((t (:foreground "dark gray" :width condensed))))
- '(ido-subdir ((t (:background "gray20"))))
  '(ido-vertical-common-match-face ((t (:foreground "dark gray" :slant italic))))
  '(ido-vertical-first-match-face ((t (:background "#1a4b77" :foreground "white smoke"))))
  '(ido-vertical-match-face ((t (:foreground "white" :weight bold))))
  '(ido-vertical-only-match-face ((t (:background "#2a5b97" :foreground "white"))))
  '(ido-virtual ((t (:slant italic))))
- '(isearch ((t (:background "DodgerBlue4" :foreground "#E8E8E8" :weight bold))))
  '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
  '(js2-external-variable ((t (:strike-through t))))
  '(js2-warning ((t (:underline (:color "white" :style wave)))))
- '(mode-line ((t (:background "#002040" :foreground "gray100" :inverse-video nil :box nil :height 86))))
  '(notmuch-tag-face ((t (:foreground "orange"))))
  '(org-mode-line-clock ((t (:inherit mode-line)))))
