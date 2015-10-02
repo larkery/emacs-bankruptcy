@@ -1,8 +1,16 @@
 ;; chrome
 
+  ;; nice themes:
+  ;; tao
+  ;; sanityinc-tomorrow-night
+  ;;noctilux
+  ;;ample
+
+(defvar h/theme-package 'color-theme-sanityinc-tomorrow)
+(defvar h/theme-name 'sanityinc-tomorrow-night)
+
 (ignore-errors
-  (load-theme 'soothe t)
-  ;(load-theme 'hinton t)
+  (load-theme h/theme-name t)
   )
 
 ;;;;;;;;;;; horrible startup screen

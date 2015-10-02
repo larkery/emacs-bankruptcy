@@ -1,5 +1,5 @@
 (blink-cursor-mode -1)
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 't)
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -35,17 +35,18 @@
 (make-directory (h/ed "state/backups/") t)
 (make-directory (h/ed "state/auto-save-list/") t)
 
+(setq package-archive-upload-base
+      "/home/hinton/packages/emacs/")
+
 (setq package-archives
-      '(;("melpa-stable" . "http://stable.melpa.org/packages/")
+      '(("local" . package-archive-upload-base)
         ("melpa-unstable" . "http://melpa.org/packages/")
         ("gnu" .  "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
 (load (setq custom-file (h/ed "custom.el")))
-
 (load (h/ed "chrome.el"))
-
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -75,6 +76,8 @@
 
 (add-hook 'text-mode-hook #'visual-line-mode)
 
+(defvar h/final-setup-hook nil)
+
 (defun h/load-packages ()
   (condition-case nil
       (require 'req-package)
@@ -84,15 +87,17 @@
      (package-install 'req-package)
      (package-install 'bind-key)
      (require 'req-package)))
-  (message ">>> Loading packages.el")
   (load (h/ed "packages.el"))
-  (message ">>> Finishing")
   ;; TODO package-refresh-contents
   (req-package-finish)
-  (message ">>> Requirements finished")
-  (load (h/ed "keys.el")))
+  (load (h/ed "keys.el"))
+  (run-hooks 'h/final-setup-hook))
 
 (add-hook 'after-init-hook #'h/load-packages)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (setq set-mark-command-repeat-pop t)
+
+;; not with ido.
+;; (setq enable-recursive-minibuffers t)
+;; (minibuffer-depth-indicate-mode t)

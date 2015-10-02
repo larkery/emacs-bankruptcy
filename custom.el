@@ -4,12 +4,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(Linum-format "%7i ")
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"])
  '(ansi-term-color-vector
    [unspecified "#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"])
+ '(background-color "#202020")
+ '(background-mode dark)
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "xdg-open")
@@ -20,10 +23,12 @@
  '(calendar-week-start-day 1)
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
+ '(cursor-color "#cccccc")
  '(custom-safe-themes
    (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "7b4d9b8a6ada8e24ac9eecd057093b0572d7008dbd912328231d0cada776065a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+    ("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "f0d8af755039aa25cd0792ace9002ba885fd14ac8e8807388ab00ec84c9497d7" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "afc220610bee26945b7c750b0cca03775a8b73c27fdca81a586a0a62d45bbce2" "419637b7a8c9cb43f273980f0c9879c0cbadace6b38efac0281e031772c84eb2" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "7b4d9b8a6ada8e24ac9eecd057093b0572d7008dbd912328231d0cada776065a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(delete-selection-mode t)
+ '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-dwim-target t)
  '(dired-enable-local-variables nil)
  '(dired-listing-switches "-alhv")
@@ -31,11 +36,59 @@
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
  '(display-time-default-load-average nil)
  '(display-time-mode t)
+ '(emms-mode-line-icon-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *note[] = {
+/* width height num_colors chars_per_pixel */
+\"    10   11        2            1\",
+/* colors */
+\". c #1ba1a1\",
+\"# c None s None\",
+/* pixels */
+\"###...####\",
+\"###.#...##\",
+\"###.###...\",
+\"###.#####.\",
+\"###.#####.\",
+\"#...#####.\",
+\"....#####.\",
+\"#..######.\",
+\"#######...\",
+\"######....\",
+\"#######..#\" };")))
+ '(fci-rule-character-color "#202020")
  '(fci-rule-color "#232A2F" t)
  '(focus-follows-mouse t)
+ '(foreground-color "#cccccc")
+ '(fringe-mode (quote (0)) nil (fringe))
  '(global-auto-revert-mode t)
  '(global-highlight-parentheses-mode t)
  '(global-yascroll-bar-mode t)
+ '(gnus-logo-colors (quote ("#4c8383" "#bababa")) t)
+ '(gnus-mode-line-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #1ba1a1\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };")) t)
  '(grep-find-template "find . <X> -type f <F> -exec grep <C> -nH -e <R> \\{\\} +")
  '(highlight-symbol-colors
    (quote
@@ -61,7 +114,11 @@
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
+ '(hl-paren-colors
+   (quote
+    ("#B9F" "#B8D" "#B7B" "#B69" "#B57" "#B45" "#B33" "#B11")))
  '(ido-create-new-buffer (quote always))
+ '(ido-ignore-buffers (quote ("\\` " "*Help*")))
  '(ido-ignore-files
    (quote
     ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+")))
@@ -70,13 +127,14 @@
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
+ '(ido-vertical-arrow "? ")
  '(ido-vertical-columns 10)
  '(ido-vertical-common-match-format "%s")
  '(ido-vertical-define-keys (quote grid-movement-with-tabs))
  '(ido-vertical-fixed-rows nil)
  '(ido-vertical-mode t)
- '(ido-vertical-only-match-format ">> %s")
- '(ido-vertical-rows 4)
+ '(ido-vertical-only-match-format "> %s")
+ '(ido-vertical-rows 5)
  '(ido-vertical-show-count t)
  '(ido-vertical-truncate-wide-column t)
  '(indicate-buffer-boundaries (quote right))
@@ -85,6 +143,9 @@
  '(ivy-display-style (quote fancy))
  '(ivy-mode nil)
  '(kill-ring-max 1000)
+ '(main-line-color1 "#1E1E1E")
+ '(main-line-color2 "#111111")
+ '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
  '(mouse-autoselect-window t)
  '(nrepl-message-colors
@@ -262,6 +323,8 @@
  '(paradox-github-token t)
  '(pos-tip-background-color "#3a3a3a")
  '(pos-tip-foreground-color "#9E9E9E")
+ '(powerline-color1 "#1E1E1E")
+ '(powerline-color2 "#111111")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
  '(recentf-auto-cleanup (quote never))
@@ -313,16 +376,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:height 110 :family "Mono"))))
  '(compilation-error ((t (:inherit nil))))
+ '(cursor ((t (:background "white"))))
  '(ido-match-modes-indicator-face ((t (:foreground "dark gray" :width condensed))))
  '(ido-vertical-common-match-face ((t (:foreground "dark gray" :slant italic))))
- '(ido-vertical-first-match-face ((t (:inherit ido-first-match))))
+ '(ido-vertical-first-match-face ((t (:inherit ido-first-match :background "#3b3b30"))))
  '(ido-vertical-match-face ((t (:foreground "white" :underline t))))
- '(ido-vertical-only-match-face ((t (:inherit ido-only-match))))
+ '(ido-vertical-only-match-face ((t (:inherit ido-only-match :background "#3b3b30"))))
  '(ido-virtual ((t (:slant italic))))
  '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
  '(js2-external-variable ((t (:strike-through t))))
  '(js2-warning ((t (:underline (:color "white" :style wave)))))
- '(notmuch-tag-face ((t (:foreground "orange"))))
- '(org-mode-line-clock ((t (:inherit mode-line))))
+ '(notmuch-tag-face ((t (:foreground "white"))))
+ '(org-mode-line-clock ((t (:inherit mode-line))) t)
+ '(outline-1 ((t (:inherit nil :foreground "#81a2be" :height 1.2))))
+ '(outline-2 ((t (:inherit nil :foreground "#b294bb" :height 1.1))))
+ '(outline-3 ((t (:inherit nil :foreground "#8abeb7" :height 1.05))))
  '(sp-show-pair-match-face ((t (:inherit highlight :underline t)))))

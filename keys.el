@@ -13,6 +13,13 @@
 (bind-key "C-!" 'winner-undo)
 (bind-key "C-\"" 'winner-redo)
 
+(substitute-key-definition
+ 'just-one-space
+ (lambda ()
+   (interactive)
+   (cycle-spacing -1 t))
+ (current-global-map))
+
 (defun sacha/smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 

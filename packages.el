@@ -1,3 +1,6 @@
+(eval
+  `(req-package ,h/theme-package))
+
 (req-package fish-mode)
 
 (req-package magit
@@ -113,6 +116,7 @@
   (sp-local-tag '(html-mode nxml-mode sgml-mode)
                 "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags)
 
+  (setf blink-matching-paren nil)
   (show-smartparens-global-mode t)
   (smartparens-global-mode t)
 
@@ -155,9 +159,8 @@
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build -q" "./gradlew test -q")
   )
 
-(req-package hydra)
-
 (req-package ggtags
+  :commands ggtags-mode
   :init
   (add-hook 'java-mode-hook 'ggtags-mode))
 
@@ -166,35 +169,11 @@
           #'(lambda nil (c-set-style "stroustrup")))
 
 (req-package smartscan
+  :commands smartscan-mode
   :config
   (add-hook 'prog-mode-hook #'smartscan-mode)
   (bind-key "M-p" #'smartscan-symbol-go-backward prog-mode-map)
   (bind-key "M-n" #'smartscan-symbol-go-forward prog-mode-map))
-
-;; something about this breaks other maps if we let it happen here.
-;; maybe it is a bad interaction with guide-key mode or something
-;; anyway this is modified from undo-tree.el to avoid that problem
-(defvar undo-tree-map nil
-  "Keymap used in undo-tree-mode.")
-
-(unless undo-tree-map
-  (let ((map (make-sparse-keymap)))
-    ;; remap `undo' and `undo-only' to `undo-tree-undo'
-    (define-key map [remap undo] 'undo-tree-undo)
-    (define-key map [remap undo-only] 'undo-tree-undo)
-    ;; bind standard undo bindings (since these match redo counterparts)
-    (define-key map (kbd "C-/") 'undo-tree-undo)
-    (define-key map "\C-_" 'undo-tree-undo)
-    ;; redo doesn't exist normally, so define our own keybindings
-    (define-key map (kbd "C-?") 'undo-tree-redo)
-    (define-key map (kbd "M-_") 'undo-tree-redo)
-    ;; just in case something has defined `redo'...
-    (define-key map [remap redo] 'undo-tree-redo)
-    ;; we use "C-x u" for the undo-tree visualizer
-    (define-key map (kbd "\C-x u") 'undo-tree-visualize)
-    ;; bind register commands
-    ;; set keymap
-    (setq undo-tree-map map)))
 
 (req-package undo-tree
   :diminish undo-tree-mode
@@ -208,15 +187,13 @@
 (load (h/ed "notmuch-config.el"))
 
 (req-package graphviz-dot-mode)
-
 (req-package ess)
 (req-package ess-smart-underscore)
 
 (req-package rainbow-delimiters
+  :commands rainbow-delimiters-mode
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-
-(req-package rainbow-identifiers)
 
 (req-package saveplace
   :config
@@ -252,44 +229,53 @@
          (ido-vertical-truncate-wide-column t))
      ,y))
 
-(req-package ido
-  :config
+;; for some reason, this ido stuff ends up a mess unless I do it in this precise order.
 
-  (message "conf ido")
+(add-hook 'h/final-setup-hook
+          (lambda ()
+            (setq ido-create-new-buffer 'always
+                  ido-use-filename-at-point 'guess
+                  ido-save-directory-list-file (h/ed "state/ido.last")
+                  ido-use-faces t
+                  resize-mini-windows t)
 
-  (setq ido-everywhere t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-save-directory-list-file (h/ed "state/ido.last")
-        ido-use-faces t)
+            (ido-mode 1)
+            (ido-everywhere 1)
+            (ido-ubiquitous-mode 1)
+            (ido-vertical-mode t)
+            (ido-match-modes-toggle 1)
 
-  (ido-mode 1)
-  (ido-everywhere 1)
+            (defun h/ido-keys ()
+              (define-key ido-completion-map (kbd "M-a") 'ido-toggle-ignore)
+              (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
 
-  (defun h/recentf-ido-find-file ()
-    "Find a recent file using Ido."
-    (interactive)
-    (h/with-tall-ido
-     (let ((file (completing-read "Choose recent file: " recentf-list nil t)))
-       (when file
-         (find-file file)))))
+            (add-hook 'ido-setup-hook #'h/ido-keys)
 
-  ;; it would be nice to uniquify these names?
+            (defun h/recentf-ido-find-file ()
+              "Find a recent file using Ido."
+              (interactive)
+              (h/with-tall-ido
+               (let ((file (completing-read "Choose recent file: " recentf-list nil t)))
+                 (when file
+                   (find-file file)))))
 
-  (bind-key "C-x C-r" #'h/recentf-ido-find-file)
+            (bind-key "C-x C-r" #'h/recentf-ido-find-file)
 
-  (defun h/ido-keys ()
-    (define-key ido-completion-map (kbd "M-a") 'ido-toggle-ignore)
-    (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
+            (require 'dash)
+            (require 's)
 
-  (add-hook 'ido-setup-hook #'h/ido-keys))
+            (add-hook 'ido-make-buffer-list-hook 'my/ido-stars-to-end)
+            (defun my/ido-stars-to-end ()
+              "Put \"*starred*\" buffers at the end of the ido candidates list."
+              (ido-to-end (--filter (s-starts-with-p "*" it)
+                                    ido-temp-list)))
+            ))
 
-(req-package
-  ido-ubiquitous
-  :require ido
-  :config
-  (message "conf ido ub")
-  (ido-ubiquitous-mode 1))
+(req-package ido)
+(req-package ido-vertical-mode :require ido)
+
+(req-package ido-match-modes
+  :require (ido ido-vertical-mode ido-ubiquitous))
 
 (req-package smex
   :commands smex
@@ -297,7 +283,7 @@
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
   :config
-  (message "conf smex")
+
   (setq smex-save-file (h/ed "state/smex-items"))
 
   ;; redefine bindings because smex alters tab
@@ -307,19 +293,6 @@
     (define-key ido-completion-map (kbd "C-h w") 'smex-where-is)
     (define-key ido-completion-map (kbd "M-.") 'smex-find-function)
     (define-key ido-completion-map (kbd "C-a") 'move-beginning-of-line)))
-
-(req-package ido-vertical-mode
-  :requir ido
-  :config
-  (message "conf ido vert")
-  (setq resize-mini-windows t)
-  (ido-vertical-mode t))
-
-(req-package ido-match-modes
-  :require (ido ido-vertical-mode ido-ubiquitous)
-  :config
-  (message "will now config ido-match-modes")
-  (ido-match-modes-toggle 1))
 
 (req-package swiper
   :bind ("C-." . swiper))
@@ -338,7 +311,6 @@
   ido-at-point
   :require ido
   :config
-  (message "conf ido at point")
   (ido-at-point-mode t))
 
 (req-package dired-narrow
@@ -424,7 +396,6 @@
 (req-package ac-js2
   :commands ac-js2-mode
   :require js2-mode
-  :diminish "js"
   :config
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
@@ -458,18 +429,20 @@
   (global-anzu-mode +1))
 
 (req-package origami
+  :require smartrep
   :config
   (global-origami-mode t)
 
-  (let ((the-hydra (defhydra hydra-fold
-              (:body-pre (call-interactively #'origami-recursively-toggle-node))
-              "fold"
-              ("<tab>" origami-recursively-toggle-node)
-              ("C-<tab>" origami-recursively-toggle-node)
-              ("n" origami-show-only-node)
-              ("w" origami-open-all-nodes)
-              ("A" origami-close-all-nodes))))
-    (bind-key "C-<tab>" the-hydra origami-mode-map)))
+  (smartrep-define-key
+      origami-mode-map
+      "C-<tab>"
+
+    '(("C-<tab>" . origami-recursively-toggle-node)
+      ("<tab>" . origami-recursively-toggle-node)
+      ("n" . origami-show-only-node)
+      ("w" . origami-open-all-nodes)))
+  )
+
 
 ;; completing read on describe-prefix-bindings
 (defun first-line (string)
@@ -569,3 +542,11 @@
 
 
 (bind-key "C-x t" #'h/tabulate)
+
+(req-package back-button
+  :config
+  (back-button-mode 1)
+  )
+
+(req-package git-timemachine
+  :commands git-timemachine)

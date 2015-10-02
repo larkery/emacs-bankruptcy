@@ -1,7 +1,11 @@
 (require 'cl)
 
-
 (req-package notmuch
+  :commands notmuch h/notmuch/goto-inbox notmuch-mua-new-mail
+
+  :bind (("C-c i" . h/notmuch/goto-inbox)
+         ("C-c m" . notmuch-mua-new-mail))
+
   :config
 
   (defun h/open-windows-path (url)
@@ -145,9 +149,6 @@
    "S"
    (lambda () (interactive) (notmuch-search-filter "tag:flagged"))
    notmuch-search-mode-map)
-
-  (bind-key "C-c i" #'h/notmuch/goto-inbox)
-  (bind-key "C-c m" #'notmuch-mua-new-mail)
 
   (add-hook 'notmuch-show-hook #'h/hack-file-links)
 
