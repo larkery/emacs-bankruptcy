@@ -101,3 +101,4 @@
 ;; not with ido.
 ;; (setq enable-recursive-minibuffers t)
 ;; (minibuffer-depth-indicate-mode t)
+(setq-default abbrev-mode nil)

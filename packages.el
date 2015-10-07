@@ -421,6 +421,7 @@
           ("*Occur*" :noselect nil :stick t)
           ("*Ido Completions*" :noselect t)
           ("*Completions*" :noselect t)
+          ("*compilation*" :noselect t)
           )))
 
 (req-package anzu
@@ -465,13 +466,18 @@
       (aset prefix i (aref key i)))
 
     (setf re
-          (rx-to-string `(sequence bol
-                                   (group ,(key-description prefix) (one-or-more
-                                                                     (optional blank)
-                                                                     (group (one-or-more (not blank)))))
+          (rx-to-string `(sequence
+                          bol
 
-                                   "  " (maximal-match (zero-or-more " "))
-                                   (group (one-or-more (not blank))) eol)))
+                          (group ,(key-description prefix)
+                                 (one-or-more
+                                  (optional space)
+                                  (group (one-or-more (not space)))))
+
+                          "  "
+                          (maximal-match (zero-or-more space))
+                          (group (one-or-more (not space)))
+                          eol)))
 
     (save-excursion
       (with-current-buffer (get-buffer-create " *bindings*")
@@ -550,3 +556,37 @@
 
 (req-package git-timemachine
   :commands git-timemachine)
+
+
+;; (defvar h/looking-for-package nil)
+
+;; (defun h/found-tag-hook ()
+;;   (beginning-of-buffer)
+;;   (when h/looking-for-package
+
+;;     (let ((pkg (thing-at-point 'line t)))
+;;       (switch-to-buffer h/looking-for-package)
+;;       (setf h/looking-for-package nil)
+;;       (save-excursion
+;;         (let ((sym (thing-at-point 'symbol t)))
+;;           (beginning-of-buffer)
+;;           (forward-line)
+;;           (forward-line)
+;;           (insert "import "
+;;                   (substring pkg (length "package ") (- (length pkg) 2)) "." sym ";\n")
+;;           ))
+;;       )
+;;     ))
+
+
+;; (add-hook 'ggtags-find-tag-hook #'h/found-tag-hook)
+;; (h/found-tag-hook)
+
+
+;; (defun h/importify ()
+;;   (interactive)
+;;   (let ((sym (thing-at-point 'symbol t)))
+;;     (setf h/looking-for-package (current-buffer))
+;;     (ggtags-find-tag sym)))
+
+;; (bind-key "C-," #'h/importify java-mode-map)

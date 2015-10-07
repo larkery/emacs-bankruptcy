@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: it
+# key: it
+# binding: direct-keybinding
+# --
+it("${1:does something}", function() {
+   fail("I should write a test.");
+});
+$0

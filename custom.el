@@ -148,6 +148,20 @@ static char *gnus-pointer[] = {
  '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
  '(mouse-autoselect-window t)
+ '(notmuch-saved-searches
+   (quote
+    ((:name "all inbox" :query "tag:inbox" :key "i")
+     (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
+     (:name "unread" :query "tag:unread" :key "u")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "t")
+     (:name "all mail" :query "*" :key "a")
+     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
+     (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
+ '(notmuch-search-line-faces
+   (quote
+    (("unread" :weight bold :foreground "white")
+     ("flagged" :foreground "deep sky blue"))))
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
@@ -388,9 +402,17 @@ static char *gnus-pointer[] = {
  '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
  '(js2-external-variable ((t (:strike-through t))))
  '(js2-warning ((t (:underline (:color "white" :style wave)))))
+ '(message-cited-text ((t (:foreground "dim gray"))))
+ '(mode-line ((t (:height 100))))
  '(notmuch-tag-face ((t (:foreground "white"))))
- '(org-mode-line-clock ((t (:inherit mode-line))) t)
- '(outline-1 ((t (:inherit nil :foreground "#81a2be" :height 1.2))))
- '(outline-2 ((t (:inherit nil :foreground "#b294bb" :height 1.1))))
- '(outline-3 ((t (:inherit nil :foreground "#8abeb7" :height 1.05))))
- '(sp-show-pair-match-face ((t (:inherit highlight :underline t)))))
+ '(org-mode-line-clock ((t (:inherit nil))) t)
+ '(outline-1 ((t (:inherit nil :foreground "white" :height 1.5))))
+ '(outline-2 ((t (:inherit nil :foreground "white" :height 1.25))))
+ '(outline-3 ((t (:inherit nil :foreground "white" :height 1.1))))
+ '(outline-4 ((t (:inherit nil :foreground "white"))))
+ '(outline-5 ((t (:inherit nil :foreground "white"))))
+ '(outline-6 ((t (:inherit nil :foreground "white"))))
+ '(outline-7 ((t (:inherit nil :foreground "white"))))
+ '(outline-8 ((t (:inherit nil :foreground "white"))))
+ '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
+ '(w3m-anchor ((t nil))))

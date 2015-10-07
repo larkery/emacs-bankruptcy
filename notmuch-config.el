@@ -196,13 +196,13 @@
 
         notmuch-mua-cite-function 'message-cite-original-without-signature
 
-        notmuch-saved-searches '((:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
+        notmuch-saved-searches '((:name "all mail" :query "*" :key "a")
+                                 (:name "all inbox" :query "tag:inbox" :key "i")
+                                 (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
                                  (:name "unread" :query "tag:unread" :key "u")
                                  (:name "flagged" :query "tag:flagged" :key "f")
                                  (:name "sent" :query "tag:sent" :key "t")
-                                 (:name "all mail" :query "*" :key "a")
                                  (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
-                                 (:name "all inbox" :query "tag:inbox" :key "i")
                                  (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
 
         notmuch-search-line-faces '(("unread" :weight bold)
