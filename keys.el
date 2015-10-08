@@ -12,6 +12,7 @@
 (bind-key "M-]" 'comint-dynamic-complete-filename)
 (bind-key "C-!" 'winner-undo)
 (bind-key "C-\"" 'winner-redo)
+(bind-key "<f9>" 'hl-line-mode)
 
 (substitute-key-definition
  'just-one-space

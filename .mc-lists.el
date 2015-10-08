@@ -17,6 +17,7 @@
         lispy-quotes
         multiple-cursors-mode
         sacha/smarter-move-beginning-of-line
+        sp-forward-sexp
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char

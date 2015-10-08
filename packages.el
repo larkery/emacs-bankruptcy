@@ -1,6 +1,3 @@
-(eval
-  `(req-package ,h/theme-package))
-
 (req-package fish-mode)
 
 (req-package magit
@@ -266,10 +263,14 @@
 
             (add-hook 'ido-make-buffer-list-hook 'my/ido-stars-to-end)
             (defun my/ido-stars-to-end ()
-              "Put \"*starred*\" buffers at the end of the ido candidates list."
-              (ido-to-end (--filter (s-starts-with-p "*" it)
-                                    ido-temp-list)))
-            ))
+              "Move buffers not in the current mode to the end of the list."
+              (ido-to-end (--filter
+                           (let ((b (get-buffer it)))
+                             (not (and b (equal major-mode (buffer-local-value 'major-mode b))))
+                             )
+
+                           ;(s-starts-with-p "*" it)
+                           ido-temp-list)))))
 
 (req-package ido)
 (req-package ido-vertical-mode :require ido)
@@ -405,24 +406,25 @@
 ;;   (add-hook 'prog-mode-hook #'pretty-symbols-mode))
 
 (req-package yasnippet
-  :diminish (yas-minor-mode . " ↹")
+  :diminish (yas-minor-mode . " ⇥")
   :config
   (yas-global-mode))
 
-(req-package popwin
-  :config
-  (require 'popwin)
-  (popwin-mode 1)
-  (bind-key "C-\\" popwin:keymap)
-  (setq
-   popwin:popup-window-height 0.4
-   popwin:special-display-config
-        '((help-mode :noselect nil :stick t)
-          ("*Occur*" :noselect nil :stick t)
-          ("*Ido Completions*" :noselect t)
-          ("*Completions*" :noselect t)
-          ("*compilation*" :noselect t)
-          )))
+;; (req-package popwin
+;;   :config
+;;   (require 'popwin)
+;;   (popwin-mode 0)
+;;   (bind-key "C-\\" popwin:keymap)
+;;   (setq
+;;    popwin:popup-window-height 0.25
+;;    popwin:special-display-config
+;;         '((help-mode :noselect nil :stick t)
+;;           ("*Occur*" :noselect nil :stick t)
+;;           ("*Ido Completions*" :noselect t)
+;;           ("*Completions*" :noselect t)
+;;           ("*compilation*" :noselect t)
+;;           (" *undo-tree*" :width 0.3 :position right)
+;;           )))
 
 (req-package anzu
   :diminish ""
@@ -453,7 +455,7 @@
   (interactive)
   (let* ((buffer (current-buffer))
          (key (this-command-keys))
-         (prefix (make-vector (1- (length key)) nil))
+         (prefix (make-string (1- (length key)) 0))
          bindings
          choices
          the-command
@@ -500,7 +502,8 @@
                               (first-line (or (documentation command)
                                               "undocumented"))) bindings)))))
 
-          (insert (format "regex: %s\n" re))
+          (insert (format "\nregex: %s\n" re))
+          (insert (format "\nkey:%s\n" (length prefix)))
           ;; now we have the list of bindings, we can present them with completing read
           ;; might be good to pad them to fit first
 
@@ -550,9 +553,13 @@
 (bind-key "C-x t" #'h/tabulate)
 
 (req-package back-button
+  :diminish " ☜"
+  :require smartrep
   :config
   (back-button-mode 1)
-  )
+  (bind-key "M-<f8>" #'back-button-local-backward back-button-mode-map) ;lack of smartrep :/
+  (bind-key "M-<f9>" #'back-button-local-forward back-button-mode-map))
+
 
 (req-package git-timemachine
   :commands git-timemachine)
@@ -590,3 +597,9 @@
 ;;     (ggtags-find-tag sym)))
 
 ;; (bind-key "C-," #'h/importify java-mode-map)
+
+(req-package zzz-to-char
+  :bind ("M-z" . zzz-to-char))
+
+(req-package comment-dwim-2
+  :bind ("M-;" . comment-dwim-2))

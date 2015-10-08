@@ -6,11 +6,11 @@
   ;;noctilux
   ;;ample
 
-(defvar h/theme-package 'color-theme-sanityinc-tomorrow)
-(defvar h/theme-name 'sanityinc-tomorrow-night)
+;'sanityinc-tomorrow-night)
 
 (ignore-errors
-  (load-theme h/theme-name t)
+  (require 'quasi-monochrome-hinton-theme)
+  (load-theme 'quasi-monochrome-hinton t)
   )
 
 ;;;;;;;;;;; horrible startup screen

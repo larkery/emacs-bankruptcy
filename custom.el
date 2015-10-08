@@ -23,10 +23,9 @@
  '(calendar-week-start-day 1)
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
- '(cursor-color "#cccccc")
  '(custom-safe-themes
    (quote
-    ("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "f0d8af755039aa25cd0792ace9002ba885fd14ac8e8807388ab00ec84c9497d7" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "afc220610bee26945b7c750b0cca03775a8b73c27fdca81a586a0a62d45bbce2" "419637b7a8c9cb43f273980f0c9879c0cbadace6b38efac0281e031772c84eb2" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "7b4d9b8a6ada8e24ac9eecd057093b0572d7008dbd912328231d0cada776065a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+    ("1fab355c4c92964546ab511838e3f9f5437f4e68d9d1d073ab8e36e51b26ca6a" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "f0d8af755039aa25cd0792ace9002ba885fd14ac8e8807388ab00ec84c9497d7" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "afc220610bee26945b7c750b0cca03775a8b73c27fdca81a586a0a62d45bbce2" "419637b7a8c9cb43f273980f0c9879c0cbadace6b38efac0281e031772c84eb2" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "7b4d9b8a6ada8e24ac9eecd057093b0572d7008dbd912328231d0cada776065a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-dwim-target t)
@@ -62,6 +61,8 @@ static char *note[] = {
  '(focus-follows-mouse t)
  '(foreground-color "#cccccc")
  '(fringe-mode (quote (0)) nil (fringe))
+ '(ggtags-oversize-limit 4000000)
+ '(ggtags-use-sqlite3 t)
  '(global-auto-revert-mode t)
  '(global-highlight-parentheses-mode t)
  '(global-yascroll-bar-mode t)
@@ -117,6 +118,30 @@ static char *gnus-pointer[] = {
  '(hl-paren-colors
    (quote
     ("#B9F" "#B8D" "#B7B" "#B69" "#B57" "#B45" "#B33" "#B11")))
+ '(ibuffer-saved-filter-groups
+   (quote
+    (("default"
+      ("custom"
+       (used-mode . Custom-mode))
+      ("org-mode"
+       (used-mode . org-mode))))))
+ '(ibuffer-saved-filters
+   (quote
+    (("gnus"
+      ((or
+        (mode . message-mode)
+        (mode . mail-mode)
+        (mode . gnus-group-mode)
+        (mode . gnus-summary-mode)
+        (mode . gnus-article-mode))))
+     ("programming"
+      ((or
+        (mode . emacs-lisp-mode)
+        (mode . cperl-mode)
+        (mode . c-mode)
+        (mode . java-mode)
+        (mode . idl-mode)
+        (mode . lisp-mode)))))))
  '(ido-create-new-buffer (quote always))
  '(ido-ignore-buffers (quote ("\\` " "*Help*")))
  '(ido-ignore-files
@@ -355,6 +380,7 @@ static char *gnus-pointer[] = {
            nil t))))
  '(sendmail-program "msmtp-enqueue")
  '(sp-show-pair-delay 0)
+ '(split-width-threshold 200)
  '(tab-width 4)
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
@@ -383,36 +409,3 @@ static char *gnus-pointer[] = {
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
  '(w3m-use-tab nil))
-
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:height 110 :family "Mono"))))
- '(compilation-error ((t (:inherit nil))))
- '(cursor ((t (:background "white"))))
- '(ido-match-modes-indicator-face ((t (:foreground "dark gray" :width condensed))))
- '(ido-vertical-common-match-face ((t (:foreground "dark gray" :slant italic))))
- '(ido-vertical-first-match-face ((t (:inherit ido-first-match :background "#3b3b30"))))
- '(ido-vertical-match-face ((t (:foreground "white" :underline t))))
- '(ido-vertical-only-match-face ((t (:inherit ido-only-match :background "#3b3b30"))))
- '(ido-virtual ((t (:slant italic))))
- '(js2-error ((t (:foreground "#D9D9D9" :underline (:color "brown" :style wave) :weight bold))))
- '(js2-external-variable ((t (:strike-through t))))
- '(js2-warning ((t (:underline (:color "white" :style wave)))))
- '(message-cited-text ((t (:foreground "dim gray"))))
- '(mode-line ((t (:height 100))))
- '(notmuch-tag-face ((t (:foreground "white"))))
- '(org-mode-line-clock ((t (:inherit nil))) t)
- '(outline-1 ((t (:inherit nil :foreground "white" :height 1.5))))
- '(outline-2 ((t (:inherit nil :foreground "white" :height 1.25))))
- '(outline-3 ((t (:inherit nil :foreground "white" :height 1.1))))
- '(outline-4 ((t (:inherit nil :foreground "white"))))
- '(outline-5 ((t (:inherit nil :foreground "white"))))
- '(outline-6 ((t (:inherit nil :foreground "white"))))
- '(outline-7 ((t (:inherit nil :foreground "white"))))
- '(outline-8 ((t (:inherit nil :foreground "white"))))
- '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
- '(w3m-anchor ((t nil))))
