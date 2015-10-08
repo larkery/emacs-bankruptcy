@@ -70,11 +70,11 @@
       (hint2      "#CDC")
       (hint3      "#DCC")
 
-      (err        "red")
-      (question   "orange2")
+      (err        "#c82829")
+      (question   "#de935f")
       (warning    "brown")
-      (happy      "#8F5")
-      (good       "#BFB")
+      (happy      "#718c00")
+      (good       "#3e999f")
       (highlight  "gold"))
 
   (custom-theme-set-faces
@@ -137,13 +137,13 @@
    `(ido-match-modes-indicator-face ((t (:foreground ,question))))
    `(ido-vertical-common-match-face ((t (:foreground ,semi :slant italic))))
 
-   `(ido-first-match ((t :background ,warning :foreground ,brightest)))
+   `(ido-first-match ((t :background ,gloom :foreground ,question)))
    `(ido-vertical-first-match ((t (:inherit ido-first-match))))
 
    `(ido-vertical-match-face ((t (:underline t))))
 
    `(ido-subdir ((t (:foreground ,hint1))))
-   `(ido-only-match ((t (:inherit isearch))))
+   `(ido-only-match ((t (:background ,gloom :foreground ,highlight))))
 
    `(ido-vertical-only-match-face ((t (:inherit ido-only-match))))
    `(ido-virtual ((t (:slant italic))))

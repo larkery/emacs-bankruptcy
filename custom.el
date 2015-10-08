@@ -153,7 +153,7 @@ static char *gnus-pointer[] = {
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
  '(ido-vertical-arrow "? ")
- '(ido-vertical-columns 10)
+ '(ido-vertical-columns 20)
  '(ido-vertical-common-match-format "%s")
  '(ido-vertical-define-keys (quote grid-movement-with-tabs))
  '(ido-vertical-fixed-rows nil)
@@ -409,3 +409,9 @@ static char *gnus-pointer[] = {
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
  '(w3m-use-tab nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
