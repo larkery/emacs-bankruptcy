@@ -139,6 +139,9 @@
    `(outline-7 ((t (:foreground ,bright :slant italic))))
    `(outline-8 ((t (:foreground ,bright :slant italic))))
 
+   `(org-todo ((t (:foreground ,question :background ,gloom :weight bold))))
+   `(org-done ((t (:foreground ,good :background ,gloom :weight bold))))
+
    `(org-mode-line-clock ((t (:inherit nil))))
    `(org-date ((t (:foreground ,question :underline t))))
 
