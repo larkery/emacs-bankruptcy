@@ -42,8 +42,7 @@
   (appt-activate t))
 
 (req-package org
-  :require (;helm
-            notmuch)
+  :require (notmuch)
   :demand
   :bind
   (("C-c a" . org-agenda)
@@ -58,20 +57,6 @@
               (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
               ))
 
-  (defun h/load-org-agenda-files-recursively (dir)
-    (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
-
-    (unless (equal (directory-files dir nil org-agenda-file-regexp t) nil)
-      (add-to-list 'org-agenda-files dir))
-    
-    (dolist (file (directory-files dir nil nil t))
-      (unless (member file '("." ".."))
-        (let ((file (concat dir "/" file)))
-          (when (file-directory-p file)
-            (h/load-org-agenda-files-recursively file))))))
-
-  (h/load-org-agenda-files-recursively org-directory)
-  
   (add-hook 'org-agenda-finalize-hook 'org-agenda-to-appt)
   (run-at-time "24:01" 3600 'org-agenda-to-appt)
 
@@ -85,9 +70,9 @@
     (let ((org-clock-into-drawer nil))
       (apply o a)))
 
-  (advice-add 'org-clock-jump-to-current-clock :around #'h/drawer-hack)
-  
-  )
+  (defun h/space-on-clock-string (o &rest args) (concat " " (apply o args)))
+  (advice-add 'org-clock-get-clock-string :around #'h/space-on-clock-string)
+  (advice-add 'org-clock-jump-to-current-clock :around #'h/drawer-hack))
 
 (req-package org-journal
   :require org
@@ -154,7 +139,23 @@
   (setq projectile-completion-system 'ido)
   (projectile-global-mode t)
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build -q" "./gradlew test -q")
-  )
+  (setq projectile-switch-project-action
+        #'projectile-dired)
+
+  (defun h/projectile-ask-for-project (o &rest args)
+    (condition-case nil
+        (progn (projectile-project-root)
+               (apply o args))
+      (error
+        (let ((projectile-switch-project-action o))
+          (projectile-switch-project)))))
+
+  (advice-add 'projectile-find-file :around #'h/projectile-ask-for-project)
+  (advice-add 'projectile-find-file-dwim :around #'h/projectile-ask-for-project)
+  (advice-add 'projectile-dired :around #'h/projectile-ask-for-project)
+  (advice-add 'projectile-find-dir :around #'h/projectile-ask-for-project)
+  (advice-add 'projectile-vc :around #'h/projectile-ask-for-project))
+
 
 (req-package ggtags
   :commands ggtags-mode

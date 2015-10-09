@@ -143,7 +143,7 @@ static char *gnus-pointer[] = {
         (mode . idl-mode)
         (mode . lisp-mode)))))))
  '(ido-create-new-buffer (quote always))
- '(ido-ignore-buffers (quote ("\\` " "*Help*")))
+ '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote
     ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+")))
@@ -153,7 +153,7 @@ static char *gnus-pointer[] = {
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
  '(ido-vertical-arrow "? ")
- '(ido-vertical-columns 20)
+ '(ido-vertical-columns 10)
  '(ido-vertical-common-match-format "%s")
  '(ido-vertical-define-keys (quote grid-movement-with-tabs))
  '(ido-vertical-fixed-rows nil)
@@ -202,7 +202,7 @@ static char *gnus-pointer[] = {
         (quote
          (:link t :maxlevel 2 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
- '(org-agenda-files nil)
+ '(org-agenda-files (quote ("~/org/work" "~/org/personal")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")
@@ -216,13 +216,10 @@ static char *gnus-pointer[] = {
  '(org-capture-templates
    (quote
     (("s" "NHM Support" entry
-      (file "~/org/work/nhm/nhm-support.org")
+      (file+olp "~/org/work/projects.org" "NHM" "Support")
       "* %^{Ticket|%a}" :clock-in t :clock-resume t)
-     ("i" "Clock in on task" entry
-      (file "~/org/work/scratch.org")
-      "* TODO %t %^{Caption}%?" :clock-in t :clock-resume t)
      ("c" "Future task" entry
-      (file+headline "~/org/work/scratch.org" "Unfiled tasks")
+      (file+headline "~/org/work/tasks.org" "Unfiled tasks")
       "** TODO %t %?%a"))))
  '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-history-length 100)

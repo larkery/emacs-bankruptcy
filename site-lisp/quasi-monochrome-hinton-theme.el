@@ -70,7 +70,7 @@
       (hint2      "#CDC")
       (hint3      "#DCC")
 
-      (err        "#c82829")
+      (err        "#f82829")
       (question   "#de935f")
       (warning    "brown")
       (happy      "#718c00")
@@ -82,6 +82,8 @@
    `(default ((t (:background ,dimmest :foreground ,bright))))
 
    `(cursor ((t (:foreground ,dimmest :background ,brightest))))
+
+   `(error ((t (:foreground ,err :weight bold))))
 
    '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
 
@@ -108,7 +110,7 @@
    `(font-lock-string-face ((t (:foreground ,semi))))
    `(font-lock-type-face ((t (:weight bold :foreground ,brightest))))
    `(font-lock-variable-name-face ((t (:foreground ,brightest))))
-   `(font-lock-warning-face ((t (:foreground ,warning))))
+   `(font-lock-warning-face ((t (:inherit error))))
    `(button ((t (:inherit (link)))))
    `(link ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
    `(link-visited ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
@@ -121,18 +123,24 @@
 
    `(message-header-name ((t (:inherit font-lock-type-face))))
    `(message-header-subject ((t (:inherit font-lock-function-name-face))))
-   `(message-header-to ((t (:inherit font-lock-string-face))))
-   `(message-header-other ((t (:inherit font-lock-comment-face))))
+   `(message-header-to ((t (:inherit font-lock-function-name-face))))
+   `(message-header-cc ((t (:inherit message-header-to-face))))
+   `(message-header-other ((t (:foreground ,dim))))
    `(message-mml ((t (:weight bold :foreground ,dim))))
+   `(message-header-xheader ((t (:foreground ,dim))))
+   `(message-cited-text ((t (:inherit font-lock-comment-face))))
 
-   `(outline-1 ((t (:foreground ,brightest :height 1.5))))
+   `(outline-1 ((t (:foreground ,brightest :background ,dark :height 1.6))))
    `(outline-2 ((t (:foreground ,brightest :height 1.4))))
-   `(outline-3 ((t (:foreground ,brightest :height 1.3))))
-   `(outline-4 ((t (:foreground ,brightest :height 1.2))))
-   `(outline-5 ((t (:foreground ,brightest :height 1.1))))
-   `(outline-6 ((t (:foreground ,brightest))))
-   `(outline-7 ((t (:foreground ,brightest))))
-   `(outline-8 ((t (:foreground ,brightest))))
+   `(outline-3 ((t (:foreground ,bright :height 1.2))))
+   `(outline-4 ((t (:foreground ,bright))))
+   `(outline-5 ((t (:foreground ,bright :slant italic))))
+   `(outline-6 ((t (:foreground ,bright :slant italic))))
+   `(outline-7 ((t (:foreground ,bright :slant italic))))
+   `(outline-8 ((t (:foreground ,bright :slant italic))))
+
+   `(org-mode-line-clock ((t (:inherit nil))))
+   `(org-date ((t (:foreground ,question :underline t))))
 
    `(ido-match-modes-indicator-face ((t (:foreground ,question))))
    `(ido-vertical-common-match-face ((t (:foreground ,semi :slant italic))))
@@ -148,9 +156,9 @@
    `(ido-vertical-only-match-face ((t (:inherit ido-only-match))))
    `(ido-virtual ((t (:slant italic))))
 
-   `(isearch ((t (:foreground ,dimmest :background ,happy))))
+   `(isearch ((t (:foreground ,good :background ,gloom))))
    `(isearch-fail ((t (:background ,warning))))
-   `(lazy-highlight ((t (:foreground ,dimmest :background ,good))))
+   `(lazy-highlight ((t (:foreground ,question :background ,gloom))))
    `(match ((t :background ,question :foreground ,dimmest)))
    `(next-error ((t (:inherit (region)))))
    `(mode-line ((t (:height 0.8 :inherit default))))

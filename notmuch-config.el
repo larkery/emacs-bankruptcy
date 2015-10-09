@@ -154,6 +154,46 @@
 
   ;; other message stuff
 
+  (defvar h/notmuch-already-polling nil)
+  (defun h/notmuch-poll-and-refresh ()
+    "Asynchronously poll for mail, and when done refresh all notmuch search buffers that are open"
+    (interactive)
+    (if h/notmuch-already-polling
+        (message "Already checking mail!")
+      (progn
+        (message "Checking mail...")
+        (setf h/notmuch-already-polling t)
+        (with-current-buffer (get-buffer-create "*notmuch-poll*")
+          (erase-buffer))
+        (let* ((the-process
+                (if (and notmuch-poll-script (not (= "" notmuch-poll-script)))
+                    (start-process "notmuch-poll" "*notmuch-poll*" notmuch-poll-script)
+                  (start-process "notmuch-poll" "*notmuch-poll*" notmuch-command "new")))
+               (buf (process-buffer the-process)))
+
+          (set-process-sentinel
+           the-process
+           (lambda (process e)
+             (when (eq (process-status process) 'exit)
+               (save-excursion
+                 (let ((last-line
+                        (with-current-buffer (process-buffer process)
+                          (goto-char (point-max))
+                          (previous-line)
+                          (thing-at-point 'line t))))
+                   (message (format "notmuch: %s" (substring last-line 0 (- (length last-line) 1))))))
+               (kill-buffer (process-buffer process))
+               (save-excursion
+                 (dolist (b (buffer-list))
+                   (when (eq major-mode 'notmuch-search-mode)
+                     (with-current-buffer b (notmuch-refresh-this-buffer)))))
+
+               (setf h/notmuch-already-polling nil)
+               )))))))
+
+
+  (bind-key "G" #'h/notmuch-poll-and-refresh notmuch-search-mode-map)
+
   (setf user-mail-address "tom.hinton@cse.org.uk"
 
         message-auto-save-directory "~/temp/messages/"
