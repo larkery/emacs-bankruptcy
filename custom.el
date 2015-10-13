@@ -25,7 +25,7 @@
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("1fab355c4c92964546ab511838e3f9f5437f4e68d9d1d073ab8e36e51b26ca6a" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "f0d8af755039aa25cd0792ace9002ba885fd14ac8e8807388ab00ec84c9497d7" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "afc220610bee26945b7c750b0cca03775a8b73c27fdca81a586a0a62d45bbce2" "419637b7a8c9cb43f273980f0c9879c0cbadace6b38efac0281e031772c84eb2" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "ab04c00a7e48ad784b52f34aa6bfa1e80d0c3fcacc50e1189af3651013eb0d58" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "7b4d9b8a6ada8e24ac9eecd057093b0572d7008dbd912328231d0cada776065a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-dwim-target t)
@@ -33,29 +33,6 @@
  '(dired-listing-switches "-alhv")
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
- '(display-time-default-load-average nil)
- '(display-time-mode t)
- '(emms-mode-line-icon-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
-static char *note[] = {
-/* width height num_colors chars_per_pixel */
-\"    10   11        2            1\",
-/* colors */
-\". c #1ba1a1\",
-\"# c None s None\",
-/* pixels */
-\"###...####\",
-\"###.#...##\",
-\"###.###...\",
-\"###.#####.\",
-\"###.#####.\",
-\"#...#####.\",
-\"....#####.\",
-\"#..######.\",
-\"#######...\",
-\"######....\",
-\"#######..#\" };")))
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#232A2F" t)
  '(focus-follows-mouse t)
@@ -66,31 +43,6 @@ static char *note[] = {
  '(global-auto-revert-mode t)
  '(global-highlight-parentheses-mode t)
  '(global-yascroll-bar-mode t)
- '(gnus-logo-colors (quote ("#4c8383" "#bababa")) t)
- '(gnus-mode-line-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
-static char *gnus-pointer[] = {
-/* width height num_colors chars_per_pixel */
-\"    18    13        2            1\",
-/* colors */
-\". c #1ba1a1\",
-\"# c None s None\",
-/* pixels */
-\"##################\",
-\"######..##..######\",
-\"#####........#####\",
-\"#.##.##..##...####\",
-\"#...####.###...##.\",
-\"#..###.######.....\",
-\"#####.########...#\",
-\"###########.######\",
-\"####.###.#..######\",
-\"######..###.######\",
-\"###....####.######\",
-\"###..######.######\",
-\"###########.######\" };")) t)
- '(grep-find-template "find . <X> -type f <F> -exec grep <C> -nH -e <R> \\{\\} +")
  '(highlight-symbol-colors
    (quote
     ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
@@ -156,7 +108,10 @@ static char *gnus-pointer[] = {
  '(ido-vertical-columns 10)
  '(ido-vertical-common-match-format "%s")
  '(ido-vertical-define-keys (quote grid-movement-with-tabs))
- '(ido-vertical-fixed-rows nil)
+ '(ido-vertical-fixed-rows t)
+ '(ido-vertical-grid-separator "     ")
+ '(ido-vertical-max-columns 20)
+ '(ido-vertical-max-rows 5)
  '(ido-vertical-mode t)
  '(ido-vertical-only-match-format "> %s")
  '(ido-vertical-rows 5)
@@ -359,8 +314,6 @@ static char *gnus-pointer[] = {
  '(paradox-github-token t)
  '(pos-tip-background-color "#3a3a3a")
  '(pos-tip-foreground-color "#9E9E9E")
- '(powerline-color1 "#1E1E1E")
- '(powerline-color2 "#111111")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
  '(recentf-auto-cleanup (quote never))
