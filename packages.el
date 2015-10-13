@@ -1,5 +1,3 @@
-(req-package fish-mode)
-
 (req-package magit
   :commands magit
   :bind ("C-c g" . magit-status)
@@ -20,7 +18,7 @@
 (req-package smart-mode-line
   :config
   (sml/setup)
-  (sml/apply-theme 'dark))
+  (sml/apply-theme 'respectful))
 
 (req-package appt
   :config
@@ -198,8 +196,6 @@
   (setq-default save-place t)
   (setq save-place-file (h/ed "state/saved-places")))
 
-(req-package dired+ :commands dired)
-
 (req-package recentf
   :config  
   (setq recentf-save-file (h/ed "state/recentf")
@@ -218,7 +214,7 @@
 (req-package lacarte
   :bind ("M-`" . lacarte-execute-menu-command))
 
-(add-hook 'dired-load-hook (lambda () (require 'dired-x)))
+
 
 (defmacro h/with-tall-ido (y)
   `(let ((ido-vertical-rows 15)
@@ -296,8 +292,7 @@
     (define-key ido-completion-map (kbd "M-.") 'smex-find-function)
     (define-key ido-completion-map (kbd "C-a") 'move-beginning-of-line)))
 
-(req-package swiper
-  :bind ("C-." . swiper))
+(req-package swiper :bind ("C-." . swiper))
 
 (req-package visual-regexp-steroids
   :require pcre2el
@@ -315,19 +310,22 @@
   :config
   (ido-at-point-mode t))
 
-(req-package dired-narrow
-  :config
-  (bind-key "C-n" #'dired-narrow dired-mode-map))
-
-(req-package dired-sort-menu)
-
 (req-package dired-imenu
   :config
   (require 'dired-imenu))
 
-(req-package discover
+(req-package dired+
+  :commands dired
   :config
-  (global-discover-mode))
+  (diredp-toggle-find-file-reuse-dir 1))
+
+(req-package dired-subtree
+  :config
+  (bind-key "i" #'dired-subtree-insert dired-mode-map))
+
+(req-package dired-k)
+
+(add-hook 'dired-load-hook (lambda () (require 'dired-x)))
 
 (req-package browse-kill-ring+
   :config
@@ -432,21 +430,20 @@
   :config
   (global-anzu-mode +1))
 
-(req-package origami
-  :require smartrep
-  :config
-  (global-origami-mode t)
+;; (req-package origami
+;;   :require smartrep
+;;   :config
+;;   (global-origami-mode t)
 
-  (smartrep-define-key
-      origami-mode-map
-      "C-<tab>"
+;;   (smartrep-define-key
+;;       origami-mode-map
+;;       "C-<tab>"
 
-    '(("C-<tab>" . origami-recursively-toggle-node)
-      ("<tab>" . origami-recursively-toggle-node)
-      ("n" . origami-show-only-node)
-      ("w" . origami-open-all-nodes)))
-  )
-
+;;     '(("C-<tab>" . origami-recursively-toggle-node)
+;;       ("<tab>" . origami-recursively-toggle-node)
+;;       ("n" . origami-show-only-node)
+;;       ("w" . origami-open-all-nodes)))
+;;   )
 
 ;; completing read on describe-prefix-bindings
 (defun first-line (string)
@@ -604,3 +601,6 @@
 
 (req-package comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
+
+;; not sure what to do about the super-secret information
+(req-package znc)
