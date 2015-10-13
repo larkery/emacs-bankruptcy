@@ -65,7 +65,7 @@
       (bright     "#e9f6f6")
       (brightest  "white")
 
-      (blueish    "light slate gray")
+      (blueish    "#8F9FAF")
       (hint1      "#CCD")
       (hint2      "#CDC")
       (hint3      "#DCC")
@@ -102,7 +102,7 @@
    `(font-lock-constant-face ((t (:weight bold :foreground ,semi))))
    `(font-lock-doc-face ((t (:inherit (font-lock-string-face)))))
    `(font-lock-function-name-face ((t (:foreground ,brightest))))
-   `(font-lock-keyword-face ((t (:weight bold :foreground ,hint3))))
+   `(font-lock-keyword-face ((t (:weight bold :foreground ,hint2))))
    `(font-lock-negation-char-face ((t nil)))
    `(font-lock-preprocessor-face ((t (:inherit (font-lock-builtin-face)))))
    `(font-lock-regexp-grouping-backslash ((t (:inherit (bold)))))
@@ -130,7 +130,7 @@
    `(message-header-xheader ((t (:foreground ,dim))))
    `(message-cited-text ((t (:inherit font-lock-comment-face))))
 
-   `(outline-1 ((t (:foreground ,brightest :background ,dark :height 1.6))))
+   `(outline-1 ((t (:foreground ,brightest :background ,gloom :height 1.6))))
    `(outline-2 ((t (:foreground ,brightest :height 1.4))))
    `(outline-3 ((t (:foreground ,bright :height 1.2))))
    `(outline-4 ((t (:foreground ,bright))))
@@ -159,13 +159,17 @@
    `(ido-vertical-only-match-face ((t (:inherit ido-only-match))))
    `(ido-virtual ((t (:slant italic))))
 
+   `(sml/filename ((t (:foreground ,good))))
+
    `(isearch ((t (:foreground ,good :background ,gloom))))
    `(isearch-fail ((t (:background ,warning))))
    `(lazy-highlight ((t (:foreground ,question :background ,gloom))))
    `(match ((t :background ,question :foreground ,dimmest)))
    `(next-error ((t (:inherit (region)))))
-   `(mode-line ((t (:height 0.8 :inherit default))))
-   `(mode-line-inactive ((t (:height 0.8 :inherit default))))
+
+   `(mode-line ((t (:overline ,brightest :inherit mode-line-inactive))))
+   `(mode-line-inactive ((t (:background ,gloom :inherit default :height 100))))
+
    `(query-replace ((t (:inherit (isearch)))))))
 
 ;;;###autoload
