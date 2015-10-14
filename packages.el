@@ -236,7 +236,7 @@
             (ido-mode 1)
             (ido-everywhere 1)
             (ido-ubiquitous-mode 1)
-            (ido-vertical-mode t)
+            (ido-grid-mode 1)
             (ido-match-modes-toggle 1)
 
             (defun h/ido-keys ()
@@ -270,10 +270,9 @@
                            ido-temp-list)))))
 
 (req-package ido)
-(req-package ido-vertical-mode :require ido)
-
+(req-package ido-grid-mode)
 (req-package ido-match-modes
-  :require (ido ido-vertical-mode ido-ubiquitous))
+  :require (ido ido-ubiquitous))
 
 (req-package smex
   :commands smex
@@ -513,9 +512,9 @@
               (push
                (cons
                 (concat
-                 (ido-vertical--pad-string key longest-binding)
+                 (s-pad-right longest-binding " " key)
                  "  "
-                 (ido-vertical--pad-string (symbol-name command) longest-command)
+                 (s-pad-right longest-command " " (symbol-name command))
                  "  "
                  description)
                 command)
