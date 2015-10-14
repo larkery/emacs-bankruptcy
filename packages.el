@@ -214,15 +214,6 @@
 (req-package lacarte
   :bind ("M-`" . lacarte-execute-menu-command))
 
-
-
-(defmacro h/with-tall-ido (y)
-  `(let ((ido-vertical-rows 15)
-         (ido-vertical-columns 1)
-         (max-mini-window-height 18)
-         (ido-vertical-truncate-wide-column t))
-     ,y))
-
 ;; for some reason, this ido stuff ends up a mess unless I do it in this precise order.
 
 (add-hook 'h/final-setup-hook
@@ -248,10 +239,10 @@
             (defun h/recentf-ido-find-file ()
               "Find a recent file using Ido."
               (interactive)
-              (h/with-tall-ido
-               (let ((file (completing-read "Choose recent file: " recentf-list nil t)))
+              (let ((file (ido-grid-vertically 25
+                           (completing-read "Choose recent file: " recentf-list nil t))))
                  (when file
-                   (find-file file)))))
+                   (find-file file))))
 
             (bind-key "C-x C-r" #'h/recentf-ido-find-file)
 
