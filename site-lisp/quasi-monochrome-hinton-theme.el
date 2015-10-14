@@ -145,18 +145,13 @@
    `(org-mode-line-clock ((t (:inherit nil))))
    `(org-date ((t (:foreground ,question :underline t))))
 
-   `(ido-match-modes-indicator-face ((t (:foreground ,question))))
-   `(ido-vertical-common-match-face ((t (:foreground ,semi :slant italic))))
+   `(ido-match-modes-indicator-face ((t (:foreground ,dim))))
 
    `(ido-first-match ((t :background ,gloom :foreground ,question)))
-   `(ido-vertical-first-match ((t (:inherit ido-first-match))))
-
-   `(ido-vertical-match-face ((t (:underline t))))
 
    `(ido-subdir ((t (:foreground ,hint1))))
    `(ido-only-match ((t (:background ,gloom :foreground ,highlight))))
 
-   `(ido-vertical-only-match-face ((t (:inherit ido-only-match))))
    `(ido-virtual ((t (:slant italic))))
 
    `(sml/filename ((t (:foreground ,good))))
