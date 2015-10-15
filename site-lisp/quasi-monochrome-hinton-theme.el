@@ -56,7 +56,7 @@
  ;; '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
  ;; '(w3m-anchor ((t nil))))
 
-(let ((dark       "black")
+(let* ((dark       "black")
       (dimmest    "#1a1a1a")
       (gloom      "#3a3a3a")
       (dimmer     "#595959")
@@ -75,6 +75,7 @@
       (warning    "brown")
       (happy      "#718c00")
       (good       "#3e999f")
+      (lowlight   "#2F3F4F")
       (highlight  "gold"))
 
   (custom-theme-set-faces
@@ -93,7 +94,7 @@
    `(highlight ((t (:background ,gloom))))
    `(hl-line ((t (:background ,gloom))))
    `(region ((t (:inverse-video t :background ,dark :foreground ,highlight))))
-   `(shadow ((t (:foreground ,dimmer))))
+   `(shadow ((t (:foreground ,dim))))
    `(secondary-selection ((t (:background ,dimmer))))
    `(trailing-whitespace ((t (:background ,warning))))
    `(font-lock-builtin-face ((t (:foreground ,semi))))
@@ -130,9 +131,11 @@
    `(message-header-xheader ((t (:foreground ,dim))))
    `(message-cited-text ((t (:inherit font-lock-comment-face))))
 
+   `(which-func ((t (:inherit font-lock-function-name-face))))
+
    `(outline-1 ((t (:foreground ,brightest :background ,gloom :height 1.6))))
-   `(outline-2 ((t (:foreground ,brightest :height 1.4))))
-   `(outline-3 ((t (:foreground ,bright :height 1.2))))
+   `(outline-2 ((t (:foreground ,brightest :background ,gloom :height 1.4))))
+   `(outline-3 ((t (:foreground ,bright :background ,gloom :height 1.2))))
    `(outline-4 ((t (:foreground ,bright))))
    `(outline-5 ((t (:foreground ,bright :slant italic))))
    `(outline-6 ((t (:foreground ,bright :slant italic))))
@@ -163,7 +166,7 @@
    `(next-error ((t (:inherit (region)))))
 
    `(mode-line ((t (:overline ,brightest :inherit mode-line-inactive))))
-   `(mode-line-inactive ((t (:background ,gloom :inherit default :height 100))))
+   `(mode-line-inactive ((t (:background ,lowlight :inherit default :height 100))))
 
    `(query-replace ((t (:inherit (isearch)))))))
 

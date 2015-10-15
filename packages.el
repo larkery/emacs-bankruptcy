@@ -158,7 +158,22 @@
 (req-package ggtags
   :commands ggtags-mode
   :init
-  (add-hook 'java-mode-hook 'ggtags-mode))
+  (add-hook 'java-mode-hook 'ggtags-mode)
+
+  (defun h/ggtags-abbreviate-adv (o start end)
+    (funcall o start end)
+    ;; un-invisible the last invisible bit before end
+
+    (goto-char end)
+    (iy-go-up-to-char-backward 1 ?\/)
+    (remove-list-of-text-properties (1+ (point)) end '(invisible)))
+
+  (advice-add 'ggtags-abbreviate-file :around #'h/ggtags-abbreviate-adv)
+
+  )
+
+(add-hook 'prog-mode-hook #'eldoc-mode)
+(which-function-mode 1)
 
 (add-hook 'java-mode-hook 'subword-mode)
 (add-hook 'java-mode-hook
@@ -239,8 +254,9 @@
             (defun h/recentf-ido-find-file ()
               "Find a recent file using Ido."
               (interactive)
-              (let ((file (ido-grid-vertically 25
-                           (completing-read "Choose recent file: " recentf-list nil t))))
+              (let* ((ido-grid-mode-max-columns 1)
+                     (ido-grid-mode-max-rows 30)
+                     (file (completing-read "Choose recent file: " recentf-list nil t)))
                  (when file
                    (find-file file))))
 
@@ -261,8 +277,15 @@
                            ido-temp-list)))))
 
 (req-package ido)
-(req-package ido-grid-mode)
+
+(el-get-bundle larkery/ido-grid-mode.el)
+(el-get-bundle larkery/ido-match-modes.el)
+
+(req-package ido-grid-mode
+  :loader el-get)
+
 (req-package ido-match-modes
+  :loader el-get
   :require (ido ido-ubiquitous))
 
 (req-package smex
@@ -311,7 +334,7 @@
 
 (req-package dired-subtree
   :config
-  (bind-key "i" #'dired-subtree-insert dired-mode-map))
+  (bind-key "i" #'dired-subtree-toggle dired-mode-map))
 
 (req-package dired-k)
 
@@ -512,7 +535,8 @@
                choices)))
 
           (let* ((result
-                  (h/with-tall-ido
+                  (let ((ido-grid-mode-max-columns 1)
+                        (ido-grid-mode-max-rows 25))
                    (completing-read "Prefix commands: "
                                     choices
                                     nil
@@ -594,3 +618,7 @@
 
 ;; not sure what to do about the super-secret information
 (req-package znc)
+
+(req-package iy-go-to-char
+  :bind (("C-c s" . iy-go-up-to-char)
+         ("C-c r" . iy-go-up-to-char-backward)))

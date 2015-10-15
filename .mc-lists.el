@@ -6,7 +6,12 @@
         c-electric-colon
         c-electric-delete-forward
         c-electric-paren
+        c-electric-semi&comma
+        electric-newline-and-maybe-indent
         end-of-visual-line
+        iy-go-to-char--command
+        jump-char-process-char
+        jump-char-repeat-backward
         kill-region
         kill-sexp
         lispy-braces

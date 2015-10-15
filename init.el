@@ -86,7 +86,9 @@
      (package-refresh-contents)
      (package-install 'req-package)
      (package-install 'bind-key)
-     (require 'req-package)))
+     (require 'req-package)
+     (req-package-force el-get)))
+
   (load (h/ed "packages.el"))
   ;; TODO package-refresh-contents
   (req-package-finish)
