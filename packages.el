@@ -426,6 +426,7 @@
       global-map
       "C-x"
     '(("o" . other-window)
+      ("O" . ace-window)
       ("0" . delete-window)
       ("1" . delete-other-windows)
       ("3" . split-window-horizontally)
