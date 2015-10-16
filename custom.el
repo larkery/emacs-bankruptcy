@@ -119,6 +119,7 @@
  '(ido-vertical-truncate-wide-column t)
  '(indicate-buffer-boundaries (quote right))
  '(indicate-empty-lines nil)
+ '(isearch-allow-scroll t)
  '(ispell-program-name "aspell")
  '(ivy-display-style (quote fancy))
  '(ivy-mode nil)

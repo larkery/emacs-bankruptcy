@@ -74,7 +74,7 @@
       (question   "#de935f")
       (warning    "brown")
       (happy      "#718c00")
-      (good       "#3e999f")
+      (good       "#5eA9Af")
       (lowlight   "#2F3F4F")
       (highlight  "gold"))
 
