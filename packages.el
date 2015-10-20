@@ -128,11 +128,8 @@
 (req-package projectile
   :commands projectile-project-root projectile-find-file-dwim
   :require (hydra)
-  :bind (
-         ("M-g P" . projectile-switch-project)
-         ("M-g f" . projectile-find-file-dwim)
-         ("M-g F" . projectile-find-file-in-known-projects)
-         )
+  :bind (("<f8>" . hydra-projectile-start-body))
+
   :diminish (projectile-mode . " p")
   :config
   (setq projectile-completion-system 'ido)
@@ -330,20 +327,7 @@
                    (find-file file))))
 
             (bind-key "C-x C-r" #'h/recentf-ido-find-file)
-
-            (require 'dash)
-            (require 's)
-
-            (add-hook 'ido-make-buffer-list-hook 'my/ido-stars-to-end)
-            (defun my/ido-stars-to-end ()
-              "Move buffers not in the current mode to the end of the list."
-              (ido-to-end (--filter
-                           (let ((b (get-buffer it)))
-                             (not (and b (equal major-mode (buffer-local-value 'major-mode b))))
-                             )
-
-                           ;(s-starts-with-p "*" it)
-                           ido-temp-list)))))
+            ))
 
 (req-package ido)
 
