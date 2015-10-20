@@ -95,6 +95,7 @@
         (mode . idl-mode)
         (mode . lisp-mode)))))))
  '(ido-create-new-buffer (quote always))
+ '(ido-grid-mode-start-collapsed t)
  '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote
