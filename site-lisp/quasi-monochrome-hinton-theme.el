@@ -117,7 +117,7 @@
    `(link-visited ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
    `(fringe ((t (:foreground ,semi :background ,gloom))))
    `(vertical-border ((t (:foreground ,dimmer))))
-   `(header-line ((default (:inherit (mode-line)))))
+   `(header-line ((default (:overline nil :inherit (mode-line)))))
    `(tooltip ((((class color)) (:inherit (variable-pitch) :foreground "black" :background "lightyellow")) (t (:inherit (variable-pitch)))))
 
    `(compilation-error ((t :weight bold :foreground ,brightest :background ,warning)))

@@ -360,10 +360,15 @@
      (360 . "#FFCB6B"))))
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
- '(w3m-use-tab nil))
+ '(w3m-use-tab nil)
+ '(znc-servers
+   (quote
+    (("lrkry.com" 3456 t
+      ((freenode "freenode" "glimparticle")))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:height 105))))
  )
