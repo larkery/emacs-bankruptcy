@@ -5,6 +5,18 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+(setq load-prefer-newer t)
+(setq gc-cons-threshold 50000000) ;; 50mega per gc
+
+(setq history-length 1000)
+(setq history-delete-duplicates t)
+
+;; echo keystrokes sooner
+(setq echo-keystrokes 0.2)
+
+;; don't scroll so much
+(setq scroll-conservatively 10)
+
 (setq frame-title-format
       '( "[%b] " (buffer-file-name
                   "%f"
@@ -25,6 +37,8 @@
 
 (let ((backup-directory (h/ed "state/backups/")))
   (setq backup-directory-alist
+        `((".*" . ,backup-directory)))
+  (setq tramp-backup-directory-alist
         `((".*" . ,backup-directory)))
   (setq auto-save-file-name-transforms
         `((".*" ,backup-directory t))))
@@ -55,14 +69,6 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-
-;;;;;;;;;;; backip files
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq tramp-backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 
 ;;;;;;;;;;; browse-url
 (setq browse-url-generic-program "xdg-open")

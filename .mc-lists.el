@@ -21,6 +21,7 @@
         lispy-parens
         lispy-quotes
         multiple-cursors-mode
+        org-kill-line
         sacha/smarter-move-beginning-of-line
         sp-forward-sexp
         sp-forward-slurp-sexp

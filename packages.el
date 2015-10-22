@@ -77,7 +77,8 @@
   :config (setq org-journal-dir "~/org/journal/"))
 
 (req-package adaptive-wrap
-  :config
+  :commands adaptive-wrap-prefix-mode
+  :init
   (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode))
 
 (req-package smartparens
@@ -196,8 +197,8 @@
   (setq ibuffer-filter-group-name-face 'outline-3))
 
 (req-package ibuffer-vc
-  :config
-
+  :commands ibuffer-vc-set-filter-groups-by-vc-root
+  :init
   (setq ibuffer-formats
         '((mark modified read-only vc-status-mini " "
                 (name 18 18 :left :elide)
@@ -245,13 +246,6 @@
 (add-hook 'java-mode-hook
           #'(lambda nil (c-set-style "stroustrup")))
 
-(req-package smartscan
-  :commands smartscan-mode
-  :config
-  (add-hook 'prog-mode-hook #'smartscan-mode)
-  (bind-key "M-p" #'smartscan-symbol-go-backward prog-mode-map)
-  (bind-key "M-n" #'smartscan-symbol-go-forward prog-mode-map))
-
 (req-package undo-tree
   :diminish undo-tree-mode
   :init
@@ -269,17 +263,22 @@
 
 (req-package rainbow-delimiters
   :commands rainbow-delimiters-mode
-  :config
+  :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (req-package saveplace
-  :config
+  :init
   (setq-default save-place t)
   (setq save-place-file (h/ed "state/saved-places")))
 
+(req-package hippie-exp
+  :init
+  (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t)))
+
 (req-package recentf
-  :config  
+  :init
   (setq recentf-save-file (h/ed "state/recentf")
+        recentf-exclude '(".ido.last")
         recentf-max-menu-items 1000
         recentf-max-saved-items 1000)
   (recentf-mode 1))
@@ -376,6 +375,16 @@
   :config
   (ido-at-point-mode t))
 
+(req-package imenu
+  :init
+  (setq imenu-auto-rescan t))
+
+(req-package highlight-symbol
+  :commands highlight-symbol-mode highlight-symbol-nav-mode
+  :init
+  (add-hook 'prog-mode-hook #'highlight-symbol-mode)
+  (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode))
+
 (req-package dired-imenu
   :config
   (require 'dired-imenu))
@@ -386,7 +395,8 @@
   (diredp-toggle-find-file-reuse-dir 1))
 
 (req-package dired-subtree
-  :config
+  :commands dired-subtree-toggle
+  :init
   (bind-key "i" #'dired-subtree-toggle dired-mode-map))
 
 (req-package dired-k)
@@ -394,12 +404,13 @@
 (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
 
 (req-package browse-kill-ring+
-  :config
+  :init
   (require 'browse-kill-ring+))
 
 (req-package ws-butler
   :diminish ""
-  :config
+  :commands ws-butler-global-mode
+  :init
   (ws-butler-global-mode))
 
 (winner-mode 1)
@@ -463,7 +474,7 @@
 (req-package ac-js2
   :commands ac-js2-mode
   :require js2-mode
-  :config
+  :init
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
 ;; (req-package pretty-symbols

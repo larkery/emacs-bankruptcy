@@ -186,7 +186,8 @@
                (save-excursion
                  (dolist (b (buffer-list))
                    (when (eq major-mode 'notmuch-search-mode)
-                     (with-current-buffer b (notmuch-refresh-this-buffer)))))
+                     (with-current-buffer b (call-interactively
+                                             #'notmuch-refresh-this-buffer)))))
 
                (setf h/notmuch-already-polling nil)
                )))))))
