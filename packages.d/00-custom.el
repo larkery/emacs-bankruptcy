@@ -96,7 +96,6 @@
         (mode . idl-mode)
         (mode . lisp-mode)))))))
  '(ido-create-new-buffer (quote always))
- '(ido-grid-mode-start-collapsed t)
  '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote
@@ -106,19 +105,6 @@
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
- '(ido-vertical-arrow "? ")
- '(ido-vertical-columns 10)
- '(ido-vertical-common-match-format "%s")
- '(ido-vertical-define-keys (quote grid-movement-with-tabs))
- '(ido-vertical-fixed-rows t)
- '(ido-vertical-grid-separator "     ")
- '(ido-vertical-max-columns 20)
- '(ido-vertical-max-rows 5)
- '(ido-vertical-mode t)
- '(ido-vertical-only-match-format "> %s")
- '(ido-vertical-rows 5)
- '(ido-vertical-show-count t)
- '(ido-vertical-truncate-wide-column t)
  '(indicate-buffer-boundaries (quote right))
  '(indicate-empty-lines nil)
  '(isearch-allow-scroll t)
@@ -361,11 +347,7 @@
      (360 . "#FFCB6B"))))
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
- '(w3m-use-tab nil)
- '(znc-servers
-   (quote
-    (("lrkry.com" 3456 t
-      ((freenode "freenode" "glimparticle")))))))
+ '(w3m-use-tab nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

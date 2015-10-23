@@ -31,7 +31,9 @@
 (req-package ido-grid-mode
   :require (ido ido-ubiquitous)
   :config
-  
+  (setq ido-grid-mode-start-collapsed t
+        ido-grid-mode-jank-rows 0)
+
   (ido-grid-mode 1)
 
   (defun h/advise-grid-tall (o &rest args)
