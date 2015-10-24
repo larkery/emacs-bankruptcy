@@ -128,3 +128,6 @@
 
 (req-package swiper
   :bind ("C-S-S" . swiper))
+
+(req-package mwim
+  :bind (("C-e" . mwim-end-of-code-or-line)))
