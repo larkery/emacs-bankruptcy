@@ -75,5 +75,27 @@
   :require smartrep
   :config
   (back-button-mode 1)
-  (bind-key "M-<f8>" #'back-button-local-backward back-button-mode-map) ;lack of smartrep :/
-  (bind-key "M-<f9>" #'back-button-local-forward back-button-mode-map))
+
+  (bind-key "M-<f8>" #'back-button-local-backward back-button-mode-map)
+  (bind-key "M-<f9>" #'back-button-local-forward back-button-mode-map)
+  (bind-key "<XF86Back>" #'back-button-local-backward back-button-mode-map)
+  (bind-key "<XF86Forward>" #'back-button-local-forward back-button-mode-map)
+  (bind-key "M-<XF86Back>" #'back-button-global-backward back-button-mode-map)
+  (bind-key "M-<XF86Forward>" #'back-button-global-forward back-button-mode-map))
+
+(req-package savehist
+  :config
+  (setq savehist-file (h/sd "savehist")
+        savehist-additional-variables
+        '(search-ring regexp-search-ring kill-ring
+                      read-expression-history))
+
+  (savehist-mode 1))
+
+;; ??
+(req-package clipmon
+  :config
+  (clipmon-mode))
+
+(req-package color-moccur
+  :commands moccur moccur-grep)

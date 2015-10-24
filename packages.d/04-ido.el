@@ -32,7 +32,13 @@
   :require (ido ido-ubiquitous)
   :config
   (setq ido-grid-mode-start-collapsed t
-        ido-grid-mode-jank-rows 0)
+        ido-grid-mode-jank-rows 0
+        ido-grid-mode-order 'columns
+        ido-grid-mode-scroll-up #'ido-grid-mode-previous-row
+        ido-grid-mode-scroll-down #'ido-grid-mode-next-row
+        ido-grid-mode-prefix-scrolls t
+        ido-grid-mode-scroll-wrap nil
+        ido-grid-mode-max-columns nil)
 
   (ido-grid-mode 1)
 
@@ -40,16 +46,22 @@
     (let ((ido-grid-mode-min-rows 1)
           (ido-grid-mode-max-rows 15)
           (ido-grid-mode-max-columns 1)
+          (ido-grid-mode-order nil)
           (ido-grid-mode-start-collapsed nil))
       (apply o args)))
 
   (advice-add 'ido-describe-prefix-bindings :around #'h/advise-grid-tall)
   (advice-add 'h/recentf-find-file :around #'h/advise-grid-tall)
+  (advice-add 'ido-occur :around #'h/advise-grid-tall)
   (advice-add 'lacarte-execute-menu-command :around #'h/advise-grid-tall))
 
 (req-package ido-at-point
   :config
   (ido-at-point-mode 1))
+
+(req-package ido-exit-target
+  :config
+  (require 'ido-exit-target))
 
 (req-package ido-describe-prefix-bindings
   :config
