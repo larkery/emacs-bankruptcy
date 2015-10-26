@@ -70,13 +70,22 @@
       (hint2      "#CDC")
       (hint3      "#DCC")
 
+
+
       (err        "#f82829")
       (question   "#de935f")
       (warning    "brown")
       (happy      "#718c00")
       (good       "#5eA9Af")
       (lowlight   "#2F3F4F")
-      (highlight  "gold"))
+
+      (highlight  "gold")
+
+      (hl-efg     "black")
+      (hl-ebg     highlight)
+      (hl-bg      "white")
+      (hl-fg      "black"))
+
 
   (custom-theme-set-faces
    'quasi-monochrome-hinton
@@ -150,19 +159,23 @@
 
    `(ido-match-modes-indicator-face ((t (:foreground ,dim))))
 
-   `(ido-first-match ((t :background ,gloom :foreground ,question)))
+   `(ido-first-match ((t :background ,hl-bg
+                         :foreground ,hl-fg
+                         )))
 
    `(ido-subdir ((t (:foreground ,hint1))))
-   `(ido-only-match ((t (:background ,gloom :foreground ,highlight))))
+   `(ido-only-match ((t (:background ,hl-ebg
+                         :foreground ,hl-efg
+                         ))))
 
    `(ido-virtual ((t (:slant italic))))
 
    `(sml/filename ((t (:foreground ,good))))
 
-   `(isearch ((t (:foreground ,good :background ,gloom))))
+   `(isearch ((t (:foreground ,hl-fg :background ,hl-bg))))
    `(isearch-fail ((t (:background ,warning))))
    `(lazy-highlight ((t (:foreground ,question :background ,gloom))))
-   `(match ((t :background ,question :foreground ,dimmest)))
+   `(match ((t :inherit isearch)))
    `(next-error ((t (:inherit (region)))))
 
    `(mode-line ((t (:overline ,brightest :inherit mode-line-inactive))))

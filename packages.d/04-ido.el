@@ -1,4 +1,4 @@
-(el-get-bundle larkery/ido-grid-mode.el)
+;; (el-get-bundle larkery/ido-grid-mode.el)
 (el-get-bundle larkery/ido-match-modes.el)
 (el-get-bundle larkery/ido-describe-prefix-bindings.el)
 
