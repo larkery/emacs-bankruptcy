@@ -145,7 +145,9 @@
         (quote
          (:link t :maxlevel 2 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
- '(org-agenda-files (quote ("~/org/work" "~/org/personal")))
+ '(org-agenda-files
+   (quote
+    ("~/org/horde.org" "/home/hinton/org/work/projects.org" "/home/hinton/org/work/tasks.org" "/home/hinton/org/personal/contacts.org" "/home/hinton/org/personal/contacts2.org" "/home/hinton/org/personal/contacts3.org" "/home/hinton/org/personal/life.org")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")

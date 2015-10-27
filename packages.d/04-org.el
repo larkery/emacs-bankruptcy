@@ -50,3 +50,11 @@
 (req-package org-journal
   :require org
   :config (setq org-journal-dir "~/org/journal/"))
+
+(req-package org-caldav
+  :commands org-caldav-sync
+  :init
+  (setq org-caldav-url "http://horde.lrkry.com/rpc.php/calendars/tom/"
+        org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
+        org-caldav-inbox (expand-file-name "~/org/horde.org"))
+  (setq org-caldav-files `(,org-caldav-inbox)))
