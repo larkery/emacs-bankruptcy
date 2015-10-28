@@ -24,6 +24,7 @@
    ("C-c c" . org-capture))
   
   :config
+  (org-clock-persistence-insinuate)
   (add-hook 'org-mode-hook
             (lambda ()
               (visual-line-mode 1)
