@@ -1,5 +1,3 @@
-
-
 (req-package projectile
   :commands projectile-project-root projectile-find-file-dwim projectile-project-p
   :require (hydra)
