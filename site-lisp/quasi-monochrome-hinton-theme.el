@@ -181,6 +181,10 @@
    `(mode-line ((t (:overline ,brightest :inherit mode-line-inactive))))
    `(mode-line-inactive ((t (:background ,lowlight :inherit default :height 100))))
 
+   `(swoop-face-target-words ((t (:inherit isearch))))
+   `(swoop-face-target-line ((t (:inherit highlight))))
+   `(swoop-face-line-buffer-name ((t (:inherit outline-1))))
+
    `(query-replace ((t (:inherit (isearch)))))))
 
 ;;;###autoload
