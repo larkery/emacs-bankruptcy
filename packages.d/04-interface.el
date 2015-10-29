@@ -105,5 +105,5 @@
          ("C-o o" . swoop-multi)
          ("C-o r" . swoop-pcre-regexp))
   :config
-  (setq swoop-font-size-change nil)
+  (setq swoop-font-size-change: nil)
   (bind-key "C-o" 'swoop-multi-from-swoop swoop-map))
