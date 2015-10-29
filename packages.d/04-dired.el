@@ -8,7 +8,9 @@
 (req-package dired+
   :commands dired
   :config
-  (diredp-toggle-find-file-reuse-dir 1))
+  (diredp-toggle-find-file-reuse-dir 1)
+  (require 'dired-x)
+  (bind-key ")" #'dired-omit-mode dired-mode-map))
 
 (req-package dired-subtree
   :commands dired-subtree-toggle

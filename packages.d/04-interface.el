@@ -8,7 +8,7 @@
   :demand
   :config
   (setq recentf-save-file (h/ed "state/recentf")
-        recentf-exclude '(".ido.last")
+        recentf-exclude '(".ido.last" "org-clock-save.el")
         recentf-max-menu-items 1000
         recentf-max-saved-items 1000)
 

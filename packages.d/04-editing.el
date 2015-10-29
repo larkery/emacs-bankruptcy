@@ -88,46 +88,56 @@
          ("C-c r" . iy-go-up-to-char-backward)))
 
 (req-package multiple-cursors
-  :bind (("C-;" . mc/mark-all-like-this-dwim)
-         ("C-:" . mc/edit-beginnings-of-lines)
+  :bind (("C-; C-;" . mc/mark-all-like-this-dwim)
+         ("C-; C-a" . mc/edit-beginnings-of-lines)
+         ("C-; C-e" . mc/edit-ends-of-lines)
          ("C-<" . mc/mark-previous-like-this)
-         ("C->" . mc/mark-next-like-this)
-         ;("M-[" . (lambda () (interactive) (mc/create-fake-cursor-at-point)))
-         ;("M-]" . (lambda () (interactive) (mc/maybe-multiple-cursors-mode)))
-         )
+         ("C->" . mc/mark-next-like-this))
   :config
   (setq mc/list-file (h/ed "state/mc-list-file.el"))
-
   (require 'mc-hide-unmatched-lines-mode)
   (bind-key "C-;" #'mc-hide-unmatched-lines-mode mc/keymap))
 
 (req-package smartparens
+  :require hydra
   :config
+
   (require 'smartparens-config)
-  (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-  (sp-with-modes sp--lisp-modes
-    (sp-local-pair "(" nil :bind "C-("))
-  
-  (sp-with-modes '(html-mode nxml-mode sgml-mode)
-    (sp-local-pair "<" ">"))
 
-  (sp-with-modes sp--lisp-modes
-    (sp-local-pair "'" nil :actions nil))
-  
-  (sp-local-tag '(html-mode nxml-mode sgml-mode)
-                "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags)
+  (defhydra hydra-parens ()
+    "Parens"
+    ;; not sure
+    ("[" (sp-wrap-with-pair "["))
+    ("(" (sp-wrap-with-pair "("))
+    ("{" (sp-wrap-with-pair "{"))
+    ("\"" (sp-wrap-with-pair "\""))
+    ("|" sp-split-sexp "split")
+    ("+" sp-join-sexp "join")
+    ("t" sp-transpose-hybrid-sexp "trans")
+    ("~" sp-convolute-sexp "conv")
+    ("<backspace>" sp-backward-kill-sexp))
 
-  (setf blink-matching-paren nil)
+  (bind-keys
+   :keymap smartparens-mode-map
+
+   ("C-~" . hydra-parens/body)
+
+   ("M-<up>" . sp-backward-up-sexp)
+   ("M-<down>" . sp-down-sexp)
+   ("M-S-<down>" . sp-up-sexp)
+   ("C-M-k" . sp-kill-hybrid-sexp)
+
+   ("M-<right>" . sp-forward-sexp)
+   ("M-<left>" . sp-backward-sexp)
+
+   ("C-S-<right>" . sp-slurp-hybrid-sexp)
+   ("C-S-<left>"  . sp-forward-barf-sexp)
+   ("C-S-<up>"    . sp-backward-slurp-sexp)
+   ("C-S-<down>"  . sp-backward-barf-sexp))
+
+
   (show-smartparens-global-mode t)
-  (smartparens-global-mode t)
+  (smartparens-global-mode t))
 
-  (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-9") 'sp-forward-slurp-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-0") 'sp-forward-barf-sexp))
-
-(req-package swiper
-  :bind ("C-S-S" . swiper))
-
-(req-package mwim
-  :bind (("C-e" . mwim-end-of-code-or-line)))
+(req-package swiper :bind ("C-S-S" . swiper))
+(req-package mwim :bind (("C-e" . mwim-end-of-code-or-line)))

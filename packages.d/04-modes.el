@@ -4,7 +4,12 @@
 
 (req-package ess
   :require ess-smart-underscore
-  :commands R)
+  :commands R
+  :config
+  (add-hook 'ess-send-input-hook
+            (lambda ()
+              (interactive)
+              (ess-execute-screen-options t))))
 
 (req-package cider)
 
