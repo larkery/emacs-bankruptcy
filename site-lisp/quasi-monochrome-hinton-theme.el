@@ -56,40 +56,40 @@
  ;; '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
  ;; '(w3m-anchor ((t nil))))
 
-(let* ((dark       "black")
-      (dimmest    "#1a1a1a")
-      (gloom      "#3a3a3a")
-      (dimmer     "#595959")
-      (dim        "#a9a9a9")
-      (semi       "light grey")
-      (bright     "#e9f6f6")
-      (brightest  "white")
+(let* ((height     106)
 
-      (blueish    "#8F9FAF")
-      (hint1      "#CCD")
-      (hint2      "#CDC")
-      (hint3      "#DCC")
+       (dark       "black")
+       (dimmest    "#1a1a1a")
+       (gloom      "#3a3a3a")
+       (dimmer     "#595959")
+       (dim        "#a9a9a9")
+       (semi       "light grey")
+       (bright     "#e9f6f6")
+       (brightest  "white")
 
+       (blueish    "#8F9FAF")
+       (hint1      "#CCD")
+       (hint2      "#CDC")
+       (hint3      "#DCC")
 
+       (err        "#f82829")
+       (question   "#de935f")
+       (warning    "brown")
+       (happy      "#718c00")
+       (good       "#5eA9Af")
+       (lowlight   "#2F3F4F")
 
-      (err        "#f82829")
-      (question   "#de935f")
-      (warning    "brown")
-      (happy      "#718c00")
-      (good       "#5eA9Af")
-      (lowlight   "#2F3F4F")
+       (highlight  "gold")
 
-      (highlight  "gold")
-
-      (hl-efg     "black")
-      (hl-ebg     highlight)
-      (hl-bg      "white")
-      (hl-fg      "black"))
+       (hl-efg     "black")
+       (hl-ebg     highlight)
+       (hl-bg      "white")
+       (hl-fg      "black"))
 
 
   (custom-theme-set-faces
    'quasi-monochrome-hinton
-   `(default ((t (:background ,dimmest :foreground ,bright))))
+   `(default ((t (:height ,height :background ,dimmest :foreground ,bright))))
 
    `(cursor ((t (:foreground ,dimmest :background ,brightest))))
 
@@ -126,7 +126,7 @@
    `(link-visited ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
    `(fringe ((t (:foreground ,semi :background ,gloom))))
    `(vertical-border ((t (:foreground ,dimmer))))
-   `(header-line ((default (:overline nil :inherit (mode-line)))))
+   `(header-line ((default (:height ,height :overline nil :inherit (mode-line)))))
    `(tooltip ((((class color)) (:inherit (variable-pitch) :foreground "black" :background "lightyellow")) (t (:inherit (variable-pitch)))))
 
    `(compilation-error ((t :weight bold :foreground ,brightest :background ,warning)))
@@ -165,8 +165,8 @@
 
    `(ido-subdir ((t (:foreground ,hint1))))
    `(ido-only-match ((t (:background ,hl-ebg
-                         :foreground ,hl-efg
-                         ))))
+                                     :foreground ,hl-efg
+                                     ))))
 
    `(ido-virtual ((t (:slant italic))))
 
@@ -174,7 +174,7 @@
 
    `(isearch ((t (:foreground ,hl-fg :background ,hl-bg))))
    `(isearch-fail ((t (:background ,warning))))
-   `(lazy-highlight ((t (:foreground ,question :background ,gloom))))
+   `(lazy-highlight ((t (:foreground "white" :background ,dimmer))))
    `(match ((t :inherit isearch)))
    `(next-error ((t (:inherit (region)))))
 
@@ -184,6 +184,9 @@
    `(swoop-face-target-words ((t (:inherit isearch))))
    `(swoop-face-target-line ((t (:inherit highlight))))
    `(swoop-face-line-buffer-name ((t (:inherit outline-1))))
+
+   `(phi-search-selection-face ((t (:inherit isearch))))
+   `(phi-search-match-face ((t (:inherit lazy-highlight))))
 
    `(query-replace ((t (:inherit (isearch)))))))
 

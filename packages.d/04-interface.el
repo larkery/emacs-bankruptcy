@@ -96,14 +96,3 @@
 (req-package clipmon
   :config
   (clipmon-mode))
-
-(req-package swoop
-  :commands swoop swoop-multi swoop-pcre-regexp swoop-back-to-last-position swoop-from-isearch swoop-multi-from-swoop
-  :bind (("C-o" . nil)
-         ("M-o" . open-line)
-         ("C-o C-o" . swoop)
-         ("C-o o" . swoop-multi)
-         ("C-o r" . swoop-pcre-regexp))
-  :config
-  (setq swoop-font-size-change: nil)
-  (bind-key "C-o" 'swoop-multi-from-swoop swoop-map))

@@ -1,4 +1,6 @@
+(put 'dired-find-alternate-file 'disabled nil)
 (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
+
 (req-package dired-k)
 
 (req-package dired-imenu
@@ -16,3 +18,5 @@
   :commands dired-subtree-toggle
   :init
   (bind-key "i" #'dired-subtree-toggle dired-mode-map))
+
+(req-package dired-filter :defer t)

@@ -145,9 +145,7 @@
         (quote
          (:link t :maxlevel 2 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
- '(org-agenda-files
-   (quote
-    ("~/org/horde.org" "/home/hinton/org/work/projects.org" "/home/hinton/org/work/tasks.org" "/home/hinton/org/personal/contacts.org" "/home/hinton/org/personal/contacts2.org" "/home/hinton/org/personal/contacts3.org" "/home/hinton/org/personal/life.org")))
+ '(org-agenda-files (quote ("~/org/" "~/org/work/" "~/org/personal/")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")
@@ -350,9 +348,3 @@
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
  '(w3m-use-tab nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:height 105)))))

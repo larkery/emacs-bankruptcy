@@ -8,3 +8,9 @@
   :require magit
   :bind ("C-c G" . git-timemachine)
   :commands git-timemachine)
+
+(req-package git-gutter-fringe
+  :config
+  (require 'git-gutter-fringe)
+  (setq git-gutter-fr:side 'right-fringe)
+  (global-git-gutter-mode t))

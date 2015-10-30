@@ -57,3 +57,18 @@ point reaches the beginning or end of the buffer, stop there."
     (fill-paragraph nil region)))
 
 (bind-key "M-q" 'sacha/fill-or-unfill-paragraph)
+
+(defun narrow-or-widen (arg)
+  (interactive "P")
+  (let ((action
+         (cond ((and (not arg)
+                     (buffer-narrowed-p))   'widen)
+               ((region-active-p)           'narrow-to-region)
+               ((eq major-mode 'org-mode)   'org-narrow-to-element)
+               ((derived-mode-p 'prog-mode) 'narrow-to-defun)
+               ((derived-mode-p 'text-mode) 'narrow-to-page))))
+    (when action
+      (message (symbol-name action))
+      (call-interactively action))))
+
+(bind-key "<f8>" 'narrow-or-widen)

@@ -12,4 +12,3 @@
 (put 'upcase-region 'disabled nil)
 
 (setq-default abbrev-mode nil)
-(put 'dired-find-alternate-file 'disabled nil)

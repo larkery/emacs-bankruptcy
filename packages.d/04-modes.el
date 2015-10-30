@@ -4,7 +4,8 @@
 
 (req-package ess
   :require ess-smart-underscore
-  :commands R
+  :commands R R-mode
+  :mode ("\\.R\\'" . R-mode)
   :config
   (add-hook 'ess-send-input-hook
             (lambda ()
