@@ -170,6 +170,8 @@
 
    `(ido-virtual ((t (:slant italic))))
 
+   `(dired-directory ((t (:foreground ,brightest :background ,gloom))))
+
    `(sml/filename ((t (:foreground ,good))))
 
    `(isearch ((t (:foreground ,hl-fg :background ,hl-bg))))
