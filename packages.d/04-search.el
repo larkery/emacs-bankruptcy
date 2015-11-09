@@ -6,11 +6,8 @@
    ("M-g M-w" . avy-goto-word-0)
    ("M-g M-c" . avy-goto-char)))
 
-(req-package wgrep
-  :init
-  (require 'wgrep))
-
-(req-package ag)
+(req-package wgrep)
+(req-package ag :commands ag)
 
 (req-package phi-search
   :bind (("C-s" . phi-search)

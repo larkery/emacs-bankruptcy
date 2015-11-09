@@ -91,8 +91,3 @@
                       read-expression-history))
 
   (savehist-mode 1))
-
-;; ??
-(req-package clipmon
-  :config
-  (clipmon-mode))
