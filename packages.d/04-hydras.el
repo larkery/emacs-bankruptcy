@@ -42,7 +42,7 @@
                                   (setq handy-hash-did-something 0)))
 
       "
-_K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop _/ m_swoop _/ a_g | _e_val _;_com _k_line | _i_nbox _P_kg"
+_K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop _/ m_swoop _/ a_g | _e_val _;_com _k_line | _i_nbox _P_kg | _a_genda _o_rgs"
       ("ESC" nil)
       ("#" (insert "#") :exit nil)
       ("K" (kill-buffer (buffer-name)))

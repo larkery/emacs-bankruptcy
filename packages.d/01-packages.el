@@ -21,5 +21,7 @@
    (req-package-force el-get)
    (require 'el-get)))
 
+;; (req-package--log-set-level 'trace)
+
 (add-hook 'after-init-hook #'req-package-finish)
   

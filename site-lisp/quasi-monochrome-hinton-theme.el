@@ -76,7 +76,7 @@
        (question   "#de935f")
        (warning    "brown")
        (happy      "#718c00")
-       (good       "#5eA9Af")
+       (good       "#DCCD69");"#5eA9Af")
        (lowlight   "#2F3F4F")
 
        (highlight  "gold")
@@ -163,7 +163,7 @@
                          :foreground ,hl-fg
                          )))
 
-   `(ido-subdir ((t (:foreground ,hint1))))
+   `(ido-subdir ((t (:foreground ,brightest :weight bold))))
    `(ido-only-match ((t (:background ,hl-ebg
                                      :foreground ,hl-efg
                                      ))))

@@ -38,7 +38,11 @@
         ido-grid-mode-scroll-down #'ido-grid-mode-next-row
         ido-grid-mode-prefix-scrolls t
         ido-grid-mode-scroll-wrap nil
-        ido-grid-mode-max-columns nil)
+        ido-grid-mode-max-columns nil
+        ido-grid-mode-jump 'label
+        ido-grid-mode-prefix "->"
+        ido-grid-mode-exact-match-prefix ">>  "
+        ido-grid-mode-padding "  ")
 
   (ido-grid-mode 1)
 

@@ -1,3 +1,5 @@
+(message "load org")
+
 (req-package appt
   :config
   (require 'notifications)
@@ -17,13 +19,13 @@
   (appt-activate t))
 
 (req-package org
-  :require (notmuch appt)
-  :bind
-  (("C-c a" . org-agenda)
-   ("C-c l" . org-store-link)
-   ("C-c c" . org-capture))
+  :defer nil
+  :bind (("C-c a" . org-agenda)
+         ("C-c l" . org-store-link)
+         ("C-c c" . org-capture))
   
   :config
+  (require 'appt)
   (org-clock-persistence-insinuate)
   (add-hook 'org-mode-hook
             (lambda ()
