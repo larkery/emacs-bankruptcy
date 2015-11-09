@@ -40,9 +40,9 @@
         ido-grid-mode-scroll-wrap nil
         ido-grid-mode-max-columns nil
         ido-grid-mode-jump 'label
-        ido-grid-mode-prefix "->"
+        ido-grid-mode-prefix "->  "
         ido-grid-mode-exact-match-prefix ">>  "
-        ido-grid-mode-padding "  ")
+        ido-grid-mode-padding "    ")
 
   (ido-grid-mode 1)
 

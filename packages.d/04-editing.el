@@ -23,8 +23,6 @@
   :init
   (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t)))
 
-
-
 (req-package ws-butler
   :diminish ""
   :commands ws-butler-global-mode
@@ -72,19 +70,31 @@
 
   (require 'smartparens-config)
 
+  (defun h/slurp-appropriately ()
+    (interactive)
+    (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode 'clojure-mode)
+        (call-interactively #'sp-forward-slurp-sexp)
+      (call-interactively #'sp-slurp-hybrid-sexp)))
+
+  (defun h/kill-sexp-appropriately ()
+    (interactive)
+    (if (derived-mode-p 'lisp-mode 'emacs-lisp-mode 'clojure-mode)
+        (call-interactively #'sp-kill-sexp)
+      (call-interactively #'sp-kill-hybrid-sexp)))
+
   (bind-keys
    :keymap smartparens-mode-map
 
    ("M-<up>" . sp-backward-up-sexp)
    ("M-<down>" . sp-down-sexp)
    ("M-S-<down>" . sp-up-sexp)
-   ("C-M-k" . sp-kill-hybrid-sexp)
+   ("C-M-k" . h/kill-sexp-appropriately)
    ("C-S-k" . sp-kill-sexp)
 
    ("M-<right>" . sp-forward-sexp)
    ("M-<left>" . sp-backward-sexp)
 
-   ("C-S-<right>" . sp-slurp-hybrid-sexp)
+   ("C-S-<right>" . h/slurp-appropriately)
    ("C-S-<left>"  . sp-forward-barf-sexp)
    ("C-S-<up>"    . sp-backward-slurp-sexp)
    ("C-S-<down>"  . sp-backward-barf-sexp))
