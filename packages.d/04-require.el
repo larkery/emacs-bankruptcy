@@ -37,14 +37,19 @@
 ;;; editing
 ;;;; Outshine outline
 
+(defvar outline-minor-mode-prefix "\M-o")
+
 (req-package outshine
   :commands outshine-hook-function
   :init
-  (defvar outline-minor-mode-prefix "\M-o")
   (add-hook 'outline-minor-mode-hook 'outshine-hook-function)
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
+  (setq outshine-use-speed-commands t)
   :config
-  (require 'outshine))
+  (require 'outshine)
+  (define-key outline-minor-mode-map (kbd "M-TAB") nil)
+  (define-key outline-minor-mode-map (kbd "<backtab>")
+    'outshine-cycle-buffer))
 
 ;;;; Adaptive wrap
 
