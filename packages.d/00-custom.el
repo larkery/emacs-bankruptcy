@@ -175,9 +175,9 @@
                  (quote
                   ("TODO" "WAIT" "DONE")))
        "TODO")))
- '(org-clock-into-drawer 4)
+ '(org-clock-into-drawer t)
  '(org-clock-mode-line-total (quote today))
- '(org-clock-out-remove-zero-time-clocks t)
+ '(org-clock-out-remove-zero-time-clocks nil)
  '(org-clock-persist t)
  '(org-clock-persist-file "~/.emacs.d/state/org-clock-save.el")
  '(org-clock-persist-query-resume nil)
@@ -348,3 +348,9 @@
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
  '(w3m-use-tab nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

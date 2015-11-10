@@ -73,10 +73,10 @@
        (hint3      "#DCC")
 
        (err        "#f82829")
-       (question   "#de935f")
+       (question   "#ff7443")
        (warning    "brown")
-       (happy      "#718c00")
-       (good       "#DCCD69");"#5eA9Af")
+
+       (good       "#51c4d4")
        (lowlight   "#2F3F4F")
 
        (highlight  "gold")
@@ -145,7 +145,7 @@
    `(outline-1 ((t (:foreground ,brightest :background ,gloom :height 1.6))))
    `(outline-2 ((t (:foreground ,brightest :background ,gloom :height 1.4))))
    `(outline-3 ((t (:foreground ,bright :background ,gloom :height 1.2))))
-   `(outline-4 ((t (:foreground ,bright))))
+   `(outline-4 ((t (:foreground ,bright :overline ,gloom :height 1.1))))
    `(outline-5 ((t (:foreground ,bright :slant italic))))
    `(outline-6 ((t (:foreground ,bright :slant italic))))
    `(outline-7 ((t (:foreground ,bright :slant italic))))
