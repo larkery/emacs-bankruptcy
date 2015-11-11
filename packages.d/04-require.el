@@ -716,11 +716,14 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
 
             (dolist (map '( ("/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/" . "~/S/") ))
               (setq unix-path (replace-regexp-in-string (car map) (cdr map) unix-path)))
-
+            (progn (message "%s" (format "file: %s" unix-path)))
             (cons t (expand-file-name unix-path)))
-        (cons nil url))))
+        (progn
+          (message "%s" (format "url: %s" url))
+          (cons nil url)))))
 
   (defun h/open-mail-link (url file-fn url-fn)
+    (message "%s" url)
     (let ((parse (h/mangle-url url)))
       (funcall (if (car parse) file-fn url-fn)
                (cdr parse))))
@@ -740,7 +743,9 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
   (defun h/open-mail-dired ()
     (interactive)
     (h/open-mail-link (w3m-anchor)
-                      (lambda (path) (dired (file-name-directory path)))
+                      (lambda (path)
+                        (message (format "dired %s" path))
+                        (dired (file-name-directory path)))
                       #'browse-url))
 
   (defun h/run-ignoring-results (&rest command-and-arguments)
