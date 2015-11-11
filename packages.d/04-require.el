@@ -154,6 +154,10 @@
         (call-interactively #'sp-kill-sexp)
       (call-interactively #'sp-kill-hybrid-sexp)))
 
+  (sp-local-pair 'org-mode "$" "$")
+  (sp-local-pair 'org-mode "/" "/" :actions '(wrap))
+  (sp-local-pair 'org-mode "*" "*" :actions '(wrap))
+
   (bind-keys
    :keymap smartparens-mode-map
 
