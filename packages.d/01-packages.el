@@ -1,3 +1,7 @@
+;; prerequisites for auto-instaling packages
+
+;; configure package.el
+
 (require 'package)
 
 (setq package-archives
@@ -6,7 +10,7 @@
 
 (package-initialize)
 
-;; make sure req-package exists
+;; make sure req-package exists, and el-get
 
 (condition-case nil
     (progn
@@ -23,5 +27,6 @@
 
 ;; (req-package--log-set-level 'trace)
 
+;; do all the req-package stuff at the end of init
 (add-hook 'after-init-hook #'req-package-finish)
   
