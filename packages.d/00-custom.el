@@ -161,6 +161,9 @@
     (("s" "NHM Support" entry
       (file+olp "~/org/work/projects.org" "NHM" "Support")
       "* %^{Ticket|%a}" :clock-in t :clock-resume t)
+     ("C" "Calendar entry" entry
+      (file+headline "~/org/work/tasks.org" "Calendar Invitations")
+      "%(car kill-ring)")
      ("c" "Future task" entry
       (file+headline "~/org/work/tasks.org" "Unfiled tasks")
       "** TODO %t %?%a"))))
@@ -211,6 +214,10 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . default))))
  '(org-fontify-whole-heading-line t)
+ '(org-format-latex-options
+   (quote
+    (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-goto-interface (quote outline-path-completion))
  '(org-journal-dir "~/org/journal/")
  '(org-latex-classes

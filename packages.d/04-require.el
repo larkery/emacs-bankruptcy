@@ -697,6 +697,8 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
 
   :config
 
+
+
   (defun h/open-windows-path (url)
     "If the url starts with file:// then fiddle it to point to ~/net/CSE instead"
     (let* ((parsed (url-generic-parse-url url))
@@ -706,9 +708,12 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
       (if (equal "file" type)
           (let ((unix-path
                  (replace-regexp-in-string
-                  "^/+" "/"
-                  (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn)))))
-            (h/run-ignoring-results "xdg-open" (expand-file-name (concat "~/net/CSE" unix-path))))
+                  "/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/"
+                  "~/S/"
+                  (replace-regexp-in-string
+                   "^/+" "/"
+                   (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn))))))
+            (h/run-ignoring-results "xdg-open" (expand-file-name unix-path)))
 
         (browse-url url))))
 
