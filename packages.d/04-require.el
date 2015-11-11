@@ -702,9 +702,7 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
 
   :config
 
-
-
-  (defun h/open-windows-path (url)
+  (defun h/mangle-url (url)
     "If the url starts with file:// then fiddle it to point to ~/net/CSE instead"
     (let* ((parsed (url-generic-parse-url url))
            (type (url-type parsed))
@@ -713,50 +711,76 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
       (if (equal "file" type)
           (let ((unix-path
                  (replace-regexp-in-string
-                  "/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/"
-                  "~/S/"
-                  (replace-regexp-in-string
                    "^/+" "/"
-                   (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn))))))
-            (h/run-ignoring-results "xdg-open" (expand-file-name unix-path)))
+                   (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn)))))
 
-        (browse-url url))))
+            (dolist (map '( ("/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/" . "~/S/") ))
+              (setq unix-path (replace-regexp-in-string (car map) (cdr map) unix-path)))
 
-  (defun h/open-windows-mail-link ()
-    "An interactive version for h/open-windows-path from the current anchor"
+            (cons t (expand-file-name unix-path)))
+        (cons nil url))))
+
+  (defun h/open-mail-link (url file-fn url-fn)
+    (let ((parse (h/mangle-url url)))
+      (funcall (if (car parse) file-fn url-fn)
+               (cdr parse))))
+
+  (defun h/open-mail-here ()
     (interactive)
-    (h/open-windows-path (w3m-anchor)))
+    (h/open-mail-link (w3m-anchor)
+                      (lambda (path) (find-file path))
+                      #'browse-url))
+
+  (defun h/open-mail-there ()
+    (interactive)
+    (h/open-mail-link (w3m-anchor)
+                      (lambda (path) (h/run-ignoring-results "xdg-open" path))
+                      #'browse-url))
+
+  (defun h/open-mail-dired ()
+    (interactive)
+    (h/open-mail-link (w3m-anchor)
+                      (lambda (path) (dired (file-name-directory path)))
+                      #'browse-url))
 
   (defun h/run-ignoring-results (&rest command-and-arguments)
     "Run a command in an external process and ignore the stdout/err"
     (let ((process-connection-type nil))
       (apply #'start-process (cons "" (cons nil command-and-arguments)))))
 
+  (defvar h/notmuch-mouse-map (make-sparse-keymap))
+
+  (define-key h/notmuch-mouse-map [mouse-1] #'h/open-mail-here)
+  (define-key h/notmuch-mouse-map [mouse-2] #'h/open-mail-there)
+  (define-key h/notmuch-mouse-map [mouse-3] #'h/open-mail-dired)
+
   (defun h/hack-file-links ()
     "when in a buffer with w3m anchors, find the anchors and change them so clicking file:// paths uses h/open-windows-mail-link"
     (interactive)
 
+    (message "fixing links")
+
     (let ((was-read-only buffer-read-only))
       (when was-read-only
         (read-only-mode -1))
+      (save-restriction
+        (widen)
+        (save-excursion
+          (let ((last nil)
+                (end (point-max))
+                (pos (point-min)))
 
-      (let ((map (make-sparse-keymap))
-            (last nil)
-            (end (point-max))
-            (pos (point-min)))
+            (while (and pos (< pos end))
+              (setq pos (next-single-property-change pos 'w3m-anchor-sequence))
+              (when pos
+                (if (get-text-property pos 'w3m-anchor-sequence)
+                    (setq last pos)
+                  (put-text-property last pos 'keymap h/notmuch-mouse-map)))))))
 
-        (define-key map [mouse-1] #'h/open-windows-mail-link)
-
-        (while (and pos (< pos end))
-          (setq pos (next-single-property-change pos 'w3m-anchor-sequence))
-          (when pos
-            (if (get-text-property pos 'w3m-anchor-sequence)
-                (setq last pos)
-              (put-text-property last pos 'keymap map))))
-
-        )
       (when was-read-only
         (read-only-mode 1))))
+
+  (add-hook 'notmuch-show-hook #'h/hack-file-links)
 
   (defun h/notmuch/show-only-unread ()
     "In a notmuch show view, collapse all the read messages"
@@ -854,7 +878,7 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
    (lambda () (interactive) (notmuch-search-filter "tag:flagged"))
    notmuch-search-mode-map)
 
-  (add-hook 'notmuch-show-hook #'h/hack-file-links)
+
 
   ;; other message stuff
 
