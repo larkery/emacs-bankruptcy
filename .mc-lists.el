@@ -22,6 +22,7 @@
         lispy-quotes
         multiple-cursors-mode
         mwim-end-of-code-or-line
+        org-delete-char
         org-kill-line
         org-self-insert-command
         sacha/smarter-move-beginning-of-line
