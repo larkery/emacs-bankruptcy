@@ -811,8 +811,13 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
     "make an email go into an org capture template"
     (interactive)
     (require 'org-notmuch)
-                                        ;(org-store-link 0)
-    (org-capture t "c"))
+    (if (equal "text/calendar" (caadr (notmuch-show-current-part-handle)))
+        (progn (require 'notmuch-calendar-import)
+               (notmuch-yank-calendar-as-org)
+               (org-capture t "C"))
+
+      (org-capture t "c")))
+  
 
   (bind-key "k" #'h/notmuch/capture notmuch-show-mode-map)
   (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
