@@ -40,29 +40,16 @@
 (defvar outline-minor-mode-prefix "\M-o")
 
 (req-package outshine
-  :commands outshine-hook-function
+  :commands outshine-hook-function outshine-cycle-buffer
   :init
   (add-hook 'outline-minor-mode-hook 'outshine-hook-function)
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
   (setq outshine-use-speed-commands t)
-
-  (eval-after-load "outline"
-    (bind-keys
-     :keymap outline-minor-mode-map
-
-     ("M-<up>" . nil)
-     ("M-<down>" . nil)
-     ("M-S-<down>" . nil)
-
-     ("M-<right>" . nil)
-     ("M-<left>" . nil)
-
-     ("C-S-<right>" . nil)
-     ("C-S-<left>"  . nil)
-     ("C-S-<up>"    . nil)
-     ("C-S-<down>"  . nil)
-     ("M-TAB" . nil)
-     ("<backtab>" . outshine-cycle-buffer))))
+  :config
+  (progn
+      (dolist (key '("M-<up>" "M-<down>" "M-S-<down>" "M-<right>" "M-<left>" "C-S-<left>" "C-S-<up>" "C-S-<down>" "M-TAB"))
+        (define-key outline-minor-mode-map (kbd key) nil))
+      (bind-key "<backtab>" #'outshine-cycle-buffer outline-minor-mode-map)))
 
 ;;;; Adaptive wrap
 
