@@ -48,6 +48,9 @@
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
   (setq outshine-use-speed-commands t)
   :config
+
+  (diminish 'outline-minor-mode " ↳")
+
   (progn
       (dolist (key '("M-<up>" "M-<down>" "M-S-<down>" "M-<right>" "M-<left>" "C-S-<left>" "C-S-<up>" "C-S-<down>" "M-TAB"))
         (define-key outline-minor-mode-map (kbd key) nil))
@@ -145,6 +148,7 @@
 ;;;; smartparens
 
 (req-package smartparens
+  :diminish "()"
   :config
 
   (require 'smartparens-config)
@@ -214,7 +218,8 @@
 
 (req-package git-gutter+
   :config
-  (global-git-gutter+-mode))
+  (global-git-gutter+-mode)
+  (diminish 'git-gutter+-mode ""))
 
 (req-package git-gutter-fringe+
   :config
@@ -452,7 +457,10 @@
 
 ;;; programming
 
+(add-hook 'emacs-lisp-mode-hook (lambda () (setq mode-name "eλ")))
+
 (req-package highlight-symbol
+  :diminish
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
   (add-hook 'prog-mode-hook #'highlight-symbol-mode)
@@ -511,8 +519,10 @@
   :init
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
+(req-package eldoc
+  (diminish 'eldoc-mode "")
+  (add-hook 'prog-mode-hook #'eldoc-mode))
 
-(add-hook 'prog-mode-hook #'eldoc-mode)
 (which-function-mode 1)
 
 (add-hook 'java-mode-hook 'subword-mode)
@@ -561,7 +571,7 @@
     '(("<left>" . winner-undo))))
 
 (req-package back-button
-  :diminish " ☜"
+  :diminish
   :require smartrep
   :config
   (back-button-mode 1)
