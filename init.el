@@ -6,5 +6,6 @@
 
 ;;; Start emacs server
 
-(server-start)
+;; (unless (server-running-p)
+;;   (server-start))
 (put 'erase-buffer 'disabled nil)

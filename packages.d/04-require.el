@@ -496,7 +496,7 @@
 
 ;;;; clojure
 
-(req-package cider)
+(req-package cider :pin melpa-stable)
 
 ;;;; javascript
 
@@ -586,8 +586,6 @@
   :commands graphviz-dot-mode
   :require org)
 
-(message "load org")
-
 (req-package appt
   :config
   (require 'notifications)
@@ -607,6 +605,7 @@
   (appt-activate t))
 
 (req-package org
+	     :pin gnu
   :defer nil
   :require org-bullets
   :bind (("C-c a" . org-agenda)
@@ -986,12 +985,10 @@ On %a, %b %d %Y, %N wrote:
 ;;; projectile
 
 (req-package projectile
-  :defer nil
-  :commands projectile-project-root projectile-find-file-dwim projectile-project-p
   :diminish (projectile-mode . " p")
   :config
   (setq projectile-completion-system 'ido)
-  (projectile-global-mode t)
+
   (projectile-register-project-type 'gradle '("build.gradle") "./gradlew build -q" "./gradlew test -q")
 
   (defun h/projectile-ask-for-project (o &rest args)
@@ -1004,7 +1001,9 @@ On %a, %b %d %Y, %N wrote:
   (advice-add 'projectile-find-file-dwim :around #'h/projectile-ask-for-project)
   (advice-add 'projectile-dired :around #'h/projectile-ask-for-project)
   (advice-add 'projectile-find-dir :around #'h/projectile-ask-for-project)
-  (advice-add 'projectile-vc :around #'h/projectile-ask-for-project))
+  (advice-add 'projectile-vc :around #'h/projectile-ask-for-project)
+
+  (projectile-global-mode t))
 
 ;;; search
 

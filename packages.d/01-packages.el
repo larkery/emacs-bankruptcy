@@ -6,6 +6,7 @@
 
 (setq package-archives
       '(("melpa-unstable" . "http://melpa.org/packages/")
+        ("melpa-stable" . "http://stable.melpa.org/packages/")
         ("gnu" .  "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
