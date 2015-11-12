@@ -45,11 +45,24 @@
   (add-hook 'outline-minor-mode-hook 'outshine-hook-function)
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
   (setq outshine-use-speed-commands t)
-  :config
-  (require 'outshine)
-  (define-key outline-minor-mode-map (kbd "M-TAB") nil)
-  (define-key outline-minor-mode-map (kbd "<backtab>")
-    'outshine-cycle-buffer))
+
+  (eval-after-load "outline"
+    (bind-keys
+     :keymap outline-minor-mode-map
+
+     ("M-<up>" . nil)
+     ("M-<down>" . nil)
+     ("M-S-<down>" . nil)
+
+     ("M-<right>" . nil)
+     ("M-<left>" . nil)
+
+     ("C-S-<right>" . nil)
+     ("C-S-<left>"  . nil)
+     ("C-S-<up>"    . nil)
+     ("C-S-<down>"  . nil)
+     ("M-TAB" . nil)
+     ("<backtab>" . outshine-cycle-buffer))))
 
 ;;;; Adaptive wrap
 
@@ -166,6 +179,10 @@
   (bind-keys
    :keymap smartparens-mode-map
 
+   ("C-c (" . (lambda () (interactive) (sp-wrap-with-pair "(")))
+   ("C-c [" . (lambda () (interactive) (sp-wrap-with-pair "[")))
+   ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
+
    ("M-<up>" . sp-backward-up-sexp)
    ("M-<down>" . sp-down-sexp)
    ("M-S-<down>" . sp-up-sexp)
@@ -180,6 +197,13 @@
    ("C-S-<up>"    . sp-backward-slurp-sexp)
    ("C-S-<down>"  . sp-backward-barf-sexp))
 
+  (defun h/comment-sexp (arg)
+    (interactive "P")
+    (when arg
+      (sp-backward-up-sexp))
+
+    (mark-sexp)
+    (comment-dwim-2))
 
   (show-smartparens-global-mode t)
   (smartparens-global-mode t))
@@ -199,96 +223,43 @@
   :bind ("C-c G" . git-timemachine)
   :commands git-timemachine)
 
-(req-package git-gutter-fringe
-  :diminish (git-gutter-mode . "")
+(req-package git-gutter+
   :config
-  (require 'git-gutter-fringe)
-  (setq git-gutter-fr:side 'right-fringe)
-  (global-git-gutter-mode t))
+  (global-git-gutter+-mode))
+
+(req-package git-gutter-fringe+
+  :config
+  (require 'git-gutter-fringe+)
+  ;; (git-gutter-fr+-minimal) not sure
+  (setq git-gutter-fr+-side 'right-fringe))
 
 ;;; hydras
 
 (req-package hydra
   :commands
-  hydra-parens/body
+  hydra-sp/body
   hydra-projectile-start-body
-  handy-hash-hydra/body
   hydra-dired/body
 
   :init
-  (bind-key "C-'" 'hydra-parens/body smartparens-mode-map)
   (setq projectile-switch-project-action 'hydra-projectile-start-body)
   (bind-key "f" 'hydra-dired/body dired-mode-map)
-
-  (define-minor-mode handy-hash-mode
-    "Handy hash!"
-    :keymap (make-sparse-keymap)
-    :global t
-    :lighter " #")
-
-  (defvar handy-hash-did-something 0)
-  (defvar handy-hash-last-buffer nil)
-  (define-key handy-hash-mode-map "#" #'handy-hash-hydra/body)
-
-  (handy-hash-mode t)
+  (bind-key "C-~" 'hydra-sp/body smartparens-mode-map)
 
   :config
-  (defun handy-hash-hydra/body ()
-    (interactive)
-    (defhydra handy-hash-hydra (:hint
-                                nil
-                                :exit t
-                                :idle
-                                0.5
-                                :pre
-                                (progn (cl-incf handy-hash-did-something)
-                                       (setq handy-hash-last-buffer (current-buffer)))
-                                :post
-                                (progn
-                                  (unless (> handy-hash-did-something 1)
-                                    (with-current-buffer handy-hash-last-buffer
-                                      (insert "#")))
-                                  (setq handy-hash-last-buffer nil)
-                                  (setq handy-hash-did-something 0)))
 
-      "
-_K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop _/ m_swoop _/ a_g | _e_val _;_com _k_line | _i_nbox _P_kg | _a_genda _o_rgs"
-      ("ESC" nil)
-      ("#" (insert "#") :exit nil)
-      ("K" (kill-buffer (buffer-name)))
-      ("k" kill-line :exit nil)
-      ("g" magit-status)
-      ("b" ido-switch-buffer)
-      ("s" save-buffer :exit nil)
-      ("f" ido-find-file)
-      ("r" h/recentf-find-file)
-      ("p" hydra-projectile-start-body)
-      ("d" (dired (file-name-directory (buffer-file-name))))
-      ("/ o" occur)
-      ("/ s" swoop)
-      ("/ m" swoop-multi)
-      ("/ a" ag)
-      ("P" package-list-packages)
-      ("e" eval-last-sexp)
-      ("i" h/notmuch/goto-inbox)
-      (";" comment-dwim-2 :exit nil)
-      ("a" org-agenda)
-      ("o" org-switchb))
 
-    (call-interactively 'handy-hash-hydra/body))
 
-  (defhydra hydra-parens ()
-    "Parens"
-    ;; not sure
-    ("[" (sp-wrap-with-pair "["))
-    ("(" (sp-wrap-with-pair "("))
-    ("{" (sp-wrap-with-pair "{"))
-    ("\"" (sp-wrap-with-pair "\""))
-    ("|" sp-split-sexp "split")
-    ("+" sp-join-sexp "join")
-    ("t" sp-transpose-hybrid-sexp "trans")
-    ("~" sp-convolute-sexp "conv")
-    ("<backspace>" sp-backward-kill-sexp))
+  (defhydra hydra-sp (:exit t) "smartparens"
+    (")" sp-splice-sexp)
+
+    ("|" sp-split-sexp)
+    ("+" sp-join-sexp)
+    (";" h/comment-sexp)
+
+    ("<left>" sp-convolute-sexp)
+    ("<up>" sp-splice-sexp-killing-around))
+
 
   (defvar hydra-projectile-default-directory nil)
 
@@ -650,11 +621,16 @@ _K_ill _s_ave | _b_uf _f_file _r_ec | _d_ired _p_roj _g_it | _/ o_ccur _/ s_woop
 
 (req-package org
   :defer nil
+  :require org-bullets
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
-         ("C-c c" . org-capture))
+         ("C-c c" . org-capture)
+         ("C-c t" . org-clock-goto))
 
   :config
+
+  (org-bullets-mode t)
+
   (require 'appt)
   (org-clock-persistence-insinuate)
   (add-hook 'org-mode-hook
@@ -1075,6 +1051,10 @@ On %a, %b %d %Y, %N wrote:
   swoop-back-to-last-position
   swoop-from-isearch
   swoop-multi-from-swoop
+
+  :bind
+  (("M-s s" . swoop)
+   ("M-s M-s" . swoop-multi))
 
   :config
   (setq swoop-font-size-change: nil)
