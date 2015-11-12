@@ -56,6 +56,12 @@
  ;; '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
  ;; '(w3m-anchor ((t nil))))
 
+(defun h/light (x)
+  (format "gray%d" (min 100 (max 0 (- 100 (* x 10))))))
+
+(defun h/dark (x)
+  (h/light (- 10 x)))
+
 (let* ((height     106)
 
        (dark       "black")
@@ -77,7 +83,7 @@
        (warning    "brown")
 
        (good       "#51c4d4")
-       (lowlight   "#2F3F4F")
+       (lowlight   "black"); "#2F3F4F")
 
        (highlight  "gold")
 
@@ -142,17 +148,17 @@
 
    `(which-func ((t (:inherit font-lock-function-name-face))))
 
-   `(outline-1 ((t (:foreground ,brightest :background ,gloom :height 1.6))))
-   `(outline-2 ((t (:foreground ,brightest :background ,gloom :height 1.4))))
-   `(outline-3 ((t (:foreground ,bright :background ,gloom :height 1.2))))
-   `(outline-4 ((t (:foreground ,bright :overline ,gloom :height 1.1))))
-   `(outline-5 ((t (:foreground ,bright :slant italic))))
-   `(outline-6 ((t (:foreground ,bright :slant italic))))
-   `(outline-7 ((t (:foreground ,bright :slant italic))))
-   `(outline-8 ((t (:foreground ,bright :slant italic))))
+   `(outline-1 ((t (:foreground "white" :height 140 :font "Sans"))))
+   `(outline-2 ((t (:inherit outline-1))))
+   `(outline-3 ((t (:inherit outline-1))))
+   `(outline-4 ((t (:inherit outline-1))))
+   `(outline-5 ((t (:inherit outline-1))))
+   `(outline-6 ((t (:inherit outline-1))))
+   `(outline-7 ((t (:inherit outline-1))))
+   `(outline-8 ((t (:inherit outline-1))))
 
-   `(org-todo ((t (:foreground ,question :background ,gloom :weight bold))))
-   `(org-done ((t (:foreground ,good :background ,gloom :weight bold))))
+   `(org-todo ((t (:inherit outline-1 :foreground ,question :background ,gloom))))
+   `(org-done ((t (:inherit outline-1 :foreground ,good :background ,gloom))))
 
    `(org-mode-line-clock ((t (:inherit nil))))
    `(org-date ((t (:foreground ,question :underline t))))
@@ -180,7 +186,7 @@
    `(match ((t :inherit isearch)))
    `(next-error ((t (:inherit (region)))))
 
-   `(mode-line ((t (:overline ,brightest :inherit mode-line-inactive))))
+   `(mode-line ((t (:underline ,dim :overline ,dim :inherit mode-line-inactive))))
    `(mode-line-inactive ((t (:background ,lowlight :inherit default :height 100))))
 
    `(swoop-face-target-words ((t (:inherit isearch))))
