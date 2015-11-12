@@ -9,6 +9,8 @@
         c-electric-semi&comma
         electric-newline-and-maybe-indent
         end-of-visual-line
+        h/kill-sexp-appropriately
+        h/slurp-appropriately
         iy-go-to-char--command
         jump-char-process-char
         jump-char-repeat-backward
@@ -25,9 +27,11 @@
         org-delete-char
         org-kill-line
         org-self-insert-command
+        outshine-self-insert-command
         sacha/smarter-move-beginning-of-line
         sp-forward-sexp
         sp-forward-slurp-sexp
+        sp-kill-sexp
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char
@@ -105,6 +109,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        eval-defun
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down
