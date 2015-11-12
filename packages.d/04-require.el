@@ -25,6 +25,8 @@
   (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
   (bind-key ")" #'dired-omit-mode dired-mode-map))
 
+(add-hook 'dired-mode-hook (lambda () (setq mode-name "dir")))
+
 ;; insert dired subtree indented rather than at bottom
 (req-package dired-subtree
   :commands dired-subtree-toggle
