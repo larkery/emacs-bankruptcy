@@ -9,7 +9,7 @@
 ;; global PCRE mode rather than annoying emacs regex mode.
 
 (req-package pcre2el
-  :diminish ""
+  :diminish (pcre-mode . "")
   :config
   (pcre-mode t))
 
