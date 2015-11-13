@@ -156,7 +156,7 @@
     `(compilation-info ((t (:foreground ,good))))
 
     `(org-todo ((t (:inherit outline-1 :height ,(height) :foreground ,question))))
-    `(org-done ((t (:inherit outline-1 :foreground ,good))))
+    `(org-done ((t (:inherit outline-1 :height ,(height) :foreground ,good))))
 
     `(org-mode-line-clock ((t (:inherit nil))))
     `(org-date ((t (:foreground ,question :underline t))))
