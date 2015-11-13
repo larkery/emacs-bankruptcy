@@ -16,7 +16,7 @@
  '(background-mode dark)
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "xdg-open")
+ '(browse-url-generic-program "xdg-open" t)
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)
  '(calendar-latitude 51.45)
@@ -26,9 +26,10 @@
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(dired-auto-revert-buffer (quote dired-directory-changed-p))
  '(dired-dwim-target t)
  '(dired-enable-local-variables nil)
  '(dired-listing-switches "-alhv")

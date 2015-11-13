@@ -1,5 +1,18 @@
 (require 'cl)
 
+(defmacro set-mode-name (mode name)
+  `(add-hook (quote ,(intern (concat (symbol-name mode) "-hook")))
+             (lambda () (interactive) (setq mode-name ,name))))
+
+;;; regex
+
+;; global PCRE mode rather than annoying emacs regex mode.
+
+(req-package pcre2el
+  :diminish ""
+  :config
+  (pcre-mode t))
+
 ;;; dired
 
 ;; enables the use of 'a' in dired to reuse the buffer
@@ -25,7 +38,7 @@
   (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
   (bind-key ")" #'dired-omit-mode dired-mode-map))
 
-(add-hook 'dired-mode-hook (lambda () (setq mode-name "dir")))
+(set-mode-name dired-mode "dir")
 
 ;; insert dired subtree indented rather than at bottom
 (req-package dired-subtree
@@ -139,11 +152,12 @@
          ("C-; C-a" . mc/edit-beginnings-of-lines)
          ("C-; C-e" . mc/edit-ends-of-lines)
          ("C-<" . mc/mark-previous-like-this)
-         ("C->" . mc/mark-next-like-this))
+         ("C->" . mc/mark-next-like-this)
+         ("C-; o" . mc/hide-unmatched-lines-mode))
+
   :config
   (setq mc/list-file (h/ed "state/mc-list-file.el"))
-  (require 'mc-hide-unmatched-lines-mode)
-  (bind-key "C-;" #'mc-hide-unmatched-lines-mode mc/keymap))
+  (require 'mc-hide-unmatched-lines-mode))
 
 ;;;; smartparens
 
@@ -175,6 +189,8 @@
    ("C-c (" . (lambda () (interactive) (sp-wrap-with-pair "(")))
    ("C-c [" . (lambda () (interactive) (sp-wrap-with-pair "[")))
    ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
+
+   ("C-M-<space>" . sp-select-next-thing)
 
    ("M-<up>" . sp-backward-up-sexp)
    ("M-<down>" . sp-down-sexp)
@@ -457,10 +473,10 @@
 
 ;;; programming
 
-(add-hook 'emacs-lisp-mode-hook (lambda () (setq mode-name "eλ")))
+(set-mode-name emacs-lisp-mode "eλ")
 
 (req-package highlight-symbol
-  :diminish
+  :diminish ""
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
   (add-hook 'prog-mode-hook #'highlight-symbol-mode)
@@ -511,7 +527,9 @@
 ;;;; javascript
 
 (req-package js2-mode
-  :mode "\\.js\\'")
+  :mode "\\.js\\'"
+  :config
+  (set-mode-name js2-mode "js"))
 
 (req-package ac-js2
   :commands ac-js2-mode
@@ -571,7 +589,7 @@
     '(("<left>" . winner-undo))))
 
 (req-package back-button
-  :diminish
+  :diminish ""
   :require smartrep
   :config
   (back-button-mode 1)
@@ -631,10 +649,12 @@
 
   (require 'appt)
   (org-clock-persistence-insinuate)
+
+  (set-mode-name org-mode "o")
+
   (add-hook 'org-mode-hook
             (lambda ()
               (visual-line-mode 1)
-              (setq mode-name "OM")
               (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)))
 
   (add-hook 'org-agenda-finalize-hook 'org-agenda-to-appt)
@@ -736,8 +756,6 @@
   (defun h/hack-file-links ()
     "when in a buffer with w3m anchors, find the anchors and change them so clicking file:// paths uses h/open-windows-mail-link"
     (interactive)
-
-    (message "fixing links")
 
     (let ((was-read-only buffer-read-only))
       (when was-read-only
@@ -889,7 +907,7 @@
                           (previous-line)
                           (thing-at-point 'line t))))
                    (message (format "notmuch: %s" (substring last-line 0 (- (length last-line) 1))))))
-               (kill-buffer (process-buffer process))
+               ;(kill-buffer (process-buffer process))
                (save-excursion
                  (dolist (b (buffer-list))
                    (when (eq major-mode 'notmuch-search-mode)

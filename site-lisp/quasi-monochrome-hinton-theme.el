@@ -56,15 +56,7 @@
  ;; '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
  ;; '(w3m-anchor ((t nil))))
 
-(defun h/light (x)
-  (format "gray%d" (min 100 (max 0 (- 100 (* x 10))))))
-
-(defun h/dark (x)
-  (h/light (- 10 x)))
-
-(let* ((height     106)
-
-       (dark       "black")
+(let* ((dark       "black")
        (dimmest    "#1a1a1a")
        (gloom      "#3a3a3a")
        (dimmer     "#595959")
@@ -93,110 +85,116 @@
        (hl-fg      "black"))
 
 
-  (custom-theme-set-faces
-   'quasi-monochrome-hinton
-   `(default ((t (:height ,height :background ,dimmest :foreground ,bright))))
 
-   `(cursor ((t (:foreground ,dimmest :background ,brightest))))
+  (cl-flet ((height (&optional delta)
+                    (+ 106 (or delta 0))))
 
-   `(error ((t (:foreground ,err :weight bold))))
+      (custom-theme-set-faces
+    'quasi-monochrome-hinton
+    `(default ((t (:height ,(height) :background ,dimmest :foreground ,bright))))
 
-   '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
+    `(cursor ((t (:foreground ,dimmest :background ,brightest))))
 
-   `(variable-pitch ((t (:family "Sans Serif"))))
-   `(escape-glyph ((t (:foreground ,semi))))
-   `(minibuffer-prompt ((t (:weight bold :foreground ,brightest))))
-   `(highlight ((t (:background ,gloom))))
-   `(hl-line ((t (:background ,gloom))))
-   `(region ((t (:inverse-video t :background ,dark :foreground ,highlight))))
-   `(shadow ((t (:foreground ,dim))))
-   `(secondary-selection ((t (:background ,dimmer))))
-   `(trailing-whitespace ((t (:background ,warning))))
-   `(font-lock-builtin-face ((t (:foreground ,semi))))
-   `(font-lock-comment-delimiter-face ((default (:inherit (font-lock-comment-face)))))
-   `(font-lock-comment-face ((t (:slant italic :foreground ,blueish))))
-   `(font-lock-constant-face ((t (:weight bold :foreground ,semi))))
-   `(font-lock-doc-face ((t (:inherit (font-lock-string-face)))))
-   `(font-lock-function-name-face ((t (:foreground ,brightest))))
-   `(font-lock-keyword-face ((t (:weight bold :foreground ,hint2))))
-   `(font-lock-negation-char-face ((t nil)))
-   `(font-lock-preprocessor-face ((t (:inherit (font-lock-builtin-face)))))
-   `(font-lock-regexp-grouping-backslash ((t (:inherit (bold)))))
-   `(font-lock-regexp-grouping-construct ((t (:inherit (bold)))))
-   `(font-lock-string-face ((t (:foreground ,semi))))
-   `(font-lock-type-face ((t (:weight bold :foreground ,brightest))))
-   `(font-lock-variable-name-face ((t (:foreground ,brightest))))
-   `(font-lock-warning-face ((t (:inherit error))))
-   `(button ((t (:inherit (link)))))
-   `(link ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
-   `(link-visited ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
-   `(fringe ((t (:foreground ,semi :background ,gloom))))
-   `(vertical-border ((t (:foreground ,dimmer))))
-   `(header-line ((default (:height ,height :overline nil :inherit (mode-line)))))
-   `(tooltip ((((class color)) (:inherit (variable-pitch) :foreground "black" :background "lightyellow")) (t (:inherit (variable-pitch)))))
+    `(error ((t (:foreground ,err :weight bold))))
 
-   `(compilation-error ((t :weight bold :foreground ,brightest :background ,warning)))
+    '(sp-show-pair-match-face ((t (:inherit highlight :underline t))))
 
-   `(message-header-name ((t (:inherit font-lock-type-face))))
-   `(message-header-subject ((t (:inherit font-lock-function-name-face))))
-   `(message-header-to ((t (:inherit font-lock-function-name-face))))
-   `(message-header-cc ((t (:inherit message-header-to-face))))
-   `(message-header-other ((t (:foreground ,dim))))
-   `(message-mml ((t (:weight bold :foreground ,dim))))
-   `(message-header-xheader ((t (:foreground ,dim))))
-   `(message-cited-text ((t (:inherit font-lock-comment-face))))
+    `(variable-pitch ((t (:family "Sans Serif"))))
+    `(escape-glyph ((t (:foreground ,semi))))
+    `(minibuffer-prompt ((t (:weight bold :foreground ,brightest))))
+    `(highlight ((t (:background ,gloom))))
+    `(hl-line ((t (:background ,gloom))))
+    `(region ((t (:inverse-video t :background ,dark :foreground ,highlight))))
+    `(shadow ((t (:foreground ,dim))))
+    `(secondary-selection ((t (:background ,dimmer))))
+    `(trailing-whitespace ((t (:background ,warning))))
+    `(font-lock-builtin-face ((t (:foreground ,semi))))
+    `(font-lock-comment-delimiter-face ((default (:inherit (font-lock-comment-face)))))
+    `(font-lock-comment-face ((t (:slant italic :foreground ,blueish))))
+    `(font-lock-constant-face ((t (:weight bold :foreground ,semi))))
+    `(font-lock-doc-face ((t (:inherit (font-lock-string-face)))))
+    `(font-lock-function-name-face ((t (:foreground ,brightest))))
+    `(font-lock-keyword-face ((t (:weight bold :foreground ,hint2))))
+    `(font-lock-negation-char-face ((t nil)))
+    `(font-lock-preprocessor-face ((t (:inherit (font-lock-builtin-face)))))
+    `(font-lock-regexp-grouping-backslash ((t (:inherit (bold)))))
+    `(font-lock-regexp-grouping-construct ((t (:inherit (bold)))))
+    `(font-lock-string-face ((t (:foreground ,semi))))
+    `(font-lock-type-face ((t (:weight bold :foreground ,brightest))))
+    `(font-lock-variable-name-face ((t (:foreground ,brightest))))
+    `(font-lock-warning-face ((t (:inherit error))))
+    `(button ((t (:inherit (link)))))
+    `(link ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
+    `(link-visited ((t (:underline (:color foreground-color :style line) :foreground ,semi))))
+    `(fringe ((t (:foreground ,semi :background ,gloom))))
+    `(vertical-border ((t (:foreground ,dimmer))))
+    `(header-line ((default (:height ,(height) :overline nil :inherit (mode-line)))))
+    `(tooltip ((((class color)) (:inherit (variable-pitch) :foreground "black" :background "lightyellow")) (t (:inherit (variable-pitch)))))
 
-   `(which-func ((t (:inherit font-lock-function-name-face))))
+    `(compilation-error ((t :weight bold :foreground ,brightest :background ,warning)))
 
-   `(outline-1 ((t (:foreground "white" :height 140 :font "Sans"))))
-   `(outline-2 ((t (:height 135 :inherit outline-1))))
-   `(outline-3 ((t (:height 130 :inherit outline-1))))
-   `(outline-4 ((t (:height 120 :inherit outline-1))))
-   `(outline-5 ((t (:height 110 :inherit outline-1))))
-   `(outline-6 ((t (:height 110 :inherit outline-1))))
-   `(outline-7 ((t (:height 110 :inherit outline-1))))
-   `(outline-8 ((t (:height 110 :inherit outline-1))))
+    `(message-header-name ((t (:inherit font-lock-type-face))))
+    `(message-header-subject ((t (:inherit font-lock-function-name-face))))
+    `(message-header-to ((t (:inherit font-lock-function-name-face))))
+    `(message-header-cc ((t (:inherit message-header-to-face))))
+    `(message-header-other ((t (:foreground ,dim))))
+    `(message-mml ((t (:weight bold :foreground ,dim))))
+    `(message-header-xheader ((t (:foreground ,dim))))
+    `(message-cited-text ((t (:inherit font-lock-comment-face))))
 
-   `(org-todo ((t (:inherit outline-1 :foreground ,question :background ,gloom))))
-   `(org-done ((t (:inherit outline-1 :foreground ,good :background ,gloom))))
+    `(which-func ((t (:inherit font-lock-function-name-face))))
 
-   `(org-mode-line-clock ((t (:inherit nil))))
-   `(org-date ((t (:foreground ,question :underline t))))
+    `(outline-1 ((t (:foreground "white" :height ,(height +40) :font "Sans"))))
+    `(outline-2 ((t (:height ,(height +35) :inherit outline-1))))
+    `(outline-3 ((t (:height ,(height +30) :inherit outline-1))))
+    `(outline-4 ((t (:height ,(height +20) :inherit outline-1))))
+    `(outline-5 ((t (:height ,(height +10) :inherit outline-1))))
+    `(outline-6 ((t (:height ,(height +5) :inherit outline-1))))
+    `(outline-7 ((t (:height ,(height +5) :inherit outline-1))))
+    `(outline-8 ((t (:height ,(height +5) :inherit outline-1))))
 
-   `(ido-match-modes-indicator-face ((t (:foreground ,dim))))
+    `(compilation-info ((t (:foreground ,good))))
 
-   `(ido-first-match ((t :background ,hl-bg
-                         :foreground ,hl-fg
-                         )))
+    `(org-todo ((t (:inherit outline-1 :height ,(height) :foreground ,question))))
+    `(org-done ((t (:inherit outline-1 :foreground ,good))))
 
-   `(ido-subdir ((t (:foreground ,brightest :weight bold))))
-   `(ido-only-match ((t (:background ,hl-ebg
-                                     :foreground ,hl-efg
-                                     ))))
+    `(org-mode-line-clock ((t (:inherit nil))))
+    `(org-date ((t (:foreground ,question :underline t))))
 
-   `(ido-virtual ((t (:slant italic))))
+    `(ido-match-modes-indicator-face ((t (:foreground ,dim))))
 
-   `(dired-directory ((t (:foreground ,brightest :background ,gloom))))
+    `(ido-first-match ((t :background ,hl-bg
+                          :foreground ,hl-fg
+                          )))
 
-   `(sml/filename ((t (:foreground ,good))))
+    `(ido-subdir ((t (:foreground ,brightest :weight bold))))
+    `(ido-only-match ((t (:background ,hl-ebg
+                                      :foreground ,hl-efg
+                                      ))))
 
-   `(isearch ((t (:foreground ,hl-fg :background ,hl-bg))))
-   `(isearch-fail ((t (:background ,warning))))
-   `(lazy-highlight ((t (:foreground "white" :background ,dimmer))))
-   `(match ((t :inherit isearch)))
-   `(next-error ((t (:inherit (region)))))
+    `(ido-virtual ((t (:slant italic))))
 
-   `(mode-line ((t (:underline ,dim :overline ,dim :inherit mode-line-inactive))))
-   `(mode-line-inactive ((t (:background ,lowlight :inherit default :height 100))))
+    `(dired-directory ((t (:foreground ,brightest :background ,gloom))))
 
-   `(swoop-face-target-words ((t (:inherit isearch))))
-   `(swoop-face-target-line ((t (:inherit highlight))))
-   `(swoop-face-line-buffer-name ((t (:inherit outline-1))))
+    `(sml/filename ((t (:foreground ,good))))
 
-   `(phi-search-selection-face ((t (:inherit isearch))))
-   `(phi-search-match-face ((t (:inherit lazy-highlight))))
+    `(isearch ((t (:foreground ,hl-fg :background ,hl-bg))))
+    `(isearch-fail ((t (:background ,warning))))
+    `(lazy-highlight ((t (:foreground "white" :background ,dimmer))))
+    `(match ((t :inherit isearch)))
+    `(next-error ((t (:inherit (region)))))
 
-   `(query-replace ((t (:inherit (isearch)))))))
+    `(mode-line ((t (:underline ,dim :overline ,dim :inherit mode-line-inactive))))
+    `(mode-line-inactive ((t (:background ,lowlight :inherit default :height 100))))
+
+    `(swoop-face-target-words ((t (:inherit isearch))))
+    `(swoop-face-target-line ((t (:inherit highlight))))
+    `(swoop-face-line-buffer-name ((t (:inherit outline-1))))
+
+    `(phi-search-selection-face ((t (:inherit isearch))))
+    `(phi-search-match-face ((t (:inherit lazy-highlight))))
+
+    `(query-replace ((t (:inherit (isearch))))))))
 
 ;;;###autoload
 (when load-file-name
