@@ -167,7 +167,8 @@
       "%(car kill-ring)")
      ("c" "Future task" entry
       (file+headline "~/org/work/tasks.org" "Unfiled tasks")
-      "** TODO %t %?%a"))))
+      "** TODO %?%a
+   %u"))))
  '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-history-length 100)
  '(org-clock-in-resume t)

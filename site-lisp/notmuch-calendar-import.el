@@ -116,7 +116,7 @@
                        "\n"))
           (org-timestr (org-import-icalendar-get-org-timestring ical-element))
           ;;
-          (msg (format "** TODO %s\n%s\n Location: %s\nOrganizer: %s\nAttending:\n%s\n\n"
+          (msg (format "** %s\n%s\n Location: %s\nOrganizer: %s\nAttending:\n%s\n\n"
                  summary org-timestr location (or organizer "n/a") (or attendees "n/a"))))
 
     (message "Added to kill-ring:\n %s" msg)
