@@ -27,7 +27,7 @@
 ;; A high contrast quasi-monochrome color theme.
 
 ;;; Code:
-
+(require 'cl)
 (deftheme quasi-monochrome-hinton
   "quasi-monochrome emacs theme")
 

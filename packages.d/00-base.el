@@ -20,9 +20,8 @@
 
 ;;; Load my theme
 
-(ignore-errors
-  (require 'quasi-monochrome-hinton-theme)
-  (load-theme 'quasi-monochrome-hinton t))
+(require 'quasi-monochrome-hinton-theme)
+(load-theme 'quasi-monochrome-hinton t)
 
 ;;; Misc settings which are quite basic
 
