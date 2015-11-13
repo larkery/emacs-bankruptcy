@@ -552,16 +552,6 @@
 
 ;;; navigation
 
-(req-package avy
-  :bind
-  (("M-g g" . avy-goto-line)
-   ("M-g M-g" . avy-goto-line)
-   ("M-g w" . avy-goto-word-1)
-   ("M-g M-w" . avy-goto-word-0)
-   ("M-g M-c" . avy-goto-char)
-   ("C-c j" . avy-goto-char)
-   ))
-
 (req-package browse-kill-ring+
   :init
   (require 'browse-kill-ring+))
@@ -1052,14 +1042,11 @@ On %a, %b %d %Y, %N wrote:
          ("C-r" . vr/isearch-backward)
          ("C-; r" . vr/mc-mark)))
 
-;; (req-package phi-search
-;;   :bind (("C-s" . phi-search)
-;;          ("C-r" . phi-search-backward)
-;;          ("M-%" . phi-replace-query)))
-
 (req-package iy-go-to-char
   :bind (("C-c s" . iy-go-up-to-char)
-         ("C-c r" . iy-go-up-to-char-backward)))
+         ("C-c r" . iy-go-up-to-char-backward)
+         ("M-s f" . iy-go-up-to-char)
+         ("M-s b" . iy-go-up-to-char-backward)))
 
 (req-package swiper :bind ("C-S-S" . swiper))
 
