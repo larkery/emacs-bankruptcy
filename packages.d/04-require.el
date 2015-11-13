@@ -137,8 +137,11 @@
 
 ;;;; zzz-to-char
 
-(req-package zzz-to-char
-  :bind ("M-z" . zzz-to-char))
+;; (req-package zzz-to-char
+;;   :bind ("M-z" . zzz-to-char))
+
+(req-package avy-zap
+  :bind ("M-z" . avy-zap-to-char-dwim))
 
 ;;;; comment-dwim
 
@@ -555,7 +558,9 @@
    ("M-g M-g" . avy-goto-line)
    ("M-g w" . avy-goto-word-1)
    ("M-g M-w" . avy-goto-word-0)
-   ("M-g M-c" . avy-goto-char)))
+   ("M-g M-c" . avy-goto-char)
+   ("C-c j" . avy-goto-char)
+   ))
 
 (req-package browse-kill-ring+
   :init
