@@ -875,7 +875,8 @@
   ;; other message stuff
 
   (defvar h/notmuch-already-polling nil)
-  (defun h/notmuch-poll-and-refresh ()
+  (defun h/notmuch-poll-and-refresh (p)
+    (interactive "p")
     "Asynchronously poll for mail, and when done refresh all notmuch search buffers that are open"
     (interactive)
     (if h/notmuch-already-polling
@@ -885,7 +886,11 @@
         (setf h/notmuch-already-polling t)
         (with-current-buffer (get-buffer-create "*notmuch-poll*")
           (erase-buffer))
-        (let* ((the-process
+
+        (let* ((process-environment
+                (if p (cons "FULL=true" process-environment)
+                  process-environment))
+               (the-process
                 (if (and notmuch-poll-script (not (= "" notmuch-poll-script)))
                     (start-process "notmuch-poll" "*notmuch-poll*" notmuch-poll-script)
                   (start-process "notmuch-poll" "*notmuch-poll*" notmuch-command "new")))
