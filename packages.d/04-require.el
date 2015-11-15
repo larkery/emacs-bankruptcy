@@ -888,8 +888,8 @@
           (erase-buffer))
 
         (let* ((process-environment
-                (if p (cons "FULL=true" process-environment)
-                  process-environment))
+                (if (= 1 p) process-environment
+                  (cons (format "FULL=%s" p) process-environment)))
                (the-process
                 (if (and notmuch-poll-script (not (= "" notmuch-poll-script)))
                     (start-process "notmuch-poll" "*notmuch-poll*" notmuch-poll-script)
@@ -908,7 +908,7 @@
                           (thing-at-point 'line t))))
                    (message (format "notmuch: %s" (substring last-line 0 (- (length last-line) 1))))))
                ;(kill-buffer (process-buffer process))
-               (save-excursion
+               (save-window-excursion
                  (dolist (b (buffer-list))
                    (when (eq major-mode 'notmuch-search-mode)
                      (with-current-buffer b (call-interactively
