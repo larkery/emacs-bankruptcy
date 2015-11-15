@@ -908,14 +908,18 @@
                           (thing-at-point 'line t))))
                    (message (format "notmuch: %s" (substring last-line 0 (- (length last-line) 1))))))
                ;(kill-buffer (process-buffer process))
-               (save-window-excursion
-                 (dolist (b (buffer-list))
-                   (when (eq major-mode 'notmuch-search-mode)
-                     (with-current-buffer b (call-interactively
-                                             #'notmuch-refresh-this-buffer)))))
+               (dolist (b (buffer-list))
+                 (when (eq major-mode 'notmuch-search-mode)
+                   (if (get-buffer-window b)
+                       (call-interactively #'notmuch-refresh-this-buffer)
+                     ;; todo mark window for later refresh
+                     ;; needs set local variable,
+                     ;; dolist visible buffers: refresh this buffer if var; clear var
 
-               (setf h/notmuch-already-polling nil)
-               )))))))
+                     )))
+
+               (setf h/notmuch-already-polling nil))
+             ))))))
 
 
   (bind-key "G" #'h/notmuch-poll-and-refresh notmuch-search-mode-map)
