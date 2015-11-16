@@ -629,8 +629,10 @@
 
   (appt-activate t))
 
+(req-package org-password-manager)
+
 (req-package org
-	     :pin gnu
+  ;:pin "manual"
   :defer nil
   :require org-bullets
   :bind (("C-c a" . org-agenda)
@@ -1047,8 +1049,6 @@ On %a, %b %d %Y, %N wrote:
 (req-package visual-regexp
   :require visual-regexp-steroids
   :bind (("M-%" . vr/replace)
-         ("C-s" . vr/isearch-forward)
-         ("C-r" . vr/isearch-backward)
          ("C-; r" . vr/mc-mark)))
 
 (req-package iy-go-to-char
