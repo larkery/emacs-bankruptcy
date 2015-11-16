@@ -77,7 +77,7 @@
        (good       "#51c4d4")
        (lowlight   "black"); "#2F3F4F")
 
-       (highlight  "gold")
+       (highlight  "#d64937") ;"gold")
 
        (hl-efg     "black")
        (hl-ebg     highlight)
@@ -104,7 +104,7 @@
     `(minibuffer-prompt ((t (:weight bold :foreground ,brightest))))
     `(highlight ((t (:background ,gloom))))
     `(hl-line ((t (:background ,gloom))))
-    `(region ((t (:inverse-video t :background ,dark :foreground ,highlight))))
+    `(region ((t (:inverse-video t :foreground ,highlight :background ,"white"))))
     `(shadow ((t (:foreground ,dim))))
     `(secondary-selection ((t (:background ,dimmer))))
     `(trailing-whitespace ((t (:background ,warning))))
@@ -144,7 +144,10 @@
 
     `(which-func ((t (:inherit font-lock-function-name-face))))
 
-    `(outline-1 ((t (:foreground "white" :height ,(height +40) :font "Sans"))))
+    `(outline-1 ((t (:foreground
+                     "white"
+                     :background "grey15"
+                     :height ,(height +40)))))
     `(outline-2 ((t (:height ,(height +35) :inherit outline-1))))
     `(outline-3 ((t (:height ,(height +30) :inherit outline-1))))
     `(outline-4 ((t (:height ,(height +20) :inherit outline-1))))
@@ -155,6 +158,7 @@
 
     `(compilation-info ((t (:foreground ,good))))
 
+    `(org-hide ((t (:height ,(height +40)))))
     `(org-todo ((t (:inherit outline-1 :height ,(height) :foreground ,question))))
     `(org-done ((t (:inherit outline-1 :height ,(height) :foreground ,good))))
 
