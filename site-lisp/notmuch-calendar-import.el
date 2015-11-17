@@ -45,6 +45,96 @@
 
 ;;; Code
 
+(defun notmuch-reply-to-calendar (response)
+  (interactive "c[a]ccept, [r]eject, [t]entative")
+  (require 'ox-icalendar)
+  ;; get hold of current part
+  (let ((mm-inlined-types nil)
+        (to (notmuch-show-get-to))
+
+        (partstat (cl-case response
+                    (?a "PARTSTAT=ACCEPTED")
+                    (?r "PARTSTAT=REJECTED")
+                    (?t "PARTSTAT=TENTATIVE")
+                    (t (error "Cancelling reply"))))
+
+        (subject (concat (cl-case response
+                           (?a "Accepted: ")
+                           (?r "Rejected: ")
+                           (?t "Tentative: "))
+                         (notmuch-show-get-subject)))
+
+        to-re
+        response
+        organizer)
+
+    ;; find mail addresses we have which may relate to the to: header
+    ;; TODO what about cc: header?
+    ;; TODO what if fccdirs header is too general
+
+    (dolist (fcc notmuch-fcc-dirs)
+      (let ((re (car fcc)))
+        (if (string-match re to)
+            (progn (push re to-re)))))
+
+    (notmuch-show-apply-to-current-part-handle
+     (lambda (handle)
+       (with-temp-buffer
+         (insert (mm-get-part handle))
+         ;; now we need to edit some lines, and then fold them?
+         (set-buffer (icalendar--get-unfolded-buffer (current-buffer)))
+         (goto-char (point-min))
+         (delete-trailing-whitespace)
+         ;; we need to fix DTSTAMP and our ATTENDEE lines?
+         ;; ATTENDEE lines - foreach RE that we know, try mangling lines
+         (dolist (re to-re)
+           (goto-char (point-min))
+           (while (re-search-forward
+                   (rx-to-string
+                    `(and bol
+                          "ATTENDEE;"
+                          (zero-or-more anything)
+                          "PARTSTAT=NEEDS-ACTION"
+                          (zero-or-more nonl)
+                          (regexp ,re)) t) nil t)
+             (goto-char (match-beginning 0))
+             (if (re-search-forward "PARTSTAT=NEEDS-ACTION"
+                                    nil t)
+                 (replace-match partstat))))
+
+         (goto-char (point-min))
+         (if (re-search-forward (rx bol (group "PRODID:" (one-or-more nonl)) eol) nil t)
+             (replace-match "PRODID:Emacs, of course"))
+         ;; do method
+         (goto-char (point-min))
+         (if (re-search-forward (rx bol (group "METHOD:" (one-or-more nonl)) eol) nil t)
+             (replace-match "METHOD:REPLY"))
+         ;; now do DTSTAMP DTSTAMP:20151006T125408Z
+         (goto-char (point-min))
+         (if (re-search-forward (rx bol (group "DTSTAMP:" (one-or-more nonl)) eol) nil t)
+             (replace-match (org-icalendar-dtstamp)))
+
+         ;; find the organizer line to reply to
+         (goto-char (point-min))
+         (if (re-search-forward (rx bol "ORGANIZER;"
+                                    (one-or-more nonl)
+                                    ":MAILTO:"
+                                    (group (one-or-more nonl)) eol) nil t)
+             (setq organizer (match-string-no-properties 1)))
+
+         (setq response (buffer-substring-no-properties (point-min) (point-max)))
+         )))
+
+    ;; TODO this is incorrect - the sender should be the ORGANIZER of the event
+    ;; todo maybe offer reply?
+    (notmuch-mua-mail organizer subject ())
+    (goto-char (point-max))
+
+    (save-excursion
+     (mml-insert-part "text/calendar; method=REPLY; charset=UTF8")
+     (insert (org-icalendar-fold-string response))))
+  (if (y-or-n-p "Send reply immediately?")
+      (notmuch-mua-send-and-exit)))
 
 (defun notmuch-yank-calendar-as-org ()
   "If the current part is a calendary part, yank it as an org thing."

@@ -78,7 +78,7 @@
 
 ;;;; Expand-region
 
-(req-package expand-region :bind ("C-#" . er/expand-region))
+(req-package expand-region :bind ("C-=" . er/expand-region))
 
 ;;;; Undo-tree
 
@@ -253,14 +253,24 @@
   hydra-sp/body
   hydra-projectile-start-body
   hydra-dired/body
+  hydra-misc/body
 
   :init
   (setq projectile-switch-project-action 'hydra-projectile-start-body)
   (bind-key "f" 'hydra-dired/body dired-mode-map)
   (bind-key "C-~" 'hydra-sp/body smartparens-mode-map)
+  (bind-key "C-#" 'hydra-misc/body)
 
   :config
 
+  (defhydra hydra-misc () "misc"
+    ("o a" org-agenda "agenda")
+    ("o o" org-iswitchb "switch")
+    ("o c" org-capture "capture")
+    ("o t" org-clock-goto "clock")
+
+
+    )
 
 
   (defhydra hydra-sp (:exit t) "smartparens"
@@ -634,15 +644,14 @@
 (req-package org
   ;:pin "manual"
   :defer nil
-  :require org-bullets
+
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
+         ("C-c o" . org-iswitchb)
          ("C-c t" . org-clock-goto))
 
   :config
-
-  (org-bullets-mode t)
 
   (require 'appt)
   (org-clock-persistence-insinuate)
@@ -658,6 +667,7 @@
   (run-at-time "24:01" 3600 'org-agenda-to-appt)
 
   (bind-key "C-M-i" #'completion-at-point org-mode-map)
+  (bind-key "C-#" nil org-mode-map)
 
   (require 'org-contacts)
   (require 'org-notmuch)
@@ -845,13 +855,17 @@
     (require 'org-notmuch)
     (if (equal "text/calendar" (caadr (notmuch-show-current-part-handle)))
         (progn (require 'notmuch-calendar-import)
+               (save-excursion
+                 (notmuch-reply-to-calendar ?a))
+
                (notmuch-yank-calendar-as-org)
                (org-capture t "C"))
 
       (org-capture t "c")))
   
-
+  ;; TODO: make notmuch open with point on calendar invitations
   (bind-key "k" #'h/notmuch/capture notmuch-show-mode-map)
+  (bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
   (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
   (bind-key "U" #'h/notmuch/show-only-unread notmuch-show-mode-map)
 
@@ -959,8 +973,8 @@
         notmuch-archive-tags (quote ("-inbox" "-unread"))
         notmuch-crypto-process-mime t
         notmuch-fcc-dirs (quote
-                          (("tom.hinton@cse.org.uk" . "cse/Sent Items")
-                           ("larkery.com" . "fm/Sent Items")))
+                          (("tom\\.hinton@cse\\.org\\.uk" . "cse/Sent Items")
+                           ("larkery\\.com" . "fm/Sent Items")))
         notmuch-hello-sections '(notmuch-hello-insert-search
                                  notmuch-hello-insert-alltags
                                  notmuch-hello-insert-inbox
@@ -1015,8 +1029,7 @@
         message-citation-line-format "
 -----------------------
 On %a, %b %d %Y, %N wrote:
-"
-        ))
+"))
 
 ;;; projectile
 
@@ -1058,22 +1071,3 @@ On %a, %b %d %Y, %N wrote:
          ("M-s b" . iy-go-up-to-char-backward)))
 
 (req-package swiper :bind ("C-S-S" . swiper))
-
-(req-package swoop
-  :commands
-
-  swoop
-  swoop-multi
-  swoop-pcre-regexp
-  swoop-back-to-last-position
-  swoop-from-isearch
-  swoop-multi-from-swoop
-
-  :bind
-  (("M-s s" . swoop)
-   ("M-s M-s" . swoop-multi))
-
-  :config
-  (setq swoop-font-size-change: nil)
-  (bind-key "C-S-S" 'swoop-multi-from-swoop swoop-map))
-
