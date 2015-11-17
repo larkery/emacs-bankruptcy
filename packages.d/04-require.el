@@ -357,17 +357,31 @@
                 " "
                 filename-and-process)))
 
-
   (add-hook 'ibuffer-hook
-    (lambda ()
-      (ibuffer-vc-set-filter-groups-by-vc-root)
-      (unless (eq ibuffer-sorting-mode 'alphabetic)
-        (ibuffer-do-sort-by-alphabetic)))))
-;; (el-get-bundle larkery/ido-grid-mode.el)
-(el-get-bundle larkery/ido-match-modes.el)
-(el-get-bundle larkery/ido-describe-prefix-bindings.el)
+            (lambda ()
+              (setq ibuffer-saved-filter-groups
+                    `(("default"
+                       ,@(ibuffer-vc-generate-filter-groups-by-vc-root)
+
+                       ("org" (mode . org-mode))
+                       ("mail" (or (mode . notmuch-search)
+                                   (mode . notmuch-show)
+                                   (mode . notmuch-message-mode)))
+
+                       ("dired" (mode . dired-mode))
+                       ("junk"  (name . "^*.+*$")))
+                      ))
+
+              (ibuffer-switch-to-saved-filter-groups "default")
+
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic))))
+  )
 
 ;;; ido
+
+(el-get-bundle larkery/ido-match-modes.el)
+(el-get-bundle larkery/ido-describe-prefix-bindings.el)
 
 (req-package ido-match-modes
   :require ido-grid-mode
