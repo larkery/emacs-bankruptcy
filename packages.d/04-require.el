@@ -361,16 +361,19 @@
             (lambda ()
               (setq ibuffer-saved-filter-groups
                     `(("default"
+
+                       ("mail" (or (name . "^*notmuch")
+                                   (mode . notmuch-search-mode)
+                                   (mode . notmuch-show-mode)
+                                   (mode . notmuch-message-mode)))
+
                        ,@(ibuffer-vc-generate-filter-groups-by-vc-root)
 
                        ("org" (mode . org-mode))
-                       ("mail" (or (mode . notmuch-search)
-                                   (mode . notmuch-show)
-                                   (mode . notmuch-message-mode)))
+
 
                        ("dired" (mode . dired-mode))
-                       ("junk"  (name . "^*.+*$")))
-                      ))
+                       ("junk"  (name . "^*.+*$")))))
 
               (ibuffer-switch-to-saved-filter-groups "default")
 
@@ -774,6 +777,31 @@
   (define-key h/notmuch-mouse-map [mouse-2] #'h/open-mail-there)
   (define-key h/notmuch-mouse-map [mouse-3] #'h/open-mail-dired)
 
+;; (defun h/add-notmuch-calendar-buttons (o &rest args)
+;;   (insert-button "[ accept ]" :type 'notmuch-show-part-button-type
+;;                  'action (lambda (x) (message (format "%s" x))))
+;;   (insert " ")
+;;   (insert-button "[ reject ]" :type 'notmuch-show-part-button-type)
+;;   (insert " ")
+;;   (insert-button "[ tentative ]" :type 'notmuch-show-part-button-type)
+;;   (insert " ")
+;;   (insert-button "[ agenda ]" :type 'notmuch-show-part-button-type
+;;                  'action
+;;                  (lambda (x)
+;;                    ;; todo needs to be agenda ts link
+;;                    (org-follow-timestamp-link)
+
+
+;;                    )
+;;                  )
+;;   (insert "\n")
+;;   (apply o args))
+
+
+;; (advice-add 'notmuch-show-insert-part-text/calendar
+;;             :around
+;;             #'h/add-notmuch-calendar-buttons)
+  
   (defun h/hack-file-links ()
     "when in a buffer with w3m anchors, find the anchors and change them so clicking file:// paths uses h/open-windows-mail-link"
     (interactive)
@@ -876,7 +904,10 @@
                (org-capture t "C"))
 
       (org-capture t "c")))
-  
+
+  (set-mode-name notmuch-search "✉-search")
+  (set-mode-name notmuch-show "✉-show")
+
   ;; TODO: make notmuch open with point on calendar invitations
   (bind-key "k" #'h/notmuch/capture notmuch-show-mode-map)
   (bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
@@ -888,7 +919,6 @@
   (bind-key "u" (h/notmuch-toggler "unread") notmuch-search-mode-map)
   (bind-key "," #'h/notmuch/sleep notmuch-search-mode-map)
   (bind-key "g" 'notmuch-refresh-this-buffer notmuch-search-mode-map)
-  (bind-key "<tab>" 'notmuch-show-toggle-message notmuch-show-mode-map)
 
   (bind-key
    "U"
