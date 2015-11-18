@@ -6,8 +6,8 @@
 
 (setq package-archives
       '(("melpa-unstable" . "http://melpa.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")
         ("gnu" .  "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
@@ -30,5 +30,13 @@
 ;; (req-package--log-set-level 'trace)
 
 ;; do all the req-package stuff at the end of init
-(add-hook 'after-init-hook #'req-package-finish)
+
+
+(if (member "--update" command-line-args)
+    (progn
+      (message "req-package-finish skipped")
+      (package-list-packages)
+      (package-menu-mark-upgrades)
+      (package-menu-execute))
   
+  (add-hook 'after-init-hook #'req-package-finish))

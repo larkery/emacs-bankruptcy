@@ -58,3 +58,4 @@
 ;; linux-specific - open urls with xdg
 (setq browse-url-generic-program "xdg-open")
 (setq browse-url-browser-function 'browse-url-generic)
+(put 'erase-buffer 'disabled nil)

@@ -116,9 +116,9 @@
      (p `(org-done :foreground ,green))
      (p `(org-date :inherit link :foreground ,c2l))
 
-     (p `(isearch :foreground ,c1l :background ,lightbg))
+     (p `(isearch :foreground ,w :background ,c1))
      (p `(match :inherit isearch))
-     (p `(lazy-highlight :foreground ,c2l))
+     (p `(lazy-highlight :foreground ,w :background ,lightbg))
 
      )))
 

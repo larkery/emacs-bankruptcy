@@ -156,7 +156,7 @@
          ("C-; C-e" . mc/edit-ends-of-lines)
          ("C-<" . mc/mark-previous-like-this)
          ("C->" . mc/mark-next-like-this)
-         ("C-; o" . mc/hide-unmatched-lines-mode))
+         ("C-; o" . mc-hide-unmatched-lines-mode))
 
   :config
   (setq mc/list-file (h/ed "state/mc-list-file.el"))
@@ -263,12 +263,12 @@
 
   :config
 
-  (defhydra hydra-misc () "misc"
+  (defhydra hydra-misc (:exit t) "misc"
     ("o a" org-agenda "agenda")
     ("o o" org-iswitchb "switch")
     ("o c" org-capture "capture")
     ("o t" org-clock-goto "clock")
-    ("p"   hydra-projectile-start-body "project" :exit t)
+    ("p"   hydra-projectile-start-body "project")
     ("P"   package-list-packages "pkg"))
 
   (defhydra hydra-sp (:exit t) "smartparens"
@@ -500,6 +500,8 @@
   :init
   (setq imenu-auto-rescan t))
 
+(req-package imenu-anywhere
+  :bind ("M-<menu>" . imenu-anywhere))
 ;;; programming
 
 (set-mode-name emacs-lisp-mode "eλ")
@@ -615,8 +617,6 @@
   :config
   (back-button-mode 1)
 
-  (bind-key "M-<f8>" #'back-button-local-backward back-button-mode-map)
-  (bind-key "M-<f9>" #'back-button-local-forward back-button-mode-map)
   (bind-key "<XF86Back>" #'back-button-local-backward back-button-mode-map)
   (bind-key "<XF86Forward>" #'back-button-local-forward back-button-mode-map)
   (bind-key "M-<XF86Back>" #'back-button-global-backward back-button-mode-map)
@@ -659,7 +659,6 @@
 
 (req-package org
   ;:pin "manual"
-  :defer nil
 
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
@@ -941,3 +940,15 @@ On %a, %b %d %Y, %N wrote:
          ("M-s b" . iy-go-up-to-char-backward)))
 
 (req-package swiper :bind ("C-S-S" . swiper))
+
+(req-package loccur
+  :bind (("M-s O" . loccur)
+         ("M-s s" . loccur-current)))
+
+;;; restclient
+
+(req-package restclient)
+
+;;; focus
+
+(req-package focus :bind ("M-<f8>" . focus-mode))
