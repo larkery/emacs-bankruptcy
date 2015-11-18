@@ -268,7 +268,8 @@
     ("o o" org-iswitchb "switch")
     ("o c" org-capture "capture")
     ("o t" org-clock-goto "clock")
-    ("p"   hydra-projectile-start-body))
+    ("p"   hydra-projectile-start-body "project" :exit t)
+    ("P"   package-list-packages "pkg"))
 
   (defhydra hydra-sp (:exit t) "smartparens"
     (")" sp-splice-sexp)
@@ -338,7 +339,7 @@
 
 (req-package ibuffer
   :config
-  (setq ibuffer-filter-group-name-face 'outline-3))
+  (setq ibuffer-filter-group-name-face 'outline-1))
 
 (req-package ibuffer-vc
   :commands ibuffer-vc-set-filter-groups-by-vc-root

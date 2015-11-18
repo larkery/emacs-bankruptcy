@@ -22,7 +22,7 @@
              `(,(car x) ((t ,(cdr x))))))
   (message (hsl 0 0 1))
   (let*
-      ((h1 0)
+      ((h1 0.5)
        (h2 (+ h1 0.33))
        (h3 (+ h2 0.33))
 
@@ -115,6 +115,10 @@
      (p `(org-todo :inherit error))
      (p `(org-done :foreground ,green))
      (p `(org-date :inherit link :foreground ,c2l))
+
+     (p `(isearch :foreground ,c1l :background ,lightbg))
+     (p `(match :inherit isearch))
+     (p `(lazy-highlight :foreground ,c2l))
 
      )))
 

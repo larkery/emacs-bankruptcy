@@ -1,0 +1,127 @@
+;;; password-server.el --- supply passwords
+
+;;; Code:
+
+(defvar password-server-password-files
+  '("~/org/passwords/personal.org.gpg"
+    "~/org/passwords/work.org.gpg"))
+
+(defun password-server-assoc-passwords ()
+  (let (results)
+    (dolist (f password-server-password-files results)
+      (with-current-buffer (find-file-noselect f)
+        (goto-char (point-min))
+        (setq results
+              (nconc results
+                     (org-element-map (org-element-parse-buffer 'headline)
+                         'headline
+
+                       (lambda (x)
+                         (let ((url (org-element-property :URL x))
+                               (user (org-element-property :USERNAME x))
+                               (pass (org-element-property :PASSWORD x)))
+                           (when (or url user pass)
+                             (cons
+                              (concat (file-name-nondirectory (file-name-sans-extension f))
+                                      (mapconcat
+                                       (lambda (q) (org-element-property :title q))
+                                       (reverse (org-element-lineage x nil t))
+                                       "/"
+                                       ))
+                              `(:USERNAME ,user :PASSWORD ,pass :URL ,url)
+                              )))
+                         )))))
+      )))
+
+(defun password-server-do (prompt key cb)
+  (lexical-let ((key key) (cb cb))
+   (password-server-dmenu
+    prompt
+    (remove-if-not
+     (lambda (x) (plist-get (cdr x) key))
+     (password-server-assoc-passwords))
+    (lambda (sel entry)
+      (let ((value (plist-get (cdr entry) key)))
+        (if value
+            (funcall cb value)
+          (message (format "no %s for %s" key ))))))))
+
+(defun password-server-generate ()
+  ;; invoke pwgen to make a password
+  )
+
+(defun password-server-edit ()
+  ;; jump to the definition of a password
+  )
+
+(defun password-server-insert ()
+  ;; open a window with passwords in it!
+  )
+
+(defun password-server-browse ()
+  (password-server-do "type: " :URL #'browse-url))
+
+(defun password-server-type ()
+  (password-server-do "type pass: " :PASSWORD #'password-server-xdotool-type))
+
+(defun password-server-type-user ()
+  (password-server-do "type user: " :USERNAME #'password-server-xdotool-type))
+
+(defun password-server-type-both ()
+  (password-server-dmenu
+   "login: "
+   (remove-if-not
+    (lambda (x)
+      (and (plist-get (cdr x) :USERNAME)
+           (plist-get (cdr x) :PASSWORD)))
+
+    (password-server-assoc-passwords))
+   (lambda (sel entry)
+     (let ((user (plist-get (cdr entry) :USERNAME))
+           (pass (plist-get (cdr entry) :PASSWORD)))
+       (if (and user pass)
+           (password-server-xdotool-type (concat user "\t" pass))
+         (message (format "no %s for %s" key)))))))
+
+(defun password-server-xdotool-type (s)
+  (let ((proc (start-process "xdotool" nil "xdotool"
+                             "type"
+                             "--clearmodifiers"
+                             "--file"
+                             "-")))
+    (process-send-string proc s)
+    (process-send-string proc "\n")
+    (process-send-eof proc)))
+
+(defun password-server-dmenu (name input callback)
+  (lexical-let ((callback callback)
+                (the-buffer (get-buffer-create " *dmenu*"))
+                (input input))
+    (with-current-buffer the-buffer (erase-buffer))
+    (let ((proc (start-process "dmenu" the-buffer "dmenu"
+                               "-p" name
+                               "-i"
+                               "-l" "10"
+                               "-fn" "Monospace-14"
+                               )))
+      (set-process-sentinel
+       proc
+       (lambda (proc evt)
+         (unless (or (process-live-p proc)
+                     (not (zerop (process-exit-status proc))))
+
+           (with-current-buffer the-buffer
+             (let ((dmenu-sel (buffer-substring-no-properties
+                               (point-min)
+                               (- (point-max) 1))))
+               (funcall callback dmenu-sel (assoc dmenu-sel input)))
+             ))))
+
+      (dolist (element input)
+        (process-send-string proc (concat (car element) "\n")))
+      (process-send-eof proc)
+      )))
+
+(provide 'password-server)
+
+;;; password-server.el ends here
