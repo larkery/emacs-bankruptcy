@@ -17,11 +17,11 @@
 ;;; Allow loading from my site-lisp dir
 
 (push (h/ed "site-lisp") load-path)
+(push (h/ed "site-lisp") custom-theme-load-path)
 
 ;;; Load my theme
 
-(require 'quasi-monochrome-hinton-theme)
-(load-theme 'quasi-monochrome-hinton t)
+(load-theme 'plain t)
 
 ;;; Misc settings which are quite basic
 
