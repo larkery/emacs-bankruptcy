@@ -158,22 +158,21 @@ Prefix argument edits before sending"
           (summary (icalendar--convert-string-for-import
                      (or (icalendar--get-event-property e 'SUMMARY)
                        "No summary")))
-          (attendees (mapconcat (lambda (a) (format " - %s" a))
-                       (icalendar--get-event-properties e 'ATTENDEE)
-                       "\n"))
+          (attendees (icalendar--get-event-properties e 'ATTENDEE))
           (org-timestr (notmuch-calendar-ical->org-timestring e)))
 
-    (insert "** " summary "\n  ")
+    (insert "* " summary "\n")
+    (insert "  :PROPERTIES:\n")
+    (if location  (insert "  :LOCATION: " location "\n"))
+    (if organizer (insert "  :ORGANIZER: [[" organizer "]]\n" ))
+    (dolist (a attendees)
+      (insert (format  "  :ATTENDING: [[%s]]\n" a)))
+    (insert "  :END:\n ")
     ;; make button to go to agenda
     (insert-button org-timestr
                    :type 'notmuch-show-part-button-type
                    'action #'org-open-at-mouse)
-    (insert "\n  Location: " (or location "nowhere")
-            "\n  Organizer: " (or organizer "n/a")
-            "\n Attending: " (or attendees "n/a")
-
-            "\n\n"
-            )))
+    (insert "\n")))
 
 (defun notmuch-calendar-icalendar->org (output-buffer)
   "Transform icalendar events in the current buffer into org headlines and insert them into the output-buffer."
@@ -195,11 +194,9 @@ Prefix argument edits before sending"
             )))))
 
 (defvar notmuch-calendar-capture-target
-  '(file+headline "~/org/work/tasks.org" "Calendar Invitations"))
+  '(file "~/org/work/calendar.org"))
 
-(defun notmuch-calendar-accept-and-capture (e)
-  (save-current-buffer (notmuch-calendar-respond 0 ?a))
-
+(defun notmuch-calendar-capture (e)
   (let* ((appointment
           (notmuch-show-apply-to-current-part-handle
            (lambda (handle)
@@ -218,7 +215,12 @@ Prefix argument edits before sending"
              "%(format \"%s\" appointment)\n  From: %a\n  %?"
              ))
           ))
-    (org-capture nil "a")))
+    (org-capture nil "a"))
+  )
+
+(defun notmuch-calendar-accept-and-capture (e)
+  (save-current-buffer (notmuch-calendar-respond 0 ?a))
+  (notmuch-calendar-capture e))
 
 (defun notmuch-calendar-decline (e) (notmuch-calendar-respond 0 ?r))
 
@@ -234,6 +236,12 @@ Prefix argument edits before sending"
      "[ Decline ]"
      :type 'notmuch-show-part-button-type
      'action #'notmuch-calendar-decline)
+
+    (insert " ")
+    (insert-button
+     "[ Capture ]"
+     :type 'notmuch-show-part-button-type
+     'action #'notmuch-calendar-capture)
 
     (insert "\n")
     (with-temp-buffer

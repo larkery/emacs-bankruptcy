@@ -161,11 +161,8 @@
      (latex . t))))
  '(org-capture-templates
    (quote
-    (("s" "NHM Support" entry
-      (file+olp "~/org/work/projects.org" "NHM" "Support")
-      "* %^{Ticket|%a}" :clock-in t :clock-resume t)
-     ("c" "Future task" entry
-      (file+headline "~/org/work/tasks.org" "Unfiled tasks")
+    (("c" "Future task" entry
+      (file+headline "~/org/work/projects.org" "Unfiled tasks")
       "** TODO %?%a
    %u"))))
  '(org-clock-clocked-in-display (quote mode-line))

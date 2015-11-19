@@ -156,7 +156,8 @@
          ("C-; C-e" . mc/edit-ends-of-lines)
          ("C-<" . mc/mark-previous-like-this)
          ("C->" . mc/mark-next-like-this)
-         ("C-; o" . mc-hide-unmatched-lines-mode))
+         ("C-; o" . mc-hide-unmatched-lines-mode)
+         ("C-S-<mouse-1>" . mc/add-cursor-on-click))
 
   :config
   (setq mc/list-file (h/ed "state/mc-list-file.el"))
@@ -268,6 +269,7 @@
     ("o o" org-iswitchb "switch")
     ("o c" org-capture "capture")
     ("o t" org-clock-goto "clock")
+    ("o n" h/appt-notify-now "appts")
     ("p"   hydra-projectile-start-body "project")
     ("P"   package-list-packages "pkg"))
 
@@ -425,7 +427,9 @@
         ido-grid-mode-jump 'label
         ido-grid-mode-prefix "->  "
         ido-grid-mode-exact-match-prefix ">>  "
-        ido-grid-mode-padding "    ")
+        ido-grid-mode-padding "    "
+        ido-merged-indicator ""
+        ido-case-fold t)
 
   (ido-grid-mode 1)
 
@@ -440,6 +444,7 @@
   (advice-add 'ido-describe-prefix-bindings :around #'h/advise-grid-tall)
   (advice-add 'h/recentf-find-file :around #'h/advise-grid-tall)
   (advice-add 'ido-occur :around #'h/advise-grid-tall)
+  (advice-add 'org-refile :around #'h/advise-grid-tall)
   (advice-add 'lacarte-execute-menu-command :around #'h/advise-grid-tall))
 
 (req-package ido-at-point
@@ -603,8 +608,7 @@
       ("2" . split-window-vertically)
       ("B" . previous-buffer)
       ("DEL" . backward-kill-sentence)
-      ("C-t" . transpose-lines)
-      ))
+      ("C-t" . transpose-lines)))
 
   (smartrep-define-key
       winner-mode-map
@@ -617,10 +621,16 @@
   :config
   (back-button-mode 1)
 
-  (bind-key "<XF86Back>" #'back-button-local-backward back-button-mode-map)
-  (bind-key "<XF86Forward>" #'back-button-local-forward back-button-mode-map)
-  (bind-key "M-<XF86Back>" #'back-button-global-backward back-button-mode-map)
-  (bind-key "M-<XF86Forward>" #'back-button-global-forward back-button-mode-map))
+  (bind-key "M-<mouse-8>"     #'back-button-global-backward back-button-mode-map)
+  (bind-key "M-<mouse-9>"     #'back-button-global-forward  back-button-mode-map)
+
+  (bind-key "<mouse-8>"       #'back-button-local-backward  back-button-mode-map)
+  (bind-key "<mouse-9>"       #'back-button-local-forward   back-button-mode-map)
+
+  (bind-key "<XF86Back>"      #'back-button-local-backward  back-button-mode-map)
+  (bind-key "<XF86Forward>"   #'back-button-local-forward   back-button-mode-map)
+  (bind-key "M-<XF86Back>"    #'back-button-global-backward back-button-mode-map)
+  (bind-key "M-<XF86Forward>" #'back-button-global-forward  back-button-mode-map))
 
 (req-package savehist
   :config
@@ -641,10 +651,19 @@
   :config
   (require 'notifications)
 
-  (defun h/appt-notify (mins new-time msg)
-    (notifications-notify
-     :body (format "In %s minutes" mins)
-     :title (format "%s" msg)))
+  (defun h/appt-notify (mins _ msg)
+    (let ((mins (if (listp mins) mins (list mins)))
+          (msg (if (listp msg) msg (list msg))))
+      (cl-mapcar
+       (lambda (mins msg)
+         (notifications-notify
+          :body msg
+          :title (format "In %s minutes" mins)))
+       mins msg)))
+
+  (defun h/appt-notify-now ()
+    (interactive)
+    (let ((appt-display-interval 1)) (appt-check)))
 
   (setq appt-message-warning-time 60
         appt-display-mode-line t
@@ -683,6 +702,12 @@
 
   (bind-key "C-M-i" #'completion-at-point org-mode-map)
   (bind-key "C-#" nil org-mode-map)
+  (bind-key "C-M-<return>"
+            (lambda () (interactive)
+              (org-insert-heading-respect-content)
+              (org-metaright))
+            org-mode-map)
+
 
   (require 'org-contacts)
   (require 'org-notmuch)
@@ -706,7 +731,7 @@
   (setq org-caldav-url "http://horde.lrkry.com/rpc.php/calendars/tom/"
         org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
         org-caldav-inbox (expand-file-name "~/org/horde.org"))
-  (setq org-caldav-files `(,org-caldav-inbox)))
+  (setq org-caldav-files `(,org-caldav-inbox "~/org/work/calendar.org")))
 
 ;;; mail
 
