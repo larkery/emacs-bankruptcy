@@ -28,6 +28,7 @@
 
        (v-dark 0.3)
        (v-light 0.6)
+       (vv-light 0.9)
 
        (bg (hsl 0 0 0.1))
        (lightbg (hsl 0 0 0.2))
@@ -43,6 +44,10 @@
        (c1l (hsl h1 0.6 v-light))
        (c2l (hsl h2 0.6 v-light))
        (c3l (hsl h3 0.6 v-light))
+
+       (c1ll (hsl h1 0.6 vv-light))
+       (c2ll (hsl h2 0.6 vv-light))
+       (c3ll (hsl h3 0.6 vv-light))
 
        (red   (hsl 0 0.6 v-light))
        (green (hsl 0.35 0.6 v-light))
@@ -102,7 +107,7 @@
      (p `(message-cited-text :inherit shadow))
      (p `(message-mml :foreground ,w))
 
-     (p `(outline-1  :foreground ,w :height 1.3 :inherit default))
+     (p `(outline-1  :foreground ,c1ll :height 1.3 :inherit default))
      (p `(outline-2  :height 0.9 :inherit outline-1))
      (p `(outline-3  :height 0.9 :inherit outline-2))
      (p `(outline-4  :height 0.9 :inherit outline-3))
