@@ -941,10 +941,6 @@ On %a, %b %d %Y, %N wrote:
 
 (req-package swiper :bind ("C-S-S" . swiper))
 
-(req-package loccur
-  :bind (("M-s O" . loccur)
-         ("M-s s" . loccur-current)))
-
 ;;; restclient
 
 (req-package restclient)
