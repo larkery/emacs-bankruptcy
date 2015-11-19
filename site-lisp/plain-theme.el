@@ -107,7 +107,7 @@
      (p `(message-cited-text :inherit shadow))
      (p `(message-mml :foreground ,w))
 
-     (p `(outline-1  :foreground ,c1ll :height 1.3 :inherit default))
+     (p `(outline-1  :foreground ,w :height 1.3 :inherit default :weight bold))
      (p `(outline-2  :height 0.9 :inherit outline-1))
      (p `(outline-3  :height 0.9 :inherit outline-2))
      (p `(outline-4  :height 0.9 :inherit outline-3))
