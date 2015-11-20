@@ -25,6 +25,7 @@
 (bind-key "C-!" 'winner-undo)
 (bind-key "C-\"" 'winner-redo)
 (bind-key "<f9>" 'hl-line-mode)
+(bind-key "C-S-SPC" 'set-rectangular-region-anchor)
 
 (substitute-key-definition
  'just-one-space
