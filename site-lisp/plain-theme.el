@@ -49,8 +49,11 @@
        (c2ll (hsl h2 0.6 vv-light))
        (c3ll (hsl h3 0.6 vv-light))
 
-       (red   (hsl 0 0.6 v-light))
+       (red   (hsl 0    0.6 v-light))
        (green (hsl 0.35 0.6 v-light))
+
+       (dimred   (hsl 0    0.3 v-dark))
+       (dimgreen (hsl 0.35 0.3 v-dark))
        )
 
     (custom-theme-set-faces
@@ -66,8 +69,8 @@
      (p `(ido-subdir :inherit shadow))
      (p `(ido-only-match :inherit ido-first-match :weight bold))
 
-     (p `(vertical-border :foreground ,bg))
-     (p `(fringe :background ,lightbg :foreground ,fg))
+     (p `(vertical-border :foreground ,mid))
+     (p `(fringe :background ,lightbg :foreground ,dimfg))
 
      (p `(font-lock-warning-face :foreground ,red))
      (p `(font-lock-function-name-face :foreground ,w))
@@ -89,11 +92,11 @@
      (p `(sp-wrap-overlay-face :inherit sp-pair-overlay-face))
      (p `(sp-show-pair-match-face :underline t))
 
-     (p `(mode-line :background ,c1 :box ,w))
+     (p `(mode-line :background ,c1 :box ,fg))
      (p `(mode-line-inactive :background ,lightbg :box ,mid))
 
-     (p `(mode-line-emphasis :background ,c2))
-     (p `(mode-line-highlight :background ,c3))
+     (p `(mode-line-emphasis :background ,dimgreen))
+     (p `(mode-line-highlight :background ,c2))
      (p `(header-line :inherit highlight :weight bold))
      (p `(which-func :foreground ,w))
 
@@ -104,7 +107,7 @@
      (p `(message-header-cc :inherit message-header-other))
      (p `(message-header-subject :inherit message-header-other))
      (p `(message-header-to :inherit message-header-other))
-     (p `(message-cited-text :inherit shadow))
+     (p `(message-cited-text :inherit font-lock-comment-face))
      (p `(message-mml :foreground ,w))
 
      (p `(outline-1  :foreground ,w :height 1.3 :inherit default :weight bold))
@@ -128,6 +131,9 @@
      (p `(match :inherit isearch))
      (p `(lazy-highlight :foreground ,w :background ,lightbg))
 
+     (p `(diff-hl-change :foreground ,c1l :background ,c1))
+     (p `(diff-hl-delete :foreground ,red :background ,dimred))
+     (p `(diff-hl-insert :foreground ,green :background ,dimgreen))
      )))
 
 (provide-theme 'plain)
