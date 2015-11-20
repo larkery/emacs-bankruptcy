@@ -46,17 +46,44 @@
             (funcall cb value)
           (message (format "no %s for %s" key ))))))))
 
-(defun password-server-generate ()
-  ;; invoke pwgen to make a password
-  )
+(defun password-server-generate (&optional length)
+  (let ((pwd (shell-command-to-string (format "pwgen %d 1" (or length 15)))))
+    (substring pwd 0 (- (length pwd) 1))))
 
 (defun password-server-edit ()
   ;; jump to the definition of a password
   )
 
-(defun password-server-insert ()
-  ;; open a window with passwords in it!
-  )
+;; TODO maybe save history list for logins
+(defvar password-server-known-logins nil)
+
+(defun password-server-insert (name login pass url where)
+  (interactive
+   (list (read-string "Name: ")
+         (completing-read "Login: " password-server-known-logins nil nil nil
+                          'password-server-known-logins)
+
+         (let ((pwd (password-server-generate)))
+           (read-string (format "Password [%s]: " pwd) nil nil pwd))
+         (read-string "URL: ")
+         (completing-read "Target: " password-server-password-files nil t)))
+
+  (if (and name where)
+      (let ((entry
+             (concat " " name "\n"
+                     "  :PROPERTIES:\n"
+                     (if login (concat "  :USERNAME: " login "\n"))
+                     (if pass (concat "  :PASSWORD: " pass "\n"))
+                     (if url (concat "  :URL: " url "\n"))
+                     "  :PROPERTIES:\n")))
+        (with-current-buffer (find-file-noselect where)
+          (save-excursion
+            (goto-char (point-max))
+            (org-insert-heading-respect-content t)
+            (insert entry))))
+
+    (when (y-or-n-p "Type password now?")
+      (password-server-xdotool-type pass))))
 
 (defun password-server-browse ()
   (password-server-do "type: " :URL #'browse-url))

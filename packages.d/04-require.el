@@ -262,15 +262,14 @@
    run: _P_ackages | _p_rojects    | _d_ired   |
    cmd: _C-#_ sel  |"
     ("a" org-agenda)
-    ("o" org-iswitchb)
+    ("o" org-goto-agenda)
     ("c" org-capture)
     ("t" org-clock-goto)
     ("n" h/appt-notify-now)
     ("p" hydra-projectile-start-body)
     ("P" package-list-packages)
     ("d" (dired default-directory))
-    ("C-#" mark-whole-buffer)
-    )
+    ("C-#" mark-whole-buffer))
 
   (defhydra hydra-sp (:exit t) "smartparens"
     (")" sp-splice-sexp)
@@ -444,6 +443,7 @@
   (advice-add 'h/recentf-find-file :around #'h/advise-grid-tall)
   (advice-add 'ido-occur :around #'h/advise-grid-tall)
   (advice-add 'org-refile :around #'h/advise-grid-tall)
+  (advice-add 'org-refile-get-location :around #'h/advise-grid-tall)
   (advice-add 'lacarte-execute-menu-command :around #'h/advise-grid-tall))
 
 (req-package ido-at-point
@@ -655,9 +655,14 @@
           (msg (if (listp msg) msg (list msg))))
       (cl-mapcar
        (lambda (mins msg)
-         (notifications-notify
-          :body msg
-          :title (format "In %s minutes" mins)))
+         (let ((soon (<= (string-to-number mins) 10))
+               (now (zerop (string-to-number mins))))
+           (notifications-notify
+            :body msg
+            :urgency (if soon 'critical 'normal)
+            :timeout (if now 0 -1)
+            :title (if soon
+                       "NOW" (format "In %s min" mins)))))
        mins msg)))
 
   (defun h/appt-notify-now ()
@@ -689,10 +694,28 @@
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
-         ("C-c o" . org-iswitchb)
+         ("C-c O" . org-iswitchb)
+         ("C-c o" . org-goto-agenda)
          ("C-c t" . org-clock-goto))
 
   :config
+
+  (defun org-goto-agenda ()
+    (interactive "")
+    (let* ((org-refile-targets `((org-agenda-files . (:maxlevel . ,org-goto-max-level))))
+           (org-refile-use-outline-path t)
+           (org-refile-target-verify-function nil)
+           (interface org-goto-interface)
+           (org-goto-start-pos (point))
+           (selected-point (setq *goto* (org-refile-get-location "Goto" nil nil t))))
+
+      (when selected-point
+        (set-mark (point))
+        (let ((filename (nth 0 (cdr selected-point)))
+              (position (nth 2 (cdr selected-point))))
+          (find-file filename)
+          (goto-char position)
+          (org-reveal)))))
 
   (require 'appt)
   (org-clock-persistence-insinuate)
