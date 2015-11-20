@@ -236,16 +236,9 @@
   :bind ("C-c G" . git-timemachine)
   :commands git-timemachine)
 
-(req-package git-gutter+
+(req-package diff-hl
   :config
-  (global-git-gutter+-mode)
-  (diminish 'git-gutter+-mode ""))
-
-(req-package git-gutter-fringe+
-  :config
-  (require 'git-gutter-fringe+)
-  ;; (git-gutter-fr+-minimal) not sure
-  (setq git-gutter-fr+-side 'right-fringe))
+  (global-diff-hl-mode))
 
 ;;; hydras
 
@@ -264,14 +257,20 @@
 
   :config
 
-  (defhydra hydra-misc (:exit t) "misc"
-    ("o a" org-agenda "agenda")
-    ("o o" org-iswitchb "switch")
-    ("o c" org-capture "capture")
-    ("o t" org-clock-goto "clock")
-    ("o n" h/appt-notify-now "appts")
-    ("p"   hydra-projectile-start-body "project")
-    ("P"   package-list-packages "pkg"))
+  (defhydra hydra-misc (:exit t :hint nil) "
+   org: _a_genda   | _o_rg buffers | _c_apture | _t_ask | _n_otify
+   run: _P_ackages | _p_rojects    | _d_ired   |
+   cmd: _C-#_ sel  |"
+    ("a" org-agenda)
+    ("o" org-iswitchb)
+    ("c" org-capture)
+    ("t" org-clock-goto)
+    ("n" h/appt-notify-now)
+    ("p" hydra-projectile-start-body)
+    ("P" package-list-packages)
+    ("d" (dired default-directory))
+    ("C-#" mark-whole-buffer)
+    )
 
   (defhydra hydra-sp (:exit t) "smartparens"
     (")" sp-splice-sexp)
@@ -674,7 +673,15 @@
 
   (appt-activate t))
 
-(req-package org-password-manager)
+(req-package password-server
+  :commands
+  password-server-browse
+  password-server-edit
+  password-server-generate
+  password-server-insert
+  password-server-type
+  password-server-type-both
+  password-server-type-user)
 
 (req-package org
   ;:pin "manual"
