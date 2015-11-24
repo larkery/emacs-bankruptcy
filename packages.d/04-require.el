@@ -980,6 +980,11 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; search
 
+(req-package anzu
+  :config
+  :diminish ""
+  (global-anzu-mode))
+
 (req-package wgrep)
 (req-package ag :commands ag)
 
