@@ -51,7 +51,7 @@
     (substring pwd 0 (- (length pwd) 1))))
 
 (defun password-server-edit ()
-  ;; jump to the definition of a password
+  ;; jump to the definition of a password and edit it.
   )
 
 ;; TODO maybe save history list for logins
@@ -70,7 +70,7 @@
 
   (if (and name where)
       (let ((entry
-             (concat " " name "\n"
+             (concat "* " name "\n"
                      "  :PROPERTIES:\n"
                      (if login (concat "  :USERNAME: " login "\n"))
                      (if pass (concat "  :PASSWORD: " pass "\n"))
@@ -79,11 +79,7 @@
         (with-current-buffer (find-file-noselect where)
           (save-excursion
             (goto-char (point-max))
-            (org-insert-heading-respect-content t)
-            (insert entry))))
-
-    (when (y-or-n-p "Type password now?")
-      (password-server-xdotool-type pass))))
+            (insert "\n" entry))))))
 
 (defun password-server-browse ()
   (password-server-do "type: " :URL #'browse-url))
