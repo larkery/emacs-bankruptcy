@@ -1,5 +1,11 @@
 (require 'cl)
 
+(defmacro add-prog-hooks (&rest fns)
+  `(progn
+     ,(dolist (f fns)
+        `(add-hook 'prog-mode-hook ,f)
+        `(add-hook 'ess-mode-hook ,f))))
+
 (defmacro set-mode-name (mode name)
   `(add-hook (quote ,(intern (concat (symbol-name mode) "-hook")))
              (lambda () (interactive) (setq mode-name ,name))))
@@ -514,13 +520,15 @@
   :diminish ""
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
-  (add-hook 'prog-mode-hook #'highlight-symbol-mode)
-  (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode))
+  (add-prog-hooks #'highlight-symbol-mode)
+  (add-prog-hooks #'highlight-symbol-nav-mode)
+  (add-hook 'ess-mode-hook #'highlight-symbol-mode)
+  (add-hook 'ess-mode-hook #'highlight-symbol-nav-mode))
 
 (req-package rainbow-delimiters
   :commands rainbow-delimiters-mode
   :init
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (add-prog-hooks #'rainbow-delimiters-mode))
 
 (req-package ggtags
   :commands ggtags-mode
@@ -574,7 +582,7 @@
 
 (req-package eldoc
   (diminish 'eldoc-mode "")
-  (add-hook 'prog-mode-hook #'eldoc-mode))
+  (add-prog-hooks #'eldoc-mode))
 
 (which-function-mode 1)
 
