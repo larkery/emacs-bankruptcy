@@ -99,6 +99,7 @@
         (mode . idl-mode)
         (mode . lisp-mode)))))))
  '(ido-create-new-buffer (quote always))
+ '(ido-default-buffer-method (quote selected-window))
  '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote

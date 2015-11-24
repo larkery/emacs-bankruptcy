@@ -9,6 +9,8 @@
         c-electric-semi&comma
         electric-newline-and-maybe-indent
         end-of-visual-line
+        ess-smart-comma
+        ess-yank
         h/kill-sexp-appropriately
         h/slurp-appropriately
         iy-go-to-char--command
