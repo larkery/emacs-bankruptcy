@@ -130,6 +130,7 @@
      (p `(isearch :foreground ,w :background ,c1))
      (p `(match :inherit isearch))
      (p `(lazy-highlight :foreground ,w :background ,lightbg))
+     (p `(anzu-mode-line :inherit mode-line-highlight))
 
      (p `(diff-hl-change :foreground ,c1l :background ,c1))
      (p `(diff-hl-delete :foreground ,red :background ,dimred))
