@@ -37,6 +37,7 @@
  '(dired-listing-switches "-alhv")
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
+ '(ess-S-underscore-when-last-character-is-a-space t)
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#232A2F" t)
  '(focus-follows-mouse t)

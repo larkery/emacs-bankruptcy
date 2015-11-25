@@ -558,6 +558,7 @@
   :commands R R-mode
   :mode ("\\.R\\'" . R-mode)
   :config
+  (require 'ess-site)
   (add-hook 'ess-send-input-hook
             (lambda ()
               (interactive)
@@ -989,8 +990,8 @@ On %a, %b %d %Y, %N wrote:
 ;;; search
 
 (req-package anzu
+  :diminish (anzu-mode . "")
   :config
-  :diminish ""
   (global-anzu-mode))
 
 (req-package wgrep)
