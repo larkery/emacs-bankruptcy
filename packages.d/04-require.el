@@ -2,9 +2,10 @@
 
 (defmacro add-prog-hooks (&rest fns)
   `(progn
-     ,(dolist (f fns)
-        `(add-hook 'prog-mode-hook ,f)
-        `(add-hook 'ess-mode-hook ,f))))
+     ,@(let (result)
+         (dolist (f fns result)
+           (push `(add-hook 'prog-mode-hook ,f) result)
+           (push `(add-hook 'ess-mode-hook  ,f) result)))))
 
 (defmacro set-mode-name (mode name)
   `(add-hook (quote ,(intern (concat (symbol-name mode) "-hook")))
@@ -521,9 +522,7 @@
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
   (add-prog-hooks #'highlight-symbol-mode)
-  (add-prog-hooks #'highlight-symbol-nav-mode)
-  (add-hook 'ess-mode-hook #'highlight-symbol-mode)
-  (add-hook 'ess-mode-hook #'highlight-symbol-nav-mode))
+  (add-prog-hooks #'highlight-symbol-nav-mode))
 
 (req-package rainbow-delimiters
   :commands rainbow-delimiters-mode
