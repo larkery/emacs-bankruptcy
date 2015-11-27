@@ -37,6 +37,7 @@
  '(dired-listing-switches "-alhv")
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
+ '(display-buffer-alist nil)
  '(ess-S-underscore-when-last-character-is-a-space t)
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#232A2F" t)
@@ -272,7 +273,7 @@
  '(org-latex-to-pdf-process (quote ("latexmk -pdf -e '$pdflatex=q/xelatex %O %S/' %f")))
  '(org-log-into-drawer t)
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
- '(org-odt-with-latex t)
+ '(org-odt-with-latex (quote dvipng))
  '(org-outline-path-complete-in-steps nil)
  '(org-refile-targets
    (quote
@@ -311,6 +312,7 @@
  '(pos-tip-foreground-color "#9E9E9E")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
+ '(rcirc-fill-flag nil)
  '(recentf-auto-cleanup (quote never))
  '(safe-local-variable-values
    (quote
