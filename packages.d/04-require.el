@@ -423,7 +423,9 @@
   :config
   (setq ido-grid-mode-start-collapsed t
         ido-grid-mode-jank-rows 0
-        ido-grid-mode-order 'columns
+        ido-grid-mode-order t
+        ido-grid-mode-max-rows 10;'(max 1 (/ (frame-height) 4))
+        ido-grid-mode-min-rows 10;'(max 1 (/ (frame-height) 4))
         ido-grid-mode-scroll-up #'ido-grid-mode-previous-row
         ido-grid-mode-scroll-down #'ido-grid-mode-next-row
         ido-grid-mode-prefix-scrolls t
