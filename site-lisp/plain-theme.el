@@ -33,7 +33,7 @@
        (bg (hsl 0 0 0.1))
        (lightbg (hsl 0 0 0.2))
        (mid (hsl 0 0 0.4))
-       (fg (hsl 0 0 0.88))
+       (fg (hsl 0 0 0.90))
        (dimfg (hsl 0 0 0.7))
        (w  (hsl 0 0 1))
        (b  (hsl 0 0 0))
