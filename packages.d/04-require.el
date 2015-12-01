@@ -786,6 +786,8 @@
   (require 'notmuch-calendar)
   (require 'notmuch-extras)
 
+  (add-hook 'notmuch-show-hook #'h/hack-file-links)
+
   (defun h/notmuch/show-only-unread ()
     "In a notmuch show view, collapse all the read messages"
     (interactive "")
@@ -948,8 +950,17 @@
                                             (:foreground "orange")))))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)$"
-        notmuch-wash-signature-lines-max 30
-        notmuch-wash-signature-regexp "^\\(-- ?\\|_+\\|\\*\\*\\*\\*\\*+\\)$"
+        notmuch-wash-signature-lines-max 50
+        notmuch-wash-signature-regexp (rx
+                                       bol
+
+                                       (or
+                                        (seq "--" (? " "))
+                                        (seq "__" (* "_"))
+                                        (seq "****" (* "*"))
+                                        (seq "---" (* "-")))
+
+                                       eol)
 
         ;; citation stuff
         message-cite-style 'message-cite-style-gmail

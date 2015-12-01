@@ -86,9 +86,6 @@
     (when was-read-only
       (read-only-mode 1))))
 
-
-(add-hook 'notmuch-show-hook #'h/hack-file-links)
-
 ;;;; Polling without blocking
 
 (defvar h/notmuch-already-polling nil)
