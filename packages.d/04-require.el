@@ -265,11 +265,12 @@
   :config
 
   (defhydra hydra-misc (:exit t :hint nil) "
-   org: _a_genda   | _o_rg buffers | _c_apture | _t_ask | _n_otify
-   run: _P_ackages | _p_rojects    | _d_ired   |
+   org: _a_genda   | _o_rg hls  | _c_apture | _t_ask | _n_otify | _O_rg bs
+   run: _P_ackages | _p_rojects | _d_ired   |
    cmd: _C-#_ sel  |"
     ("a" org-agenda)
     ("o" org-goto-agenda)
+    ("O" org-iswitchb)
     ("c" org-capture)
     ("t" org-clock-goto)
     ("n" h/appt-notify-now)
@@ -965,6 +966,7 @@
                                        bol
 
                                        (or
+                                        (seq "The original of this email was scanned for viruses" (* nonl))
                                         (seq "--" (? " "))
                                         (seq "__" (* "_"))
                                         (seq "****" (* "*"))

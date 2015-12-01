@@ -20,11 +20,10 @@
                         (color-hsl-to-rgb h s l) "")))
           (p (x)
              `(,(car x) ((t ,(cdr x))))))
-  (message (hsl 0 0 1))
   (let*
-      ((h1 0)
-       (h2 0.2)
-       (h3 0.75)
+      ((h1 0.55)
+       (h2 (+ 0.3 h1))
+       (h3 (+ 0.2 h2))
 
        (v-dark 0.3)
        (v-light 0.6)
@@ -57,7 +56,7 @@
        (dimgreen (hsl 0.35 0.3 v-dark))
        (dimblue  (hsl 0.55 0.3 v-dark))
        )
-
+    (message "Random!: %f %f %f" h1 h2 h3)
     (custom-theme-set-faces
      'plain
      (p `(default :background ,bg :foreground ,fg))
@@ -97,7 +96,7 @@
      (p `(mode-line :background ,c1 :box ,fg))
      (p `(mode-line-inactive :background ,lightbg :box ,mid))
 
-     (p `(mode-line-emphasis :background ,dimgreen))
+     (p `(mode-line-emphasis :background ,c3))
      (p `(mode-line-highlight :background ,c2))
      (p `(header-line :inherit highlight :weight bold))
      (p `(which-func :foreground ,w))
