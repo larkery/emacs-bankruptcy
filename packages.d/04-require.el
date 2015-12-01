@@ -363,29 +363,39 @@
                 " "
                 filename-and-process)))
 
-  (add-hook 'ibuffer-hook
-            (lambda ()
-              (setq ibuffer-saved-filter-groups
-                    `(("default"
+  (defun h/ibuffer-hook ()
+    (setq ibuffer-saved-filter-groups
+          `(("default"
 
-                       ("mail" (or (name . "^*notmuch")
-                                   (mode . notmuch-search-mode)
-                                   (mode . notmuch-show-mode)
-                                   (mode . notmuch-message-mode)))
+             ("mail" (or (name . "^*notmuch")
+                         (mode . notmuch-search-mode)
+                         (mode . notmuch-show-mode)
+                         (mode . notmuch-message-mode)))
+             ("irc" (mode . rcirc-mode))
 
-                       ,@(ibuffer-vc-generate-filter-groups-by-vc-root)
+             ,@(ibuffer-vc-generate-filter-groups-by-vc-root)
 
-                       ("org" (mode . org-mode))
+             ("org" (mode . org-mode))
 
 
-                       ("dired" (mode . dired-mode))
-                       ("junk"  (name . "^*.+*$")))))
+             ("dired" (mode . dired-mode))
+             ("junk"  (name . "^*.+*$")))))
 
-              (ibuffer-switch-to-saved-filter-groups "default")
+    (ibuffer-switch-to-saved-filter-groups "default")
 
-              (unless (eq ibuffer-sorting-mode 'alphabetic)
-                (ibuffer-do-sort-by-alphabetic))))
-  )
+    (unless (eq ibuffer-sorting-mode 'alphabetic)
+      (ibuffer-do-sort-by-alphabetic)))
+
+  (add-hook 'ibuffer-hook 'h/ibuffer-hook))
+
+;;; rcirc
+
+(req-package rcirc
+  :commands rcirc
+  :config
+  (setq rcirc-fill-flag nil)
+  (add-hook 'rcirc-mode-hook #'visual-line-mode))
+
 
 ;;; ido
 
