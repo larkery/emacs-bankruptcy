@@ -22,13 +22,13 @@
              `(,(car x) ((t ,(cdr x))))))
   (message (hsl 0 0 1))
   (let*
-      ((h1 0.55)
-       (h2 (+ h1 0.33))
-       (h3 (+ h2 0.33))
+      ((h1 0)
+       (h2 0.2)
+       (h3 0.75)
 
        (v-dark 0.3)
        (v-light 0.6)
-       (vv-light 0.9)
+       (vv-light 0.8)
 
        (bg (hsl 0 0 0.1))
        (lightbg (hsl 0 0 0.2))
@@ -51,9 +51,11 @@
 
        (red   (hsl 0    0.6 v-light))
        (green (hsl 0.35 0.6 v-light))
+       (blue  (hsl 0.55 0.6 v-light))
 
        (dimred   (hsl 0    0.3 v-dark))
        (dimgreen (hsl 0.35 0.3 v-dark))
+       (dimblue  (hsl 0.55 0.3 v-dark))
        )
 
     (custom-theme-set-faces
@@ -82,7 +84,7 @@
      (p `(font-lock-constant-face :weight bold))
      (p `(font-lock-builtin-face))
      (p `(font-lock-preprocessor-face))
-     (p `(font-lock-string-face :foreground ,w))
+     (p `(font-lock-string-face :foreground ,c1ll))
      (p `(font-lock-doc-face :inherit font-lock-comment-face))
      (p `(font-lock-negation-char-face))
 
@@ -113,7 +115,7 @@
      (p `(outline-1  :foreground ,w :height 1.3 :inherit default :weight bold))
      (p `(outline-2  :height 0.9 :inherit outline-1))
      (p `(outline-3  :height 0.9 :inherit outline-2))
-     (p `(outline-4  :height 0.9 :inherit outline-3))
+     (p `(outline-4  :inherit outline-3))
      (p `(outline-5  :inherit outline-4))
      (p `(outline-6  :inherit outline-5))
      (p `(outline-7  :inherit outline-6))
@@ -132,7 +134,7 @@
      (p `(lazy-highlight :foreground ,w :background ,lightbg))
      (p `(anzu-mode-line :inherit mode-line-highlight))
 
-     (p `(diff-hl-change :foreground ,c1l :background ,c1))
+     (p `(diff-hl-change :foreground ,blue :background ,dimblue))
      (p `(diff-hl-delete :foreground ,red :background ,dimred))
      (p `(diff-hl-insert :foreground ,green :background ,dimgreen))
      )))
