@@ -136,6 +136,8 @@
      (p `(diff-hl-change :foreground ,blue :background ,dimblue))
      (p `(diff-hl-delete :foreground ,red :background ,dimred))
      (p `(diff-hl-insert :foreground ,green :background ,dimgreen))
+
+     (p `(ag-hit-face :inherit font-lock-type-face))
      )))
 
 (provide-theme 'plain)
