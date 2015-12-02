@@ -27,7 +27,7 @@
 
        (v-dark 0.3)
        (v-light 0.6)
-       (vv-light 0.8)
+       (vv-light 0.85)
 
        (bg (hsl 0 0 0.1))
        (lightbg (hsl 0 0 0.2))
@@ -74,7 +74,7 @@
      (p `(fringe :background ,lightbg :foreground ,dimfg))
 
      (p `(font-lock-warning-face :foreground ,red))
-     (p `(font-lock-function-name-face :foreground ,w))
+     (p `(font-lock-function-name-face :foreground ,w :underline ,mid))
      (p `(font-lock-variable-name-face))
      (p `(font-lock-keyword-face :weight bold :foreground ,w))
      (p `(font-lock-comment-face :slant italic :inherit shadow))
@@ -111,7 +111,7 @@
      (p `(message-cited-text :inherit font-lock-comment-face))
      (p `(message-mml :foreground ,w))
 
-     (p `(outline-1  :foreground ,w :height 1.3 :inherit default :weight bold))
+     (p `(outline-1  :background ,lightbg :foreground ,w :height 1.5 :inherit default))
      (p `(outline-2  :height 0.9 :inherit outline-1))
      (p `(outline-3  :height 0.9 :inherit outline-2))
      (p `(outline-4  :inherit outline-3))

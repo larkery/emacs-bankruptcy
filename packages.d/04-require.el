@@ -347,47 +347,49 @@
 
 (req-package ibuffer
   :config
-  (setq ibuffer-filter-group-name-face 'outline-1))
+  (setq ibuffer-filter-group-name-face 'outline-2))
 
 (req-package ibuffer-vc
   :commands ibuffer-vc-set-filter-groups-by-vc-root
   :init
-  (setq ibuffer-formats
-        '((mark modified read-only vc-status-mini " "
-                (name 18 18 :left :elide)
-                " "
-                (size 9 -1 :right)
-                " "
-                (mode 16 16 :left :elide)
-                " "
-                (vc-status 16 16 :left)
-                " "
-                filename-and-process)))
+  ;; (setq ibuffer-formats
+  ;;       '((mark modified read-only ;vc-status-mini
+  ;;               " "
+  ;;               (name 18 18 :left :elide)
+  ;;               " "
+  ;;               (size 9 -1 :right)
+  ;;               " "
+  ;;               (mode 16 16 :left :elide)
+  ;;               ;" "
+  ;;               ;(vc-status 16 16 :left)
+  ;;               " "
+  ;;               filename-and-process)))
 
-  (defun h/ibuffer-hook ()
-    (setq ibuffer-saved-filter-groups
-          `(("default"
+  ;; (setq ibuffer-saved-filter-groups
+  ;;       `(("default"
 
-             ("mail" (or (name . "^*notmuch")
-                         (mode . notmuch-search-mode)
-                         (mode . notmuch-show-mode)
-                         (mode . notmuch-message-mode)))
-             ("irc" (mode . rcirc-mode))
+  ;;          ("mail" (or (name . "^*notmuch")
+  ;;                      (mode . notmuch-search-mode)
+  ;;                      (mode . notmuch-show-mode)
+  ;;                      (mode . notmuch-message-mode)))
+  ;;          ("irc" (mode . rcirc-mode))
 
-             ,@(ibuffer-vc-generate-filter-groups-by-vc-root)
+  ;;          ,@(ibuffer-vc-generate-filter-groups-by-vc-root)
 
-             ("org" (mode . org-mode))
+  ;;          ("org" (mode . org-mode))
 
+  ;;          ("dired" (mode . dired-mode))
+  ;;          ("temp" (name . "^*.+*$")))))
 
-             ("dired" (mode . dired-mode))
-             ("junk"  (name . "^*.+*$")))))
+  ;; (defun h/ibuffer-hook ()
+  ;;   (ibuffer-switch-to-saved-filter-groups "default")
 
-    (ibuffer-switch-to-saved-filter-groups "default")
+  ;;   ;; (unless (eq ibuffer-sorting-mode 'alphabetic)
+  ;;   ;;   (ibuffer-do-sort-by-alphabetic))
+  ;;   )
 
-    (unless (eq ibuffer-sorting-mode 'alphabetic)
-      (ibuffer-do-sort-by-alphabetic)))
-
-  (add-hook 'ibuffer-hook 'h/ibuffer-hook))
+  ;; (add-hook 'ibuffer-hook 'h/ibuffer-hook)
+  )
 
 ;;; rcirc
 
