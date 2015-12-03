@@ -139,6 +139,7 @@
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
+ '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
    (quote
     (("n" "Agenda and all TODO's"
