@@ -150,7 +150,7 @@
      ("w" "Weekly clock report" agenda ""
       ((org-agenda-clockreport-parameter-plist
         (quote
-         (:link t :maxlevel 2 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
+         (:link t :maxlevel 3 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
  '(org-agenda-files (quote ("~/org/" "~/org/work/" "~/org/personal/")))
  '(org-archive-default-command (quote org-archive-set-tag))
@@ -264,7 +264,9 @@
      ("" "wasysym" t)
      ("" "amssymb" t)
      ("" "hyperref" nil)
-     "\\tolerance=1000")))
+     "\\tolerance=1000"
+     ("" "fullpage" nil)
+     ("" "parskip" nil))))
  '(org-latex-link-with-unknown-path-format "\\colorbox{red}{%s}")
  '(org-latex-listings (quote minted))
  '(org-latex-packages-alist nil)

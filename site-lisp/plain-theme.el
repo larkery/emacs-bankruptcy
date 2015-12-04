@@ -98,7 +98,7 @@
 
      (p `(mode-line-emphasis :background ,c3))
      (p `(mode-line-highlight :background ,c2))
-     (p `(header-line :inherit highlight :weight bold))
+     (p `(header-line :weight bold :foreground ,w :background ,dimblue :box ,mid))
      (p `(which-func :foreground ,w))
 
      (p `(notmuch-tag-face :foreground ,c3l))
