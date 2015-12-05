@@ -275,6 +275,9 @@
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
  '(org-odt-with-latex (quote dvipng))
  '(org-outline-path-complete-in-steps nil)
+ '(org-publish-project-alist
+   (quote
+    (("lrkry" :base-directory "~/projects/website/" :publishing-directory "/ssh:lrkry.com:~/website/" :publishing-function org-html-publish-to-html))))
  '(org-refile-targets
    (quote
     ((nil :maxlevel . 2)
