@@ -48,9 +48,9 @@
        (c2ll (hsl h2 0.6 vv-light))
        (c3ll (hsl h3 0.6 vv-light))
 
-       (red   (hsl 0    0.6 v-light))
-       (green (hsl 0.35 0.6 v-light))
-       (blue  (hsl 0.55 0.6 v-light))
+       (red   (hsl 0    0.8 v-light))
+       (green (hsl 0.35 0.7 v-light))
+       (blue  (hsl 0.55 0.7 v-light))
 
        (dimred   (hsl 0    0.3 v-dark))
        (dimgreen (hsl 0.35 0.3 v-dark))
@@ -98,7 +98,7 @@
 
      (p `(mode-line-emphasis :background ,c3))
      (p `(mode-line-highlight :background ,c2))
-     (p `(header-line :inherit highlight :weight bold))
+     (p `(header-line :weight bold :foreground ,w :background ,dimblue :box ,mid))
      (p `(which-func :foreground ,w))
 
      (p `(notmuch-tag-face :foreground ,c3l))
@@ -112,21 +112,22 @@
      (p `(message-mml :foreground ,w))
 
      (p `(outline-1  :background ,lightbg :foreground ,w :height 1.5 :inherit default))
-     (p `(outline-2  :height 0.9 :inherit outline-1))
-     (p `(outline-3  :height 0.9 :inherit outline-2))
+     (p `(outline-2  :height ,(/ 1.3 1.5) :inherit outline-1))
+     (p `(outline-3  :height ,(/ 1.1 1.3) :inherit outline-2))
      (p `(outline-4  :inherit outline-3))
      (p `(outline-5  :inherit outline-4))
      (p `(outline-6  :inherit outline-5))
      (p `(outline-7  :inherit outline-6))
      (p `(outline-8  :inherit outline-7))
 
-     (p `(link :underline t))
+     (p `(link :underline ,c1l))
      (p `(w3m-anchor :inherit link))
 
      (p `(org-mode-line-clock :inherit nil))
-     (p `(org-todo :inherit error))
-     (p `(org-done :foreground ,green))
-     (p `(org-date :inherit link :foreground ,c3l))
+     (p `(org-todo :inherit error :background ,lightbg))
+     (p `(org-done :foreground ,green  :background ,lightbg))
+     (p `(org-date :inherit link :underline ,c3l :foreground ,c3l))
+     (p `(org-footnote :inherit link))
 
      (p `(isearch :foreground ,w :background ,c1))
      (p `(match :inherit isearch))

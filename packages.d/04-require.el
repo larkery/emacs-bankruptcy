@@ -190,9 +190,9 @@
         (call-interactively #'sp-kill-sexp)
       (call-interactively #'sp-kill-hybrid-sexp)))
 
-  (sp-local-pair 'org-mode "$" "$")
-  (sp-local-pair 'org-mode "/" "/" :actions '(wrap))
-  (sp-local-pair 'org-mode "*" "*" :actions '(wrap))
+  ;(sp-local-pair 'org-mode "$" "$")
+  ;(sp-local-pair 'org-mode "/" "/" :actions '(wrap))
+  ;(sp-local-pair 'org-mode "*" "*" :actions '(wrap))
 
   (bind-keys
    :keymap smartparens-mode-map
@@ -599,8 +599,6 @@
   (diminish 'eldoc-mode "")
   (add-prog-hooks #'eldoc-mode))
 
-(which-function-mode 1)
-
 (add-hook 'java-mode-hook 'subword-mode)
 (add-hook 'java-mode-hook
           #'(lambda nil (c-set-style "stroustrup")))
@@ -799,8 +797,6 @@
   (require 'notmuch-calendar)
   (require 'notmuch-extras)
 
-  (add-hook 'notmuch-show-hook #'h/hack-file-links)
-
   (defun h/notmuch/show-only-unread ()
     "In a notmuch show view, collapse all the read messages"
     (interactive "")
@@ -945,7 +941,7 @@
 
         notmuch-search-oldest-first nil
 
-        notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode goto-address-mode)
+        notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode goto-address-mode h/hack-file-links)
 
         notmuch-show-indent-messages-width 1
 
