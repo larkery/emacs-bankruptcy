@@ -71,11 +71,11 @@
   (if (and name where)
       (let ((entry
              (concat "* " name "\n"
-                     "  :PROPERTIES:\n"
-                     (if login (concat "  :USERNAME: " login "\n"))
-                     (if pass (concat "  :PASSWORD: " pass "\n"))
-                     (if url (concat "  :URL: " url "\n"))
-                     "  :PROPERTIES:\n")))
+                     ":PROPERTIES:\n"
+                     (if login (concat ":USERNAME: " login "\n"))
+                     (if pass (concat ":PASSWORD: " pass "\n"))
+                     (if url (concat ":URL: " url "\n"))
+                     ":END:\n")))
         (with-current-buffer (find-file-noselect where)
           (save-excursion
             (goto-char (point-max))
