@@ -27,6 +27,8 @@
         multiple-cursors-mode
         mwim-end-of-code-or-line
         org-delete-char
+        org-end-of-line
+        org-force-self-insert
         org-kill-line
         org-self-insert-command
         outshine-self-insert-command

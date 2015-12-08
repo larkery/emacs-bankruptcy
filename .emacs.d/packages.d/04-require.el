@@ -499,7 +499,7 @@
 (req-package smart-mode-line
   :config
   (sml/setup)
-  (sml/apply-theme 'respectful))
+  (sml/apply-theme 'dark))
 
 (req-package recentf
   :bind ("C-x C-r" . h/recentf-find-file)

@@ -272,8 +272,7 @@
  '(org-latex-packages-alist nil)
  '(org-latex-pdf-process
    (quote
-    ("latexmk -pdflatex='xelatex --shell-escape -interaction nonstopmode -output-directory %o' -pdf -f %f")))
- '(org-latex-to-pdf-process (quote ("latexmk -pdf -e '$pdflatex=q/xelatex %O %S/' %f")))
+    ("latexmk -pdflatex='pdflatex --shell-escape -interaction nonstopmode -output-directory %o' -pdf -f %f")))
  '(org-log-into-drawer t)
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
  '(org-odt-with-latex (quote dvipng))
@@ -309,7 +308,8 @@
  '(org-todo-keywords
    (quote
     ((sequence "TODO(t)" "WAIT(w)" "DONE(d)")
-     (sequence "CANCEL(c)"))))
+     (sequence "CANCEL(c)")
+     (sequence "IDEA(i)"))))
  '(org-todo-state-tags-triggers nil)
  '(org-use-property-inheritance (quote ("CODE")))
  '(org-use-speed-commands t)

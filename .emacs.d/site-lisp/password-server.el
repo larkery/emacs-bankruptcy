@@ -6,6 +6,18 @@
   '("~/org/passwords/personal.org.gpg"
     "~/org/passwords/work.org.gpg"))
 
+(defun password-server-lock ()
+  ;; save if unsaved, and kill if open
+  (dolist (f password-server-password-files)
+    (let ((b (find-buffer-visiting f)))
+      (when b
+        (with-current-buffer b
+          (save-buffer)
+          (kill-buffer)
+          )
+        ))))
+
+
 (defun password-server-assoc-passwords ()
   (let (results)
     (dolist (f password-server-password-files results)
