@@ -29,7 +29,7 @@
 (req-package dired-k
   :commands dired-k dired-k-no-revert
   :init
-  (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
+  (add-hook 'dired-after-readin-hook #'dired-k-no-revert t)
   (setq dired-k-style 'git       ;; show VC status on the left
         dired-k-human-readable t ;; my dired flags include -h for human-readable sizes
         ))
@@ -959,16 +959,15 @@
                                             (:foreground "orange")))))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)$"
-        notmuch-wash-signature-lines-max 50
+        notmuch-wash-signature-lines-max 30
         notmuch-wash-signature-regexp (rx
                                        bol
 
                                        (or
                                         (seq "The original of this email was scanned for viruses" (* nonl))
-                                        (seq "--" (? " "))
                                         (seq "__" (* "_"))
                                         (seq "****" (* "*"))
-                                        (seq "---" (* "-")))
+                                        (seq "--" (* "-") (* " ")))
 
                                        eol)
 
