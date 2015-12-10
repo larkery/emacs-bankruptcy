@@ -113,6 +113,7 @@
  '(ido-use-virtual-buffers (quote auto))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
+ '(iplayer-download-directory "~/music/iplayer/")
  '(isearch-allow-scroll t)
  '(ispell-program-name "aspell")
  '(ivy-display-style (quote fancy))
@@ -273,6 +274,7 @@
  '(org-latex-pdf-process
    (quote
     ("latexmk -pdflatex='pdflatex --shell-escape -interaction nonstopmode -output-directory %o' -pdf -f %f")))
+ '(org-latex-to-pdf-process (quote ("latexmk -pdf -e '$pdflatex=q/xelatex %O %S/' %f")))
  '(org-log-into-drawer t)
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
  '(org-odt-with-latex (quote dvipng))
