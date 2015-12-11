@@ -339,6 +339,7 @@
  '(split-width-threshold 200)
  '(tab-width 4)
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
+ '(tramp-verbose 2)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(url-configuration-directory "~/.emacs.d/state/url/")
  '(vc-annotate-background "#2B3B40")

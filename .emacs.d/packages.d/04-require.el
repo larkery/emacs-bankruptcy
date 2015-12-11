@@ -613,28 +613,6 @@
   :config
   (winner-mode 1))
 
-(req-package smartrep
-  :require winner
-  :config
-
-  (smartrep-define-key
-      global-map
-      "C-x"
-    '(("o" . other-window)
-      ("O" . ace-window)
-      ("0" . delete-window)
-      ("1" . delete-other-windows)
-      ("3" . split-window-horizontally)
-      ("2" . split-window-vertically)
-      ("B" . previous-buffer)
-      ("DEL" . backward-kill-sentence)
-      ("C-t" . transpose-lines)))
-
-  (smartrep-define-key
-      winner-mode-map
-      "C-c"
-    '(("<left>" . winner-undo))))
-
 (req-package back-button
   :diminish ""
   :require smartrep
@@ -713,6 +691,7 @@
   ;:pin "manual"
 
   :bind (("C-c a" . org-agenda)
+         ("H-a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c O" . org-iswitchb)
@@ -790,7 +769,9 @@
   :commands notmuch h/notmuch/goto-inbox notmuch-mua-new-mail
 
   :bind (("C-c i" . h/notmuch/goto-inbox)
-         ("C-c m" . notmuch-mua-new-mail))
+         ("H-i" . h/notmuch/goto-inbox)
+         ("C-c m" . notmuch-mua-new-mail)
+         ("H-m" . notmuch-mua-new-mail))
 
   :config
 
@@ -967,7 +948,7 @@
                                         (seq "The original of this email was scanned for viruses" (* nonl))
                                         (seq "__" (* "_"))
                                         (seq "****" (* "*"))
-                                        (seq "--" (* "-") (* " ")))
+                                        (seq "--" (** 0 5 "-") (* " ")))
 
                                        eol)
 
