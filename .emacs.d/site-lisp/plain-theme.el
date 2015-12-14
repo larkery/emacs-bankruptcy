@@ -21,7 +21,7 @@
           (p (x)
              `(,(car x) ((t ,(cdr x))))))
   (let*
-      ((h1 0.55)
+      ((h1 0.1)
        (h2 (+ 0.3 h1))
        (h3 (+ 0.2 h2))
 
@@ -98,7 +98,7 @@
 
      (p `(mode-line-emphasis :background ,c3))
      (p `(mode-line-highlight :background ,c2))
-     (p `(header-line :weight bold :foreground ,w :background ,dimblue :box ,mid))
+     (p `(header-line :weight bold :foreground ,w :background ,dimred :box ,mid))
      (p `(which-func :foreground ,w))
 
      (p `(notmuch-tag-face :foreground ,c3l))
