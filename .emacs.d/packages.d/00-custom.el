@@ -38,6 +38,7 @@
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
  '(display-buffer-alist nil)
+ '(erc-fill-mode nil)
  '(ess-S-underscore-when-last-character-is-a-space t)
  '(fci-rule-character-color "#202020")
  '(fci-rule-color "#232A2F" t)
@@ -136,7 +137,8 @@
  '(notmuch-search-line-faces
    (quote
     (("unread" :weight bold :foreground "white")
-     ("flagged" :foreground "deep sky blue"))))
+     ("flagged" :inherit
+      (highlight)))))
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
@@ -365,7 +367,11 @@
      (360 . "#FFCB6B"))))
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
- '(w3m-use-tab nil))
+ '(w3m-use-tab nil)
+ '(znc-servers
+   (quote
+    (("lrkry.com" 6667 nil
+      ((freenode "hinton" "t3hsecret")))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1019,3 +1019,17 @@ On %a, %b %d %Y, %N wrote:
 ;;; focus
 
 (req-package focus :bind ("M-<f8>" . focus-mode))
+
+;;; erc
+
+(req-package znc
+  :commands znc-all znc-erc
+  :config
+
+  (setq
+   znc-servers
+   `(("lrkry.com" 6667 nil
+      ((freenode "hinton"
+                 ,(cadr (netrc-credentials "lrkry.com" 6667))
+                 )))))
+  )

@@ -21,21 +21,24 @@
           (p (x)
              `(,(car x) ((t ,(cdr x))))))
   (let*
-      ((h1 0.1)
-       (h2 (+ 0.3 h1))
-       (h3 (+ 0.2 h2))
+      ((numix "#D64937")
+
+       (h1 0.55)
+       (h2 (- h1 0.66))
+       (h3 (+ h1 0.66))
 
        (v-dark 0.3)
        (v-light 0.6)
-       (vv-light 0.85)
+       (vv-light 0.8)
 
        (bg (hsl 0 0 0.1))
        (lightbg (hsl 0 0 0.2))
        (mid (hsl 0 0 0.4))
-       (fg (hsl 0 0 0.90))
+       (fg (hsl 0 0 0.96))
        (dimfg (hsl 0 0 0.7))
        (w  (hsl 0 0 1))
        (b  (hsl 0 0 0))
+
        (c1 (hsl h1 0.6 v-dark))
        (c2 (hsl h2 0.6 v-dark))
        (c3 (hsl h3 0.6 v-dark))
@@ -44,7 +47,7 @@
        (c2l (hsl h2 0.6 v-light))
        (c3l (hsl h3 0.6 v-light))
 
-       (c1ll (hsl h1 0.6 vv-light))
+       (c1ll (hsl h1 0.2 vv-light))
        (c2ll (hsl h2 0.6 vv-light))
        (c3ll (hsl h3 0.6 vv-light))
 
@@ -61,7 +64,7 @@
      'plain
      (p `(default :background ,bg :foreground ,fg))
      (p `(cursor  :background ,w  :foreground ,b))
-     (p `(region  :background ,w  :foreground ,c1 :inverse-video  t))
+     (p `(region  :background ,w  :foreground ,numix :inverse-video  t))
      (p `(shadow :foreground ,dimfg))
      (p `(error :foreground ,red))
      (p `(highlight :background ,lightbg))
@@ -139,6 +142,10 @@
      (p `(diff-hl-insert :foreground ,green :background ,dimgreen))
 
      (p `(ag-hit-face :inherit font-lock-type-face))
+
+     (p `(erc-notice-face :inherit font-lock-comment-face))
+     (p `(erc-prompt-face :inherit font-lock-type-face))
+     (p `(erc-timestamp-face :inherit font-lock-comment-face))
      )))
 
 (provide-theme 'plain)

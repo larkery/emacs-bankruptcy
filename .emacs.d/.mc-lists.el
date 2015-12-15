@@ -114,6 +114,7 @@
 (setq mc/cmds-to-run-once
       '(
         eval-defun
+        handle-select-window
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down
