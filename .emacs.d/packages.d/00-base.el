@@ -59,3 +59,103 @@
 (setq browse-url-generic-program "xdg-open")
 (setq browse-url-browser-function 'browse-url-generic)
 (put 'erase-buffer 'disabled nil)
+
+
+;;; mode line
+
+(defun mode-line-pad-right (rhs)
+  "Return empty space using FACE and leaving RESERVE space on the right."
+  (let* ((the-rhs (format-mode-line rhs))
+         (reserve (length the-rhs)))
+    (when (and window-system (eq 'right (get-scroll-bar-mode)))
+      (setq reserve (- reserve 3)))
+
+    (list
+     (propertize " "
+                 'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
+                 'face 'general)
+     rhs)))
+
+(defvar mode-line-file-map
+  (make-sparse-keymap))
+
+(defvar projectile-mode-line-menu
+  (make-sparse-keymap))
+
+(define-key projectile-mode-line-menu
+  [mode-line mouse-1]
+  #'projectile-dired
+  )
+
+(define-key mode-line-file-map
+  [mode-line mouse-1]
+  (lambda () (interactive)
+    (popup-menu
+     (list
+      (buffer-file-name)
+      ["Save" save-buffer t]
+      ["Revert" revert-buffer t]
+      `("dired"
+        ,@(let ((result nil)
+                (h (directory-file-name (file-name-directory (buffer-file-name)))))
+            (while h
+              (push (lexical-let ((h h)) (vector h (lambda () (interactive) (dired h)) t))
+                    result)
+              (setq h
+                    (unless (equal "/" h)
+                      (directory-file-name (file-name-directory h)))))
+            result)
+
+        )
+      ["Kill" really-kill-this-buffer t]))))
+
+(setq-default
+ mode-line-format
+ '("%4l"
+   (:eval
+    (when (or (< (point-min) (window-start))
+              (> (point-max) (window-end)))
+        (format " [%3d%%%%]"
+                (/ (* 100 (- (point) (point-min)))
+                   (- (point-max) (point-min))))))
+   " "
+   mode-line-remote
+
+   " "
+
+   (:eval (propertize
+           (if buffer-read-only "❌" "✓")
+           'face
+           (if (buffer-modified-p) 'font-lock-warning-face 'font-lock-type-face)
+           'help-echo
+           (concat (if (buffer-modified-p) "" "un")
+                   "modified, "
+                   (if buffer-read-only "r/o" "r/w"))
+           ))
+
+   " "
+   (:eval (propertize "%b" 'face 'font-lock-keyword-face
+                      'help-echo (buffer-file-name)
+                      'local-map mode-line-file-map
+                      'mouse-face 'mode-line-highlight
+                      ))
+
+   (vc-mode vc-mode)
+
+   ""
+   (:eval
+    (mode-line-pad-right
+     (list " "
+           (when (ignore-errors (projectile-project-root))
+             (concat
+              (propertize (projectile-project-name)
+                          'mouse-face 'mode-line-highlight
+                          'local-map projectile-mode-line-menu)
+
+              " "))
+      mode-line-modes
+      global-mode-string "  ")
+     ))
+
+   )
+ )

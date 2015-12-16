@@ -34,8 +34,8 @@
        (bg (hsl 0 0 0.1))
        (lightbg (hsl 0 0 0.2))
        (mid (hsl 0 0 0.4))
-       (fg (hsl 0 0 0.96))
-       (dimfg (hsl 0 0 0.7))
+       (fg (hsl 0.1 0.5 0.95))
+       (dimfg (hsl 0.1 0.1 0.8))
        (w  (hsl 0 0 1))
        (b  (hsl 0 0 0))
 
@@ -111,6 +111,7 @@
      (p `(message-header-cc :inherit message-header-other))
      (p `(message-header-subject :inherit message-header-other))
      (p `(message-header-to :inherit message-header-other))
+     (p `(message-header-xheader :inherit shadow))
      (p `(message-cited-text :inherit font-lock-comment-face))
      (p `(message-mml :foreground ,w))
 

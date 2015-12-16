@@ -138,7 +138,7 @@
    (quote
     (("unread" :weight bold :foreground "white")
      ("flagged" :inherit
-      (highlight)))))
+      (isearch)))))
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))

@@ -69,7 +69,7 @@
   (setq outshine-use-speed-commands t)
   :config
 
-  (diminish 'outline-minor-mode " ↳")
+  (diminish 'outline-minor-mode "")
 
   (progn
       (dolist (key '("M-<up>" "M-<down>" "M-S-<down>" "M-<right>" "M-<left>" "C-S-<left>" "C-S-<up>" "C-S-<down>" "M-TAB"))
@@ -122,7 +122,7 @@
 ;;;; yasnippet
 
 (req-package yasnippet
-  :diminish (yas-minor-mode . " ⇥")
+  :diminish (yas-minor-mode . "")
   :config
   (yas-global-mode))
 
@@ -173,7 +173,7 @@
 ;;;; smartparens
 
 (req-package smartparens
-  :diminish "()"
+  :diminish ""
   :config
 
   (require 'smartparens-config)
@@ -496,10 +496,10 @@
 
 ;;; chrome
 
-(req-package smart-mode-line
-  :config
-  (sml/setup)
-  (sml/apply-theme 'dark))
+;; (req-package smart-mode-line
+;;   :config
+;;   (sml/setup)
+;;   (sml/apply-theme 'dark))
 
 (req-package recentf
   :bind ("C-x C-r" . h/recentf-find-file)
@@ -581,6 +581,7 @@
 ;;;; clojure
 
 (req-package cider :pin melpa-stable)
+(req-package clojure-mode :pin melpa-stable)
 
 ;;;; javascript
 
@@ -841,8 +842,9 @@
                                          (time-add (current-time)
                                                    (days-to-time 4))))))))
   
-  (set-mode-name notmuch-search "✉-search")
-  (set-mode-name notmuch-show "✉-show")
+  (set-mode-name notmuch-search "nm-search")
+  (set-mode-name notmuch-show "nm-show")
+  (set-mode-name notmuch-message-mode "mail")
 
   (bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
   (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
@@ -969,7 +971,7 @@ On %a, %b %d %Y, %N wrote:
 ;;; projectile
 
 (req-package projectile
-  :diminish (projectile-mode . " p")
+  :diminish (projectile-mode . "")
   :config
   (setq projectile-completion-system 'ido)
 
@@ -1032,4 +1034,14 @@ On %a, %b %d %Y, %N wrote:
       ((freenode "hinton"
                  ,(cadr (netrc-credentials "lrkry.com" 6667))
                  )))))
+  )
+;;; diminish
+
+(req-package diminish
+  :config
+  (diminish 'isearch-mode " →")
+  (diminish 'adaptive-wrap-prefix-mode "")
+  (diminish 'visual-line-mode " ⏎")
+  (diminish 'abbrev-mode "")
+  (diminish 'mml-mode "")
   )
