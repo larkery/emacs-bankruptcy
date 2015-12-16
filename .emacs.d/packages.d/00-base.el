@@ -91,12 +91,8 @@
   [mode-line mouse-1]
   (lambda () (interactive)
     (popup-menu
-     (list
-      (buffer-file-name)
-      ["Save" save-buffer t]
-      ["Revert" revert-buffer t]
-      `("dired"
-        ,@(let ((result nil)
+     `(,(or (buffer-file-name) (buffer-name))
+       ,@(let ((result nil)
                 (h (directory-file-name (file-name-directory (buffer-file-name)))))
             (while h
               (push (lexical-let ((h h)) (vector h (lambda () (interactive) (dired h)) t))
@@ -104,10 +100,8 @@
               (setq h
                     (unless (equal "/" h)
                       (directory-file-name (file-name-directory h)))))
-            result)
-
-        )
-      ["Kill" really-kill-this-buffer t]))))
+            result))
+     )))
 
 (setq-default
  mode-line-format
