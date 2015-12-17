@@ -91,27 +91,56 @@
   [mode-line mouse-1]
   (lambda () (interactive)
     (popup-menu
-     `(,(or (buffer-file-name) (buffer-name))
-       ,@(let ((result nil)
-                (h (directory-file-name (file-name-directory (buffer-file-name)))))
-            (while h
-              (push (lexical-let ((h h)) (vector h (lambda () (interactive) (dired h)) t))
-                    result)
-              (setq h
-                    (unless (equal "/" h)
-                      (directory-file-name (file-name-directory h)))))
-            result))
+     `(,(buffer-name)
+
+       ,(when (buffer-file-name)
+          ["sudo-edit" sudo-edit t])
+
+       ;; produce a menu of parent directories
+       ("dired"
+        ,@(when (buffer-file-name)
+            (let ((result nil)
+                  (h (directory-file-name (file-name-directory (buffer-file-name)))))
+              (while h
+                (push (lexical-let ((h h)) (vector h (lambda () (interactive) (dired h)) t))
+                      result)
+                (setq h
+                      (unless (equal "/" h)
+                        (directory-file-name (file-name-directory h)))))
+              result))))
      )))
+
+(defun mode-line-clickable (text handlers)
+  (propertize
+   text
+   'mouse-face 'mode-line-highlight
+   'local-map (let ((m (make-sparse-keymap)))
+                (dolist (h handlers m)
+                  (define-key m (vector 'mode-line (car h)) (cadr h))))))
 
 (setq-default
  mode-line-format
- '("%4l"
+ `(,(mode-line-clickable
+     "%4l"
+     `((mouse-1 ,(lambda () (interactive)
+                   (call-interactively #'linum-mode)
+                   (call-interactively #'hl-line-mode)))
+       (mouse-3 goto-line)
+       (mouse-4 previous-line)
+       (mouse-5 next-line)
+       ))
+
    (:eval
     (when (or (< (point-min) (window-start))
               (> (point-max) (window-end)))
-        (format " [%3d%%%%]"
-                (/ (* 100 (- (point) (point-min)))
-                   (- (point-max) (point-min))))))
+      (concat " ["
+              (format ,(mode-line-clickable "%3d%%%%"
+                                            '((mouse-4 scroll-down-command)
+                                              (mouse-5 scroll-up-command)))
+                      (/ (* 100 (- (point) (point-min)))
+                         (- (point-max) (point-min))))
+              "]"
+              )))
    " "
    mode-line-remote
 
