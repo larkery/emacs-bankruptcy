@@ -1032,7 +1032,7 @@ On %a, %b %d %Y, %N wrote:
    znc-servers
    `(("lrkry.com" 6667 nil
       ((freenode "hinton"
-                 ,(cadr (netrc-credentials "lrkry.com" 6667))
+                 ,(cadr (netrc-credentials "lrkry.com" "6667"))
                  )))))
   )
 ;;; diminish

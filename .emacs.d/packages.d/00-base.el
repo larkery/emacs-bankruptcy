@@ -73,7 +73,7 @@
     (list
      (propertize " "
                  'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
-                 'face 'general)
+                 )
      rhs)))
 
 (defvar mode-line-file-map
@@ -141,8 +141,6 @@
                          (- (point-max) (point-min))))
               "]"
               )))
-   " "
-   mode-line-remote
 
    " "
 
@@ -155,13 +153,21 @@
                    "modified, "
                    (if buffer-read-only "r/o" "r/w"))
            ))
-
    " "
-   (:eval (propertize "%b" 'face 'font-lock-keyword-face
+
+
+   (:eval (propertize "%b"
+                      'face 'font-lock-keyword-face
                       'help-echo (buffer-file-name)
                       'local-map mode-line-file-map
                       'mouse-face 'mode-line-highlight
                       ))
+
+   (:eval (if (file-remote-p (buffer-file-name))
+              (let ((parts (tramp-dissect-file-name (buffer-file-name))))
+                (concat " " (propertize (concat (tramp-file-name-user parts) "@" (tramp-file-name-host parts))
+                                        'face 'mode-line-emphasis)))
+            ))
 
    (vc-mode vc-mode)
 
@@ -169,13 +175,13 @@
    (:eval
     (mode-line-pad-right
      (list " "
-           (when (ignore-errors (projectile-project-root))
-             (concat
-              (propertize (projectile-project-name)
-                          'mouse-face 'mode-line-highlight
-                          'local-map projectile-mode-line-menu)
+           ;; (when (ignore-errors (projectile-project-root))
+           ;;   (concat
+           ;;    (propertize (projectile-project-name)
+           ;;                'mouse-face 'mode-line-highlight
+           ;;                'local-map projectile-mode-line-menu)
 
-              " "))
+           ;;    " "))
       mode-line-modes
       global-mode-string "  ")
      ))

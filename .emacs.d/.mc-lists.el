@@ -33,6 +33,7 @@
         org-self-insert-command
         outshine-self-insert-command
         sacha/smarter-move-beginning-of-line
+        sgml-slash
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp

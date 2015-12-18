@@ -38,3 +38,7 @@
 
 (bind-key "H-s" #'sudo-edit)
 (bind-key "C-x C-z" #'sudo-edit)
+
+(defun crontab-e ()
+    (interactive)
+    (with-editor-async-shell-command "crontab -e"))
