@@ -113,7 +113,7 @@
      (p `(message-header-to :inherit message-header-other))
      (p `(message-header-xheader :inherit shadow))
      (p `(message-cited-text :inherit font-lock-comment-face))
-     (p `(message-mml :foreground ,w))
+     (p `(message-mml :inherit button))
 
      (p `(outline-1  :background ,lightbg :foreground ,w :height 1.5 :inherit default))
      (p `(outline-2  :height ,(/ 1.3 1.5) :inherit outline-1))
@@ -147,6 +147,8 @@
      (p `(erc-notice-face :inherit font-lock-comment-face))
      (p `(erc-prompt-face :inherit font-lock-type-face))
      (p `(erc-timestamp-face :inherit font-lock-comment-face))
+
+     (p `(button :background ,dimred))
      )))
 
 (provide-theme 'plain)
