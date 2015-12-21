@@ -21,7 +21,7 @@
 
 ;;; Load my theme
 
-(load-theme 'plain t)
+;(load-theme 'plain t)
 
 ;;; Misc settings which are quite basic
 

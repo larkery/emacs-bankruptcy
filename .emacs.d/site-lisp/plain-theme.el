@@ -31,7 +31,7 @@
        (v-light 0.6)
        (vv-light 0.8)
 
-       (bg (hsl 0 0 0.1))
+       (bg (hsl 0 0 0.13))
        (lightbg (hsl 0 0 0.2))
        (mid (hsl 0 0 0.4))
        (fg (hsl 0.1 0.5 0.95))
@@ -59,10 +59,10 @@
        (dimgreen (hsl 0.35 0.3 v-dark))
        (dimblue  (hsl 0.55 0.3 v-dark))
        )
-    (message "Random!: %f %f %f" h1 h2 h3)
+
     (custom-theme-set-faces
      'plain
-     (p `(default :background ,bg :foreground ,fg))
+     (p `(default :background ,bg :foreground ,fg :height 105))
      (p `(cursor  :background ,w  :foreground ,b))
      (p `(region  :background ,w  :foreground ,numix :inverse-video  t))
      (p `(shadow :foreground ,dimfg))
