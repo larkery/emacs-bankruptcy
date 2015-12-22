@@ -21,9 +21,10 @@
           (p (x)
              `(,(car x) ((t ,(cdr x))))))
   (let*
-      ((numix "#4682b4")
+      ((numix  "#2f4f4f" ;; "#4682b4"
+              )
 
-       (h1 0.55)
+       (h1 0.48)
        (h2 (- h1 0.66))
        (h3 (+ h1 0.66))
 
@@ -40,6 +41,9 @@
        (b  (hsl 0 0 0))
 
        (c1 (hsl h1 0.6 v-dark))
+
+       (c1dim (hsl h1 0.6 0.17))
+
        (c2 (hsl h2 0.6 v-dark))
        (c3 (hsl h3 0.6 v-dark))
 
@@ -101,7 +105,7 @@
 
      (p `(mode-line-emphasis :background ,c3))
      (p `(mode-line-highlight :background ,c2))
-     (p `(header-line :weight bold :foreground ,w :background ,dimred :box ,mid))
+     (p `(header-line :inherit mode-line-inactive))
      (p `(which-func :foreground ,w))
 
      (p `(notmuch-tag-face :foreground ,c3l))
@@ -148,7 +152,7 @@
      (p `(erc-prompt-face :inherit font-lock-type-face))
      (p `(erc-timestamp-face :inherit font-lock-comment-face))
 
-     (p `(button :background ,dimred))
+     (p `(button :underline ,w))
      )))
 
 (provide-theme 'plain)

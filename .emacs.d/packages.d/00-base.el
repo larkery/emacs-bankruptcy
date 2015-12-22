@@ -21,7 +21,7 @@
 
 ;;; Load my theme
 
-;(load-theme 'plain t)
+(load-theme 'plain t)
 
 ;;; Misc settings which are quite basic
 
@@ -34,7 +34,15 @@
       echo-keystrokes           0.2
       scroll-conservatively     10
       set-mark-command-repeat-pop t
-      frame-title-format        '( "[%b] " (buffer-file-name "%f" default-directory)))
+      frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))
+        (:eval
+         (progn
+           (x-change-window-property "CWD" (format "%s" default-directory) (window-frame) "STRING" 8 t)
+           "")
+         )))
 
 ;; Make various files go in the state/ dir
 
@@ -91,23 +99,34 @@
   [mode-line mouse-1]
   (lambda () (interactive)
     (popup-menu
-     `(,(buffer-name)
+     (remove-if-not #'identity
+                    `(,(buffer-name)
+                      ;; produce a menu of parent directories
 
-       ,(when (buffer-file-name)
-          ["sudo-edit" sudo-edit t])
+                      ,(symbol-name major-mode)
+                      ,@(mapcar
+                         (lambda (x) (vector (buffer-name x)
+                                             (eval `(lambda () (interactive) (switch-to-buffer ,(buffer-name x))))
+                                             t))
 
-       ;; produce a menu of parent directories
-       ("dired"
-        ,@(when (buffer-file-name)
-            (let ((result nil)
-                  (h (directory-file-name (file-name-directory (buffer-file-name)))))
-              (while h
-                (push (lexical-let ((h h)) (vector h (lambda () (interactive) (dired h)) t))
-                      result)
-                (setq h
-                      (unless (equal "/" h)
-                        (directory-file-name (file-name-directory h)))))
-              result))))
+                         (remove-if-not (lambda (x) (equal major-mode (buffer-local-value 'major-mode x)))
+                                        (buffer-list)))
+                      ,(when (buffer-file-name)
+                         `("Files"
+                           ["sudo-edit" sudo-edit t]
+
+                           ,@(when (buffer-file-name)
+                               (let ((result nil)
+                                     (h (directory-file-name (file-name-directory (buffer-file-name)))))
+                                 (while h
+                                   (push (lexical-let ((h h)) (vector h (lambda () (interactive) (dired h)) t))
+                                         result)
+                                   (setq h
+                                         (unless (equal "/" h)
+                                           (directory-file-name (file-name-directory h)))))
+                                 result)))
+                         )
+                      ))
      )))
 
 (defun mode-line-clickable (text handlers)
@@ -163,7 +182,7 @@
                       'mouse-face 'mode-line-highlight
                       ))
 
-   (:eval (if (file-remote-p (buffer-file-name))
+   (:eval (if (and (buffer-file-name) (file-remote-p (buffer-file-name)))
               (let ((parts (tramp-dissect-file-name (buffer-file-name))))
                 (concat " " (propertize (concat (tramp-file-name-user parts) "@" (tramp-file-name-host parts))
                                         'face 'mode-line-emphasis)))

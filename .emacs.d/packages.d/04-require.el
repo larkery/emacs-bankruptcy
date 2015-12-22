@@ -1045,3 +1045,7 @@ On %a, %b %d %Y, %N wrote:
   (diminish 'abbrev-mode "")
   (diminish 'mml-mode "")
   )
+
+;;; ace-window
+(req-package ace-window
+  :bind ("C-x o" . ace-window))

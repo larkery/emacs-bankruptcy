@@ -78,7 +78,7 @@ point reaches the beginning or end of the buffer, stop there."
                      (buffer-narrowed-p))   'widen)
                ((region-active-p)           'narrow-to-region)
                ((eq major-mode 'org-mode)   'org-narrow-to-element)
-               ((derived-mode-p 'prog-mode) 'narrow-to-defun)
+               ((derived-mode-p 'prog-mode 'ess-mode) 'narrow-to-defun)
                ((derived-mode-p 'text-mode) 'narrow-to-page))))
     (when action
       (message (symbol-name action))
