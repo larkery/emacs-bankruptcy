@@ -1024,6 +1024,16 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; erc
 
+(req-package erc
+  :config
+  (defun h/erc-mode-hook ()
+    (erc-fill-mode -1)
+    (visual-line-mode 1)
+    (setq truncate-lines nil)
+    (setq-local adaptive-fill-regexp "<.+> "))
+
+  (add-hook 'erc-mode-hook #'h/erc-mode-hook))
+
 (req-package znc
   :commands znc-all znc-erc
   :config

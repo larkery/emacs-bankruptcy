@@ -14,6 +14,7 @@
    [unspecified "#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"] t)
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
+ '(aw-scope (quote frame))
  '(background-color "#202020")
  '(background-mode dark)
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
@@ -149,7 +150,10 @@
    (quote
     (("n" "Agenda and all TODO's"
       ((agenda ""
-               ((org-agenda-ndays 1)))
+               ((org-agenda-span 1)
+                (org-agenda-clockreport-parameter-plist
+                 (quote
+                  (:step day :fileskip0 t :stepskip0)))))
        (alltodo "" nil))
       nil)
      ("w" "Weekly clock report" agenda ""
@@ -308,6 +312,10 @@
      ("screen" . shell-script))))
  '(org-tab-follows-link nil)
  '(org-tags-column 0)
+ '(org-time-clocksum-format
+   (quote
+    (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+ '(org-time-clocksum-fractional-format (quote (:hours "%.2f h")))
  '(org-time-clocksum-use-effort-durations t)
  '(org-time-clocksum-use-fractional nil)
  '(org-todo-keyword-faces (quote (("WAIT" . "DeepSkyBlue") ("CANCEL" . "magenta"))))

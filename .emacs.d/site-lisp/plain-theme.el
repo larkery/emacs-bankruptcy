@@ -151,6 +151,8 @@
      (p `(erc-notice-face :inherit font-lock-comment-face))
      (p `(erc-prompt-face :inherit font-lock-type-face))
      (p `(erc-timestamp-face :inherit font-lock-comment-face))
+     (p `(erc-input-face :inherit shadow))
+     (p `(erc-my-nick-face :inherit shadow))
 
      (p `(button :underline ,w))
      )))
