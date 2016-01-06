@@ -49,9 +49,9 @@
 
 ;; insert dired subtree indented rather than at bottom
 (req-package dired-subtree
-  :commands dired-subtree-toggle
+  :commands dired-subtree-toggle dired-subtree-cycle
   :init
-  (bind-key "i" #'dired-subtree-toggle dired-mode-map))
+  (bind-key "<tab>" #'dired-subtree-cycle dired-mode-map))
 
 ;; enable dired filtering - joined up with a hydra below
 (req-package dired-filter :defer t)
@@ -333,7 +333,8 @@
     (require 'dired-filter)
     (defhydra hydra-dired ()
       "filter"
-      ("e" dired-filter-by-extension "extension")
+      ("n" dired-filter-by-name "name")
+      ("e" dired-filter-by-extension "ext")
       ("-" dired-filter-negate "negate")
       ("r" dired-filter-by-regexp "regex")
       ("f" dired-filter-pop "pop")
