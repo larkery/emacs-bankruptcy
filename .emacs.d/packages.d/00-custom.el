@@ -19,7 +19,7 @@
  '(background-mode dark)
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "xdg-open")
+ '(browse-url-generic-program "~/.local/bin/xdg-open")
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)
  '(calendar-latitude 51.45)

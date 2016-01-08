@@ -1,3 +1,12 @@
+(defun cycle-line-numbers ()
+  (interactive)
+  (if hl-line-mode
+        (if linum-mode
+            (progn (hl-line-mode -1)
+                   (linum-mode -1))
+          (linum-mode 1))
+    (hl-line-mode 1)))
+
 (defun really-kill-this-buffer ()
   (interactive)
   (kill-buffer (buffer-name)))
@@ -24,7 +33,7 @@
 (bind-key "M-]" 'comint-dynamic-complete-filename)
 (bind-key "C-!" 'winner-undo)
 (bind-key "C-\"" 'winner-redo)
-(bind-key "<f9>" 'hl-line-mode)
+(bind-key "<f9>" #'cycle-line-numbers)
 (bind-key "H-SPC" 'set-rectangular-region-anchor)
 
 (substitute-key-definition
@@ -77,7 +86,7 @@ point reaches the beginning or end of the buffer, stop there."
          (cond ((and (not arg)
                      (buffer-narrowed-p))   'widen)
                ((region-active-p)           'narrow-to-region)
-               ((eq major-mode 'org-mode)   'org-narrow-to-element)
+               ((eq major-mode 'org-mode)   'org-narrow-to-subtree)
                ((derived-mode-p 'prog-mode 'ess-mode) 'narrow-to-defun)
                ((derived-mode-p 'text-mode) 'narrow-to-page))))
     (when action
