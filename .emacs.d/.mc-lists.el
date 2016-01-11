@@ -26,9 +26,11 @@
         lispy-quotes
         multiple-cursors-mode
         mwim-end-of-code-or-line
+        org-backward-sentence
         org-delete-char
         org-end-of-line
         org-force-self-insert
+        org-forward-sentence
         org-kill-line
         org-self-insert-command
         outshine-self-insert-command

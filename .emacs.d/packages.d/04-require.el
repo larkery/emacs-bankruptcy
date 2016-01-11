@@ -948,6 +948,7 @@
                                        bol
 
                                        (or
+                                        (seq (* nonl) "not the intended recipient" (* nonl))
                                         (seq "The original of this email was scanned for viruses" (* nonl))
                                         (seq "__" (* "_"))
                                         (seq "****" (* "*"))
@@ -1013,8 +1014,6 @@ On %a, %b %d %Y, %N wrote:
          ("M-s f" . iy-go-up-to-char)
          ("M-s b" . iy-go-up-to-char-backward)))
 
-(req-package swiper :bind ("C-S-S" . swiper))
-
 ;;; restclient
 
 (req-package restclient)
@@ -1060,3 +1059,15 @@ On %a, %b %d %Y, %N wrote:
 ;;; ace-window
 (req-package ace-window
   :bind ("C-x o" . ace-window))
+
+
+;;; elfeed
+
+(req-package elfeed
+  :commands elfeed
+  :bind ("C-c f" . elfeed)
+  :config
+  (setq elfeed-feeds
+        '("http://www.antipope.org/charlie/blog-static/atom.xml"
+          "http://www.rifters.com/crawl/?feed=rss2"))
+  )
