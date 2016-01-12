@@ -342,7 +342,8 @@
       ("d" dired-filter-by-directory "dirs")
       ("o" dired-filter-by-omit "omit")
       ("." dired-filter-by-dot-files "dots"))
-    (call-interactively 'hydra-dired/body)))
+    (call-interactively 'hydra-dired/body))
+  )
 
 ;;; ibuffer
 
@@ -462,12 +463,16 @@
           (ido-grid-mode-start-collapsed nil))
       (apply o args)))
 
-  (advice-add 'ido-describe-prefix-bindings :around #'h/advise-grid-tall)
-  (advice-add 'h/recentf-find-file :around #'h/advise-grid-tall)
-  (advice-add 'ido-occur :around #'h/advise-grid-tall)
-  (advice-add 'org-refile :around #'h/advise-grid-tall)
-  (advice-add 'org-refile-get-location :around #'h/advise-grid-tall)
-  (advice-add 'lacarte-execute-menu-command :around #'h/advise-grid-tall))
+
+  (dolist (fn '(ido-describe-prefix-bindings
+                ido-describe-mode-bindings
+                h/recentf-find-file
+                ido-occur
+                org-refile
+                org-refile-get-location
+                lacarte-execute-menu-command))
+    (advice-add fn :around #'h/advise-grid-tall)))
+
 
 (req-package ido-at-point
   :config
@@ -478,14 +483,14 @@
   (require 'ido-exit-target))
 
 (req-package ido-describe-prefix-bindings
+  :bind ("M-X" . ido-describe-mode-bindings)
   :config
   (ido-describe-prefix-bindings-mode 1))
 
 (req-package smex
   :commands smex
   :require (ido ido-grid-mode ido-ubiquitous)
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands))
+  :bind (("M-x" . smex))
   :config
   (setq smex-save-file (h/ed "state/smex-items")
         smex-flex-matching nil)
@@ -642,6 +647,8 @@
   (savehist-mode 1))
 
 ;;; org-mode
+
+(req-package org-agenda-property)
 
 (req-package graphviz-dot-mode
   :commands graphviz-dot-mode
@@ -1069,5 +1076,18 @@ On %a, %b %d %Y, %N wrote:
   :config
   (setq elfeed-feeds
         '("http://www.antipope.org/charlie/blog-static/atom.xml"
-          "http://www.rifters.com/crawl/?feed=rss2"))
+          "http://www.rifters.com/crawl/?feed=rss2"
+          "http://physics.ucsd.edu/do-the-math/feed/"
+          "http://dalynews.org/feed"
+          "http://www.tyndall.ac.uk/rss.xml"
+          ))
+  )
+
+;;; eno
+
+(req-package eno
+  :bind (("M-g w" . eno-word-goto))
+  :config
+  (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
+  (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
   )

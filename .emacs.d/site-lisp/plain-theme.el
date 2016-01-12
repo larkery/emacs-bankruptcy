@@ -21,7 +21,7 @@
           (p (x)
              `(,(car x) ((t ,(cdr x))))))
   (let*
-      ((numix  "#2f4f4f" ;; "#4682b4"
+      ((numix  "#666666" ;; "#4682b4"
               )
 
        (h1 0.48)
@@ -40,7 +40,7 @@
        (w  (hsl 0 0 1))
        (b  (hsl 0 0 0))
 
-       (c1 (hsl h1 0.6 v-dark))
+       (c1 (hsl h1 0.2 v-dark))
 
        (c1dim (hsl h1 0.6 0.17))
 
