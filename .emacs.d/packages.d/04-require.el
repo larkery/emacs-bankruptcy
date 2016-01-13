@@ -1075,12 +1075,12 @@ On %a, %b %d %Y, %N wrote:
   :bind ("C-c f" . elfeed)
   :config
   (setq elfeed-feeds
-        '("http://www.antipope.org/charlie/blog-static/atom.xml"
-          "http://www.rifters.com/crawl/?feed=rss2"
-          "http://physics.ucsd.edu/do-the-math/feed/"
-          "http://dalynews.org/feed"
-          "http://www.tyndall.ac.uk/rss.xml"
-          ))
+        '(("http://www.antipope.org/charlie/blog-static/atom.xml" sf)
+          ("http://www.rifters.com/crawl/?feed=rss2" sf)
+          ("http://physics.ucsd.edu/do-the-math/feed/" climate econ sci)
+          ("http://dalynews.org/feed" econ)
+          ("http://www.tyndall.ac.uk/rss.xml" climate)
+          ("http://feeds.arstechnica.com/arstechnica/features" ars tech)))
   )
 
 ;;; eno

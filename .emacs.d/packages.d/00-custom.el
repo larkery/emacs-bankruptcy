@@ -30,7 +30,7 @@
  '(custom-raised-buttons t)
  '(custom-safe-themes
    (quote
-    ("314c3d98661b8ca7e4f7176ae240785ad50f7391249e826231ffaa65f17411f9" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
+    ("c814f5bdd7ada44cb146a6a1cdef194781579ef13323558bd5e7a96f3f33f9e1" "314c3d98661b8ca7e4f7176ae240785ad50f7391249e826231ffaa65f17411f9" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-auto-revert-buffer (quote dired-directory-changed-p))

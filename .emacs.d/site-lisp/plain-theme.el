@@ -24,11 +24,12 @@
       ((numix  "#666666" ;; "#4682b4"
               )
 
-       (h1 0.48)
+       (h1 0.58)
        (h2 (- h1 0.66))
        (h3 (+ h1 0.66))
 
        (v-dark 0.3)
+       (m-dark 0.35)
        (v-light 0.6)
        (vv-light 0.8)
 
@@ -42,10 +43,10 @@
 
        (c1 (hsl h1 0.2 v-dark))
 
-       (c1dim (hsl h1 0.6 0.17))
-
        (c2 (hsl h2 0.6 v-dark))
        (c3 (hsl h3 0.6 v-dark))
+
+       (c1m (hsl h1 0.6 m-dark))
 
        (c1l (hsl h1 0.6 v-light))
        (c2l (hsl h2 0.6 v-light))
@@ -71,7 +72,7 @@
      (p `(region  :background ,w  :foreground ,numix :inverse-video  t))
      (p `(shadow :foreground ,dimfg))
      (p `(error :foreground ,red))
-     (p `(highlight :background ,lightbg))
+     (p `(highlight :background ,c1))
      (p `(minibuffer-prompt :foreground ,w))
      (p `(ido-first-match :inverse-video t))
      (p `(ido-subdir :inherit shadow))
@@ -100,8 +101,8 @@
      (p `(sp-wrap-overlay-face :inherit sp-pair-overlay-face))
      (p `(sp-show-pair-match-face :underline t))
 
-     (p `(mode-line :background ,c1 :box ,fg))
-     (p `(mode-line-inactive :background ,lightbg :box ,mid))
+     (p `(mode-line :background ,c1 :box ,fg :foreground ,w))
+     (p `(mode-line-inactive :background ,b :box ,mid))
 
      (p `(mode-line-emphasis :background ,c3))
      (p `(mode-line-highlight :background ,c2))
@@ -155,6 +156,8 @@
      (p `(erc-my-nick-face :inherit shadow))
 
      (p `(button :underline ,w))
+
+     (p `(ido-grid-mode-jump-face :foreground ,c1l))
      )))
 
 (provide-theme 'plain)

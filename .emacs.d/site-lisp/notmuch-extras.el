@@ -98,7 +98,7 @@
     (progn
       (message "Checking mail...")
       (setf h/notmuch-already-polling t)
-      (with-current-buffer (get-buffer-create "*notmuch-poll*")
+      (with-current-buffer (get-buffer-create " *notmuch-poll*")
         (erase-buffer))
 
       (let* ((process-environment
@@ -106,8 +106,8 @@
                 (cons (format "FULL=%s" p) process-environment)))
              (the-process
               (if (and notmuch-poll-script (not (= "" notmuch-poll-script)))
-                  (start-process "notmuch-poll" "*notmuch-poll*" notmuch-poll-script)
-                (start-process "notmuch-poll" "*notmuch-poll*" notmuch-command "new")))
+                  (start-process "notmuch-poll" " *notmuch-poll*" notmuch-poll-script)
+                (start-process "notmuch-poll" " *notmuch-poll*" notmuch-command "new")))
              (buf (process-buffer the-process)))
 
         (set-process-sentinel
