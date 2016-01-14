@@ -616,36 +616,6 @@
   :init
   (require 'browse-kill-ring+))
 
-(req-package winner
-  :config
-  (winner-mode 1))
-
-(req-package back-button
-  :diminish ""
-  :require smartrep
-  :config
-  (back-button-mode 1)
-
-  (bind-key "M-<mouse-8>"     #'back-button-global-backward back-button-mode-map)
-  (bind-key "M-<mouse-9>"     #'back-button-global-forward  back-button-mode-map)
-
-  (bind-key "<mouse-8>"       #'back-button-local-backward  back-button-mode-map)
-  (bind-key "<mouse-9>"       #'back-button-local-forward   back-button-mode-map)
-
-  (bind-key "<XF86Back>"      #'back-button-local-backward  back-button-mode-map)
-  (bind-key "<XF86Forward>"   #'back-button-local-forward   back-button-mode-map)
-  (bind-key "M-<XF86Back>"    #'back-button-global-backward back-button-mode-map)
-  (bind-key "M-<XF86Forward>" #'back-button-global-forward  back-button-mode-map))
-
-(req-package savehist
-  :config
-  (setq savehist-file (h/sd "savehist")
-        savehist-additional-variables
-        '(search-ring regexp-search-ring kill-ring
-                      read-expression-history))
-
-  (savehist-mode 1))
-
 ;;; org-mode
 
 (req-package org-agenda-property)
@@ -1091,3 +1061,7 @@ On %a, %b %d %Y, %N wrote:
   (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
   (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
   )
+
+;;; rainbow mode
+
+(req-package rainbow-mode)
