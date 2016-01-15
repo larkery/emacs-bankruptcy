@@ -1,7 +1,8 @@
 (defun cycle-line-numbers ()
   (interactive)
   (if hl-line-mode
-        (if linum-mode
+      (if (and (boundp 'linum-mode)
+               linum-mode)
             (progn (hl-line-mode -1)
                    (linum-mode -1))
           (linum-mode 1))
