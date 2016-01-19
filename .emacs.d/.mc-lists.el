@@ -10,6 +10,7 @@
         electric-newline-and-maybe-indent
         end-of-visual-line
         ess-smart-comma
+        ess-smarter-underscore
         ess-yank
         h/kill-sexp-appropriately
         h/slurp-appropriately
