@@ -177,7 +177,11 @@
     (("c" "Future task" entry
       (file+headline "~/org/work/projects.org" "Unfiled tasks")
       "** TODO %?%a
-   %u"))))
+%u")
+     ("e" "calendar event" entry
+      (file "~/org/work/calendar.org")
+      "* %?
+%^T"))))
  '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-history-length 100)
  '(org-clock-in-resume t)
@@ -283,6 +287,7 @@
    (quote
     ("latexmk -pdflatex='pdflatex --shell-escape -interaction nonstopmode -output-directory %o' -pdf -f %f")))
  '(org-latex-to-pdf-process (quote ("latexmk -pdf -e '$pdflatex=q/xelatex %O %S/' %f")))
+ '(org-log-done (quote time))
  '(org-log-into-drawer t)
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
  '(org-odt-with-latex (quote dvipng))
