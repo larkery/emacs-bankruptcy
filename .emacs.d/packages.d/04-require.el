@@ -1003,11 +1003,42 @@ On %a, %b %d %Y, %N wrote:
 
 (req-package erc
   :config
+  (defun h/erc-fill-nicks-thing ()
+    (save-match-data
+      (goto-char (point-min))
+      (when (looking-at "^\\(\\S-+\\)")
+        (let ((n (match-string 1)))
+          (delete-region (match-beginning 1) (match-end 1))
+          (cond
+           ((or (equal "<***>" n)
+                (equal "***" n))
+            (progn
+              (insert " •")
+              (add-face-text-property (point-min) (point-max) 'highlight)))
+           ((equal "*" n)
+            (insert "             →" (substring n 1)))
+
+           (t
+            (insert (s-pad-left 12 " " (substring n 1 (- (length n) 1))) " •")))
+          ))))
+
+  (defvar-local h/last-timestamp-insert 0)
+
+  (defun h/erc-insert-timestamp-at-end (stamp)
+    (let ((now (float-time)))
+      (when (> (- now h/last-timestamp-insert) 600)
+        ;; ten minutes
+        (setq h/last-timestamp-insert now)
+        (end-of-line)
+        (insert " ")
+        (insert stamp))))
+
   (defun h/erc-mode-hook ()
-    (erc-fill-mode -1)
+    (erc-fill-mode 1)
+    (setq erc-fill-function #'h/erc-fill-nicks-thing)
     (visual-line-mode 1)
     (setq truncate-lines nil)
-    (setq-local adaptive-fill-regexp "<.+> "))
+    (setq-local adaptive-fill-regexp ".+\\(•\\|→\\) +"))
 
   (add-hook 'erc-mode-hook #'h/erc-mode-hook))
 
@@ -1065,3 +1096,12 @@ On %a, %b %d %Y, %N wrote:
 ;;; rainbow mode
 
 (req-package rainbow-mode)
+
+;;; polymode
+;;;; r-markdown
+
+(req-package markdown-mode)
+
+(req-package polymode
+  :commands poly-markdown+r-mode
+  :mode ("\\.[Rr]md\\'" . poly-markdown+r-mode))
