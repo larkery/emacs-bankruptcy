@@ -1081,7 +1081,8 @@ On %a, %b %d %Y, %N wrote:
           ("http://physics.ucsd.edu/do-the-math/feed/" climate econ sci)
           ("http://dalynews.org/feed" econ)
           ("http://www.tyndall.ac.uk/rss.xml" climate)
-          ("http://feeds.arstechnica.com/arstechnica/features" ars tech)))
+          ("http://feeds.arstechnica.com/arstechnica/features" ars tech)
+          ("http://www.daemonology.net/blog/index.rss" tech)))
   )
 
 ;;; eno

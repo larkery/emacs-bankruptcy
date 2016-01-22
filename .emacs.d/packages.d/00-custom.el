@@ -59,9 +59,6 @@
  '(global-auto-revert-mode t)
  '(global-highlight-parentheses-mode t)
  '(global-yascroll-bar-mode t)
- '(highlight-symbol-colors
-   (quote
-    ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
  '(highlight-symbol-foreground-color "#E0E0E0")
  '(highlight-tail-colors
    (if
@@ -122,6 +119,7 @@
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
+ '(ido-work-directory-list-ignore-regexps (quote ("^/home/hinton/net/")))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(iplayer-download-directory "~/music/iplayer/")

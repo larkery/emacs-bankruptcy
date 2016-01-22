@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        beginning-of-visual-line
         c-electric-colon
         c-electric-delete-forward
         c-electric-paren
@@ -19,6 +20,7 @@
         jump-char-repeat-backward
         kill-region
         kill-sexp
+        kill-visual-line
         lispy-braces
         lispy-brackets
         lispy-delete
