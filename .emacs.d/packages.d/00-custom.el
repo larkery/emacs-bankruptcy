@@ -45,7 +45,7 @@
  '(erc-insert-away-timestamp-function (quote erc-insert-timestamp-right))
  '(erc-insert-timestamp-function (quote h/erc-insert-timestamp-at-end))
  '(erc-notifications-mode t)
- '(erc-prompt ">>")
+ '(erc-prompt " >")
  '(erc-text-matched-hook (quote (erc-log-matches erc-beep-on-match)))
  '(erc-timestamp-use-align-to nil)
  '(ess-S-underscore-when-last-character-is-a-space t)

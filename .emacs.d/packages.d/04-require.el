@@ -51,7 +51,7 @@
 (req-package dired-subtree
   :commands dired-subtree-toggle dired-subtree-cycle
   :init
-  (bind-key "<tab>" #'dired-subtree-cycle dired-mode-map))
+  (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map))
 
 ;; enable dired filtering - joined up with a hydra below
 (req-package dired-filter :defer t)
