@@ -160,6 +160,8 @@
      (p `(button :underline ,w))
 
      (p `(ido-grid-mode-jump-face :foreground ,c1l))
+
+     (p `(ag-hit-face :foreground ,c3l :underline ,dimblue))
      )))
 
 (provide-theme 'plain)
