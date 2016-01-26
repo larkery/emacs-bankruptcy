@@ -132,6 +132,7 @@
  '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
  '(mouse-autoselect-window t)
+ '(neo-theme (quote nerd))
  '(notmuch-saved-searches
    (quote
     ((:name "all inbox" :query "tag:inbox" :key "i")
@@ -338,6 +339,7 @@
  '(org-use-property-inheritance (quote ("CODE")))
  '(org-use-speed-commands t)
  '(paradox-github-token t)
+ '(pe/follow-current t)
  '(pos-tip-background-color "#3a3a3a")
  '(pos-tip-foreground-color "#9E9E9E")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")

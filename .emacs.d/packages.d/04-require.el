@@ -1109,3 +1109,20 @@ On %a, %b %d %Y, %N wrote:
 (req-package polymode
   :commands poly-markdown+r-mode
   :mode ("\\.[Rr]md\\'" . poly-markdown+r-mode))
+
+;;; project explorer
+
+(req-package project-explorer
+  :bind ("<f7>" . project-explorer-toggle)
+  :config
+  (defun h/advise-pe-follow (o &rest args)
+    (if (projectile-project-p)
+        (apply o args)
+      (let (( window (pe/get-project-explorer-window)))
+        (if window
+            (with-selected-window window
+              (with-current-buffer (window-buffer window)
+                (pe/quit)))))
+      ))
+
+  (advice-add 'pe/follow-current-open :around #'h/advise-pe-follow))
