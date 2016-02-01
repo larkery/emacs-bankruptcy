@@ -111,6 +111,11 @@
  '(ido-create-new-buffer (quote always))
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
+ '(ido-grid-special-commands
+   (quote
+    ((h/recentf-find-file 15 1 nil)
+     (lacarte-execute-menu-command 10 1 nil)
+     (ido-occur 0.25 1 nil))))
  '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote
