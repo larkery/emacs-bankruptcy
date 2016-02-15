@@ -202,7 +202,11 @@
 
            ;;    " "))
       mode-line-modes
-      global-mode-string "  ")
+      global-mode-string
+      '(:propertize (:eval (anzu--update-mode-line))
+                    face (:foreground "cyan" :weight 'bold
+                                      :box '(:color "deep pink")))
+      "  ")
      ))
 
    )

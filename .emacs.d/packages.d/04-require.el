@@ -941,15 +941,41 @@ On %a, %b %d %Y, %N wrote:
 (req-package anzu
   :diminish (anzu-mode . "")
   :config
-  (global-anzu-mode))
+  (global-anzu-mode)
+  (bind-key "M-%" #'anzu-query-replace)
+  (bind-key "C-M-%" #'anzu-query-replace-regexp)
+
+  (defun h/anzu-wangle-minibuffer-input (f buf beg end use-re overlay-limit)
+    (if (and use-re pcre-mode)
+        (let ((-minibuffer-contents (symbol-function 'minibuffer-contents)))
+          (flet ((minibuffer-contents
+                  ()
+                  (rxt-elisp-to-pcre (funcall -minibuffer-contents))
+                  ))
+            (funcall f buf beg end use-re overlay-limit)))
+
+      (funcall f buf beg end use-re overlay-limit)))
+
+  (defun h/anzu-pcre-mode (f prompt beg end use-re overlay-limit)
+    (if (and use-re pcre-mode)
+        (let ((res (funcall f (concat prompt " (PCRE)") beg end use-re overlay-limit)))
+          (rxt-elisp-to-pcre res))
+      (funcall f prompt beg end use-re overlay-limit)))
+
+  (advice-add 'anzu--check-minibuffer-input :around #'h/anzu-wangle-minibuffer-input)
+  ;(advice-remove 'anzu--check-minibuffer-input #'h/anzu-wangle-minibuffer-input)
+  (advice-add 'anzu--query-from-string :around #'h/anzu-pcre-mode)
+  ;(advice-remove 'anzu--query-from-string #'h/anzu-pcre-mode)
+  )
 
 (req-package wgrep)
 (req-package ag :commands ag)
 
 (req-package visual-regexp
   :require visual-regexp-steroids
-  :bind (("M-%" . vr/replace)
-         ("C-; r" . vr/mc-mark)))
+  ;:bind (("M-%" . vr/replace)
+  ;;       ("C-; r" . vr/mc-mark))
+  )
 
 (req-package iy-go-to-char
   :bind (("C-c s" . iy-go-up-to-char)
