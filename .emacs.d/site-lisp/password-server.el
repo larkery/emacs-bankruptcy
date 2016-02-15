@@ -3,8 +3,8 @@
 ;;; Code:
 
 (defvar password-server-password-files
-  '("~/org/passwords/personal.org.gpg"
-    "~/org/passwords/work.org.gpg"))
+  '("~/.passwords/personal.org.gpg"
+    "~/.passwords/work.org.gpg"))
 
 (defun password-server-lock ()
   ;; save if unsaved, and kill if open

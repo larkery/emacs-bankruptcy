@@ -698,7 +698,7 @@
 
 (req-package org-journal
   :require org
-  :config (setq org-journal-dir "~/org/journal/"))
+  :config (setq org-journal-dir "~/notes/journal/"))
 
 (req-package org-caldav
   :commands org-caldav-sync
@@ -1039,20 +1039,7 @@ On %a, %b %d %Y, %N wrote:
 
 (req-package elfeed
   :commands elfeed
-  :bind ("C-c f" . elfeed)
-  :config
-  (setq elfeed-feeds
-        '(("http://www.antipope.org/charlie/blog-static/atom.xml" sf)
-          ("http://www.rifters.com/crawl/?feed=rss2" sf)
-          ("http://physics.ucsd.edu/do-the-math/feed/" climate econ sci)
-          ("http://dalynews.org/feed" econ)
-          ("http://www.tyndall.ac.uk/rss.xml" climate)
-          ("http://feeds.arstechnica.com/arstechnica/features" ars tech)
-          ("http://www.daemonology.net/blog/index.rss" tech)
-          ("http://feeds2.feedburner.com/typepad/krisdedecker/lowtechmagazineenglish" climate eco)
-          ("http://feeds2.feedburner.com/NoTechMagazine" climate eco)
-          ))
-  )
+  :bind ("C-c f" . elfeed))
 
 ;;; eno
 

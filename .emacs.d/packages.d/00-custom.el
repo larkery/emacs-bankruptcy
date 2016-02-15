@@ -31,7 +31,7 @@
  '(custom-raised-buttons t)
  '(custom-safe-themes
    (quote
-    ("c814f5bdd7ada44cb146a6a1cdef194781579ef13323558bd5e7a96f3f33f9e1" "314c3d98661b8ca7e4f7176ae240785ad50f7391249e826231ffaa65f17411f9" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
+    ("37d86ad45027da2a8e29fecf81e6422820824b252f8b686d35c6dbf0e6ac9573" "d606ac41cdd7054841941455c0151c54f8bff7e4e050255dbd4ae4d60ab640c1" "c814f5bdd7ada44cb146a6a1cdef194781579ef13323558bd5e7a96f3f33f9e1" "314c3d98661b8ca7e4f7176ae240785ad50f7391249e826231ffaa65f17411f9" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-auto-revert-buffer (quote dired-directory-changed-p))
@@ -113,9 +113,9 @@
  '(ido-default-file-method (quote selected-window))
  '(ido-grid-special-commands
    (quote
-    ((h/recentf-find-file 15 1 nil)
-     (lacarte-execute-menu-command 10 1 nil)
-     (ido-occur 0.25 1 nil))))
+    ((h/recentf-find-file 15 1 nil 1)
+     (lacarte-execute-menu-command 10 1 nil 1)
+     (ido-occur 0.25 1 nil 1))))
  '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote
@@ -173,7 +173,7 @@
         (quote
          (:link t :maxlevel 3 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
- '(org-agenda-files (quote ("~/org/" "~/org/work/" "~/org/personal/")))
+ '(org-agenda-files (quote ("~/notes/" "~/notes/work/" "~/notes/home/")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")
@@ -246,7 +246,10 @@
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-goto-interface (quote outline-path-completion))
- '(org-journal-dir "~/org/journal/")
+ '(org-journal-date-prefix "#+TITLE:  ")
+ '(org-journal-dir "~/notes/journal/")
+ '(org-journal-time-format "")
+ '(org-journal-time-prefix "")
  '(org-latex-classes
    (quote
     (("beamer" "\\documentclass[presentation]{beamer}"
