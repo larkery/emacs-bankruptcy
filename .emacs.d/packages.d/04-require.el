@@ -417,7 +417,33 @@
   (ido-match-modes-enable))
 
 (req-package ido-occur
-  :bind ("C-S-s" . ido-occur))
+  :bind ("C-S-s" . h/ido-occur)
+  :config
+  (defun h/ido-occur ()
+    (interactive)
+    (require 'hl-line)
+    (let (old-key
+          (calling-window (frame-selected-window))
+          (is-hl hl-line-mode))
+
+      (flet ((follow
+              (&rest r)
+              (with-selected-window calling-window
+                  (goto-line (string-to-number (car (split-string ido-grid--selection))))
+                  (hl-line-highlight))))
+        (hl-line-mode 1)
+        (advice-add 'ido-grid-up :after (symbol-function 'follow))
+        (advice-add 'ido-grid-down :after (symbol-function 'follow))
+        (unwind-protect
+            (call-interactively #'ido-occur)
+          (progn
+            (advice-remove 'ido-grid-up (symbol-function 'follow))
+            (advice-remove 'ido-grid-down (symbol-function 'follow))
+            (unless is-hl
+              (hl-line-mode -1))
+            )))))
+
+  )
 
 (req-package ido
   :demand
@@ -971,25 +997,9 @@ On %a, %b %d %Y, %N wrote:
 (req-package wgrep)
 (req-package ag :commands ag)
 
-(req-package visual-regexp
-  :require visual-regexp-steroids
-  ;:bind (("M-%" . vr/replace)
-  ;;       ("C-; r" . vr/mc-mark))
-  )
-
-(req-package iy-go-to-char
-  :bind (("C-c s" . iy-go-up-to-char)
-         ("C-c r" . iy-go-up-to-char-backward)
-         ("M-s f" . iy-go-up-to-char)
-         ("M-s b" . iy-go-up-to-char-backward)))
-
 ;;; restclient
 
 (req-package restclient)
-
-;;; focus
-
-(req-package focus :bind ("M-<f8>" . focus-mode))
 
 ;;; erc
 

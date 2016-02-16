@@ -116,7 +116,7 @@
    (quote
     ((h/recentf-find-file 15 1 nil 1)
      (lacarte-execute-menu-command 10 1 nil 1)
-     (ido-occur 0.25 1 nil 1))))
+     (h/ido-occur 0.25 1 nil 1))))
  '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
  '(ido-ignore-files
    (quote
