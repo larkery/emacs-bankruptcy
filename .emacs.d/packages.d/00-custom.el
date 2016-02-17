@@ -7,18 +7,9 @@
  ;; If there is more than one, they won't work right.
  '(Linum-format "%7i ")
  '(ag-highlight-search t)
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   ["#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"])
- '(ansi-term-color-vector
-   [unspecified "#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"] t)
  '(anzu-cons-mode-line-p nil)
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
- '(aw-scope (quote frame))
- '(background-color "#202020")
- '(background-mode dark)
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "~/.local/bin/xdg-open")
@@ -47,21 +38,16 @@
  '(erc-insert-away-timestamp-function (quote erc-insert-timestamp-right))
  '(erc-insert-timestamp-function (quote h/erc-insert-timestamp-at-end))
  '(erc-notifications-mode t)
- '(erc-prompt " >")
  '(erc-text-matched-hook (quote (erc-log-matches erc-beep-on-match)))
  '(erc-timestamp-use-align-to nil)
  '(ess-S-underscore-when-last-character-is-a-space t)
- '(fci-rule-character-color "#202020")
- '(fci-rule-color "#232A2F" t)
  '(focus-follows-mouse t)
- '(foreground-color "#cccccc")
  '(fringe-mode (quote (nil . 0)) nil (fringe))
  '(ggtags-oversize-limit 4000000)
  '(ggtags-use-sqlite3 t)
  '(global-auto-revert-mode t)
  '(global-highlight-parentheses-mode t)
  '(global-yascroll-bar-mode t)
- '(highlight-symbol-foreground-color "#E0E0E0")
  '(highlight-tail-colors
    (if
        (eq
@@ -122,7 +108,6 @@
    (quote
     ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+")))
  '(ido-match-modes-list (quote (words substring regex)))
- '(ido-max-prospects 10)
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
@@ -139,7 +124,6 @@
  '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
  '(mouse-autoselect-window t)
- '(neo-theme (quote nerd))
  '(notmuch-saved-searches
    (quote
     ((:name "all inbox" :query "tag:inbox" :key "i")
@@ -188,11 +172,11 @@
  '(org-capture-templates
    (quote
     (("c" "Future task" entry
-      (file+headline "~/org/work/projects.org" "Unfiled tasks")
+      (file "~/notes/inbox.org")
       "** TODO %?%a
 %u")
      ("e" "calendar event" entry
-      (file "~/org/work/calendar.org")
+      (file "~/notes/work/calendar.org")
       "* %?
 %^T"))))
  '(org-clock-clocked-in-display (quote mode-line))
@@ -218,9 +202,8 @@
     (:maxlevel 2 :lang "en" :scope file :block nil :wstart 1 :mstart 1 :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil nil nil :effort-durations t)))
  '(org-completion-use-ido t)
  '(org-confirm-babel-evaluate (quote ignore))
- '(org-contacts-files (quote ("~/org/personal/contacts.org")))
+ '(org-contacts-files (quote ("~/notes/contacts.org")))
  '(org-custom-properties (quote ("code")))
- '(org-ditaa-jar-path "/home/hinton/.nix-profile/lib/ditaa.jar")
  '(org-effort-durations
    (quote
     (("h" . 60)
@@ -399,11 +382,7 @@
      (360 . "#FFCB6B"))))
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
- '(w3m-use-tab nil)
- '(znc-servers
-   (quote
-    (("lrkry.com" 6667 nil
-      ((freenode "hinton" "t3hsecret")))))))
+ '(w3m-use-tab nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

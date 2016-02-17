@@ -67,7 +67,7 @@
 
     (custom-theme-set-faces
      'plain
-     (p `(default :background ,bg :foreground ,fg :height 90))
+     (p `(default :background ,bg :foreground ,fg :height 100))
      (p `(cursor  :background ,w  :foreground ,b))
      (p `(region  :background ,w  :foreground ,numix :inverse-video  t))
      (p `(shadow :foreground ,dimfg))
