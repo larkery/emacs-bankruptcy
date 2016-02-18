@@ -1067,8 +1067,6 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; theme
 (req-package base16-theme
-  :config
+  :init
   (load-theme 'base16-twilight-dark t)
   (load-theme 'adjustments t))
-
-  )
