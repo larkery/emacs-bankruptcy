@@ -12,6 +12,7 @@
  '(outline-3 ((t (:height 1.3 :foreground "#ffffff"))))
  '(outline-4 ((t (:height 1.2 :foreground "#ffffff"))))
  '(outline-5 ((t (:height 1.1 :foreground "#ffffff"))))
+ '(message-cited-text ((t (:inherit shadow))))
  )
 
 (provide-theme 'adjustments)

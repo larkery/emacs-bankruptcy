@@ -594,13 +594,7 @@
 
 (req-package password-server
   :commands
-  password-server-browse
-  password-server-edit
-  password-server-generate
-  password-server-insert
-  password-server-type
-  password-server-type-both
-  password-server-type-user)
+  password-server-mode)
 
 (req-package org
   ;:pin "manual"
@@ -1068,5 +1062,5 @@ On %a, %b %d %Y, %N wrote:
 ;;; theme
 (req-package base16-theme
   :init
-  (load-theme 'base16-twilight-dark t)
+  (load-theme 'base16-ashes-dark t)
   (load-theme 'adjustments t))

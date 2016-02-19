@@ -4,3 +4,4 @@
 	    (concat user-emacs-directory
 		    "packages.d/") t "\\.el$"))
   (load f))
+(put 'narrow-to-region 'disabled nil)
