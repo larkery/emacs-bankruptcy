@@ -62,7 +62,39 @@
         (kill-buffer)))
     ))
 
+(defun password-server-random (bits)
+  (with-temp-buffer
+   (set-buffer-multibyte nil)
+   (call-process "head" "/dev/urandom" t nil "-c" (format "%d" (/ bits 8)))
+   (let ((f (apply-partially #'format "%02x")))
+     (string-to-number (mapconcat f (buffer-string) "") 16))))
 
+(defun password-server-generate-password (&optional n)
+  (with-current-buffer
+      (find-file-noselect "/usr/share/dict/words")
+    (let* (words
+           pick
+           (l (count-lines (point-min) (point-max)))
+           (bits (/ (log (+ l 1)) (log 2))))
+      (dotimes (i n)
+        (setq pick (% (password-server-random bits) l))
+        (goto-char (point-min))
+        (forward-line pick)
+        (push (buffer-substring (point) (line-end-position)) words))
+      (mapconcat #'identity words " ")
+      )))
+
+(defun password-server-add-password (p)
+  (interactive "P")
+  (let* ((p (cond
+            ((not p) 4)
+            ((listp p) (truncate (/ (log (car p)) (log 4))))
+            (t p)))
+         (phrase (password-server-generate-password p))
+         (readin (read-string (format "Password [%s]: " phrase)))
+         (phrase (or (unless (eq "" readin) readin)
+                     phrase)))
+    (org-set-property "PASSWORD" phrase)))
 
 (provide 'password-server)
 
