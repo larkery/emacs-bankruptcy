@@ -323,6 +323,19 @@
           (and (projectile-project-p) (projectile-project-root)))
     (call-interactively #'hydra-projectile/body))
 
+  (defun hydra-cwheel/body ()
+    (interactive)
+    (defhydra hydra-cwheel ()
+      "cwheel"
+      ("<up>"    cwheel-lighten "lighter")
+      ("<down>"  cwheel-darken "darker")
+      ("<left>"  cwheel-hue-up "hue up")
+      ("<right>" cwheel-hue-down "hue down")
+      ("s"       cwheel-saturate "saturate")
+      ("d"       chweel-desaturate "desaturate"))
+    (call-interactively #'hydra-cweel/body))
+
+
   (defun hydra-dired/body ()
     (interactive)
     (require 'dired-filter)

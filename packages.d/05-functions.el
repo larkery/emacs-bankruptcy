@@ -93,14 +93,10 @@
   (interactive)
   (cwheel--operate (lambda (h s v) (list (max 0 (- h 0.04)) s v))))
 
-(defhydra hydra-cwheel ()
-  "cwheel"
-  ("<up>"    cwheel-lighten "lighter")
-  ("<down>"  cwheel-darken "darker")
-  ("<left>"  cwheel-hue-up "hue up")
-  ("<right>" cwheel-hue-down "hue down")
-  ("s"       cwheel-saturate "saturate")
-  ("d"       chweel-desaturate "desaturate"))
+
+(req-package hydra
+  :config
+  )
 
 ;; #8cfecb
 ;; #fe4735

@@ -3,7 +3,7 @@
 
 (custom-theme-set-faces
  'adjustments
- '(default ((t :height 100)))
+ '(default ((t :height 110)))
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
  '(cursor ((t (:background "#ffffff"))))
