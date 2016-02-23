@@ -8,5 +8,6 @@
         ("http://www.daemonology.net/blog/index.rss" tech)
         ("http://feeds2.feedburner.com/typepad/krisdedecker/lowtechmagazineenglish" climate eco)
         ("http://feeds2.feedburner.com/NoTechMagazine" climate eco)
+        ("http://cowlark.com/feed.rss" tech blog)
         ("http://idlewords.com/index.xml" tech)
         ))

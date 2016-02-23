@@ -29,6 +29,10 @@
 (req-package dired-k
   :commands dired-k dired-k-no-revert
   :init
+  (defun h/dired-k-no-revert-except-tramp ()
+    (unless (file-remote-p default-directory)
+      (dired-k-no-revert)))
+
   (add-hook 'dired-after-readin-hook #'dired-k-no-revert t)
   (setq dired-k-style 'git       ;; show VC status on the left
         dired-k-human-readable t ;; my dired flags include -h for human-readable sizes
@@ -412,6 +416,8 @@
   (ido-everywhere 1)
 
   (defun h/ido-keys ()
+    (define-key ido-completion-map (kbd "M-RET")
+      (lambda () (interactive) (ido-record-work-directory)))
     (define-key ido-completion-map (kbd "M-a") 'ido-toggle-ignore)
     (define-key ido-completion-map (kbd "C-a") 'beginning-of-line))
 
@@ -1075,5 +1081,29 @@ On %a, %b %d %Y, %N wrote:
 ;;; theme
 (req-package base16-theme
   :init
-  (load-theme 'base16-ashes-dark t)
+  (load-theme 'base16-twilight-dark t)
   (load-theme 'adjustments t))
+
+;; (load-theme 'base16-grayscale-dark t)
+;; (load-theme 'base16-ashes-dark t)
+;; (load-theme 'base16-bespin-dark t)
+;; (load-theme 'base16-flat-dark t)
+;; (load-theme 'base16-chalk-dark t)
+;; (load-theme 'base16-default-dark t)
+
+
+;; (load-theme 'base16-hopscotch-dark t)
+;; (load-theme 'base16-mocha-dark t)
+;; (load-theme 'base16-monokai-dark t)
+;; (load-theme 'base16-oceanicnext-dark t)
+;; (load-theme 'base16-ocean-dark t)
+;; (load-theme 'base16-phd-dark t)
+;; (load-theme 'base16-railscasts-dark t)
+
+;; (load-theme 'base16-solarized-dark t)
+
+;; (load-theme 'base16-tomorrow-dark t)
+
+;; (load-theme 'base16-twilight-dark t)
+
+;; (load-theme 'base16-yesterdaynight-dark t)

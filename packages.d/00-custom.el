@@ -111,6 +111,7 @@
    (quote
     ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+")))
  '(ido-match-modes-list (quote (words substring regex)))
+ '(ido-max-work-directory-list 100)
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
@@ -233,8 +234,9 @@
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-goto-interface (quote outline-path-completion))
- '(org-journal-date-prefix "#+TITLE:  ")
+ '(org-journal-date-prefix "#+TITLE: ")
  '(org-journal-dir "~/notes/journal/")
+ '(org-journal-file-format "%Y/%m%d")
  '(org-journal-time-format "")
  '(org-journal-time-prefix "")
  '(org-latex-classes
