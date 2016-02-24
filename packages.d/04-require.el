@@ -76,9 +76,9 @@
   (diminish 'outline-minor-mode "")
 
   (progn
-      (dolist (key '("M-<up>" "M-<down>" "M-S-<down>" "M-<right>" "M-<left>" "C-S-<left>" "C-S-<up>" "C-S-<down>" "M-TAB"))
-        (define-key outline-minor-mode-map (kbd key) nil))
-      (bind-key "<backtab>" #'outshine-cycle-buffer outline-minor-mode-map)))
+    (dolist (key '("M-<up>" "M-<down>" "M-S-<down>" "M-<right>" "M-<left>" "C-S-<left>" "C-S-<up>" "C-S-<down>" "M-TAB"))
+      (define-key outline-minor-mode-map (kbd key) nil))
+    (bind-key "<backtab>" #'outshine-cycle-buffer outline-minor-mode-map)))
 
 ;;;; Adaptive wrap
 
@@ -189,9 +189,9 @@
         (call-interactively #'sp-kill-sexp)
       (call-interactively #'sp-kill-hybrid-sexp)))
 
-  ;(sp-local-pair 'org-mode "$" "$")
-  ;(sp-local-pair 'org-mode "/" "/" :actions '(wrap))
-  ;(sp-local-pair 'org-mode "*" "*" :actions '(wrap))
+                                        ;(sp-local-pair 'org-mode "$" "$")
+                                        ;(sp-local-pair 'org-mode "/" "/" :actions '(wrap))
+                                        ;(sp-local-pair 'org-mode "*" "*" :actions '(wrap))
 
   (bind-keys
    :keymap smartparens-mode-map
@@ -389,8 +389,8 @@
       (flet ((follow
               (&rest r)
               (with-selected-window calling-window
-                  (goto-line (string-to-number (car (split-string ido-grid--selection))))
-                  (hl-line-highlight))))
+                (goto-line (string-to-number (car (split-string ido-grid--selection))))
+                (hl-line-highlight))))
         (hl-line-mode 1)
         (advice-add 'ido-grid-up :after (symbol-function 'follow))
         (advice-add 'ido-grid-down :after (symbol-function 'follow))
@@ -425,7 +425,6 @@
 
 (req-package ido-ubiquitous
   :config
-  (message "making ido ubiquitous")
   (ido-ubiquitous-mode))
 
 (req-package ido-at-point
@@ -520,11 +519,11 @@
 
   (advice-add 'ggtags-abbreviate-file :around #'h/ggtags-abbreviate-adv)
   (setq ggtags-completing-read-function
-      (lambda (&rest args)
-        (apply #'ido-completing-read
-               (car args)
-               (all-completions "" ggtags-completion-table)
-               (cddr args)))))
+        (lambda (&rest args)
+          (apply #'ido-completing-read
+                 (car args)
+                 (all-completions "" ggtags-completion-table)
+                 (cddr args)))))
 
 ;;;; ess
 
@@ -616,7 +615,7 @@
   password-server-mode)
 
 (req-package org
-  ;:pin "manual"
+                                        ;:pin "manual"
 
   :bind (("C-c a" . org-agenda)
          ("H-a" . org-agenda)
@@ -773,7 +772,7 @@
   (set-mode-name notmuch-show "nm-show")
   (set-mode-name notmuch-message-mode "mail")
 
-  (bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
+  ;;(bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
   (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
   (bind-key "U" #'h/notmuch/show-only-unread notmuch-show-mode-map)
 
@@ -936,7 +935,7 @@ On %a, %b %d %Y, %N wrote:
                   (let ((mc (funcall -minibuffer-contents)))
                     (condition-case nil
                         (rxt-pcre-to-elisp mc)
-                        (error mc)))
+                      (error mc)))
                   ))
             (funcall f buf beg end use-re overlay-limit)))
 
@@ -947,13 +946,13 @@ On %a, %b %d %Y, %N wrote:
         (let ((res (funcall f (concat prompt " (PCRE)") beg end use-re overlay-limit)))
           (condition-case nil
               (rxt-pcre-to-elisp res)
-              (error res)))
+            (error res)))
       (funcall f prompt beg end use-re overlay-limit)))
 
   (advice-add 'anzu--check-minibuffer-input :around #'h/anzu-wangle-minibuffer-input)
-  ;(advice-remove 'anzu--check-minibuffer-input #'h/anzu-wangle-minibuffer-input)
+                                        ;(advice-remove 'anzu--check-minibuffer-input #'h/anzu-wangle-minibuffer-input)
   (advice-add 'anzu--query-from-string :around #'h/anzu-pcre-mode)
-  ;(advice-remove 'anzu--query-from-string #'h/anzu-pcre-mode)
+                                        ;(advice-remove 'anzu--query-from-string #'h/anzu-pcre-mode)
   )
 
 (req-package wgrep)
@@ -1030,8 +1029,36 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; ace-window
 (req-package ace-window
-  :bind ("C-x o" . ace-window))
+  :bind ("C-x o" . ace-window)
+  :config
 
+  ;; hacks to make ace-window switch to visible windows only.
+
+  (defun h/advise-ace-select-window (o &rest args)
+    (let ((aw-scope
+           (if (cl-every
+                #'zerop
+                (mapcar
+                 (lambda (x) (- (length (window-list x)) 1))
+                 (visible-frame-list)))
+               'global
+             'frame)
+           ))
+      (apply o args)))
+
+  (advice-add 'aw-select :around #'h/advise-ace-select-window)
+
+  (defun h/advise-aw-window-list (o &rest args)
+    ;; filtering the result makes things bogus. Instead, we will do a
+    ;; worse hack and let-bind frame-list
+    (let ((the-visible-frames (visible-frame-list))
+          (aw-scope 'global))
+      (flet ((frame-list () the-visible-frames))
+        (apply o args))))
+
+  (advice-add 'aw-window-list
+              :around
+              #'h/advise-aw-window-list))
 
 ;;; elfeed
 
@@ -1069,7 +1096,7 @@ On %a, %b %d %Y, %N wrote:
   (defun h/advise-pe-follow (o &rest args)
     (if (projectile-project-p)
         (apply o args)
-      (let (( window (pe/get-project-explorer-window)))
+      (let ((window (pe/get-project-explorer-window)))
         (if window
             (with-selected-window window
               (with-current-buffer (window-buffer window)
@@ -1081,29 +1108,14 @@ On %a, %b %d %Y, %N wrote:
 ;;; theme
 (req-package base16-theme
   :init
-  (load-theme 'base16-twilight-dark t)
+  (load-theme 'base16-yesterdaynight-dark t)
   (load-theme 'adjustments t))
 
-;; (load-theme 'base16-grayscale-dark t)
-;; (load-theme 'base16-ashes-dark t)
-;; (load-theme 'base16-bespin-dark t)
-;; (load-theme 'base16-flat-dark t)
-;; (load-theme 'base16-chalk-dark t)
-;; (load-theme 'base16-default-dark t)
 
+;;; i3 stuffs
+(when (display-graphic-p)
+  (el-get-bundle vava/i3-emacs)
 
-;; (load-theme 'base16-hopscotch-dark t)
-;; (load-theme 'base16-mocha-dark t)
-;; (load-theme 'base16-monokai-dark t)
-;; (load-theme 'base16-oceanicnext-dark t)
-;; (load-theme 'base16-ocean-dark t)
-;; (load-theme 'base16-phd-dark t)
-;; (load-theme 'base16-railscasts-dark t)
-
-;; (load-theme 'base16-solarized-dark t)
-
-;; (load-theme 'base16-tomorrow-dark t)
-
-;; (load-theme 'base16-twilight-dark t)
-
-;; (load-theme 'base16-yesterdaynight-dark t)
+  (require 'i3)
+  (require 'i3-integration)
+  (i3-advise-visible-frame-list-on))

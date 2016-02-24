@@ -93,10 +93,5 @@
   (interactive)
   (cwheel--operate (lambda (h s v) (list (max 0 (- h 0.04)) s v))))
 
-
-(req-package hydra
-  :config
-  )
-
 ;; #8cfecb
 ;; #fe4735

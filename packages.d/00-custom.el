@@ -10,6 +10,7 @@
  '(anzu-cons-mode-line-p nil)
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
+ '(aw-scope (quote frame))
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "~/.local/bin/xdg-open")
@@ -206,7 +207,7 @@
     (:maxlevel 2 :lang "en" :scope file :block nil :wstart 1 :mstart 1 :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil nil nil :effort-durations t)))
  '(org-completion-use-ido t)
  '(org-confirm-babel-evaluate (quote ignore))
- '(org-contacts-files (quote ("~/notes/contacts.org")))
+ '(org-contacts-files (quote ("~/notes/exclude/contacts.org")))
  '(org-custom-properties (quote ("code")))
  '(org-effort-durations
    (quote
@@ -236,7 +237,7 @@
  '(org-goto-interface (quote outline-path-completion))
  '(org-journal-date-prefix "#+TITLE: ")
  '(org-journal-dir "~/notes/journal/")
- '(org-journal-file-format "%Y/%m%d")
+ '(org-journal-file-format "journal-%Y-%m-%d")
  '(org-journal-time-format "")
  '(org-journal-time-prefix "")
  '(org-latex-classes
