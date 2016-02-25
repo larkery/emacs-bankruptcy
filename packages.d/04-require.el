@@ -1047,7 +1047,7 @@ On %a, %b %d %Y, %N wrote:
       (apply o args)))
 
   (advice-add 'aw-select :around #'h/advise-ace-select-window)
-
+  ;; (advice-remove 'aw-select #'h/advise-ace-select-window)
   (defun h/advise-aw-window-list (o &rest args)
     ;; filtering the result makes things bogus. Instead, we will do a
     ;; worse hack and let-bind frame-list
@@ -1058,7 +1058,9 @@ On %a, %b %d %Y, %N wrote:
 
   (advice-add 'aw-window-list
               :around
-              #'h/advise-aw-window-list))
+              #'h/advise-aw-window-list)
+  ;; (advice-remove 'aw-window-list #'h/advise-aw-window-list)
+  )
 
 ;;; elfeed
 

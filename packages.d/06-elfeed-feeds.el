@@ -9,5 +9,6 @@
         ("http://feeds2.feedburner.com/typepad/krisdedecker/lowtechmagazineenglish" climate eco)
         ("http://feeds2.feedburner.com/NoTechMagazine" climate eco)
         ("http://cowlark.com/feed.rss" tech blog)
+        ("http://cassettepunk.com/feed/" tech blog)
         ("http://idlewords.com/index.xml" tech)
         ))
