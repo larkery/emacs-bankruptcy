@@ -92,7 +92,7 @@
             (t p)))
          (phrase (password-server-generate-password p))
          (readin (read-string (format "Password [%s]: " phrase)))
-         (phrase (or (unless (eq "" readin) readin)
+         (phrase (or (unless (equal "" readin) readin)
                      phrase)))
     (org-set-property "PASSWORD" phrase)))
 
