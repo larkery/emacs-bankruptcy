@@ -14,6 +14,10 @@
  '(outline-5 ((t (:height 1.0 :underline "#555555" :foreground "#ffffff"))))
  '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(message-cited-text ((t (:inherit shadow :slant italic))))
- )
+
+ '(diff-hl-change ((t (:background "dim gray" :foreground "dark gray"))))
+ '(highlight-symbol-face ((t (:underline t))))
+ '(magit-blame-heading ((t (:inherit (highlight shadow) :slant italic))))
+ '(org-date ((t (:inherit link)))))
 
 (provide-theme 'adjustments)
