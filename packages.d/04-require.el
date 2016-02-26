@@ -1108,10 +1108,15 @@ On %a, %b %d %Y, %N wrote:
   (advice-add 'pe/follow-current-open :around #'h/advise-pe-follow))
 
 ;;; theme
-(req-package base16-theme
+(req-package mbo70s-theme
   :init
-  (load-theme 'base16-yesterdaynight-dark t)
+  (load-theme 'mbo70s t)
   (load-theme 'adjustments t))
+
+;; (req-package base16-theme
+;;   :init
+;;   (load-theme 'base16-yesterdaynight-dark t)
+;;   (load-theme 'adjustments t))
 
 
 ;;; i3 stuffs
@@ -1121,3 +1126,11 @@ On %a, %b %d %Y, %N wrote:
   (require 'i3)
   (require 'i3-integration)
   (i3-advise-visible-frame-list-on))
+
+
+;;; keyfreq
+
+(req-package keyfreq
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))

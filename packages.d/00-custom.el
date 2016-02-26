@@ -7,6 +7,10 @@
  ;; If there is more than one, they won't work right.
  '(Linum-format "%7i ")
  '(ag-highlight-search t)
+ '(ansi-color-names-vector
+   ["#3c3836" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#8ec07c" "#ebdbb2"])
+ '(ansi-term-color-vector
+   [unspecified "#343d46" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#81a2be" "#dfe1e8"])
  '(anzu-cons-mode-line-p nil)
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
@@ -24,7 +28,7 @@
  '(custom-raised-buttons t)
  '(custom-safe-themes
    (quote
-    ("bc0d0e7c12acb05cf3b89235b24de12728354310a67afa60f3d9421756e57878" "d1a42ed39a15a843cccadf107ee0242b5f78bfbb5b70ba3ce19f3ea9fda8f52d" "1a2b131a7844bad234832963d565097efc88111b196fb75757885c159c5f8137" "cb8039d38d197de5049bd2e0e57b0a9001d89d820c3b36c945a12d6b5198e810" "3fb38c0c32f0b8ea93170be4d33631c607c60c709a546cb6199659e6308aedf7" "b747fb36e99bc7f497248eafd6e32b45613ee086da74d1d92a8da59d37b9a829" "37d86ad45027da2a8e29fecf81e6422820824b252f8b686d35c6dbf0e6ac9573" "d606ac41cdd7054841941455c0151c54f8bff7e4e050255dbd4ae4d60ab640c1" "c814f5bdd7ada44cb146a6a1cdef194781579ef13323558bd5e7a96f3f33f9e1" "314c3d98661b8ca7e4f7176ae240785ad50f7391249e826231ffaa65f17411f9" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
+    ("09830be77bd85654928aa389325ab3c06937b37c00f0937ce8007634bbf64172" "cdfb22711f64d0e665f40b2607879fcf2607764b2b70d672ddaa26d2da13049f" "bc0d0e7c12acb05cf3b89235b24de12728354310a67afa60f3d9421756e57878" "d1a42ed39a15a843cccadf107ee0242b5f78bfbb5b70ba3ce19f3ea9fda8f52d" "1a2b131a7844bad234832963d565097efc88111b196fb75757885c159c5f8137" "cb8039d38d197de5049bd2e0e57b0a9001d89d820c3b36c945a12d6b5198e810" "3fb38c0c32f0b8ea93170be4d33631c607c60c709a546cb6199659e6308aedf7" "b747fb36e99bc7f497248eafd6e32b45613ee086da74d1d92a8da59d37b9a829" "37d86ad45027da2a8e29fecf81e6422820824b252f8b686d35c6dbf0e6ac9573" "d606ac41cdd7054841941455c0151c54f8bff7e4e050255dbd4ae4d60ab640c1" "c814f5bdd7ada44cb146a6a1cdef194781579ef13323558bd5e7a96f3f33f9e1" "314c3d98661b8ca7e4f7176ae240785ad50f7391249e826231ffaa65f17411f9" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -394,4 +398,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(diff-hl-change ((t (:background "dim gray" :foreground "dark gray"))))
+ '(highlight-symbol-face ((t (:underline t))))
  '(magit-blame-heading ((t (:inherit (highlight shadow) :slant italic)))))

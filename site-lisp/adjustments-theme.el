@@ -12,6 +12,7 @@
  '(outline-3 ((t (:height 1.1 :underline "#555555" :foreground "#ffffff"))))
  '(outline-4 ((t (:height 1.05 :underline "#555555" :foreground "#ffffff"))))
  '(outline-5 ((t (:height 1.0 :underline "#555555" :foreground "#ffffff"))))
+ '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(message-cited-text ((t (:inherit shadow :slant italic))))
  )
 
