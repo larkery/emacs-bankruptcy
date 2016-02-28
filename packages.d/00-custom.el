@@ -217,6 +217,7 @@
  '(org-journal-date-prefix "#+TITLE: ")
  '(org-journal-dir "~/notes/journal/")
  '(org-journal-file-format "journal-%Y-%m-%d")
+ '(org-journal-hide-entries-p nil)
  '(org-journal-time-format "")
  '(org-journal-time-prefix "")
  '(org-latex-classes
