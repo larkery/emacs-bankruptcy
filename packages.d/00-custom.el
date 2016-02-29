@@ -26,6 +26,9 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
+ '(custom-safe-themes
+   (quote
+    ("ab6f503a73edfa1855490c705645f1054295cc8bc57f1856cd2adbb6c49cd58c" "9d7e517b49068e9fef941fe4083ad3d2a4b040895dca5175b84be48739689707" "16929c9ad9884ce1a39bfd7d2ca285fa2749ebae1739622d291e8874730e5dc4" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)

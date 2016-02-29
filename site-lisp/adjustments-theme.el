@@ -13,6 +13,7 @@
  '(outline-4 ((t (:height 1.05 :underline "#555555" :foreground "#ffffff"))))
  '(outline-5 ((t (:height 1.0 :underline "#555555" :foreground "#ffffff"))))
  '(font-lock-comment-face ((t (:foreground "#777777"))))
+ '(font-lock-function-name-face ((t (:foreground "#3898a8"))))
  '(message-cited-text ((t (:inherit shadow :slant italic))))
 
  '(diff-hl-change ((t (:background "dim gray" :foreground "dark gray"))))
