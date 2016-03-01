@@ -1089,7 +1089,7 @@ On %a, %b %d %Y, %N wrote:
 
 
 ;;; i3 stuffs
-(when (display-graphic-p)
+(when t
   (el-get-bundle vava/i3-emacs)
 
   (require 'i3)
