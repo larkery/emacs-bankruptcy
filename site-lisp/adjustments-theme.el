@@ -15,6 +15,8 @@
  '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(font-lock-function-name-face ((t (:foreground "#3898a8"))))
  '(message-cited-text ((t (:inherit shadow :slant italic))))
+ '(erc-input-face ((t :foreground "tan")))
+ '(erc-my-nick-face ((t (:inherit erc-input-face))))
 
  '(diff-hl-change ((t (:background "dim gray" :foreground "dark gray"))))
  '(highlight-symbol-face ((t (:underline t))))

@@ -1029,38 +1029,7 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; ace-window
 (req-package ace-window
-  :bind ("C-x o" . ace-window)
-  :config
-
-  ;; hacks to make ace-window switch to visible windows only.
-
-  (defun h/advise-ace-select-window (o &rest args)
-    (let ((aw-scope
-           (if (cl-every
-                #'zerop
-                (mapcar
-                 (lambda (x) (- (length (window-list x)) 1))
-                 (visible-frame-list)))
-               'global
-             'frame)
-           ))
-      (apply o args)))
-
-  (advice-add 'aw-select :around #'h/advise-ace-select-window)
-  ;; (advice-remove 'aw-select #'h/advise-ace-select-window)
-  (defun h/advise-aw-window-list (o &rest args)
-    ;; filtering the result makes things bogus. Instead, we will do a
-    ;; worse hack and let-bind frame-list
-    (let ((the-visible-frames (visible-frame-list))
-          (aw-scope 'global))
-      (flet ((frame-list () the-visible-frames))
-        (apply o args))))
-
-  (advice-add 'aw-window-list
-              :around
-              #'h/advise-aw-window-list)
-  ;; (advice-remove 'aw-window-list #'h/advise-aw-window-list)
-  )
+  :bind ("C-x o" . ace-window))
 
 ;;; elfeed
 

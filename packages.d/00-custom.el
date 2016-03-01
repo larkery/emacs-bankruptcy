@@ -14,7 +14,7 @@
  '(anzu-cons-mode-line-p nil)
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
- '(aw-scope (quote frame))
+ '(aw-scope (quote visible))
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "~/.local/bin/xdg-open")
