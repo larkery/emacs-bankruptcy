@@ -1103,3 +1103,16 @@ On %a, %b %d %Y, %N wrote:
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
+
+;;; python
+
+;; (req-package anaconda-mode
+;;   :commands anaconda-mode
+;;   :init
+;;   (add-hook 'python-mode-hook 'anaconda-mode))
+
+(req-package python-mode
+  :commands python-mode
+  :mode ("\\.py\\'" . python-mode)
+  :config
+  (add-to-list 'interpreter-mode-alist '("python" . python-mode)))

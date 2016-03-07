@@ -326,6 +326,8 @@
  '(pos-tip-foreground-color "#9E9E9E")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
+ '(python-shell-interpreter "ipython3")
+ '(python-shell-interpreter-args "-i --matplotlib=qt4")
  '(rcirc-fill-flag nil)
  '(recentf-auto-cleanup (quote never))
  '(safe-local-variable-values
