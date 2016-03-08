@@ -1082,12 +1082,6 @@ On %a, %b %d %Y, %N wrote:
   (load-theme 'mbo70s t)
   (load-theme 'adjustments t))
 
-;; (req-package base16-theme
-;;   :init
-;;   (load-theme 'base16-yesterdaynight-dark t)
-;;   (load-theme 'adjustments t))
-
-
 ;;; i3 stuffs
 (when t
   (el-get-bundle vava/i3-emacs)
@@ -1105,11 +1099,6 @@ On %a, %b %d %Y, %N wrote:
   (keyfreq-autosave-mode 1))
 
 ;;; python
-
-;; (req-package anaconda-mode
-;;   :commands anaconda-mode
-;;   :init
-;;   (add-hook 'python-mode-hook 'anaconda-mode))
 
 (req-package python-mode
   :commands python-mode

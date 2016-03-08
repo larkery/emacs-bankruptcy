@@ -47,12 +47,18 @@
   (save-excursion
     (save-match-data
       (let* ((deactivate-mark nil)
-             (start (if (region-active-p) (region-beginning)
-
-                      (if (looking-at "#") (point)
-                        (progn (re-search-backward "#")
-                               (match-beginning 0)))))
-             (end (if (region-active-p) (region-end) (+ start 7))))
+             (start (cond
+                     ((region-active-p) (region-beginning))
+                     ((buffer-narrowed-p) (point-min))
+                     (t (if (looking-at "#") (point)
+                          (progn (re-search-backward "#")
+                                 (match-beginning 0))))
+                     ))
+             (end (cond
+                   ((region-active-p) (region-end))
+                   ((buffer-narrowed-p) (point-max))
+                   (t (+ start 7))
+                   )))
         (goto-char start)
         (while (re-search-forward "#\\([a-fA-F[:digit:]]\\{6\\}\\)"
                                   end
@@ -79,11 +85,11 @@
 
 (defun cwheel-saturate ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list h (min 1 (+ s 0.04)) v))))
+  (cwheel--operate (lambda (h s v) (list h (min 1 (+ s 0.02)) v))))
 
-(defun chweel-desaturate ()
+(defun cwheel-desaturate ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list h (max 0 (- s 0.04)) v))))
+  (cwheel--operate (lambda (h s v) (list h (max 0 (- s 0.02)) v))))
 
 (defun cwheel-hue-up ()
   (interactive)

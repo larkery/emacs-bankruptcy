@@ -7,6 +7,8 @@
  ;; If there is more than one, they won't work right.
  '(Linum-format "%7i ")
  '(ag-highlight-search t)
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#3c3836" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#8ec07c" "#ebdbb2"])
  '(ansi-term-color-vector
@@ -26,9 +28,6 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
- '(custom-safe-themes
-   (quote
-    ("ab6f503a73edfa1855490c705645f1054295cc8bc57f1856cd2adbb6c49cd58c" "9d7e517b49068e9fef941fe4083ad3d2a4b040895dca5175b84be48739689707" "16929c9ad9884ce1a39bfd7d2ca285fa2749ebae1739622d291e8874730e5dc4" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -40,6 +39,27 @@
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
  '(display-buffer-alist nil)
+ '(emms-mode-line-icon-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *note[] = {
+/* width height num_colors chars_per_pixel */
+\"    10   11        2            1\",
+/* colors */
+\". c #1fb3b3\",
+\"# c None s None\",
+/* pixels */
+\"###...####\",
+\"###.#...##\",
+\"###.###...\",
+\"###.#####.\",
+\"###.#####.\",
+\"#...#####.\",
+\"....#####.\",
+\"#..######.\",
+\"#######...\",
+\"######....\",
+\"#######..#\" };")))
  '(erc-fill-function (quote h/erc-fill-nicks-thing))
  '(erc-fill-mode t)
  '(erc-insert-away-timestamp-function (quote erc-insert-timestamp-right))
@@ -48,14 +68,40 @@
  '(erc-text-matched-hook (quote (erc-log-matches erc-beep-on-match)))
  '(erc-timestamp-use-align-to nil)
  '(ess-S-underscore-when-last-character-is-a-space t)
+ '(fci-rule-color "#37474f" t)
  '(focus-follows-mouse t)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
  '(ggtags-oversize-limit 4000000)
  '(ggtags-use-sqlite3 t)
  '(global-auto-revert-mode t)
+ '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
+ '(gnus-mode-line-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #1fb3b3\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };")) t)
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
+ '(hl-sexp-background-color "#1c1f26")
  '(ibuffer-saved-filter-groups
    (quote
     (("default"
