@@ -680,6 +680,7 @@
 
 (req-package org-journal
   :require org
+  :bind ("<f6>" . org-journal-new-entry)
   :config (setq org-journal-dir "~/notes/journal/"))
 
 (req-package org-caldav
@@ -1105,3 +1106,9 @@ On %a, %b %d %Y, %N wrote:
   :mode ("\\.py\\'" . python-mode)
   :config
   (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
+
+;;; winner
+(req-package winner-mode
+  :bind ("<f5>" . winner-undo)
+  :config
+  (winner-mode 1))
