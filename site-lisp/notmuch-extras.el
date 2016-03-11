@@ -17,7 +17,7 @@
                 "^/+" "/"
                 (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn)))))
 
-          (dolist (map '( ("/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/" . "~/net/S/") ))
+          (dolist (map '( ("/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/" . "/home/hinton/gvfs/smb-share:server=cse-bs3-file,share=data//") ))
             (setq unix-path (replace-regexp-in-string (car map) (cdr map) unix-path)))
           (progn (message "%s" (format "file: %s" unix-path)))
           (cons t (expand-file-name unix-path)))
