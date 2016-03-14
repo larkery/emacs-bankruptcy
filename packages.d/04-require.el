@@ -686,10 +686,31 @@
 (req-package org-caldav
   :commands org-caldav-sync
   :init
-  (setq org-caldav-url "http://horde.lrkry.com/rpc.php/calendars/tom/"
-        org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
-        org-caldav-inbox (expand-file-name "~/org/horde.org"))
-  (setq org-caldav-files `(,org-caldav-inbox "~/org/work/calendar.org")))
+  (setq org-caldav-calendars
+        '((:url
+           "https://lrkry.com:1080/users/"
+           :calendar-id
+           "tom.hinton@cse.org.uk/calendar"
+           :caldav-uuid-extension
+           ".EML"
+           :files
+           ("~/notes/calendar/cse.org")
+           :inbox
+           "~/notes/calendar/cse-in.org")
+
+          (:url
+           "http://horde.lrkry.com/rpc.php/calendars/tom/"
+           :calendar-id
+           "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
+           :files
+           ("~/notes/calendar/horde.org")
+           :inbox
+           "~/notes/calendar/horde-in.org"
+           :caldav-uuid-extension
+           ".ics")
+
+          ))
+  )
 
 ;;; mail
 
@@ -918,6 +939,8 @@ On %a, %b %d %Y, %N wrote:
   (advice-add 'projectile-vc :around #'h/projectile-ask-for-project)
 
   (projectile-global-mode t))
+
+(req-package ibuffer-projectile)
 
 ;;; search
 

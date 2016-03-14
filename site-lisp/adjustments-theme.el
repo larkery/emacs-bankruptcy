@@ -28,6 +28,12 @@
  '(rainbow-delimiters-depth-4-face ((t (:foreground "#4aa0af"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "#3d8592"))))
  '(rainbow-delimiters-depth-8-face ((t (:foreground "#367783"))))
+
+ ;; '(button ((t
+ ;;            (:underline nil :box
+ ;;                        (:line-width 2 :color "grey75" :style released-button)
+ ;;                        :foreground "#FFFFFF" :background "#444444" :inherit
+ ;;                        (link)))))
  )
 
 (provide-theme 'adjustments)

@@ -14,6 +14,15 @@
  '(ansi-term-color-vector
    [unspecified "#343d46" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#81a2be" "#dfe1e8"])
  '(anzu-cons-mode-line-p nil)
+ '(auth-source-protocols
+   (quote
+    ((imap "imap" "imaps" "143" "993")
+     (pop3 "pop3" "pop" "pop3s" "110" "995")
+     (ssh "ssh" "22")
+     (sftp "sftp" "115")
+     (smtp "smtp" "25")
+     (http "http" "80"))))
+ '(auth-sources (quote ("~/.netrc")))
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
  '(aw-scope (quote visible))
@@ -102,6 +111,7 @@ static char *gnus-pointer[] = {
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
  '(hl-sexp-background-color "#1c1f26")
+ '(ibuffer-filter-group-name-face (quote button))
  '(ibuffer-saved-filter-groups
    (quote
     (("default"
@@ -191,7 +201,9 @@ static char *gnus-pointer[] = {
         (quote
          (:link t :maxlevel 3 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
- '(org-agenda-files (quote ("~/notes/" "~/notes/work/" "~/notes/home/")))
+ '(org-agenda-files
+   (quote
+    ("~/notes/" "~/notes/work/" "~/notes/home/" "~/notes/calendar/")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")
