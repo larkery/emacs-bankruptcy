@@ -683,6 +683,13 @@
   :bind ("<f6>" . org-journal-new-entry)
   :config (setq org-journal-dir "~/notes/journal/"))
 
+(bind-key "<f6>"
+          (lambda ()
+            (interactive)
+            (call-interactively #'org-journal-new-entry)
+            (org-agenda nil "n")
+            (call-interactively #'other-window)))
+
 (req-package org-caldav
   :commands org-caldav-sync
   :init
@@ -1132,6 +1139,10 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; winner
 (req-package winner-mode
+  :defer nil
   :bind ("<f5>" . winner-undo)
   :config
   (winner-mode 1))
+
+;;; multi-line
+(req-package multi-line)

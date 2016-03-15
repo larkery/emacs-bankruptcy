@@ -157,6 +157,12 @@ static char *gnus-pointer[] = {
  '(ido-work-directory-list-ignore-regexps (quote ("^/home/hinton/gvfs/")))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
+ '(initial-scratch-message
+   ";; A novice was trying to fix a broken lisp machine by turning the
+;; power off and on.  Knight, seeing what the student was doing spoke sternly,
+;; \"You cannot fix a machine by just power-cycling it with no understanding
+;; of what is going wrong.\"  Knight turned the machine off and on.  The
+;; machine worked.")
  '(iplayer-download-directory "~/music/iplayer/")
  '(isearch-allow-scroll t)
  '(ispell-program-name "aspell")
@@ -193,7 +199,10 @@ static char *gnus-pointer[] = {
                ((org-agenda-span 1)
                 (org-agenda-clockreport-parameter-plist
                  (quote
-                  (:step day :fileskip0 t :stepskip0)))))
+                  (:step day :fileskip0 t :stepskip0)))
+                (org-agenda-log-mode-items
+                 (quote
+                  (closed clock)))))
        (alltodo "" nil))
       nil)
      ("w" "Weekly clock report" agenda ""
