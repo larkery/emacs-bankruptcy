@@ -172,7 +172,7 @@
 
 
    (:eval (propertize "%b"
-                      'face 'font-lock-keyword-face
+                      'face 'mode-line-buffer-id
                       'help-echo (buffer-file-name)
                       'local-map mode-line-file-map
                       'mouse-face 'mode-line-highlight

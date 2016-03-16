@@ -329,15 +329,18 @@
 
   (defun hydra-cwheel/body ()
     (interactive)
-    (defhydra hydra-cwheel ()
+    (defhydra hydra-cwheel (:foreign-keys run)
       "cwheel"
-      ("<up>"    cwheel-lighten "lighter")
-      ("<down>"  cwheel-darken "darker")
-      ("<left>"  cwheel-hue-up "hue up")
-      ("<right>" cwheel-hue-down "hue down")
-      ("s"       cwheel-saturate "saturate")
-      ("d"       chweel-desaturate "desaturate"))
-    (call-interactively #'hydra-cweel/body))
+      ("w"    cwheel-lighten "lighter")
+      ("s"  cwheel-darken "darker")
+      ("a"  cwheel-hue-up "hue up")
+      ("d" cwheel-hue-down "hue down")
+      ("q"       cwheel-saturate "saturate")
+      ("e"       cwheel-desaturate "desaturate")
+      ("ESC" (message "bye") :exit t)
+      )
+
+    (call-interactively #'hydra-cwheel/body))
 
 
   (defun hydra-dired/body ()
@@ -1108,10 +1111,12 @@ On %a, %b %d %Y, %N wrote:
   (advice-add 'pe/follow-current-open :around #'h/advise-pe-follow))
 
 ;;; theme
-(req-package mbo70s-theme
+(req-package punpun-theme ;;phoenix-dark-mono-theme
   :init
-  (load-theme 'mbo70s t)
-  (load-theme 'adjustments t))
+  ;;(load-theme 'phoenix-dark-mono t)
+  (load-theme 'adjustments t)
+  (load-theme 'punpun-light t)
+  )
 
 ;;; i3 stuffs
 (when t

@@ -37,6 +37,9 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
+ '(custom-safe-themes
+   (quote
+    ("39fe48be738ea23b0295cdf17c99054bb439a7d830248d7e6493c2110bfed6f8" "7beac4a68f03662b083c9c2d4f1d7f8e4be2b3d4b0d904350a9edf3cf7ce3d7f" "7f5837a7dbf54c2b7c41d94f5eb1373cf63274847d1971037faa24d7f2231eea" "2c3ea9579d95e43da42cadededcff45f9251525112bd87c390045bd7a7adbe1a" "df87edcf41dbdb2c5d49d53acdfc9d5c2087ef7259679ac50923f97e0b24fdfe" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -162,7 +165,9 @@ static char *gnus-pointer[] = {
 ;; power off and on.  Knight, seeing what the student was doing spoke sternly,
 ;; \"You cannot fix a machine by just power-cycling it with no understanding
 ;; of what is going wrong.\"  Knight turned the machine off and on.  The
-;; machine worked.")
+;; machine worked.
+
+")
  '(iplayer-download-directory "~/music/iplayer/")
  '(isearch-allow-scroll t)
  '(ispell-program-name "aspell")
@@ -446,4 +451,4 @@ static char *gnus-pointer[] = {
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(button ((t (:background "#444444" :foreground "#FFFFFF" :box (:line-width 2 :color "grey75" :style released-button) :underline nil)))))
