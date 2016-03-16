@@ -1110,12 +1110,10 @@ On %a, %b %d %Y, %N wrote:
   (advice-add 'pe/follow-current-open :around #'h/advise-pe-follow))
 
 ;;; theme
-(req-package punpun-theme ;;phoenix-dark-mono-theme
+(req-package punpun-theme
   :init
-  ;;(load-theme 'phoenix-dark-mono t)
   (load-theme 'adjustments t)
-  (load-theme 'punpun-light t)
-  )
+  (load-theme 'punpun-light t))
 
 ;;; i3 stuffs
 (when t
