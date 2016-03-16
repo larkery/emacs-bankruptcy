@@ -683,7 +683,6 @@
 
 (req-package org-journal
   :require org
-  :bind ("<f6>" . org-journal-new-entry)
   :config (setq org-journal-dir "~/notes/journal/"))
 
 (bind-key "<f6>"
@@ -1143,7 +1142,7 @@ On %a, %b %d %Y, %N wrote:
   (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
 ;;; winner
-(req-package winner-mode
+(req-package winner
   :defer nil
   :bind ("<f5>" . winner-undo)
   :config
