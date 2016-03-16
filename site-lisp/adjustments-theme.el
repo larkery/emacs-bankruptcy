@@ -2,7 +2,7 @@
 
 (custom-theme-set-faces
  'adjustments
- '(default ((t :height 105 :background "#E8E8E5" :foreground "#4D4D4C")))
+ '(default ((t :height 105 :background "#D8D8D0" :foreground "#4D4D4C")))
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
  '(ido-virtual ((t (:slant italic))))
