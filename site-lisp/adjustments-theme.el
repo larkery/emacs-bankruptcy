@@ -11,7 +11,7 @@
  '(ido-grid-match-2 ((t (:background "#94a7b6"))))
  '(ido-grid-match-3 ((t (:background "#d0bc95"))))
 
- '(cursor ((t (:background "#ffffff"))))
+ '(cursor ((t (:background "black"))))
  '(message-cited-text ((t (:inherit shadow :slant italic))))
 
  '(show-paren-match ((t (:underline t))))
