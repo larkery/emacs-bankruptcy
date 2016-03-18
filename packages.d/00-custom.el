@@ -26,6 +26,7 @@
  '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
  '(avy-style (quote at))
  '(aw-scope (quote visible))
+ '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "~/.local/bin/xdg-open")
@@ -39,7 +40,7 @@
  '(custom-raised-buttons t)
  '(custom-safe-themes
    (quote
-    ("e475cece13fc5c0ea84f554a4e9d41805b19a8fff54b26ce6c18cb1912133a9a" "fe1682ca8f7a255cf295e76b0361438a21bb657d8846a05d9904872aa2fb86f2" "ff91d59dc1b6c6dfa71048183d08637b55880cac12f9b38ba0b9309d6ffecff1" "39fe48be738ea23b0295cdf17c99054bb439a7d830248d7e6493c2110bfed6f8" "7beac4a68f03662b083c9c2d4f1d7f8e4be2b3d4b0d904350a9edf3cf7ce3d7f" "7f5837a7dbf54c2b7c41d94f5eb1373cf63274847d1971037faa24d7f2231eea" "2c3ea9579d95e43da42cadededcff45f9251525112bd87c390045bd7a7adbe1a" "df87edcf41dbdb2c5d49d53acdfc9d5c2087ef7259679ac50923f97e0b24fdfe" default)))
+    ("3a69621a68c2d3550a4c777ffc000e1ea66f5bc2f61112814c591e1bda3f5704" "c9e42ede5d97db2dd849f5d0a8cfb6a857ec5f687413242b74f565af273404ed" "c3e6b52caa77cb09c049d3c973798bc64b5c43cc437d449eacf35b3e776bf85c" "e475cece13fc5c0ea84f554a4e9d41805b19a8fff54b26ce6c18cb1912133a9a" "fe1682ca8f7a255cf295e76b0361438a21bb657d8846a05d9904872aa2fb86f2" "ff91d59dc1b6c6dfa71048183d08637b55880cac12f9b38ba0b9309d6ffecff1" "39fe48be738ea23b0295cdf17c99054bb439a7d830248d7e6493c2110bfed6f8" "7beac4a68f03662b083c9c2d4f1d7f8e4be2b3d4b0d904350a9edf3cf7ce3d7f" "7f5837a7dbf54c2b7c41d94f5eb1373cf63274847d1971037faa24d7f2231eea" "2c3ea9579d95e43da42cadededcff45f9251525112bd87c390045bd7a7adbe1a" "df87edcf41dbdb2c5d49d53acdfc9d5c2087ef7259679ac50923f97e0b24fdfe" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -80,9 +81,14 @@ static char *note[] = {
  '(erc-text-matched-hook (quote (erc-log-matches erc-beep-on-match)))
  '(erc-timestamp-use-align-to nil)
  '(ess-S-underscore-when-last-character-is-a-space t)
+ '(evil-emacs-state-cursor (quote ("#D50000" bar)))
+ '(evil-insert-state-cursor (quote ("#D50000" hbar)))
+ '(evil-normal-state-cursor (quote ("#F57F17" box)))
+ '(evil-visual-state-cursor (quote ("#66BB6A" box)))
  '(fci-rule-color "#37474f" t)
  '(focus-follows-mouse t)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
+ '(geiser-default-implementation (quote guile))
  '(ggtags-oversize-limit 4000000)
  '(ggtags-use-sqlite3 t)
  '(global-auto-revert-mode t)
@@ -110,9 +116,16 @@ static char *gnus-pointer[] = {
 \"###....####.######\",
 \"###..######.######\",
 \"###########.######\" };")) t)
+ '(highlight-symbol-colors
+   (quote
+    ("#F57F17" "#66BB6A" "#0097A7" "#42A5F5" "#7E57C2" "#D84315")))
+ '(highlight-symbol-foreground-color "#546E7A")
+ '(highlight-tail-colors (quote (("#F8BBD0" . 0) ("#FAFAFA" . 100))))
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
+ '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
+ '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
  '(hl-sexp-background-color "#1c1f26")
  '(ibuffer-filter-group-name-face (quote button))
  '(ibuffer-saved-filter-groups
@@ -415,9 +428,14 @@ static char *gnus-pointer[] = {
            nil t))))
  '(sendmail-program "msmtp-enqueue")
  '(sentence-end-double-space nil)
+ '(sml/active-background-color "#34495e")
+ '(sml/active-foreground-color "#ecf0f1")
+ '(sml/inactive-background-color "#dfe4ea")
+ '(sml/inactive-foreground-color "#34495e")
  '(sp-show-pair-delay 0)
  '(split-width-threshold 200)
  '(tab-width 4)
+ '(tabbar-background-color "#ffffff")
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
  '(tramp-verbose 2)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))

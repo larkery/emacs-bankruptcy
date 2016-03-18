@@ -1139,6 +1139,12 @@ On %a, %b %d %Y, %N wrote:
   :config
   (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
+(req-package auto-virtualenv
+  :config
+  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+  (add-hook 'projectile-after-switch-project-hook 'auto-virtualenv-set-virtualenv))
+
+
 ;;; winner
 (req-package winner
   :defer nil
