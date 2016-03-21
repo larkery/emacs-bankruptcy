@@ -959,6 +959,12 @@ On %a, %b %d %Y, %N wrote:
   (global-anzu-mode)
   (bind-key "M-%" #'anzu-query-replace)
   (bind-key "C-M-%" #'anzu-query-replace-regexp)
+  (setq anzu-replace-to-string-separator "→")
+  (set-face-attribute
+   'anzu-replace-to
+   nil
+   :inherit 'default
+   :box "red")
 
   (defun h/anzu-wangle-minibuffer-input (f buf beg end use-re overlay-limit)
     (if (and use-re pcre-mode)
@@ -1133,11 +1139,12 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; python
 
-(req-package python-mode
-  :commands python-mode
-  :mode ("\\.py\\'" . python-mode)
-  :config
-  (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
+;; python mode is annoying
+;; (req-package python-mode
+;;   :commands python-mode
+;;   :mode ("\\.py\\'" . python-mode)
+;;   :config
+;;   (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
 
 (req-package auto-virtualenv
   :config

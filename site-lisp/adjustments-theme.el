@@ -2,7 +2,7 @@
 
 (custom-theme-set-faces
  'adjustments
- '(default ((t :height 105)))
+ '(default ((t :height 105 :foreground "#484848")))
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
  '(ido-virtual ((t (:slant italic))))
@@ -16,7 +16,12 @@
 
  '(show-paren-match ((t (:underline t))))
  '(highlight-symbol-face ((t (:background "#ddd"))))
- '(font-lock-comment-delimiter-face ((t (:foreground "black"))))
+ '(font-lock-comment-delimiter-face ((t (:foreground "steel blue"))))
+ '(font-lock-comment-face ((t (:foreground "lightsteelblue4"))))
+
+ '(notmuch-message-summary-face ((t (:inherit highlight))))
+
+ '(mode-line-highlight ((t (:slant normal :foreground "firebrick"))))
 
  '(eno-hint-face ((t (:inherit default :inverse-video t))))
 
@@ -43,6 +48,10 @@
  '(rainbow-delimiters-depth-4-face ((t (:foreground "#b46751"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "#9b543e"))))
  '(rainbow-delimiters-depth-8-face ((t (:foreground "#8d4b38"))))
+
+ '(show-paren-mismatch ((t (:background "dark red" :foreground "white"))))
+ '(rainbow-delimiters-unmatched-face ((t (:inherit show-paren-mismatch))))
+ '(rainbow-delimiters-mismatched-face ((t (:inherit show-paren-mismatch))))
  )
 
 (provide-theme 'adjustments)
