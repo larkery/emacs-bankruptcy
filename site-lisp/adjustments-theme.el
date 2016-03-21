@@ -22,6 +22,9 @@
  '(notmuch-message-summary-face ((t (:inherit highlight))))
 
  '(mode-line-highlight ((t (:slant normal :foreground "firebrick"))))
+ '(mode-line ((t (:background "grey70" :overline "black"))))
+ '(mode-line-inactive ((t :background "grey90")))
+ '(erc-timestamp-face ((t :inherit shadow)))
 
  '(eno-hint-face ((t (:inherit default :inverse-video t))))
 
