@@ -11,8 +11,7 @@
   `(add-hook (quote ,(intern (concat (symbol-name mode) "-hook")))
              (lambda () (interactive) (setq mode-name ,name))))
 
-;;; regex
-
+;;; PCRE mode - use perlish regex
 ;; global PCRE mode rather than annoying emacs regex mode.
 
 (req-package pcre2el
@@ -21,11 +20,10 @@
   (pcre-mode t))
 
 ;;; dired
-
-;; enables the use of 'a' in dired to reuse the buffer
+;;;; enables the use of 'a' in dired to reuse the buffer
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; dired-k puts VC information and colours into dired.
+;;;; dired-k puts VC information and colours into dired.
 (req-package dired-k
   :commands dired-k dired-k-no-revert
   :init
@@ -38,11 +36,7 @@
         dired-k-human-readable t ;; my dired flags include -h for human-readable sizes
         ))
 
-(req-package dired-imenu
-  :config
-  (require 'dired-imenu))
-
-;; use key ')' to toggle omitted files in dired
+;;;; use key ')' to toggle omitted files in dired
 (req-package dired-x
   :commands dired-omit-mode
   :init
@@ -51,13 +45,13 @@
 
 (set-mode-name dired-mode "dir")
 
-;; insert dired subtree indented rather than at bottom
+;;;; insert dired subtree indented rather than at bottom
 (req-package dired-subtree
   :commands dired-subtree-toggle dired-subtree-cycle
   :init
   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map))
 
-;; enable dired filtering - joined up with a hydra below
+;;;; enable dired filtering - joined up with a hydra below
 (req-package dired-filter :defer t)
 
 ;;; editing
@@ -456,12 +450,7 @@
 
   (advice-add 'smex-prepare-ido-bindings :after #'h/advise-smex-bindings))
 
-;;; chrome
-
-;; (req-package smart-mode-line
-;;   :config
-;;   (sml/setup)
-;;   (sml/apply-theme 'dark))
+;;; recentf - where to remember, keys
 
 (req-package recentf
   :bind ("C-x C-r" . h/recentf-find-file)
@@ -481,13 +470,16 @@
       (when file
         (find-file file)))))
 
+;;; lacarte - ido for menubar
 (req-package lacarte
-  :bind ("M-`" . lacarte-execute-menu-command))
+  :bind (("M-<F10>" . #'menu-bar-open)
+         ("<F10>" . lacarte-execute-menu-command)))
 
+;;; imenu
 (req-package imenu
   :init
   (setq imenu-auto-rescan t))
-
+;;;; imenu-anywhere
 (req-package imenu-anywhere
   :bind ("M-<menu>" . imenu-anywhere))
 
@@ -567,7 +559,26 @@
 (add-hook 'java-mode-hook
           #'(lambda nil (c-set-style "stroustrup")))
 
-;;; navigation
+;;;; python
+
+(req-package elpy
+  :require jedi
+  :commands elpy-enable
+  :init
+  (defun h/elpy-enable ()
+    (elpy-enable)
+    (remove-hook python-mode-hook #'h/elpy-enable))
+  (add-hook python-mode-hook #'h/elpy-enable))
+
+(req-package auto-virtualenv
+  :config
+  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+  (add-hook 'projectile-after-switch-project-hook 'auto-virtualenv-set-virtualenv))
+
+;;;; geiser (scheme)
+(req-package geiser)
+
+;;; browse-kill-ring (M-y shows kill ring)
 
 (req-package browse-kill-ring+
   :init
@@ -1118,8 +1129,8 @@ On %a, %b %d %Y, %N wrote:
 ;;; theme
 (req-package punpun-theme
   :init
-  (load-theme 'adjustments t)
-  (load-theme 'punpun-light t))
+  (load-theme 'punpun-light t)
+  (load-theme 'adjustments t))
 
 ;;; i3 stuffs
 (when t
@@ -1137,21 +1148,6 @@ On %a, %b %d %Y, %N wrote:
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
-;;; python
-
-;; python mode is annoying
-;; (req-package python-mode
-;;   :commands python-mode
-;;   :mode ("\\.py\\'" . python-mode)
-;;   :config
-;;   (add-to-list 'interpreter-mode-alist '("python" . python-mode)))
-
-(req-package auto-virtualenv
-  :config
-  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-  (add-hook 'projectile-after-switch-project-hook 'auto-virtualenv-set-virtualenv))
-
-
 ;;; winner
 (req-package winner
   :defer nil
@@ -1161,3 +1157,5 @@ On %a, %b %d %Y, %N wrote:
 
 ;;; multi-line
 (req-package multi-line)
+
+;;; end
