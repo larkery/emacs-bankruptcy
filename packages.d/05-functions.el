@@ -75,29 +75,31 @@
             (replace-match (apply #'format "%02x%02x%02x"
                                   (mapcar (lambda (x) (truncate (* x 255))) c3)) t t nil 1)))))))
 
+(defvar cwheel-nth (/ 1 255.0))
+
 (defun cwheel-lighten ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list h s (min 1 (+ v 0.04))))))
+  (cwheel--operate (lambda (h s v) (list h s (min 1 (+ v cwheel-nth))))))
 
 (defun cwheel-darken ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list h s (max 0 (- v 0.04))))))
+  (cwheel--operate (lambda (h s v) (list h s (max 0 (- v cwheel-nth))))))
 
 (defun cwheel-saturate ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list h (min 1 (+ s 0.02)) v))))
+  (cwheel--operate (lambda (h s v) (list h (min 1 (+ s cwheel-nth)) v))))
 
 (defun cwheel-desaturate ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list h (max 0 (- s 0.02)) v))))
+  (cwheel--operate (lambda (h s v) (list h (max 0 (- s cwheel-nth )) v))))
 
 (defun cwheel-hue-up ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list (min 1 (+ h 0.04)) s v))))
+  (cwheel--operate (lambda (h s v) (list (min 1 (+ h cwheel-nth )) s v))))
 
 (defun cwheel-hue-down ()
   (interactive)
-  (cwheel--operate (lambda (h s v) (list (max 0 (- h 0.04)) s v))))
+  (cwheel--operate (lambda (h s v) (list (max 0 (- h cwheel-nth )) s v))))
 
 ;; #8cfecb
 ;; #fe4735

@@ -193,12 +193,12 @@ static char *gnus-pointer[] = {
  '(mouse-autoselect-window t)
  '(notmuch-saved-searches
    (quote
-    ((:name "all inbox" :query "tag:inbox" :key "i")
+    ((:name "all mail" :query "*" :key "a")
+     (:name "all inbox" :query "tag:inbox" :key "i")
      (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
      (:name "unread" :query "tag:unread" :key "u")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t")
-     (:name "all mail" :query "*" :key "a")
      (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
      (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
  '(notmuch-search-line-faces

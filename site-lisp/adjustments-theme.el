@@ -2,7 +2,8 @@
 
 (custom-theme-set-faces
  'adjustments
- '(default ((t :height 105 :foreground "#484848" :background "#e5e5e3")))
+ '(default ((t :height 105 :foreground "#484848" :background "#f2f1f1")))
+ ;; '(default ((t :height 105 :foreground "white" :background "skyblue3")))
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
  '(ido-virtual ((t (:slant italic))))
@@ -22,23 +23,22 @@
  '(notmuch-message-summary-face ((t (:inherit highlight))))
 
  '(mode-line-highlight ((t (:slant normal :foreground "firebrick"))))
- '(mode-line ((t (:background "grey70" :overline "black"))))
-
+ '(mode-line ((t (:overline "black"))))
  '(org-mode-line-clock ((t ())))
 
  '(erc-timestamp-face ((t :inherit shadow)))
 
  '(eno-hint-face ((t (:inherit default :inverse-video t))))
 
- '(outline-1 ((t (:height 140 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-2 ((t (:height 130 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-3 ((t (:height 120 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-4 ((t (:height 110 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-5 ((t (:height 105 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-6 ((t (:height 105 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-7 ((t (:height 105 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-8 ((t (:height 105 :foreground "#444" :background "#d5d5d3" :slant normal))))
- '(outline-9 ((t (:height 105 :foreground "#444" :background "#d5d5d3" :slant normal))))
+ '(outline-1 ((t (:height 140 :foreground "cadetblue4" :slant normal))))
+ '(outline-2 ((t (:height 130 :foreground "cadetblue4" :slant normal))))
+ '(outline-3 ((t (:height 120 :foreground "cadetblue4" :slant normal))))
+ '(outline-4 ((t (:height 110 :foreground "cadetblue4" :slant normal))))
+ '(outline-5 ((t (:height 105 :foreground "cadetblue4" :slant normal))))
+ '(outline-6 ((t (:height 105 :foreground "cadetblue4" :slant normal))))
+ '(outline-7 ((t (:height 105 :foreground "cadetblue4" :slant normal))))
+ '(outline-8 ((t (:height 105 :foreground "cadetblue4" :slant normal))))
+ '(outline-9 ((t (:height 105 :foreground "cadetblue4" :slant normal))))
 
  '(org-date ((t (:inherit link))))
  '(org-verbatim ((t :foreground "black")))

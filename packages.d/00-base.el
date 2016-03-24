@@ -160,9 +160,9 @@
    " "
 
    (:eval (propertize
-           (if buffer-read-only "❌" "✓")
+           (concat (if (buffer-modified-p) "M" "") (if buffer-read-only "R" "W"))
            'face
-           (if (buffer-modified-p) 'font-lock-warning-face 'font-lock-type-face)
+           (if (buffer-modified-p) 'font-lock-warning-face nil)
            'help-echo
            (concat (if (buffer-modified-p) "" "un")
                    "modified, "
