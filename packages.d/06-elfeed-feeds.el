@@ -11,4 +11,5 @@
         ("http://cowlark.com/feed.rss" tech blog)
         ("http://cassettepunk.com/feed/" tech blog)
         ("http://idlewords.com/index.xml" tech)
+        ("http://bristolcars.blogspot.com/feeds/posts/default" bristol bike blog)
         ))

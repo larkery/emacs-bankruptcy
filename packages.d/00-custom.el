@@ -40,7 +40,7 @@
  '(custom-raised-buttons t)
  '(custom-safe-themes
    (quote
-    ("4966d29f56954d948c9607cc8788c8f663a0a052b4ee4edc951b1715b26a9236" "3a69621a68c2d3550a4c777ffc000e1ea66f5bc2f61112814c591e1bda3f5704" "c9e42ede5d97db2dd849f5d0a8cfb6a857ec5f687413242b74f565af273404ed" "c3e6b52caa77cb09c049d3c973798bc64b5c43cc437d449eacf35b3e776bf85c" "e475cece13fc5c0ea84f554a4e9d41805b19a8fff54b26ce6c18cb1912133a9a" "fe1682ca8f7a255cf295e76b0361438a21bb657d8846a05d9904872aa2fb86f2" "ff91d59dc1b6c6dfa71048183d08637b55880cac12f9b38ba0b9309d6ffecff1" "39fe48be738ea23b0295cdf17c99054bb439a7d830248d7e6493c2110bfed6f8" "7beac4a68f03662b083c9c2d4f1d7f8e4be2b3d4b0d904350a9edf3cf7ce3d7f" "7f5837a7dbf54c2b7c41d94f5eb1373cf63274847d1971037faa24d7f2231eea" "2c3ea9579d95e43da42cadededcff45f9251525112bd87c390045bd7a7adbe1a" "df87edcf41dbdb2c5d49d53acdfc9d5c2087ef7259679ac50923f97e0b24fdfe" default)))
+    ("db53a443b6e8ddf921a75c6b62caabacf76c4acc1f61e77f80a5926fc3a6c928" "36cf24331863d724363eaff692c555fadf9ecad2f773a738a17a40a37ea775f3" "4966d29f56954d948c9607cc8788c8f663a0a052b4ee4edc951b1715b26a9236" "3a69621a68c2d3550a4c777ffc000e1ea66f5bc2f61112814c591e1bda3f5704" "c9e42ede5d97db2dd849f5d0a8cfb6a857ec5f687413242b74f565af273404ed" "c3e6b52caa77cb09c049d3c973798bc64b5c43cc437d449eacf35b3e776bf85c" "e475cece13fc5c0ea84f554a4e9d41805b19a8fff54b26ce6c18cb1912133a9a" "fe1682ca8f7a255cf295e76b0361438a21bb657d8846a05d9904872aa2fb86f2" "ff91d59dc1b6c6dfa71048183d08637b55880cac12f9b38ba0b9309d6ffecff1" "39fe48be738ea23b0295cdf17c99054bb439a7d830248d7e6493c2110bfed6f8" "7beac4a68f03662b083c9c2d4f1d7f8e4be2b3d4b0d904350a9edf3cf7ce3d7f" "7f5837a7dbf54c2b7c41d94f5eb1373cf63274847d1971037faa24d7f2231eea" "2c3ea9579d95e43da42cadededcff45f9251525112bd87c390045bd7a7adbe1a" "df87edcf41dbdb2c5d49d53acdfc9d5c2087ef7259679ac50923f97e0b24fdfe" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -52,6 +52,9 @@
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
  '(display-buffer-alist nil)
+ '(elpy-modules
+   (quote
+    (elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(emms-mode-line-icon-image-cache
    (quote
     (image :type xpm :ascent center :data "/* XPM */
@@ -153,6 +156,7 @@ static char *gnus-pointer[] = {
         (mode . idl-mode)
         (mode . lisp-mode)))))))
  '(ido-auto-merge-delay-time 0.7)
+ '(ido-cr+-max-items 50000)
  '(ido-create-new-buffer (quote always))
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))

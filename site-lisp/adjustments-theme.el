@@ -23,12 +23,21 @@
  '(notmuch-message-summary-face ((t (:inherit highlight))))
 
  '(mode-line-highlight ((t (:slant normal :foreground "firebrick"))))
- '(mode-line ((t (:overline "black"))))
+ '(mode-line ((t (:overline "steel blue"))))
  '(org-mode-line-clock ((t ())))
 
  '(erc-timestamp-face ((t :inherit shadow)))
 
  '(eno-hint-face ((t (:inherit default :inverse-video t))))
+
+ '(indent-guide-face ((t (:foreground "steel blue"))))
+ '(dired-directory ((t (:foreground "steel blue"))))
+
+ '(dired-subtree-depth-1-face ((t (:background "grey90"))))
+ '(dired-subtree-depth-2-face ((t (:background "grey88"))))
+ '(dired-subtree-depth-3-face ((t (:background "grey86"))))
+ '(dired-subtree-depth-4-face ((t (:background "grey84"))))
+ '(dired-subtree-depth-5-face ((t (:background "grey82"))))
 
  '(outline-1 ((t (:height 140 :foreground "cadetblue4" :slant normal))))
  '(outline-2 ((t (:height 130 :foreground "cadetblue4" :slant normal))))

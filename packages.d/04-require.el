@@ -23,19 +23,6 @@
 ;;;; enables the use of 'a' in dired to reuse the buffer
 (put 'dired-find-alternate-file 'disabled nil)
 
-;;;; dired-k puts VC information and colours into dired.
-(req-package dired-k
-  :commands dired-k dired-k-no-revert
-  :init
-  (defun h/dired-k-no-revert-except-tramp ()
-    (unless (file-remote-p default-directory)
-      (dired-k-no-revert)))
-
-  (add-hook 'dired-after-readin-hook #'dired-k-no-revert t)
-  (setq dired-k-style 'git       ;; show VC status on the left
-        dired-k-human-readable t ;; my dired flags include -h for human-readable sizes
-        ))
-
 ;;;; use key ')' to toggle omitted files in dired
 (req-package dired-x
   :commands dired-omit-mode
@@ -472,7 +459,7 @@
 
 ;;; lacarte - ido for menubar
 (req-package lacarte
-  :bind (("M-<F10>" . #'menu-bar-open)
+  :bind (("M-<F10>" . menu-bar-open)
          ("<F10>" . lacarte-execute-menu-command)))
 
 ;;; imenu
@@ -561,14 +548,20 @@
 
 ;;;; python
 
-(req-package elpy
-  :require jedi
-  :commands elpy-enable
+;; (req-package elpy
+;;   :require jedi
+;;   :commands elpy-enable
+;;   :init
+;;   (eval-after-load 'python-mode (elpy-enable)))
+
+(req-package anaconda-mode
+  :commands anaconda-mode
   :init
-  (defun h/elpy-enable ()
-    (elpy-enable)
-    (remove-hook python-mode-hook #'h/elpy-enable))
-  (add-hook python-mode-hook #'h/elpy-enable))
+  (add-hook 'python-mode-hook #'anaconda-mode)
+  (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
+  :config
+  (bind-key "C-c C-f" 'anaconda-mode-show-doc python-mode-map))
+
 
 (req-package auto-virtualenv
   :config
@@ -1155,7 +1148,15 @@ On %a, %b %d %Y, %N wrote:
   :config
   (winner-mode 1))
 
-;;; multi-line
-(req-package multi-line)
+;;; indent guide
+(req-package indent-guide
+  :config
+  (setq indent-guide-delay 0.5
+        indent-guide-char "."))
+
+;;; flycheck
+(req-package flycheck
+  :config
+  (global-flycheck-mode))
 
 ;;; end
