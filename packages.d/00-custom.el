@@ -252,7 +252,7 @@ static char *gnus-pointer[] = {
       "** TODO %?%a
 %u")
      ("e" "calendar event" entry
-      (file "~/notes/work/calendar.org")
+      (file "~/notes/calendar/cse.org")
       "* %?
 %^T"))))
  '(org-clock-clocked-in-display (quote mode-line))

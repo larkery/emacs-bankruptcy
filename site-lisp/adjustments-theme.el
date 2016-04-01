@@ -39,6 +39,10 @@
  '(dired-subtree-depth-4-face ((t (:background "grey84"))))
  '(dired-subtree-depth-5-face ((t (:background "grey82"))))
 
+ '(org-agenda-date ((t (:inherit outline-2))))
+ '(org-agenda-date-today ((t (:inherit outline-2 :foreground "firebrick"))))
+ '(org-agenda-date-weekend ((t (:inherit outline-2 :slant italic))))
+
  '(outline-1 ((t (:height 140 :foreground "cadetblue4" :slant normal))))
  '(outline-2 ((t (:height 130 :foreground "cadetblue4" :slant normal))))
  '(outline-3 ((t (:height 120 :foreground "cadetblue4" :slant normal))))
