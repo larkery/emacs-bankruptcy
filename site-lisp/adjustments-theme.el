@@ -2,8 +2,9 @@
 
 (custom-theme-set-faces
  'adjustments
- '(default ((t :height 105 :foreground "#484848" :background "#f2f1f1")))
- ;; '(default ((t :height 105 :foreground "white" :background "skyblue3")))
+ '(default ((t :height 100 :foreground "black" :background "cornsilk1"
+               :family "Monospace"
+               )))
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
  '(ido-virtual ((t (:slant italic))))
@@ -33,11 +34,11 @@
  '(indent-guide-face ((t (:foreground "steel blue"))))
  '(dired-directory ((t (:foreground "steel blue"))))
 
- '(dired-subtree-depth-1-face ((t (:background "grey90"))))
- '(dired-subtree-depth-2-face ((t (:background "grey88"))))
- '(dired-subtree-depth-3-face ((t (:background "grey86"))))
- '(dired-subtree-depth-4-face ((t (:background "grey84"))))
- '(dired-subtree-depth-5-face ((t (:background "grey82"))))
+ '(dired-subtree-depth-1-face ((t (:background "cornsilk2"))))
+ '(dired-subtree-depth-2-face ((t (:background "cornsilk3"))))
+ '(dired-subtree-depth-3-face ((t (:background "cornsilk4"))))
+ '(dired-subtree-depth-4-face ((t (:background "cornsilk4"))))
+ '(dired-subtree-depth-5-face ((t (:background "cornsilk4"))))
 
  '(org-agenda-date ((t (:inherit outline-2))))
  '(org-agenda-date-today ((t (:inherit outline-2 :foreground "firebrick"))))

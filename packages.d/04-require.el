@@ -459,8 +459,8 @@
 
 ;;; lacarte - ido for menubar
 (req-package lacarte
-  :bind (("M-<F10>" . menu-bar-open)
-         ("<F10>" . lacarte-execute-menu-command)))
+  :bind (("M-<f10>" . menu-bar-open)
+         ("<f10>" . lacarte-execute-menu-command)))
 
 ;;; imenu
 (req-package imenu
@@ -561,12 +561,6 @@
   (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
   :config
   (bind-key "C-c C-f" 'anaconda-mode-show-doc python-mode-map))
-
-
-(req-package auto-virtualenv
-  :config
-  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-  (add-hook 'projectile-after-switch-project-hook 'auto-virtualenv-set-virtualenv))
 
 ;;;; geiser (scheme)
 (req-package geiser)
@@ -759,12 +753,14 @@
     (recenter 1))
 
 
-  (defun h/notmuch/goto-inbox ()
+  (defun h/notmuch/goto-inbox (prefix)
     "convenience to go to the inbbox search"
-    (interactive)
-    (if (string-equal (system-name) "turnpike.cse.org.uk")
-        (notmuch-search "tag:inbox AND path:cse/**")
-      (notmuch-search "tag:inbox AND path:fm/**")))
+    (interactive "P")
+    (if prefix
+        (if (equal (system-name) "keats")
+          (notmuch-search "tag:inbox AND path:cse/**")
+        (notmuch-search "tag:inbox AND path:fastmail/**"))
+      (notmuch-search "tag:unread")))
 
   (defun h/notmuch/flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
@@ -863,7 +859,7 @@
         notmuch-crypto-process-mime t
         notmuch-fcc-dirs (quote
                           (("tom\\.hinton@cse\\.org\\.uk" . "cse/Sent Items")
-                           ("larkery\\.com" . "fm/Sent Items")))
+                           ("larkery\\.com" . "fastmail/Sent Items")))
         notmuch-hello-sections '(notmuch-hello-insert-search
                                  notmuch-hello-insert-alltags
                                  notmuch-hello-insert-inbox
@@ -1158,5 +1154,7 @@ On %a, %b %d %Y, %N wrote:
 (req-package flycheck
   :config
   (global-flycheck-mode))
+
+(req-package w3m)
 
 ;;; end

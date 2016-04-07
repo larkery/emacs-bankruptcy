@@ -29,7 +29,7 @@
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "~/.local/bin/xdg-open")
+ '(browse-url-generic-program "xdg-open")
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)
  '(calendar-latitude 51.45)
@@ -195,6 +195,8 @@ static char *gnus-pointer[] = {
  '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
  '(mouse-autoselect-window t)
+ '(netrc-file "~/.netrc")
+ '(nix-sandbox-interpreter-mode-alist nil)
  '(notmuch-saved-searches
    (quote
     ((:name "all mail" :query "*" :key "a")
@@ -203,7 +205,7 @@ static char *gnus-pointer[] = {
      (:name "unread" :query "tag:unread" :key "u")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t")
-     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
+     (:name "personal inbox" :query "tag:inbox and path:fastmail/**" :key "p")
      (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
  '(notmuch-search-line-faces
    (quote
@@ -430,7 +432,7 @@ static char *gnus-pointer[] = {
            (lambda nil
              (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
            nil t))))
- '(sendmail-program "msmtp-enqueue")
+ '(sendmail-program "msmtpq-quiet")
  '(sentence-end-double-space nil)
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")

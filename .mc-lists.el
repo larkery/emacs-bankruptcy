@@ -121,6 +121,7 @@
       '(
         eval-defun
         handle-select-window
+        handle-switch-frame
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down
