@@ -1121,6 +1121,7 @@ On %a, %b %d %Y, %N wrote:
   (load-theme 'punpun-light t)
   (load-theme 'adjustments t))
 
+
 ;;; i3 stuffs
 (when t
   (el-get-bundle vava/i3-emacs)
