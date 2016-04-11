@@ -1121,7 +1121,6 @@ On %a, %b %d %Y, %N wrote:
   (load-theme 'punpun-light t)
   (load-theme 'adjustments t))
 
-
 ;;; i3 stuffs
 (when t
   (el-get-bundle vava/i3-emacs)
@@ -1157,5 +1156,17 @@ On %a, %b %d %Y, %N wrote:
   (global-flycheck-mode))
 
 (req-package w3m)
+
+;;; nixos
+
+;; (req-package nix-mode
+;;   :mode ("\\.nix\\'" . nix-mode))
+
+;; ;; need to add hooks elsewhere?
+;; (req-package nix-sandbox-interpreter
+;;   :commands nix-sandbox-interpreter-update
+;;   :init
+;;   (add-hook 'prog-mode-hook
+;;             #'nix-sandbox-interpreter-update))
 
 ;;; end

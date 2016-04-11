@@ -85,11 +85,10 @@ PROGRAM, and connect up its input and output"
                    (new-interpreter (nix-sandbox-shell-command
                                      command
                                      nix-sandbox-definition))
-                   (new-arguments (format "%s"
-                                          (if (or (not arguments)
-                                                  (string-empty-p arguments))
-                                              ""
-                                            (concat " '" arguments "'")))))
+                   (new-arguments
+                    (when (and arguments
+                               (not (string-empty-p arguments)))
+                      (concat " '" arguments "'"))))
 
               (make-local-variable interpreter)
               (if interpreter-args
@@ -98,7 +97,10 @@ PROGRAM, and connect up its input and output"
                     (set interpreter new-interpreter)
                     (set interpreter-args new-arguments))
 
-                (set interpreter (concat new-interpreter " " new-arguments))))))))
+                (set interpreter
+                     (if new-arguments (concat new-interpreter " " new-arguments)
+                       new-interpreter)
+                     )))))))
     ))
 
 (provide 'nix-sandbox-interpreter)
