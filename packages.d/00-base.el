@@ -189,14 +189,7 @@
    ""
    (:eval
     (mode-line-pad-right
-     (list " "
-           ;; (when (ignore-errors (projectile-project-root))
-           ;;   (concat
-           ;;    (propertize (projectile-project-name)
-           ;;                'mouse-face 'mode-line-highlight
-           ;;                'local-map projectile-mode-line-menu)
-
-           ;;    " "))
+     (list
       mode-line-modes
       global-mode-string
       '(:propertize (:eval (anzu--update-mode-line))
@@ -206,7 +199,7 @@
 
    )
  )
-
+(global-set-key (kbd "<escape>")      'keyboard-escape-quit)
 ;;; * Hack for remote files
 
 (add-to-list 'file-name-handler-alist
