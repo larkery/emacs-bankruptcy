@@ -206,3 +206,8 @@
 
    )
  )
+
+;;; * Hack for remote files
+
+(add-to-list 'file-name-handler-alist
+             '("\\`/home/hinton/network" . file-name-non-special))
