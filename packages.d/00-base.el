@@ -190,7 +190,7 @@
    (:eval
     (mode-line-pad-right
      (list
-      (if (and (boundp god-local-mode)
+      (if (and (boundp 'god-local-mode)
                god-local-mode)
           '(:propertize ":GOD: " face 'mode-line-highlight)
         "")
