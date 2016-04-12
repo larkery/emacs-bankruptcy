@@ -1170,16 +1170,13 @@ On %a, %b %d %Y, %N wrote:
 ;;             #'nix-sandbox-interpreter-update))
 
 (req-package god-mode
-  :bind (("<print>" . god-local-mode)
-         ("<menu>" . god-local-mode))
+  :bind ( ("<menu>" . god-mode) )
   :config
-
+  (diminish 'god-local-mode "")
   (define-key god-local-mode-map (kbd ".") 'repeat)
-  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
-  (add-hook 'god-mode-enabled-hook 'h/my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'h/my-update-cursor)
+  (define-key god-local-mode-map (kbd "i") 'god-mode)
   (require 'god-mode-isearch)
-  (define-key isearch-mode-map (kbd "<print>") 'god-mode-isearch-activate)
-  (define-key god-mode-isearch-map (kbd "<print>") 'god-mode-isearch-disable))
+  (define-key isearch-mode-map (kbd "<menu>") 'god-mode-isearch-activate)
+  (define-key god-mode-isearch-map (kbd "<menu>") 'god-mode-isearch-disable))
 
 ;;; end

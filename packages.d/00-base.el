@@ -190,7 +190,13 @@
    (:eval
     (mode-line-pad-right
      (list
+      (if (and (boundp god-local-mode)
+               god-local-mode)
+          '(:propertize ":GOD: " face 'mode-line-highlight)
+        "")
+
       mode-line-modes
+
       global-mode-string
       '(:propertize (:eval (anzu--update-mode-line))
                     face 'mode-line-highlight)
@@ -199,7 +205,9 @@
 
    )
  )
-(global-set-key (kbd "<escape>")      'keyboard-escape-quit)
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 ;;; * Hack for remote files
 
 (add-to-list 'file-name-handler-alist
