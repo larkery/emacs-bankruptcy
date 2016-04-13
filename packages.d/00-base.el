@@ -192,7 +192,7 @@
      (list
       (if (and (boundp 'god-local-mode)
                god-local-mode)
-          '(:propertize ":GOD: " face 'mode-line-highlight)
+          '(:propertize "::GOD:: " face 'mode-line-highlight)
         "")
 
       mode-line-modes

@@ -214,7 +214,8 @@
 
 (req-package magit
   :commands magit
-  :bind ("C-c g" . magit-status)
+  :bind (("C-c g" . magit-status)
+         ("C-c C-m" . magit-status))
   :config
   (setq magit-last-seen-setup-instructions "1.4.0"))
 
