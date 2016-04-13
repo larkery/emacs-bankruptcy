@@ -13,11 +13,14 @@
         ess-smart-comma
         ess-smarter-underscore
         ess-yank
+        god-mode-self-insert
         h/kill-sexp-appropriately
         h/slurp-appropriately
         iy-go-to-char--command
         jump-char-process-char
         jump-char-repeat-backward
+        keyboard-escape-quit
+        keyboard-quit
         kill-region
         kill-sexp
         kill-visual-line
