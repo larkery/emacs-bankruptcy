@@ -22,6 +22,7 @@
 ;;; dired
 ;;;; enables the use of 'a' in dired to reuse the buffer
 (put 'dired-find-alternate-file 'disabled nil)
+(bind-key "V" #'magit-status dired-mode-map)
 
 ;;;; use key ')' to toggle omitted files in dired
 (req-package dired-x
