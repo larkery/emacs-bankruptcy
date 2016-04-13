@@ -1175,9 +1175,11 @@ On %a, %b %d %Y, %N wrote:
 
 (req-package key-chord
   :defer nil
+  :config
   (setq key-chord-one-key-delay  0.15
         key-chord-two-keys-delay 0.05)
-  (key-chord-define-global "zx" #'god-mode-all))
+  (key-chord-define-global "zx" #'god-mode-all)
+  (key-chord-mode 1))
 
 (req-package god-mode
   :commands god-mode god-local-mode
