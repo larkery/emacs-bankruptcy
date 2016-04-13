@@ -1173,17 +1173,22 @@ On %a, %b %d %Y, %N wrote:
 ;;   (add-hook 'prog-mode-hook
 ;;             #'nix-sandbox-interpreter-update))
 
+(req-package key-chord
+  :defer nil
+  (setq key-chord-one-key-delay  0.15
+        key-chord-two-keys-delay 0.05)
+  (key-chord-define-global "zx" #'god-mode-all))
+
 (req-package god-mode
-  :bind ( ("<C-escape> <C-escape>" . god-mode) )
+  :commands god-mode god-local-mode
   :config
   (diminish 'god-local-mode "")
   (define-key god-local-mode-map (kbd ".") 'repeat)
   (define-key god-local-mode-map (kbd "i") 'god-mode)
-  (define-key god-local-mode-map (kbd "C-<escape>") 'god-mode)
   (define-key god-local-mode-map (kbd "<escape>") 'god-mode)
   (require 'god-mode-isearch)
-  (define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
-  (define-key god-mode-isearch-map (kbd "<C-escape>") 'god-mode-isearch-disable)
+  ;(define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
+
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable))
 
 ;;; end
