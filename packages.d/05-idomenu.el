@@ -30,4 +30,4 @@
                        (cdr x))))))
    the-alist))
 
-(bind-key "<menu>" #'h/idomenu)
+(bind-key "C-c SPC" #'h/idomenu)
