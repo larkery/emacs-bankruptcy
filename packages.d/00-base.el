@@ -210,5 +210,37 @@
 
 ;;; * Hack for remote files
 
-(add-to-list 'file-name-handler-alist
-             '("\\`/home/hinton/network" . file-name-non-special))
+(let* ((base-path-re
+        '(and (or (and (+ "/")
+                       "home"
+                       (+ "/")
+                       "hinton")
+                  "~")
+             (+ "/")
+             "network")
+
+       )
+       (share-path-re
+        (append base-path-re
+                '((+ "/")
+                  (+ (not (any "/")))
+                  (+ "/")
+                  (+ (not (any "/")))))))
+  (defvar h/network-prefix-re (rx-to-string share-path-re))
+  (add-to-list 'file-name-handler-alist `(,(rx-to-string base-path-re) . file-name-non-special))
+  (setq locate-dominating-stop-dir-regexp (rx-to-string share-path-re))
+  (setq vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
+  )
+
+;; (defun h/file-name-non-special-advice (o &rest args)
+;;   (let ((result (apply o args)))
+;;     (if (and (not result)
+;;              (eq (car args) 'file-remote-p))
+
+;;         (save-match-data
+;;           (let* ((filename (cadr args))
+;;                  (matches (string-match h/network-prefix-re filename)))
+;;             (when matches (match-string 0 filename))))
+;;       result)))
+
+;; (advice-add 'file-name-non-special :around #'h/file-name-non-special-advice)

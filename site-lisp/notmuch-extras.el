@@ -4,68 +4,14 @@
 
 ;;;; S drive wrangling
 
-(defun h/mangle-url (url)
-  "If the url starts with file:// then fiddle it to point to ~/net/CSE instead"
-  ;; TODO call gvfs mount also
-  (let* ((parsed (url-generic-parse-url url))
-         (type (url-type parsed))
-         (fn (url-filename parsed)))
-
-    (if (equal "file" type)
-        (let ((unix-path
-               (replace-regexp-in-string
-                "^/+" "/"
-                (replace-regexp-in-string "\\\\" "/" (url-unhex-string fn)))))
-
-          (dolist (map '( ("/CSE-BS3-FILE/[Dd][Aa][Tt][Aa]/" . "/home/hinton/gvfs/smb-share:server=cse-bs3-file,share=data//") ))
-            (setq unix-path (replace-regexp-in-string (car map) (cdr map) unix-path)))
-          (progn (message "%s" (format "file: %s" unix-path)))
-          (cons t (expand-file-name unix-path)))
-      (progn
-        (message "%s" (format "url: %s" url))
-        (cons nil url)))))
-
-(defun h/open-mail-link (url file-fn url-fn)
-  (message "%s" url)
-  (let ((parse (h/mangle-url url)))
-    (funcall (if (car parse) file-fn url-fn)
-             (cdr parse))))
-
-(defun h/open-mail-here ()
-  (interactive)
-  (h/open-mail-link (w3m-anchor)
-                    (lambda (path) (find-file path))
-                    #'browse-url))
-
-(defun h/open-mail-there ()
-  (interactive)
-  (h/open-mail-link (w3m-anchor)
-                    (lambda (path) (h/run-ignoring-results "xdg-open" path))
-                    #'browse-url))
-
-(defun h/open-mail-dired ()
-  (interactive)
-  (h/open-mail-link (w3m-anchor)
-                    (lambda (path)
-                      (message (format "dired %s" path))
-                      (dired (file-name-directory path)))
-                    #'browse-url))
-
-(defun h/run-ignoring-results (&rest command-and-arguments)
-  "Run a command in an external process and ignore the stdout/err"
-  (let ((process-connection-type nil))
-    (apply #'start-process (cons "" (cons nil command-and-arguments)))))
-
 (defvar h/notmuch-mouse-map (make-sparse-keymap))
+(define-key h/notmuch-mouse-map [mouse-1]
+  (lambda ()
+    (interactive)
+    (browse-url (w3m-anchor))))
 
-(define-key h/notmuch-mouse-map [mouse-1] #'h/open-mail-here)
-(define-key h/notmuch-mouse-map [mouse-2] #'h/open-mail-there)
-(define-key h/notmuch-mouse-map [mouse-3] #'h/open-mail-dired)
-
-(defun h/hack-file-links ()
-  "when in a buffer with w3m anchors, find the anchors and change them so clicking file:// paths uses h/open-windows-mail-link"
-  (interactive)
-
+(defun h/hack-w3m-links ()
+  "modify all w3m anchors in this buffer to open with browse-url"
   (let ((was-read-only buffer-read-only))
     (when was-read-only
       (read-only-mode -1))

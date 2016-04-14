@@ -885,7 +885,10 @@
 
         notmuch-search-oldest-first nil
 
-        notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode goto-address-mode h/hack-file-links)
+        notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode
+                            goto-address-mode
+                            h/hack-w3m-links
+                            )
 
         notmuch-show-indent-messages-width 1
 
@@ -902,7 +905,7 @@
                                            (quote
                                             (:foreground "orange")))))
 
-        notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)$"
+        notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
         notmuch-wash-signature-lines-max 30
         notmuch-wash-signature-regexp (rx
                                        bol
@@ -917,18 +920,17 @@
                                        eol)
 
         ;; citation stuff
-        message-cite-style 'message-cite-style-gmail
+        message-cite-style nil
         message-cite-function (quote message-cite-original-without-signature)
         message-citation-line-function (quote message-insert-formatted-citation-line)
-        message-cite-reply-position (quote above)
+        message-cite-reply-position 'traditional
         message-yank-prefix "> "
         message-cite-prefix-regexp "[[:space:]]*>[ >]*"
         message-yank-cited-prefix ">"
         message-yank-empty-prefix ""
-        message-citation-line-format "
------------------------
-On %a, %b %d %Y, %N wrote:
-"))
+        message-citation-line-format ""
+        )
+  )
 
 ;;; projectile
 
@@ -1174,11 +1176,13 @@ On %a, %b %d %Y, %N wrote:
 ;;             #'nix-sandbox-interpreter-update))
 
 (req-package key-chord
-  :defer nil
-  :config
-  (setq key-chord-one-key-delay  0.15
+  :require key-seq
+  :init
+  (setq key-chord-one-key-delay  0.12
         key-chord-two-keys-delay 0.05)
-  (key-chord-define-global "zx" #'god-mode-all)
+  (key-seq-define-global " x" #'god-mode-all)
+  (key-seq-define-global " s" #'save-buffer)
+
   (key-chord-mode 1))
 
 (req-package god-mode

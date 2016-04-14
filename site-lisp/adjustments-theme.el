@@ -62,7 +62,7 @@
  '(outline-9 ((t (:height 110 :foreground "cadetblue4" :slant normal))))
 
  '(org-date ((t (:inherit link))))
- '(org-verbatim ((t :foreground "black")))
+ '(org-verbatim ((t :foreground "black" :background "grey90")))
  '(fringe ((t (:foreground "black"))))
 
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#8ca5b0"))))

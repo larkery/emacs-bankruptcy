@@ -13,7 +13,6 @@
         ess-smart-comma
         ess-smarter-underscore
         ess-yank
-        god-mode-self-insert
         h/kill-sexp-appropriately
         h/slurp-appropriately
         iy-go-to-char--command
@@ -129,4 +128,6 @@
         kmacro-end-or-call-macro
         lispy-cursor-down
         smex
+        god-mode-all
+        god-mode-self-insert
         ))
