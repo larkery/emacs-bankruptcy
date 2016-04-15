@@ -390,7 +390,6 @@
             (unless is-hl
               (hl-line-mode -1))
             )))))
-
   )
 
 (req-package ido
@@ -620,8 +619,6 @@
   password-server-mode)
 
 (req-package org
-                                        ;:pin "manual"
-
   :bind (("C-c a" . org-agenda)
          ("H-a" . org-agenda)
          ("C-c l" . org-store-link)
@@ -1179,7 +1176,7 @@
   :require key-seq
   :init
   (setq key-chord-one-key-delay  0.12
-        key-chord-two-keys-delay 0.05)
+        key-chord-two-keys-delay 0.08)
   (key-seq-define-global " x" #'god-mode-all)
   (key-seq-define-global " s" #'save-buffer)
 

@@ -30,7 +30,8 @@
 
  '(notmuch-message-summary-face ((t (:inherit highlight))))
 
- '(mode-line-highlight ((t (:slant normal :foreground "firebrick"))))
+ '(mode-line-highlight ((t (:slant normal :background "light sea green" :foreground "white"))))
+ '(mode-line-emphasis ((t (:slant normal :foreground "white" :background "firebrick"))))
  '(mode-line ((t (:overline "steel blue"))))
  '(org-mode-line-clock ((t ())))
 

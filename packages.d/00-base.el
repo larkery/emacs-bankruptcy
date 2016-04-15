@@ -192,12 +192,12 @@
      (list
       (if (and (boundp 'god-local-mode)
                god-local-mode)
-          '(:propertize "::GOD:: " face 'mode-line-highlight)
+          (concat (propertize "GOD MODE" 'face 'mode-line-emphasis) " ")
         "")
 
       mode-line-modes
-
       global-mode-string
+
       '(:propertize (:eval (anzu--update-mode-line))
                     face 'mode-line-highlight)
       "  ")

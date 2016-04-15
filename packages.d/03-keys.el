@@ -19,6 +19,27 @@
       (delete-window)
     (delete-frame)))
 
+(defun insert-file-name (filename &optional args)
+  "Insert name of file FILENAME into buffer after point.
+
+  Prefixed with \\[universal-argument], expand the file name to
+  its fully canocalized path.  See `expand-file-name'.
+
+  Prefixed with \\[negative-argument], use relative path to file
+  name from current directory, `default-directory'.  See
+  `file-relative-name'.
+
+  The default with no prefix is to insert the file name exactly as
+  it appears in the minibuffer prompt."
+  ;; Based on insert-file in Emacs -- ashawley 20080926
+  (interactive "*fInsert file name: \nP")
+  (cond ((eq '- args)
+         (insert (expand-file-name filename)))
+        ((not (null args))
+         (insert filename))
+        (t
+         (insert (file-relative-name filename)))))
+
 (bind-key "C-x C-b" 'ibuffer)
 (bind-key "C-0" 'delete-window)
 (bind-key "C-1" 'delete-other-windows)
@@ -30,12 +51,16 @@
 (bind-key "C-x K" 'kill-buffer)
 (bind-key "M-/" 'hippie-expand)
 (bind-key "M-#" 'calc-dispatch)
-(autoload 'comint-dynamic-complete-filename "comint" nil t)
-(bind-key "M-]" 'comint-dynamic-complete-filename)
+(bind-key "C-c C-/" #'insert-file-name)
 (bind-key "C-!" 'winner-undo)
 (bind-key "C-\"" 'winner-redo)
 (bind-key "<f9>" #'cycle-line-numbers)
-(bind-key "H-SPC" 'set-rectangular-region-anchor)
+
+(defun open-xterm ()
+  (interactive)
+  (start-process "xterm" nil "xterm"))
+
+(bind-key "C-<return>" #'open-xterm)
 
 (substitute-key-definition
  'just-one-space
