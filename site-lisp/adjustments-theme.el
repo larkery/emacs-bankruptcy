@@ -44,9 +44,9 @@
 
  '(dired-subtree-depth-1-face ((t (:background "cornsilk2"))))
  '(dired-subtree-depth-2-face ((t (:background "cornsilk3"))))
- '(dired-subtree-depth-3-face ((t (:background "cornsilk4"))))
- '(dired-subtree-depth-4-face ((t (:background "cornsilk4"))))
- '(dired-subtree-depth-5-face ((t (:background "cornsilk4"))))
+ '(dired-subtree-depth-3-face ((t (:background "cornsilk4" :foreground "white"))))
+ '(dired-subtree-depth-4-face ((t (:background "cornsilk4" :foreground "white"))))
+ '(dired-subtree-depth-5-face ((t (:background "cornsilk4" :foreground "white"))))
 
  '(org-agenda-date ((t (:inherit outline-2))))
  '(org-agenda-date-today ((t (:inherit outline-2 :foreground "firebrick"))))

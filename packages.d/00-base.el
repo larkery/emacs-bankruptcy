@@ -211,15 +211,8 @@
 ;;; * Hack for remote files
 
 (let* ((base-path-re
-        '(and (or (and (+ "/")
-                       "home"
-                       (+ "/")
-                       "hinton")
-                  "~")
-             (+ "/")
-             "network")
+        '(and (+ "/") "net"))
 
-       )
        (share-path-re
         (append base-path-re
                 '((+ "/")

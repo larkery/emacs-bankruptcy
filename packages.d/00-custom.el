@@ -42,6 +42,7 @@
  '(debug-on-error nil)
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(diff-hl-side (quote left))
  '(dired-auto-revert-buffer (quote dired-directory-changed-p))
  '(dired-dwim-target t)
  '(dired-enable-local-variables nil)

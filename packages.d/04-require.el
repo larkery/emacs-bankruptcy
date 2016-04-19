@@ -528,6 +528,8 @@
 (req-package cider :pin melpa-stable)
 (req-package clojure-mode :pin melpa-stable)
 
+(add-hook 'clojure-mode-hook #'cider-mode)
+
 ;;;; javascript
 
 (req-package js2-mode
@@ -1184,6 +1186,7 @@
 
 (req-package god-mode
   :commands god-mode god-local-mode
+  :bind ("<menu>" . god-mode-all)
   :config
   (diminish 'god-local-mode "")
   (define-key god-local-mode-map (kbd ".") 'repeat)
