@@ -1050,6 +1050,7 @@
   (add-hook 'erc-mode-hook #'h/erc-mode-hook))
 
 (req-package znc
+  :require epass-authinfo
   :commands znc-all znc-erc
   :config
 
@@ -1060,6 +1061,9 @@
                  ,(cadr (netrc-credentials "lrkry.com" "6667"))
                  )))))
   )
+
+(req-package epass-authinfo :commands netrc-credentials)
+
 ;;; diminish
 
 (req-package diminish
@@ -1175,12 +1179,12 @@
 ;;             #'nix-sandbox-interpreter-update))
 
 (req-package key-chord
-  :require key-seq
   :init
   (setq key-chord-one-key-delay  0.12
-        key-chord-two-keys-delay 0.08)
-  (key-seq-define-global " x" #'god-mode-all)
-  (key-seq-define-global " s" #'save-buffer)
+        key-chord-two-keys-delay 0.06)
+
+  (key-chord-define-global "[]" #'god-mode-all)
+  (key-chord-define-global "xs" #'save-buffer)
 
   (key-chord-mode 1))
 

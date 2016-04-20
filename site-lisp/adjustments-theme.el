@@ -52,8 +52,8 @@
  '(org-agenda-date-today ((t (:inherit outline-2 :foreground "firebrick"))))
  '(org-agenda-date-weekend ((t (:inherit outline-2 :slant italic))))
 
- '(outline-1 ((t (:height 140 :foreground "cadetblue4" :slant normal))))
- '(outline-2 ((t (:height 130 :foreground "cadetblue4" :slant normal))))
+ '(outline-1 ((t (:height 130 :foreground "cadetblue4" :slant normal))))
+ '(outline-2 ((t (:height 125 :foreground "cadetblue4" :slant normal))))
  '(outline-3 ((t (:height 120 :foreground "cadetblue4" :slant normal))))
  '(outline-4 ((t (:height 115 :foreground "cadetblue4" :slant normal))))
  '(outline-5 ((t (:height 110 :foreground "cadetblue4" :slant normal))))

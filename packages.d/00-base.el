@@ -210,20 +210,27 @@
 
 ;;; * Hack for remote files
 
-(let* ((base-path-re
-        '(and (+ "/") "net"))
+(add-to-list 'file-name-handler-alist
+             '("\\`/net/" . file-name-non-special))
 
-       (share-path-re
-        (append base-path-re
-                '((+ "/")
-                  (+ (not (any "/")))
-                  (+ "/")
-                  (+ (not (any "/")))))))
-  (defvar h/network-prefix-re (rx-to-string share-path-re))
-  (add-to-list 'file-name-handler-alist `(,(rx-to-string base-path-re) . file-name-non-special))
-  (setq locate-dominating-stop-dir-regexp (rx-to-string share-path-re))
-  (setq vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
-  )
+(setq locate-dominating-stop-dir-regexp "\\`\\(/net/+[^/]+/+[^/]+\\)")
+(setq vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
+
+
+;; (let* ((base-path-re
+;;         '(and (+ "/") "net"))
+
+;;        (share-path-re
+;;         (append base-path-re
+;;                 '((+ "/")
+;;                   (+ (not (any "/")))
+;;                   (+ "/")
+;;                   (+ (not (any "/")))))))
+;;   (defvar h/network-prefix-re (rx-to-string share-path-re))
+;;   (add-to-list 'file-name-handler-alist `(,(rx-to-string base-path-re t) . file-name-non-special))
+;;   (setq locate-dominating-stop-dir-regexp (rx-to-string share-path-re t))
+;;   (setq vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
+;;   )
 
 ;; (defun h/file-name-non-special-advice (o &rest args)
 ;;   (let ((result (apply o args)))
