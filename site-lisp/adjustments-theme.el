@@ -23,6 +23,8 @@
  '(cursor ((t (:background "black"))))
  '(message-cited-text ((t (:inherit shadow :slant italic))))
 
+ '(highlight ((t (:background "cornsilk2"))))
+
  '(show-paren-match ((t (:underline t))))
  '(highlight-symbol-face ((t (:background "#ddd"))))
  '(font-lock-comment-delimiter-face ((t (:foreground "steel blue"))))
@@ -32,7 +34,8 @@
 
  '(mode-line-highlight ((t (:slant normal :background "light sea green" :foreground "white"))))
  '(mode-line-emphasis ((t (:slant normal :foreground "white" :background "firebrick"))))
- '(mode-line ((t (:overline "steel blue"))))
+ '(mode-line ((t (:background "cornsilk3" :overline "steel blue"))))
+ '(mode-line-inactive ((t (:background "cornsilk2"))))
  '(org-mode-line-clock ((t ())))
 
  '(erc-timestamp-face ((t :inherit shadow)))
@@ -64,7 +67,7 @@
 
  '(org-date ((t (:inherit link))))
  '(org-verbatim ((t :foreground "black" :background "grey90")))
- '(fringe ((t (:foreground "black"))))
+ '(fringe ((t (:foreground "black" :background "cornsilk2"))))
 
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#8ca5b0"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "#809ba8"))))

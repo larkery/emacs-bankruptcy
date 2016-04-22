@@ -183,6 +183,7 @@
    ("C-c (" . (lambda () (interactive) (sp-wrap-with-pair "(")))
    ("C-c [" . (lambda () (interactive) (sp-wrap-with-pair "[")))
    ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
+   ("C-c ^" . sp-splice-sexp-killing-around)
 
    ("C-M-<space>" . sp-select-next-thing)
 
@@ -521,7 +522,54 @@
   (add-hook 'ess-send-input-hook
             (lambda ()
               (interactive)
-              (ess-execute-screen-options t))))
+              (ess-execute-screen-options t)))
+
+
+  (defun ess-ediff-fake-mode (&rest args)
+    ;; put back ess-mode
+    (setq-local major-mode #'ess-mode)
+    ;; activate ess mode with its extra argument which is let-bound
+    (ess-mode (if (symbolp buffer-ess-customize-alist)
+                  (eval buffer-ess-customize-alist)
+                buffer-ess-customize-alist)))
+
+  (defun ess-ediff-setup-advice (original
+                                 buffer-A file-A buffer-B file-B buffer-C file-C
+                                 startup-hooks setup-parameters
+                                 &optional merge-buffer-file)
+    "ESS and ediff do not work together, because ESS buffers are in ESS-mode,
+but to go into ESS-mode you are meant to invoke R-mode or S-mode or similar.
+Ediff just invokes the major mode for the buffer, which ESS doesn't like.
+So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
+
+    (let* ((buffer-to-use (if (eq ediff-default-variant 'default-B) buffer-B buffer-A))
+           (buffer-ess-customize-alist (buffer-local-value 'ess-local-customize-alist buffer-to-use)))
+
+      (if (function-equal (buffer-local-value 'major-mode buffer-to-use) #'ess-mode)
+          (unwind-protect
+              (progn
+                ;; swap the major mode for our hack, which sorts out the annoying customize alist thing
+                (with-current-buffer buffer-to-use
+                  (setq-local major-mode #'ess-ediff-fake-mode))
+                ;; call the original function, but having swapped the mode for
+                ;; our hack
+                (funcall original
+                         buffer-A file-A buffer-B file-B buffer-C file-C
+                         startup-hooks setup-parameters
+                         merge-buffer-file))
+            ;; unpickle the major mode whatever happens
+            (with-current-buffer buffer-to-use
+              (setq-local major-mode #'ess-mode)))
+
+        ;; call the original function with no messing around.
+        (funcall original
+                 buffer-A file-A buffer-B file-B buffer-C file-C
+                 startup-hooks setup-parameters
+                 merge-buffer-file)
+        )))
+
+  ;; hack ediff-setup so that our function is called in its place.
+  (advice-add 'ediff-setup :around #'ess-ediff-setup-advice))
 
 ;;;; clojure
 
@@ -622,15 +670,9 @@
 
 (req-package org
   :bind (("C-c a" . org-agenda)
-         ("H-a" . org-agenda)
          ("C-c l" . org-store-link)
-         ("C-c c" . org-capture)
-         ("C-c O" . org-iswitchb)
-         ("C-c o" . org-goto-agenda)
-         ("C-c t" . org-clock-goto))
-
+         ("C-c c" . org-capture))
   :config
-
   (defun org-goto-agenda ()
     (interactive "")
     (let* ((org-refile-targets `((org-agenda-files . (:maxlevel . ,org-goto-max-level))))
