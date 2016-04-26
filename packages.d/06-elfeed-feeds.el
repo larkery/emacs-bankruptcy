@@ -13,4 +13,5 @@
         ("http://idlewords.com/index.xml" tech)
         ("http://bristolcars.blogspot.com/feeds/posts/default" bristol bike blog)
         ("https://aseasyasridingabike.wordpress.com/feed/" bike blog)
+        ("http://weputachipinit.tumblr.com/rss" iot stupid)
         ))

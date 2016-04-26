@@ -1243,4 +1243,12 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable))
 
+;;; composable-mode
+
+;; possibly useful?
+(req-package composable
+  :init
+  (composable-mode)
+  (composable-mark-mode))
+
 ;;; end
