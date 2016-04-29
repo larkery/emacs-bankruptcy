@@ -60,7 +60,7 @@
  '(org-level-8 ((t :height 1.0 :foreground "black" :weight bold :inherit outline-8)))
  '(org-level-9 ((t :height 1.0 :foreground "black" :weight bold :inherit outline-9)))
 
- '(outline-1 ((t (:height 1.0 :foreground "black" :weight bold))))
+ '(outline-1 ((t (:height 1.2 :foreground "black" :weight bold))))
  '(outline-2 ((t (:height 1.0 :foreground "black" :weight bold))))
  '(outline-3 ((t (:height 1.0 :foreground "black" :weight bold))))
  '(outline-4 ((t (:height 1.0 :foreground "black" :weight bold))))
