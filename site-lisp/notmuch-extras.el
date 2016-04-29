@@ -61,12 +61,18 @@
          (lambda (process e)
            (when (eq (process-status process) 'exit)
              (save-excursion
-               (let ((last-line
+               (let ((first-line
+                      (with-current-buffer (process-buffer process)
+                        (goto-char (point-min))
+                        (thing-at-point 'line t)))
+                     (last-line
                       (with-current-buffer (process-buffer process)
                         (goto-char (point-max))
                         (previous-line)
                         (thing-at-point 'line t))))
-                 (message (format "notmuch: %s" (substring last-line 0 (- (length last-line) 1))))))
+                 (message (format "notmuch: %s, %s"
+                                  (substring first-line 0 (- (length first-line) 1))
+                                  (substring last-line 0 (- (length last-line) 1))))))
                                         ;(kill-buffer (process-buffer process))
              (dolist (b (buffer-list))
                (when (eq major-mode 'notmuch-search-mode)

@@ -162,7 +162,7 @@
    (:eval (propertize
            (concat (if (buffer-modified-p) "M" "") (if buffer-read-only "R" "W"))
            'face
-           (if (buffer-modified-p) 'font-lock-warning-face nil)
+           (if (buffer-modified-p) 'mode-line-emphasis nil)
            'help-echo
            (concat (if (buffer-modified-p) "" "un")
                    "modified, "
@@ -190,11 +190,6 @@
    (:eval
     (mode-line-pad-right
      (list
-      (if (and (boundp 'god-local-mode)
-               god-local-mode)
-          (concat (propertize "GOD MODE" 'face 'mode-line-emphasis) " ")
-        "")
-
       mode-line-modes
       global-mode-string
 

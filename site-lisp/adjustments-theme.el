@@ -5,45 +5,36 @@
 
 (custom-theme-set-faces
  'adjustments
- ;; `(default ((t :height ,base-height
- ;;               :foreground ,xterm-foreground
- ;;               :background ,xterm-background
- ;;               :family ,font-name
- ;;               )))
- '(default ((t :family "Monospace" :background "cornsilk1" :foreground "black")))
 
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
  '(ido-virtual ((t (:slant italic))))
 
- '(ido-grid-match-1 ((t (:background "#d0a195"))))
- '(ido-grid-match-2 ((t (:background "#94a7b6"))))
- '(ido-grid-match-3 ((t (:background "#d0bc95"))))
+ '(cursor ((t :background "dark cyan")))
 
- '(cursor ((t (:background "black"))))
+ '(ido-grid-match-1 ((t (:foreground "dark cyan"))))
+ '(ido-grid-match-2 ((t (:foreground "blue violet"))))
+ '(ido-grid-match-3 ((t (:foreground "dark red"))))
+
  '(message-cited-text ((t (:inherit shadow :slant italic))))
 
- '(highlight ((t (:background "cornsilk2"))))
-
  '(show-paren-match ((t (:underline t))))
- '(highlight-symbol-face ((t (:background "#ddd"))))
+ '(highlight-symbol-face ((t (:underline "cyan4"))))
+
  '(font-lock-comment-delimiter-face ((t (:foreground "steel blue"))))
- '(font-lock-comment-face ((t (:foreground "lightsteelblue4"))))
 
  '(notmuch-message-summary-face ((t (:inherit highlight))))
 
- '(mode-line-highlight ((t (:slant normal :background "light sea green" :foreground "white"))))
- '(mode-line-emphasis ((t (:slant normal :foreground "white" :background "firebrick"))))
- '(mode-line ((t (:background "cornsilk3" :overline "steel blue"))))
- '(mode-line-inactive ((t (:background "cornsilk2"))))
  '(org-mode-line-clock ((t ())))
 
  '(erc-timestamp-face ((t :inherit shadow)))
 
  '(eno-hint-face ((t (:inherit default :inverse-video t))))
 
- '(indent-guide-face ((t (:foreground "steel blue"))))
  '(dired-directory ((t (:foreground "steel blue"))))
+
+ '(mode-line-highlight ((t (:foreground "cyan2"))))
+ '(mode-line-emphasis ((t (:foreground "orange"))))
 
  '(dired-subtree-depth-1-face ((t (:background "cornsilk2"))))
  '(dired-subtree-depth-2-face ((t (:background "cornsilk3"))))
@@ -66,8 +57,6 @@
  '(outline-9 ((t (:height 110 :foreground "cadetblue4" :slant normal))))
 
  '(org-date ((t (:inherit link))))
- '(org-verbatim ((t :foreground "black" :background "grey90")))
- '(fringe ((t (:foreground "black" :background "cornsilk2"))))
 
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#8ca5b0"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "#809ba8"))))
@@ -81,7 +70,6 @@
 
  '(show-paren-mismatch ((t (:background "dark red" :foreground "white"))))
  '(rainbow-delimiters-unmatched-face ((t (:inherit show-paren-mismatch))))
- '(rainbow-delimiters-mismatched-face ((t (:inherit show-paren-mismatch))))
- )
+ '(rainbow-delimiters-mismatched-face ((t (:inherit show-paren-mismatch)))))
 
 (provide-theme 'adjustments)

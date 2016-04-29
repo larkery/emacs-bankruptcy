@@ -8,6 +8,8 @@
         c-electric-delete-forward
         c-electric-paren
         c-electric-semi&comma
+        composable-kill-region
+        composable-save-region
         electric-newline-and-maybe-indent
         end-of-visual-line
         ess-smart-comma
@@ -122,12 +124,12 @@
 (setq mc/cmds-to-run-once
       '(
         eval-defun
+        god-mode-all
+        god-mode-self-insert
         handle-select-window
         handle-switch-frame
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down
         smex
-        god-mode-all
-        god-mode-self-insert
         ))

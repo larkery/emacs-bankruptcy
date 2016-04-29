@@ -185,6 +185,7 @@
    ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
    ("C-c ^" . sp-splice-sexp-killing-around)
 
+   ("C-M-;" . sp-comment)
    ("C-M-<space>" . sp-select-next-thing)
 
    ("M-<up>" . sp-backward-up-sexp)
@@ -231,120 +232,6 @@
 (req-package diff-hl
   :config
   (global-diff-hl-mode))
-
-;;; hydras
-
-(req-package hydra
-  :commands
-  hydra-sp/body
-  hydra-projectile-start-body
-  hydra-dired/body
-  hydra-misc/body
-
-  :init
-  (setq projectile-switch-project-action 'hydra-projectile-start-body)
-  (bind-key "f" 'hydra-dired/body dired-mode-map)
-  (bind-key "C-~" 'hydra-sp/body smartparens-mode-map)
-  (bind-key "C-#" 'hydra-misc/body)
-
-  :config
-
-  (defhydra hydra-misc (:exit t :hint nil) "
-   org: _a_genda   | _o_rg hls  | _c_apture | _t_ask | _n_otify | _O_rg bs
-   run: _P_ackages | _p_rojects | _d_ired   |
-   cmd: _C-#_ sel  |"
-    ("a" org-agenda)
-    ("o" org-goto-agenda)
-    ("O" org-iswitchb)
-    ("c" org-capture)
-    ("t" org-clock-goto)
-    ("n" h/appt-notify-now)
-    ("p" hydra-projectile-start-body)
-    ("P" package-list-packages)
-    ("d" (dired default-directory))
-    ("C-#" mark-whole-buffer))
-
-  (defhydra hydra-sp (:exit t) "smartparens"
-    (")" sp-splice-sexp)
-
-    ("|" sp-split-sexp)
-    ("+" sp-join-sexp)
-    (";" h/comment-sexp)
-
-    ("<left>" sp-convolute-sexp)
-    ("<up>" sp-splice-sexp-killing-around))
-
-
-  (defvar hydra-projectile-default-directory nil)
-
-  (defmacro hydra-projectile-in-directory (&rest stuff)
-    `(let ((default-directory
-             (or hydra-projectile-default-directory default-directory)))
-       ,@stuff))
-
-  (defhydra hydra-projectile (:hint nil :exit t)
-    "
-%s(or hydra-projectile-default-directory (and (projectile-project-p) (projectile-project-root))  (concat default-directory \"*\"))
-%s(concat (make-list (- (window-width (minibuffer-window)) 0) ?-))
-  _f_: find file   _d_: find directory _D_: root directory _v_: version control
-  _a_: ag search   _t_: tags           _c_: compile        _s_: switch
-"
-    ("f" (hydra-projectile-in-directory
-          (call-interactively #'projectile-find-file)))
-    ("D" (hydra-projectile-in-directory (call-interactively #'projectile-dired)))
-    ("d" (hydra-projectile-in-directory (call-interactively #'projectile-find-dir)))
-    ("t" (hydra-projectile-in-directory (call-interactively #'ggtags-find-tag-dwim)))
-    ("v" (hydra-projectile-in-directory (call-interactively #'projectile-vc)))
-    ("c" (hydra-projectile-in-directory (call-interactively #'projectile-compile-project)))
-    ("a" (hydra-projectile-in-directory (call-interactively #'projectile-ag)))
-    ("s" (progn
-           (let ((projectile-switch-project-action
-                  (lambda ()
-                    (setf hydra-projectile-default-directory (projectile-project-root))
-                    )
-                  ))
-             (call-interactively #'projectile-switch-project)))
-     :exit nil
-     ))
-
-  (defun hydra-projectile-start-body ()
-    (interactive)
-    (setf hydra-projectile-default-directory
-          (and (projectile-project-p) (projectile-project-root)))
-    (call-interactively #'hydra-projectile/body))
-
-  (defun hydra-cwheel/body ()
-    (interactive)
-    (defhydra hydra-cwheel (:foreign-keys run)
-      "cwheel"
-      ("w"    cwheel-lighten "lighter")
-      ("s"  cwheel-darken "darker")
-      ("a"  cwheel-hue-up "hue up")
-      ("d" cwheel-hue-down "hue down")
-      ("q"       cwheel-saturate "saturate")
-      ("e"       cwheel-desaturate "desaturate")
-      ("ESC" (message "bye") :exit t)
-      )
-
-    (call-interactively #'hydra-cwheel/body))
-
-
-  (defun hydra-dired/body ()
-    (interactive)
-    (require 'dired-filter)
-    (defhydra hydra-dired ()
-      "filter"
-      ("n" dired-filter-by-name "name")
-      ("e" dired-filter-by-extension "ext")
-      ("-" dired-filter-negate "negate")
-      ("r" dired-filter-by-regexp "regex")
-      ("f" dired-filter-pop "pop")
-      ("|" dired-filter-or "or")
-      ("d" dired-filter-by-directory "dirs")
-      ("o" dired-filter-by-omit "omit")
-      ("." dired-filter-by-dot-files "dots"))
-    (call-interactively 'hydra-dired/body))
-  )
 
 ;;; ibuffer
 
@@ -616,6 +503,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (bind-key "C-c C-f" 'anaconda-mode-show-doc python-mode-map))
 
 ;;;; geiser (scheme)
+
 (req-package geiser)
 
 ;;; browse-kill-ring (M-y shows kill ring)
@@ -664,9 +552,9 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
   (appt-activate t))
 
-(req-package password-server
-  :commands
-  password-server-mode)
+;; (req-package password-server
+;;   :commands
+;;   password-server-mode)
 
 (req-package org
   :bind (("C-c a" . org-agenda)
@@ -1143,11 +1031,11 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 ;;; polymode
 ;;;; r-markdown
 
-(req-package markdown-mode)
+;; (req-package markdown-mode)
 
-(req-package polymode
-  :commands poly-markdown+r-mode
-  :mode ("\\.[Rr]md\\'" . poly-markdown+r-mode))
+;; (req-package polymode
+;;   :commands poly-markdown+r-mode
+;;   :mode ("\\.[Rr]md\\'" . poly-markdown+r-mode))
 
 ;;; project explorer
 
@@ -1167,9 +1055,9 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (advice-add 'pe/follow-current-open :around #'h/advise-pe-follow))
 
 ;;; theme
-(req-package punpun-theme
+(req-package tao-theme
   :init
-  (load-theme 'punpun-light t)
+  (load-theme 'tao-yang t)
   (load-theme 'adjustments t))
 
 ;;; i3 stuffs
@@ -1183,10 +1071,10 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
 ;;; keyfreq
 
-(req-package keyfreq
-  :config
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
+;; (req-package keyfreq
+;;   :config
+;;   (keyfreq-mode 1)
+;;   (keyfreq-autosave-mode 1))
 
 ;;; winner
 (req-package winner
@@ -1194,12 +1082,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :bind ("<f5>" . winner-undo)
   :config
   (winner-mode 1))
-
-;;; indent guide
-(req-package indent-guide
-  :config
-  (setq indent-guide-delay 0.5
-        indent-guide-char "."))
 
 ;;; flycheck
 (req-package flycheck
@@ -1241,14 +1123,27 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (require 'god-mode-isearch)
   ;(define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
 
-  (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable))
+  (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
-;;; composable-mode
+  (defvar *god-mode-normal-cursor-background* nil)
 
-;; possibly useful?
-(req-package composable
-  :init
-  (composable-mode)
-  (composable-mark-mode))
+  (defun my-update-cursor ()
+    (unless *god-mode-normal-cursor-background*
+      (setq *god-mode-normal-cursor-background* (face-background 'cursor)))
+    (let ((red (or god-local-mode buffer-read-only)))
+      (blink-cursor-mode (if red 1 -1))
+      (set-face-background 'cursor (if red "red" *god-mode-normal-cursor-background*))
+      ))
+
+  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
+  (add-hook 'god-mode-disabled-hook 'my-update-cursor))
+
+;; guide key?
+
+(req-package which-key
+  :config
+  (which-key-setup-minibuffer)
+  (which-key-mode)
+  (setq max-mini-window-height 0.2))
 
 ;;; end
