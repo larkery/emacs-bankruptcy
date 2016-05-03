@@ -1130,13 +1130,14 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (defun my-update-cursor ()
     (unless *god-mode-normal-cursor-background*
       (setq *god-mode-normal-cursor-background* (face-background 'cursor)))
-    (let ((red (or god-local-mode buffer-read-only)))
+    (let ((red god-local-mode))
       (blink-cursor-mode (if red 1 -1))
       (set-face-background 'cursor (if red "red" *god-mode-normal-cursor-background*))
       ))
 
   (add-hook 'god-mode-enabled-hook 'my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'my-update-cursor))
+  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
+  (add-hook 'window-configuration-change-hook 'my-update-cursor))
 
 ;; guide key?
 
