@@ -1116,13 +1116,14 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :commands god-mode god-local-mode
   :bind ("<menu>" . god-mode-all)
   :config
-  (diminish 'god-local-mode "")
+  (diminish 'god-local-mode " G")
   (define-key god-local-mode-map (kbd ".") 'repeat)
   (define-key god-local-mode-map (kbd "i") 'god-mode)
   (define-key god-local-mode-map (kbd "<escape>") 'god-mode)
-  (require 'god-mode-isearch)
-  ;(define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
 
+  (require 'god-mode-isearch)
+
+  (define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
   (defvar *god-mode-normal-cursor-background* nil)
