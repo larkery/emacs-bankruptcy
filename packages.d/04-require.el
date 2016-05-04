@@ -460,8 +460,19 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
 ;;;; clojure
 
-(req-package cider :pin melpa-stable)
-(req-package clojure-mode :pin melpa-stable)
+(req-package cider :pin melpa-stable
+  :config
+  (setq cider-mode-line
+        '(:eval (format " clj[%s]"
+                        (let ((x (cider--modeline-info)))
+                          (if (string= x "not connected")
+                              "ø" x))))))
+
+
+(req-package clojure-mode :pin melpa-stable
+  :config
+  (diminish 'clojure-mode "clj"))
+
 
 (add-hook 'clojure-mode-hook #'cider-mode)
 
@@ -1015,14 +1026,28 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :commands elfeed
   :bind ("C-c f" . elfeed))
 
-;;; eno
+;;; eno / avy
 
-(req-package eno
-  :bind (("M-g w" . eno-word-goto))
-  :config
-  (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
-  (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
+(defun avy-goto-paren ()
+  (interactive)
+  (avy--generic-jump "(\\|\\[" nil 'at)
   )
+
+(req-package avy
+  :bind (("M-g w" . avy-goto-word-1)
+         ("M-g [" . avy-goto-paren)
+         ("M-g s" . avy-isearch)
+         ("C-c v" . avy-goto-char-in-line))
+  :config
+  (setq avy-style 'at-full))
+
+;; (req-package eno
+;;   :bind (("M-g w" . eno-word-goto)
+;;          ("M-g [" . eno-paren-goto))
+;;   :config
+;;   (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
+;;   (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
+;;   )
 
 ;;; rainbow mode
 

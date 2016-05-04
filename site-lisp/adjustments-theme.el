@@ -22,8 +22,11 @@
  '(highlight-symbol-face ((t (:underline "cyan4"))))
 
  '(highlight ((t :foreground "black")))
+ '(hl-line ((t ::background "grey20")))
 
  '(font-lock-comment-delimiter-face ((t (:foreground "steel blue"))))
+ '(magit-section-highlight ((t :inverse-video t)))
+ '(magit-section-heading ((t :inherit mode-line-emphasis)))
 
  '(notmuch-message-summary-face ((t (:background "white"))))
 
