@@ -14,6 +14,7 @@
  '(ansi-term-color-vector
    [unspecified "#343d46" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#81a2be" "#dfe1e8"])
  '(anzu-cons-mode-line-p nil)
+ '(auth-source-cache-expiry nil)
  '(auth-source-protocols
    (quote
     ((imap "imap" "imaps" "143" "993")
@@ -22,8 +23,8 @@
      (sftp "sftp" "115")
      (smtp "smtp" "25")
      (http "http" "80"))))
- '(auth-sources (quote ("~/.netrc")))
- '(avy-keys (quote (97 115 100 102 113 119 101 114 122)))
+ '(auth-sources (quote (epass-store)))
+ '(avy-keys (quote (49 50 51 52 53 54 55 56 57 48)))
  '(avy-style (quote at))
  '(aw-scope (quote visible))
  '(beacon-color "#F8BBD0")
@@ -76,7 +77,7 @@ static char *note[] = {
 \"#..######.\",
 \"#######...\",
 \"######....\",
-\"#######..#\" };")))
+\"#######..#\" };")) t)
  '(erc-fill-function (quote h/erc-fill-nicks-thing))
  '(erc-fill-mode t)
  '(erc-insert-away-timestamp-function (quote erc-insert-timestamp-right))
@@ -120,6 +121,7 @@ static char *gnus-pointer[] = {
 \"###....####.######\",
 \"###..######.######\",
 \"###########.######\" };")) t)
+ '(gnutls-verify-error (quote (("lrkry\\.com" (:trustfiles :hostname)))))
  '(highlight-symbol-colors
    (quote
     ("#F57F17" "#66BB6A" "#0097A7" "#42A5F5" "#7E57C2" "#D84315")))
@@ -188,6 +190,7 @@ static char *gnus-pointer[] = {
 ")
  '(iplayer-download-directory "~/music/iplayer/")
  '(isearch-allow-scroll t)
+ '(ispell-extra-args (quote ("--dict-dir=/home/hinton/.nix-profile/lib/aspell")))
  '(ispell-program-name "aspell")
  '(ivy-display-style (quote fancy))
  '(kill-ring-max 1000)
@@ -473,6 +476,11 @@ static char *gnus-pointer[] = {
      (360 . "#FFCB6B"))))
  '(vc-annotate-very-old-color "#FFCB6B")
  '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
+ '(w3m-bookmark-file-coding-system (quote utf-8))
+ '(w3m-coding-system (quote utf-8))
+ '(w3m-file-coding-system (quote utf-8))
+ '(w3m-file-name-coding-system (quote utf-8))
+ '(w3m-mode-hook (quote (w3m-lnum-mode bookmark-w3m-prepare)))
  '(w3m-search-default-engine "ddg")
  '(w3m-search-engine-alist
    (quote
@@ -518,4 +526,5 @@ static char *gnus-pointer[] = {
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(button ((t (:background "#444444" :foreground "#FFFFFF" :box (:line-width 2 :color "grey75" :style released-button) :underline nil)))))
+ '(button ((t (:background "#444444" :foreground "#FFFFFF" :box (:line-width 2 :color "grey75" :style released-button) :underline nil))))
+ '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange")))))

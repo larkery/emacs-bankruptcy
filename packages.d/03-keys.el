@@ -55,6 +55,7 @@
 (bind-key "C-!" 'winner-undo)
 (bind-key "C-\"" 'winner-redo)
 (bind-key "<f9>" #'cycle-line-numbers)
+(bind-key "<f5>" #'variable-pitch-mode)
 
 (defun open-xterm ()
   (interactive)

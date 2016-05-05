@@ -185,7 +185,7 @@
    ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
    ("C-c ^" . sp-splice-sexp-killing-around)
 
-   ("C-M-;" . sp-comment)
+   ("C-M-;" . h/comment-sexp)
    ("C-M-<space>" . sp-select-next-thing)
 
    ("M-<up>" . sp-backward-up-sexp)
@@ -460,8 +460,18 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
 ;;;; clojure
 
-(req-package cider :pin melpa-stable)
-(req-package clojure-mode :pin melpa-stable)
+(req-package cider :pin melpa-stable
+  :config
+  (setq cider-mode-line
+        '(:eval (format " cdr[%s]"
+                        (let ((x (cider--modeline-info)))
+                          (if (string= x "not connected")
+                              "ø" x))))))
+
+
+(req-package clojure-mode :pin melpa-stable
+  :config
+  (set-mode-name clojure-mode "clj"))
 
 (add-hook 'clojure-mode-hook #'cider-mode)
 
@@ -626,19 +636,16 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 (req-package org-caldav
   :commands org-caldav-sync
   :init
+
+  ;; davmail gets upset if you hammer it.
+  (defun org-caldav-sync-slower (o &rest args)
+    (sleep-for 0.05)
+    (apply o args))
+
+  (advice-add 'org-caldav-get-event-etag-list :around #'org-caldav-sync-slower)
+
   (setq org-caldav-calendars
         '((:url
-           "https://lrkry.com:1080/users/"
-           :calendar-id
-           "tom.hinton@cse.org.uk/calendar"
-           :caldav-uuid-extension
-           ".EML"
-           :files
-           ("~/notes/calendar/cse.org")
-           :inbox
-           "~/notes/calendar/cse-in.org")
-
-          (:url
            "http://horde.lrkry.com/rpc.php/calendars/tom/"
            :calendar-id
            "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
@@ -648,6 +655,17 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
            "~/notes/calendar/horde-in.org"
            :caldav-uuid-extension
            ".ics")
+
+          (:url
+           "https://lrkry.com:1080/users/"
+           :calendar-id
+           "tom.hinton@cse.org.uk/calendar"
+           :caldav-uuid-extension
+           ".EML"
+           :files
+           ("~/notes/calendar/cse.org")
+           :inbox
+           "~/notes/calendar/cse-in.org")
 
           ))
   )
@@ -980,7 +998,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (add-hook 'erc-mode-hook #'h/erc-mode-hook))
 
 (req-package znc
-  :require epass-authinfo
   :commands znc-all znc-erc
   :config
 
@@ -992,7 +1009,9 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
                  )))))
   )
 
-(req-package epass-authinfo :commands netrc-credentials)
+;; breaks in eval after load
+(require 'epass-authinfo)
+(auth-epass-enable)
 
 ;;; diminish
 
@@ -1015,14 +1034,28 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :commands elfeed
   :bind ("C-c f" . elfeed))
 
-;;; eno
+;;; eno / avy
 
-(req-package eno
-  :bind (("M-g w" . eno-word-goto))
-  :config
-  (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
-  (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
+(defun avy-goto-paren ()
+  (interactive)
+  (avy--generic-jump "(\\|\\[" nil 'at)
   )
+
+(req-package avy
+  :bind (("M-g w" . avy-goto-word-1)
+         ("M-g [" . avy-goto-paren)
+         ("M-g s" . avy-isearch)
+         ("C-c v" . avy-goto-char-in-line))
+  :config
+  (setq avy-style 'at-full))
+
+;; (req-package eno
+;;   :bind (("M-g w" . eno-word-goto)
+;;          ("M-g [" . eno-paren-goto))
+;;   :config
+;;   (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
+;;   (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
+;;   )
 
 ;;; rainbow mode
 
@@ -1079,7 +1112,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 ;;; winner
 (req-package winner
   :defer nil
-  :bind ("<f5>" . winner-undo)
+  :bind ("C-6" . winner-undo)
   :config
   (winner-mode 1))
 
@@ -1116,13 +1149,14 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :commands god-mode god-local-mode
   :bind ("<menu>" . god-mode-all)
   :config
-  (diminish 'god-local-mode "")
+  (diminish 'god-local-mode " G")
   (define-key god-local-mode-map (kbd ".") 'repeat)
   (define-key god-local-mode-map (kbd "i") 'god-mode)
   (define-key god-local-mode-map (kbd "<escape>") 'god-mode)
-  (require 'god-mode-isearch)
-  ;(define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
 
+  (require 'god-mode-isearch)
+
+  (define-key isearch-mode-map (kbd "<C-escape>") 'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
   (defvar *god-mode-normal-cursor-background* nil)
@@ -1130,20 +1164,32 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (defun my-update-cursor ()
     (unless *god-mode-normal-cursor-background*
       (setq *god-mode-normal-cursor-background* (face-background 'cursor)))
-    (let ((red (or god-local-mode buffer-read-only)))
+    (let ((red god-local-mode))
       (blink-cursor-mode (if red 1 -1))
       (set-face-background 'cursor (if red "red" *god-mode-normal-cursor-background*))
       ))
 
   (add-hook 'god-mode-enabled-hook 'my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'my-update-cursor))
+  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
+  (add-hook 'window-configuration-change-hook 'my-update-cursor))
 
 ;; guide key?
 
 (req-package which-key
+  :diminish
   :config
   (which-key-setup-minibuffer)
   (which-key-mode)
   (setq max-mini-window-height 0.2))
+
+(req-package w3m
+  :config
+  (setq w3m-default-symbol
+      '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
+        "─┴" " └" "──" ""   "─┘" ""   ""   ""
+        "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""
+        "━┷" " ┗" "━━" ""   "━┛" ""   ""   ""
+        " •" " □" " ☆" " ○" " ■" " ★" " ◎"
+        " ●" " △" " ●" " ○" " □" " ●" "≪ ↑ ↓ ")))
 
 ;;; end
