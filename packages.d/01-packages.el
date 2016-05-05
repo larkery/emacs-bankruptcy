@@ -27,7 +27,7 @@
    (req-package-force el-get)
    (require 'el-get)))
 
- (req-package--log-set-level 'trace)
+ (req-package--log-set-level 'info)
 
 ;; do all the req-package stuff at the end of init
 
