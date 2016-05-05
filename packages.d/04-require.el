@@ -185,7 +185,7 @@
    ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
    ("C-c ^" . sp-splice-sexp-killing-around)
 
-   ("C-M-;" . sp-comment)
+   ("C-M-;" . h/comment-sexp)
    ("C-M-<space>" . sp-select-next-thing)
 
    ("M-<up>" . sp-backward-up-sexp)
@@ -463,7 +463,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 (req-package cider :pin melpa-stable
   :config
   (setq cider-mode-line
-        '(:eval (format " clj[%s]"
+        '(:eval (format " cdr[%s]"
                         (let ((x (cider--modeline-info)))
                           (if (string= x "not connected")
                               "ø" x))))))
@@ -471,8 +471,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
 (req-package clojure-mode :pin melpa-stable
   :config
-  (diminish 'clojure-mode "clj"))
-
+  (set-mode-name clojure-mode "clj"))
 
 (add-hook 'clojure-mode-hook #'cider-mode)
 
@@ -637,19 +636,16 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 (req-package org-caldav
   :commands org-caldav-sync
   :init
+
+  ;; davmail gets upset if you hammer it.
+  (defun org-caldav-sync-slower (o &rest args)
+    (sleep-for 0.05)
+    (apply o args))
+
+  (advice-add 'org-caldav-get-event-etag-list :around #'org-caldav-sync-slower)
+
   (setq org-caldav-calendars
         '((:url
-           "https://lrkry.com:1080/users/"
-           :calendar-id
-           "tom.hinton@cse.org.uk/calendar"
-           :caldav-uuid-extension
-           ".EML"
-           :files
-           ("~/notes/calendar/cse.org")
-           :inbox
-           "~/notes/calendar/cse-in.org")
-
-          (:url
            "http://horde.lrkry.com/rpc.php/calendars/tom/"
            :calendar-id
            "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
@@ -659,6 +655,17 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
            "~/notes/calendar/horde-in.org"
            :caldav-uuid-extension
            ".ics")
+
+          (:url
+           "https://lrkry.com:1080/users/"
+           :calendar-id
+           "tom.hinton@cse.org.uk/calendar"
+           :caldav-uuid-extension
+           ".EML"
+           :files
+           ("~/notes/calendar/cse.org")
+           :inbox
+           "~/notes/calendar/cse-in.org")
 
           ))
   )
@@ -991,7 +998,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (add-hook 'erc-mode-hook #'h/erc-mode-hook))
 
 (req-package znc
-  :require epass-authinfo
   :commands znc-all znc-erc
   :config
 
@@ -1003,7 +1009,9 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
                  )))))
   )
 
-(req-package epass-authinfo :commands netrc-credentials)
+;; breaks in eval after load
+(require 'epass-authinfo)
+(auth-epass-enable)
 
 ;;; diminish
 
@@ -1104,7 +1112,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 ;;; winner
 (req-package winner
   :defer nil
-  :bind ("<f5>" . winner-undo)
+  :bind ("C-6" . winner-undo)
   :config
   (winner-mode 1))
 
@@ -1168,9 +1176,20 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 ;; guide key?
 
 (req-package which-key
+  :diminish
   :config
   (which-key-setup-minibuffer)
   (which-key-mode)
   (setq max-mini-window-height 0.2))
+
+(req-package w3m
+  :config
+  (setq w3m-default-symbol
+      '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
+        "─┴" " └" "──" ""   "─┘" ""   ""   ""
+        "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""
+        "━┷" " ┗" "━━" ""   "━┛" ""   ""   ""
+        " •" " □" " ☆" " ○" " ■" " ★" " ◎"
+        " ●" " △" " ●" " ○" " □" " ●" "≪ ↑ ↓ ")))
 
 ;;; end

@@ -8,7 +8,13 @@
 (define-key h/notmuch-mouse-map [mouse-1]
   (lambda ()
     (interactive)
+    (message "I love lamp")
     (browse-url (w3m-anchor))))
+
+(define-key h/notmuch-mouse-map [mouse-2]
+  (lambda ()
+    (interactive)
+    (w3m-browse-url (w3m-anchor))))
 
 (defun h/hack-w3m-links ()
   "modify all w3m anchors in this buffer to open with browse-url"
@@ -27,7 +33,8 @@
             (when pos
               (if (get-text-property pos 'w3m-anchor-sequence)
                   (setq last pos)
-                (put-text-property last pos 'keymap h/notmuch-mouse-map)))))))
+                (progn
+                  (put-text-property last pos 'keymap h/notmuch-mouse-map))))))))
 
     (when was-read-only
       (read-only-mode 1))))
