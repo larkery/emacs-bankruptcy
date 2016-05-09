@@ -24,7 +24,9 @@
      (smtp "smtp" "25")
      (http "http" "80"))))
  '(auth-sources (quote (epass-store)))
- '(avy-keys (quote (49 50 51 52 53 54 55 56 57 48)))
+ '(avy-keys
+   (quote
+    (113 119 101 114 97 115 100 102 104 106 107 108 122 120 99 118)))
  '(avy-style (quote at))
  '(aw-scope (quote visible))
  '(beacon-color "#F8BBD0")
@@ -198,6 +200,14 @@ static char *gnus-pointer[] = {
  '(main-line-color2 "#111111")
  '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
+ '(mc/mode-line
+   (quote
+    (" mc:"
+     (:eval
+      (format
+       #("%d" 0 2
+         (face mode-line-emphasis))
+       (mc/num-cursors))))))
  '(mouse-autoselect-window t)
  '(netrc-file "~/.netrc")
  '(nix-sandbox-interpreter-mode-alist

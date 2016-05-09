@@ -184,10 +184,6 @@
                                         'face 'mode-line-emphasis)))
             ))
 
-   (:eval (if (file-remote-p default-directory)
-              "" (concat " {" (projectile-project-name) "}")))
-
-
    (vc-mode vc-mode)
 
    ""
