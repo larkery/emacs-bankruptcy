@@ -177,12 +177,25 @@
                                         ;(sp-local-pair 'org-mode "/" "/" :actions '(wrap))
                                         ;(sp-local-pair 'org-mode "*" "*" :actions '(wrap))
 
+  (defmacro my-define-wrap-command (open close)
+    (let ((function-name (intern (concat "my-wrap-with-" open))))
+      `(progn (defun ,function-name
+                  (arg)
+                (interactive "P")
+                (cond
+                 ((equalp '(4) arg)
+                  (sp-rewrap-sexp '(,open . ,close)))
+                 (t (sp-wrap-with-pair ,open))))
+              (bind-key ,(concat "C-c " open)
+                        (quote ,function-name)
+                        smartparens-mode-map))))
+
+  (my-define-wrap-command "(" ")")
+  (my-define-wrap-command "[" "]")
+  (my-define-wrap-command "{" "}")
+
   (bind-keys
    :keymap smartparens-mode-map
-
-   ("C-c (" . (lambda () (interactive) (sp-wrap-with-pair "(")))
-   ("C-c [" . (lambda () (interactive) (sp-wrap-with-pair "[")))
-   ("C-c {" . (lambda () (interactive) (sp-wrap-with-pair "{")))
    ("C-c ^" . sp-splice-sexp-killing-around)
 
    ("C-M-;" . h/comment-sexp)
@@ -522,363 +535,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :init
   (require 'browse-kill-ring+))
 
-;;; org-mode
-
-(req-package org-agenda-property)
-
-(req-package graphviz-dot-mode
-  :commands graphviz-dot-mode
-  :require org)
-
-(req-package appt
-  :config
-  (require 'notifications)
-
-  (defun h/appt-notify (mins _ msg)
-    (let ((mins (if (listp mins) mins (list mins)))
-          (msg (if (listp msg) msg (list msg))))
-      (cl-mapcar
-       (lambda (mins msg)
-         (let ((soon (<= (string-to-number mins) 10))
-               (now (zerop (string-to-number mins))))
-           (notifications-notify
-            :body msg
-            :urgency (if soon 'critical 'normal)
-            :timeout (if now 0 -1)
-            :title (if soon
-                       "NOW" (format "In %s min" mins)))))
-       mins msg)))
-
-  (defun h/appt-notify-now ()
-    (interactive)
-    (let ((appt-display-interval 1)) (appt-check)))
-
-  (setq appt-message-warning-time 60
-        appt-display-mode-line t
-        appt-disp-window-function #'h/appt-notify
-        appt-delete-window-function (lambda ())
-        appt-display-interval 10
-        appt-display-format 'window)
-
-  (appt-activate t))
-
-;; (req-package password-server
-;;   :commands
-;;   password-server-mode)
-
-(req-package org
-  :bind (("C-c a" . org-agenda)
-         ("C-c l" . org-store-link)
-         ("C-c c" . org-capture))
-  :config
-  (defun org-goto-agenda ()
-    (interactive "")
-    (let* ((org-refile-targets `((org-agenda-files . (:maxlevel . ,org-goto-max-level))))
-           (org-refile-use-outline-path t)
-           (org-refile-target-verify-function nil)
-           (interface org-goto-interface)
-           (org-goto-start-pos (point))
-           (selected-point (setq *goto* (org-refile-get-location "Goto" nil nil t))))
-
-      (when selected-point
-        (set-mark (point))
-        (let ((filename (nth 0 (cdr selected-point)))
-              (position (nth 2 (cdr selected-point))))
-          (find-file filename)
-          (goto-char position)
-          (org-reveal)))))
-
-  (require 'appt)
-  (org-clock-persistence-insinuate)
-
-  (set-mode-name org-mode "o")
-
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (visual-line-mode 1)
-              (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)))
-
-  (add-hook 'org-agenda-finalize-hook 'org-agenda-to-appt)
-  (run-at-time "24:01" 3600 'org-agenda-to-appt)
-
-  (bind-key "C-M-i" #'completion-at-point org-mode-map)
-  (bind-key "C-#" nil org-mode-map)
-  (bind-key "C-M-<return>"
-            (lambda () (interactive)
-              (org-insert-heading-respect-content)
-              (org-metaright))
-            org-mode-map)
-
-
-  (require 'org-contacts)
-  (require 'org-notmuch)
-
-  ;; hack things which use org-clock-into-drawer wrongly
-  (defun h/advise-clock-hack (o &rest a)
-    (let ((org-clock-into-drawer nil))
-      (apply o a)))
-
-  (defun h/advise-clock-string (o &rest args) (concat " " (apply o args)))
-  (advice-add 'org-clock-get-clock-string :around #'h/advise-clock-string)
-  (advice-add 'org-clock-jump-to-current-clock :around #'h/advise-clock-hack))
-
-(req-package org-journal
-  :require org
-  :config (setq org-journal-dir "~/notes/journal/"))
-
-(bind-key "<f6>"
-          (lambda ()
-            (interactive)
-            (call-interactively #'org-journal-new-entry)
-            (org-agenda nil "n")
-            (call-interactively #'other-window)))
-
-(req-package org-caldav
-  :commands org-caldav-sync
-  :init
-
-  ;; davmail gets upset if you hammer it.
-  (defun org-caldav-sync-slower (o &rest args)
-    (sleep-for 0.05)
-    (apply o args))
-
-  (advice-add 'org-caldav-get-event-etag-list :around #'org-caldav-sync-slower)
-
-  (setq org-caldav-calendars
-        '((:url
-           "http://horde.lrkry.com/rpc.php/calendars/tom/"
-           :calendar-id
-           "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
-           :files
-           ("~/notes/calendar/horde.org")
-           :inbox
-           "~/notes/calendar/horde-in.org"
-           :caldav-uuid-extension
-           ".ics")
-
-          (:url
-           "https://lrkry.com:1080/users/"
-           :calendar-id
-           "tom.hinton@cse.org.uk/calendar"
-           :caldav-uuid-extension
-           ".EML"
-           :files
-           ("~/notes/calendar/cse.org")
-           :inbox
-           "~/notes/calendar/cse-in.org")
-
-          ))
-  )
-
-;;; mail
-
-(req-package notmuch
-  :commands notmuch h/notmuch/goto-inbox notmuch-mua-new-mail
-
-  :bind (("C-c i" . h/notmuch/goto-inbox)
-         ("H-i" . h/notmuch/goto-inbox)
-         ("C-c m" . notmuch-mua-new-mail)
-         ("H-m" . notmuch-mua-new-mail))
-
-  :config
-
-  (require 'notmuch-calendar)
-  (require 'notmuch-extras)
-
-  (defun h/notmuch/show-only-unread ()
-    "In a notmuch show view, collapse all the read messages"
-    (interactive "")
-    (notmuch-show-mapc
-     (lambda ()
-       (notmuch-show-message-visible
-        (notmuch-show-get-message-properties)
-        (member "unread" (notmuch-show-get-tags)))
-       )))
-
-  (defun h/notmuch/show-next-unread ()
-    "in notmuch show, goto the next unread message"
-    (interactive "")
-    (let (r)
-      (while (and (setq r (notmuch-show-goto-message-next))
-                  (not (member "unread" (notmuch-show-get-tags))))))
-    (recenter 1))
-
-
-  (defun h/notmuch/goto-inbox (prefix)
-    "convenience to go to the inbbox search"
-    (interactive "P")
-    (if prefix
-        (if (equal (system-name) "keats")
-          (notmuch-search "tag:inbox AND path:cse/**")
-        (notmuch-search "tag:inbox AND path:fastmail/**"))
-      (notmuch-search "tag:unread")))
-
-  (defun h/notmuch/flip-tags (&rest tags)
-    "Given some tags, add those which are missing and remove those which are present"
-    (notmuch-search-tag
-     (let ((existing-tags (notmuch-search-get-tags)) (amendments nil))
-       (dolist (tag tags)
-         (push
-          (concat
-           (if (member tag existing-tags) "-" "+")
-           tag)
-          amendments))
-       amendments)
-     ))
-  
-  (defmacro h/notmuch-toggler (tag)
-    "Define a command to toggle the given tags"
-    `(lambda ()
-       (interactive)
-       (h/notmuch/flip-tags ,tag)
-       (notmuch-search-next-thread)))
-
-  (defun h/notmuch/sleep ()
-    "Tag a particular message as asleep for the next 4 days"
-    (interactive)
-    (if (member "asleep" (notmuch-search-get-tags))
-        (notmuch-search-tag (loop
-                             for tag in (notmuch-search-get-tags)
-                             if (string-prefix-p "asleep" tag)
-                             collect (concat "-" tag)))
-
-      (notmuch-search-tag (list "-inbox"
-                                "+asleep"
-                                (concat "+asleep-until-"
-                                        (format-time-string
-                                         "%Y-%m-%d"
-                                         (time-add (current-time)
-                                                   (days-to-time 4))))))))
-  
-  (set-mode-name notmuch-search "nm-search")
-  (set-mode-name notmuch-show "nm-show")
-  (set-mode-name notmuch-message-mode "mail")
-
-  ;;(bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
-  (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
-  (bind-key "U" #'h/notmuch/show-only-unread notmuch-show-mode-map)
-
-  (bind-key "." (h/notmuch-toggler "flagged") notmuch-search-mode-map)
-  (bind-key "d" (h/notmuch-toggler "deleted") notmuch-search-mode-map)
-  (bind-key "u" (h/notmuch-toggler "unread") notmuch-search-mode-map)
-  (bind-key "," #'h/notmuch/sleep notmuch-search-mode-map)
-  (bind-key "g" 'notmuch-refresh-this-buffer notmuch-search-mode-map)
-
-  (bind-key
-   "U"
-   (lambda () (interactive) (notmuch-search-filter "tag:unread"))
-   notmuch-search-mode-map)
-
-  (bind-key
-   "S"
-   (lambda () (interactive) (notmuch-search-filter "tag:flagged"))
-   notmuch-search-mode-map)
-
-  ;; other message stuff
-
-  (setf user-mail-address "tom.hinton@cse.org.uk"
-
-        message-auto-save-directory "~/temp/messages/"
-        message-fill-column nil
-        message-header-setup-hook '(notmuch-fcc-header-setup)
-        message-kill-buffer-on-exit t
-        message-send-mail-function 'message-send-mail-with-sendmail
-        message-sendmail-envelope-from 'header
-        message-signature nil
-
-        mm-inline-text-html-with-images t
-        mm-inlined-types '("image/.*"
-                           "text/.*"
-                           "message/delivery-status"
-                           "message/rfc822"
-                           "message/partial"
-                           "message/external-body"
-                           "application/emacs-lisp"
-                           "application/x-emacs-lisp"
-                           "application/pgp-signature"
-                           "application/x-pkcs7-signature"
-                           "application/pkcs7-signature"
-                           "application/x-pkcs7-mime"
-                           "application/pkcs7-mime"
-                           "application/pgp")
-        mm-sign-option 'guided
-        mm-text-html-renderer 'w3m
-        mml2015-encrypt-to-self t
-
-        ;; notmuch configuration
-        notmuch-archive-tags (quote ("-inbox" "-unread"))
-        notmuch-crypto-process-mime t
-        notmuch-fcc-dirs (quote
-                          (("tom\\.hinton@cse\\.org\\.uk" . "cse/Sent Items")
-                           ("larkery\\.com" . "fastmail/Sent Items")))
-        notmuch-hello-sections '(notmuch-hello-insert-search
-                                 notmuch-hello-insert-alltags
-                                 notmuch-hello-insert-inbox
-                                 notmuch-hello-insert-saved-searches)
-
-        notmuch-mua-cite-function 'message-cite-original-without-signature
-
-        notmuch-saved-searches '((:name "all mail" :query "*" :key "a")
-                                 (:name "all inbox" :query "tag:inbox" :key "i")
-                                 (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-                                 (:name "unread" :query "tag:unread" :key "u")
-                                 (:name "flagged" :query "tag:flagged" :key "f")
-                                 (:name "sent" :query "tag:sent" :key "t")
-                                 (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
-                                 (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
-
-        notmuch-search-line-faces '(("unread" :weight bold)
-                                    ("flagged" :foreground "deep sky blue"))
-
-        notmuch-search-oldest-first nil
-
-        notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode
-                            goto-address-mode
-                            h/hack-w3m-links
-                            )
-
-        notmuch-show-indent-messages-width 1
-
-        notmuch-tag-formats '(("unread"
-                               (propertize tag
-                                           (quote face)
-                                           (quote
-                                            (:foreground "red"))))
-                              ("flagged"
-                               (notmuch-tag-format-image-data tag
-                                                              (notmuch-tag-star-icon))
-                               (propertize tag
-                                           (quote face)
-                                           (quote
-                                            (:foreground "orange")))))
-
-        notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
-        notmuch-wash-signature-lines-max 30
-        notmuch-wash-signature-regexp (rx
-                                       bol
-
-                                       (or
-                                        (seq (* nonl) "not the intended recipient" (* nonl))
-                                        (seq "The original of this email was scanned for viruses" (* nonl))
-                                        (seq "__" (* "_"))
-                                        (seq "****" (* "*"))
-                                        (seq "--" (** 0 5 "-") (* " ")))
-
-                                       eol)
-
-        ;; citation stuff
-        message-cite-style nil
-        message-cite-function (quote message-cite-original-without-signature)
-        message-citation-line-function (quote message-insert-formatted-citation-line)
-        message-cite-reply-position 'traditional
-        message-yank-prefix "> "
-        message-cite-prefix-regexp "[[:space:]]*>[ >]*"
-        message-yank-cited-prefix ">"
-        message-yank-empty-prefix ""
-        message-citation-line-format ""
-        )
-  )
-
 ;;; projectile
 
 (req-package projectile
@@ -950,10 +606,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 (req-package wgrep)
 (req-package ag :commands ag)
 
-;;; restclient
-
-(req-package restclient)
-
 ;;; erc
 
 (req-package erc
@@ -1023,10 +675,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (diminish 'mml-mode "")
   )
 
-;;; ace-window
-(req-package ace-window
-  :bind ("C-x o" . ace-window))
-
 ;;; elfeed
 
 (req-package elfeed
@@ -1047,14 +695,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
          ("C-c v" . avy-goto-char-in-line))
   :config
   (setq avy-style 'at-full))
-
-;; (req-package eno
-;;   :bind (("M-g w" . eno-word-goto)
-;;          ("M-g [" . eno-paren-goto))
-;;   :config
-;;   (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
-;;   (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
-;;   )
 
 ;;; rainbow mode
 
@@ -1101,13 +741,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (i3-advise-visible-frame-list-on))
 
 
-;;; keyfreq
-
-;; (req-package keyfreq
-;;   :config
-;;   (keyfreq-mode 1)
-;;   (keyfreq-autosave-mode 1))
-
 ;;; winner
 (req-package winner
   :defer nil
@@ -1120,7 +753,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   :config
   (global-flycheck-mode))
 
-(req-package w3m)
+
 
 ;;; nixos
 
@@ -1134,19 +767,11 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 ;;   (add-hook 'prog-mode-hook
 ;;             #'nix-sandbox-interpreter-update))
 
-(req-package key-chord
-  :init
-  (setq key-chord-one-key-delay  0.12
-        key-chord-two-keys-delay 0.06)
-
-  (key-chord-define-global "[]" #'god-mode-all)
-  (key-chord-define-global "xs" #'save-buffer)
-
-  (key-chord-mode 1))
+;;; god mode
 
 (req-package god-mode
   :commands god-mode god-local-mode
-  :bind ("<menu>" . god-mode-all)
+  :bind (("C-o" . god-mode-all))
   :config
   (diminish 'god-local-mode " G")
   (define-key god-local-mode-map (kbd ".") 'repeat)
@@ -1184,11 +809,11 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 (req-package w3m
   :config
   (setq w3m-default-symbol
-      '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
-        "─┴" " └" "──" ""   "─┘" ""   ""   ""
-        "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""
-        "━┷" " ┗" "━━" ""   "━┛" ""   ""   ""
-        " •" " □" " ☆" " ○" " ■" " ★" " ◎"
-        " ●" " △" " ●" " ○" " □" " ●" "≪ ↑ ↓ ")))
+        '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
+          "─┴" " └" "──" ""   "─┘" ""   ""   ""
+          "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""
+          "━┷" " ┗" "━━" ""   "━┛" ""   ""   ""
+          " •" " □" " ☆" " ○" " ■" " ★" " ◎"
+          " ●" " △" " ●" " ○" " □" " ●" "≪ ↑ ↓ ")))
 
 ;;; end
