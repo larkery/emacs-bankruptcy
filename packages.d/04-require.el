@@ -1006,8 +1006,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
    `(("lrkry.com" 6667 nil
       ((freenode "hinton"
                  ,(cadr (netrc-credentials "lrkry.com" "6667"))
-                 )))))
-  )
+                 ))))))
 
 ;; breaks in eval after load
 (require 'epass-authinfo)

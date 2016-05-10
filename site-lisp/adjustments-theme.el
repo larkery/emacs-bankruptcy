@@ -52,8 +52,8 @@
  '(org-agenda-date ((t (:inherit outline-2))))
  '(org-agenda-date-today ((t (:inherit outline-2 :foreground "firebrick"))))
  '(org-agenda-date-weekend ((t (:inherit outline-2 :slant italic))))
- '(org-todo ((t (:foreground "firebrick" :weight normal))))
- '(org-done ((t (:foreground "dark slate gray" :weight normal))))
+ '(org-todo ((t (:foreground "firebrick" :weight bold))))
+ '(org-done ((t (:foreground "dark slate gray" :weight bold))))
  '(org-meta-line ((t (:height 1.0))))
 
  '(org-document-title ((t :height 1.0)))
