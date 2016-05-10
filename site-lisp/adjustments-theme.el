@@ -55,6 +55,7 @@
  '(org-todo ((t (:foreground "firebrick" :weight bold))))
  '(org-done ((t (:foreground "dark slate gray" :weight bold))))
  '(org-meta-line ((t (:height 1.0))))
+ '(org-checkbox ((t :box nil :foreground "black" :background "white")))
 
  '(org-document-title ((t :height 1.0)))
  '(org-level-1 ((t :height 1.0 :foreground "black" :weight bold :inherit outline-1)))
