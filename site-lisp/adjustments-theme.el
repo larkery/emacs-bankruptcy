@@ -10,7 +10,7 @@
  '(ido-only-match ((t (:inverse-video t))))
  '(ido-virtual ((t (:slant italic))))
 
- '(cursor ((t :background "dark cyan")))
+ '(cursor ((t :background "black")))
 
  '(ido-grid-match-1 ((t (:foreground "dark cyan"))))
  '(ido-grid-match-2 ((t (:foreground "blue violet"))))

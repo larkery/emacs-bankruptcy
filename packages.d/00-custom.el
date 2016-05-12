@@ -182,13 +182,9 @@ static char *gnus-pointer[] = {
  '(ido-work-directory-list-ignore-regexps (quote ("^/home/hinton/gvfs/")))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
- '(initial-scratch-message
-   ";; A novice was trying to fix a broken lisp machine by turning the
-;; power off and on.  Knight, seeing what the student was doing spoke sternly,
-;; \"You cannot fix a machine by just power-cycling it with no understanding
-;; of what is going wrong.\"  Knight turned the machine off and on.  The
-;; machine worked.
-
+ '(inhibit-startup-echo-area-message "hinton")
+ '(initial-major-mode (quote text-mode))
+ '(initial-scratch-message "Scratch
 ")
  '(iplayer-download-directory "~/music/iplayer/")
  '(isearch-allow-scroll t)

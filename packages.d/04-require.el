@@ -1,11 +1,8 @@
 (require 'cl)
 
-(defmacro add-prog-hooks (&rest fns)
-  `(progn
-     ,@(let (result)
-         (dolist (f fns result)
-           (push `(add-hook 'prog-mode-hook ,f) result)
-           (push `(add-hook 'ess-mode-hook  ,f) result)))))
+(defvar h-prog-mode-hook ())
+(defun h-run-prog-mode-hook () (run-hooks 'h-prog-mode-hook))
+(add-hook 'prog-mode-hook #'h-run-prog-mode-hook)
 
 (defmacro set-mode-name (mode name)
   `(add-hook (quote ,(intern (concat (symbol-name mode) "-hook")))
@@ -75,17 +72,6 @@
 
 (req-package expand-region :bind ("C-=" . er/expand-region))
 
-;;;; Undo-tree
-
-(req-package undo-tree
-  :diminish undo-tree-mode
-  :init
-  (global-undo-tree-mode)
-  (global-set-key (kbd "C-z") 'undo)
-  (defalias 'redo 'undo-tree-redo)
-  (global-set-key (kbd "C-S-z") 'redo)
-  (global-set-key (kbd "C-M-z") 'undo-tree-visualize))
-
 ;;;; saveplace
 
 (req-package saveplace
@@ -98,14 +84,6 @@
 (req-package hippie-exp
   :init
   (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t)))
-
-;;;; Cleanup whitespace
-
-(req-package ws-butler
-  :diminish ""
-  :commands ws-butler-global-mode
-  :init
-  (ws-butler-global-mode))
 
 ;;;; yasnippet
 
@@ -378,17 +356,19 @@
 
 (set-mode-name emacs-lisp-mode "eλ")
 
+
+
 (req-package highlight-symbol
   :diminish ""
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
-  (add-prog-hooks #'highlight-symbol-mode)
-  (add-prog-hooks #'highlight-symbol-nav-mode))
+  (add-hook 'h-prog-mode-hook #'highlight-symbol-mode)
+  (add-hook 'h-prog-mode-hook #'highlight-symbol-nav-mode))
 
 (req-package rainbow-delimiters
   :commands rainbow-delimiters-mode
   :init
-  (add-prog-hooks #'rainbow-delimiters-mode))
+  (add-hook 'h-prog-mode-hook #'rainbow-delimiters-mode))
 
 (req-package ggtags
   :commands ggtags-mode
@@ -414,17 +394,20 @@
 ;;;; ess
 
 (req-package ess
+  :defer
   :require ess-smart-underscore
   :commands R R-mode
   :mode ("\\.R\\'" . R-mode)
   :config
+
   (require 'ess-site)
   (add-hook 'ess-send-input-hook
             (lambda ()
               (interactive)
               (ess-execute-screen-options t)))
 
-
+  (add-hook 'ess-mode-hook #'h-run-prog-mode-hook)
+  
   (defun ess-ediff-fake-mode (&rest args)
     ;; put back ess-mode
     (setq-local major-mode #'ess-mode)
@@ -502,20 +485,17 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
 (req-package eldoc
-  (diminish 'eldoc-mode "")
-  (add-prog-hooks #'eldoc-mode))
+  :init
+  (add-hook 'h-prog-mode-hook #'eldoc-mode)
+  :commands eldoc-mode
+  :config
+  (diminish 'eldoc-mode ""))
 
 (add-hook 'java-mode-hook 'subword-mode)
 (add-hook 'java-mode-hook
           #'(lambda nil (c-set-style "stroustrup")))
 
 ;;;; python
-
-;; (req-package elpy
-;;   :require jedi
-;;   :commands elpy-enable
-;;   :init
-;;   (eval-after-load 'python-mode (elpy-enable)))
 
 (req-package anaconda-mode
   :commands anaconda-mode
@@ -672,21 +652,9 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (diminish 'adaptive-wrap-prefix-mode "")
   (diminish 'visual-line-mode " ⏎")
   (diminish 'abbrev-mode "")
-  (diminish 'mml-mode "")
-  )
-
-;;; elfeed
-
-(req-package elfeed
-  :commands elfeed
-  :bind ("C-c f" . elfeed))
+  (diminish 'mml-mode ""))
 
 ;;; eno / avy
-
-(defun avy-goto-paren ()
-  (interactive)
-  (avy--generic-jump "(\\|\\[" nil 'at)
-  )
 
 (req-package avy
   :bind (("M-g w" . avy-goto-word-1)
@@ -694,26 +662,21 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
          ("M-g s" . avy-isearch)
          ("C-c v" . avy-goto-char-in-line))
   :config
+  (defun avy-goto-paren ()
+    (interactive)
+    (avy--generic-jump "(\\|\\[" nil 'at))
   (setq avy-style 'at-full))
 
 ;;; rainbow mode
 
 (req-package rainbow-mode)
 
-;;; polymode
-;;;; r-markdown
-
-;; (req-package markdown-mode)
-
-;; (req-package polymode
-;;   :commands poly-markdown+r-mode
-;;   :mode ("\\.[Rr]md\\'" . poly-markdown+r-mode))
-
 ;;; project explorer
 
 (req-package project-explorer
   :bind ("<f7>" . project-explorer-toggle)
   :config
+
   (defun h/advise-pe-follow (o &rest args)
     (if (projectile-project-p)
         (apply o args)
@@ -732,15 +695,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
   (load-theme 'tao-yang t)
   (load-theme 'adjustments t))
 
-;;; i3 stuffs
-(when t
-  (el-get-bundle vava/i3-emacs)
-
-  (require 'i3)
-  (require 'i3-integration)
-  (i3-advise-visible-frame-list-on))
-
-
 ;;; winner
 (req-package winner
   :defer nil
@@ -752,8 +706,6 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 (req-package flycheck
   :config
   (global-flycheck-mode))
-
-
 
 ;;; nixos
 

@@ -33,6 +33,7 @@
         lispy-quotes
         multiple-cursors-mode
         mwim-end-of-code-or-line
+        my-wrap-with-\(
         org-backward-sentence
         org-delete-char
         org-end-of-line
