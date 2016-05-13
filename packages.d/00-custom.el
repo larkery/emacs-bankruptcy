@@ -223,8 +223,7 @@ static char *gnus-pointer[] = {
  '(notmuch-search-line-faces
    (quote
     (("unread" :weight bold)
-     ("flagged" :inherit
-      (isearch)))))
+     ("flagged" :foreground "orange4"))))
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
