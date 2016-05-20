@@ -78,13 +78,13 @@
 
    '(outline-1 ((t (:height 1.3 :foreground "black" :weight bold))))
    '(outline-2 ((t (:height 1.2 :foreground "black" :weight bold))))
-   '(outline-3 ((t (:height 1.0 :foreground "black" :weight bold))))
-   '(outline-4 ((t (:height 1.0 :foreground "black" :weight bold))))
-   '(outline-5 ((t (:height 1.0 :foreground "black" :weight bold))))
-   '(outline-6 ((t (:height 1.0 :foreground "black" :weight bold))))
-   '(outline-7 ((t (:height 1.0 :foreground "black" :weight bold))))
-   '(outline-8 ((t (:height 1.0 :foreground "black" :weight bold))))
-   '(outline-9 ((t (:height 1.0 :foreground "black" :weight bold))))
+   '(outline-3 ((t (:height 1.1 :foreground "black" :weight bold))))
+   '(outline-4 ((t (:height 1.1 :foreground "black" :weight bold))))
+   '(outline-5 ((t (:height 1.1 :foreground "black" :weight bold))))
+   '(outline-6 ((t (:height 1.1 :foreground "black" :weight bold))))
+   '(outline-7 ((t (:height 1.1 :foreground "black" :weight bold))))
+   '(outline-8 ((t (:height 1.1 :foreground "black" :weight bold))))
+   '(outline-9 ((t (:height 1.1 :foreground "black" :weight bold))))
 
    '(org-date ((t (:inherit link))))
 

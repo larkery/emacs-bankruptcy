@@ -205,8 +205,10 @@
 
 ;;; * Hack for remote files
 
-(add-to-list 'file-name-handler-alist
-             '("\\`/net/" . file-name-non-special))
+;; (add-to-list 'file-name-handler-alist
+;;              '("\\`/net/" . file-name-non-special))
+
+
 
 (setq locate-dominating-stop-dir-regexp "\\`\\(/net/+[^/]+/+[^/]+\\)")
 (setq vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
