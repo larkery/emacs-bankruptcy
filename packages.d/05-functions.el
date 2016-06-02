@@ -101,5 +101,23 @@
   (interactive)
   (cwheel--operate (lambda (h s v) (list (max 0 (- h cwheel-nth )) s v))))
 
+
+(defun my-org-journal-goto ()
+  (interactive)
+  (let* ((the-path (format-time-string "~/notes/journal/%Y/%b.org"))
+         (the-words (format-time-string "* %A %d")))
+    
+    (with-current-buffer (find-file the-path)
+      (goto-char (point-min))
+      (if (search-forward-regexp (rx-to-string `(and bol ,the-words eol)) nil t)
+          (next-line)
+        (progn
+          (goto-char (point-max))
+          (insert "\n" the-words "\n\n")))
+      )))
+
+
+
+
 ;; #8cfecb
 ;; #fe4735

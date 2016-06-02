@@ -37,7 +37,7 @@
         (if (equal (system-name) "keats")
           (notmuch-search "tag:inbox AND path:cse/**")
         (notmuch-search "tag:inbox AND path:fastmail/**"))
-      (notmuch-search "tag:unread")))
+      (notmuch-search "tag:unread OR tag:flagged")))
 
   (defun h/notmuch/flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
@@ -147,14 +147,14 @@
         notmuch-saved-searches '((:name "all mail" :query "*" :key "a")
                                  (:name "all inbox" :query "tag:inbox" :key "i")
                                  (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-                                 (:name "unread" :query "tag:unread" :key "u")
+                                 (:name "live" :query "tag:unread or tag:flagged" :key "u")
                                  (:name "flagged" :query "tag:flagged" :key "f")
                                  (:name "sent" :query "tag:sent" :key "t")
                                  (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
                                  (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
 
         notmuch-search-line-faces '(("unread" :weight bold)
-                                    ("flagged" :foreground "deep sky blue"))
+                                    ("flagged" :background "seashell"))
 
         notmuch-search-oldest-first nil
 

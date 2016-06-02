@@ -95,14 +95,14 @@
   (advice-add 'org-clock-jump-to-current-clock :around #'h/advise-clock-hack))
 
 
-(req-package org-journal
-  :require org
-  :config (setq org-journal-dir "~/notes/journal/"))
+;; (req-package org-journal
+;;   :require org
+;;   :config (setq org-journal-dir "~/notes/journal/"))
 
 (bind-key "<f6>"
           (lambda ()
             (interactive)
-            (call-interactively #'org-journal-new-entry)
+            (my-org-journal-goto)
             (org-agenda nil "n")
             (call-interactively #'other-window)))
 

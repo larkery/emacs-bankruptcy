@@ -179,7 +179,7 @@ static char *gnus-pointer[] = {
  '(ido-separator nil)
  '(ido-show-dot-for-dired nil)
  '(ido-use-virtual-buffers (quote auto))
- '(ido-work-directory-list-ignore-regexps (quote ("^/home/hinton/gvfs/")))
+ '(ido-work-directory-list-ignore-regexps (quote ("^/net/")))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-echo-area-message "hinton")
@@ -215,15 +215,15 @@ static char *gnus-pointer[] = {
     ((:name "all mail" :query "*" :key "a")
      (:name "all inbox" :query "tag:inbox" :key "i")
      (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-     (:name "unread" :query "tag:unread" :key "u")
+     (:name "live" :query "tag:unread or tag:flagged" :key "u")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t")
-     (:name "personal inbox" :query "tag:inbox and path:fastmail/**" :key "p")
+     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
      (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
  '(notmuch-search-line-faces
    (quote
     (("unread" :weight bold)
-     ("flagged" :foreground "orange4"))))
+     ("flagged" :background "azure1"))))
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))

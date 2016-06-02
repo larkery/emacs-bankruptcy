@@ -8,6 +8,7 @@
         c-electric-delete-forward
         c-electric-paren
         c-electric-semi&comma
+        c-electric-slash
         composable-kill-region
         composable-save-region
         electric-newline-and-maybe-indent

@@ -38,9 +38,6 @@
   :init
   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map))
 
-;;;; enable dired filtering - joined up with a hydra below
-(req-package dired-filter :defer t)
-
 ;;; editing
 ;;;; Outshine outline
 
@@ -154,7 +151,19 @@
                                         ;(sp-local-pair 'org-mode "$" "$")
                                         ;(sp-local-pair 'org-mode "/" "/" :actions '(wrap))
                                         ;(sp-local-pair 'org-mode "*" "*" :actions '(wrap))
-
+  (defun my-rotate-wrappers ()
+    "rotate the wrappers of the current sexp through sensible choices"
+    (interactive "")
+    (let ((delim (plist-get (sp-get-enclosing-sexp)
+                            :op
+                            )))
+      (pcase delim
+        ("(" (sp-rewrap-sexp '("[" . "]")))
+        ("[" (sp-rewrap-sexp '("{" . "}")))
+        ("{" (sp-rewrap-sexp '("(" . ")")))
+        ("_" my-wrap-with-\())))
+  
+  
   (defmacro my-define-wrap-command (open close)
     (let ((function-name (intern (concat "my-wrap-with-" open))))
       `(progn (defun ,function-name
@@ -174,32 +183,35 @@
 
   (bind-keys
    :keymap smartparens-mode-map
-   ("C-c ^" . sp-splice-sexp-killing-around)
-
-   ("C-M-;" . h/comment-sexp)
-   ("C-M-<space>" . sp-select-next-thing)
-
    ("M-<up>" . sp-backward-up-sexp)
    ("M-<down>" . sp-down-sexp)
-   ("M-S-<down>" . sp-up-sexp)
-   ("C-M-k" . h/kill-sexp-appropriately)
-   ("C-S-k" . sp-kill-sexp)
-
    ("M-<right>" . sp-forward-sexp)
    ("M-<left>" . sp-backward-sexp)
 
-   ("C-S-<right>" . h/slurp-appropriately)
-   ("C-S-<left>"  . sp-forward-barf-sexp)
-   ("C-S-<up>"    . sp-backward-slurp-sexp)
-   ("C-S-<down>"  . sp-backward-barf-sexp))
+   ("C-<right>" . h/slurp-appropriately)
+   ("C-<left>"  . sp-forward-barf-sexp)
+   ("C-<up>"    . sp-backward-slurp-sexp)
+   ("C-<down>"  . sp-backward-barf-sexp)
 
+   ("C-M-<right>" . move-past-close-and-reindent)
+   ("C-M-<left>"  . my-rotate-wrappers)
+   ("C-M-<up>"    . sp-splice-sexp-killing-around)
+   ("C-M-<down>"  . my-wrap-with-\()
+
+   ("C-c ;" . h/comment-sexp)
+   ("C-c k" . h/kill-sexp-appropriately)
+   ("C-c ^" . sp-splice-sexp-killing-around)
+   )
+  
+  
   (defun h/comment-sexp (arg)
     (interactive "P")
     (when arg
       (sp-backward-up-sexp))
 
     (mark-sexp)
-    (comment-dwim-2))
+    (comment-dwim-2)
+    (sp-forward-sexp))
 
   (show-smartparens-global-mode t)
   (smartparens-global-mode t))
@@ -272,7 +284,7 @@
   )
 
 (req-package ido
-  :demand
+  :demand t
   :config
   (setq ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
@@ -394,7 +406,6 @@
 ;;;; ess
 
 (req-package ess
-  :defer
   :require ess-smart-underscore
   :commands R R-mode
   :mode ("\\.R\\'" . R-mode)
@@ -658,7 +669,7 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
 (req-package avy
   :bind (("M-g w" . avy-goto-word-1)
-         ("M-g [" . avy-goto-paren)
+         ("M-g e" . avy-goto-paren)
          ("M-g s" . avy-isearch)
          ("C-c v" . avy-goto-char-in-line))
   :config
@@ -697,8 +708,9 @@ So, we patch `ediff-setup' so that it sees the relevant mode invoking function."
 
 ;;; winner
 (req-package winner
-  :defer nil
-  :bind ("C-6" . winner-undo)
+  :demand t
+  :bind (("<XF86Tools>" . winner-undo)
+         ("<XF86Launch5>" . winner-redo))
   :config
   (winner-mode 1))
 
