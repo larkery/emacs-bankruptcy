@@ -1,8 +1,8 @@
 (defun cycle-line-numbers ()
   (interactive)
-  (if hl-line-mode
-      (if (and (boundp 'linum-mode)
-               linum-mode)
+  
+  (if (and (boundp 'hl-line-mode) hl-line-mode)
+      (if (and (boundp 'linum-mode) linum-mode)
             (progn (hl-line-mode -1)
                    (linum-mode -1))
           (linum-mode 1))
@@ -51,9 +51,7 @@
 (bind-key "C-x K" 'kill-buffer)
 (bind-key "M-/" 'hippie-expand)
 (bind-key "M-#" 'calc-dispatch)
-(bind-key "C-c C-/" #'insert-file-name)
-(bind-key "C-!" 'winner-undo)
-(bind-key "C-\"" 'winner-redo)
+(bind-key "C-c /" #'insert-file-name)
 (bind-key "<f9>" #'cycle-line-numbers)
 (bind-key "<f5>" #'variable-pitch-mode)
 
@@ -121,3 +119,6 @@ point reaches the beginning or end of the buffer, stop there."
       (call-interactively action))))
 
 (bind-key "<f8>" 'narrow-or-widen)
+
+(define-key key-translation-map [?\C-h] [?\C-?])
+(bind-key "M-h" 'backward-kill-word)
