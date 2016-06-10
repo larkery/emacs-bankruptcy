@@ -1,7 +1,3 @@
-;; prerequisites for auto-instaling packages
-
-;; configure package.el
-
 (require 'package)
 
 (setq package-archives
@@ -19,7 +15,6 @@
       (require 'req-package)
       (require 'el-get))
   (error
-   (message "installing req-package")
    (package-refresh-contents)
    (package-install 'req-package)
    (package-install 'bind-key)
@@ -27,13 +22,4 @@
    (req-package-force el-get)
    (require 'el-get)))
 
-(req-package--log-set-level 'info)
-
-(if (member "--update" command-line-args)
-    (progn
-      (message "req-package-finish skipped")
-      (package-list-packages)
-      (package-menu-mark-upgrades)
-      (package-menu-execute))
-  
-  (add-hook 'after-init-hook #'req-package-finish))
+(add-hook 'after-init-hook #'req-package-finish)

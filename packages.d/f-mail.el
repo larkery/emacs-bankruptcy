@@ -1,45 +1,16 @@
 (req-package notmuch
-  :commands notmuch h/notmuch/goto-inbox notmuch-mua-new-mail
-
-  :bind (("C-c i" . h/notmuch/goto-inbox)
-         ("H-i" . h/notmuch/goto-inbox)
-         ("C-c m" . notmuch-mua-new-mail)
-         ("H-m" . notmuch-mua-new-mail))
-
+  :commands
+  notmuch notmuch-mua-new-mail my-inbox
+  :bind
+  (("C-c i" . my-inbox)
+   ("C-c m" . notmuch-mua-new-mail))
   :config
 
-  (require 'notmuch-calendar)
-  (require 'notmuch-extras)
+  (defun my-inbox ()
+    (interactive)
+    (notmuch-search "tag:unread OR tag:flagged"))
 
-  (defun h/notmuch/show-only-unread ()
-    "In a notmuch show view, collapse all the read messages"
-    (interactive "")
-    (notmuch-show-mapc
-     (lambda ()
-       (notmuch-show-message-visible
-        (notmuch-show-get-message-properties)
-        (member "unread" (notmuch-show-get-tags)))
-       )))
-
-  (defun h/notmuch/show-next-unread ()
-    "in notmuch show, goto the next unread message"
-    (interactive "")
-    (let (r)
-      (while (and (setq r (notmuch-show-goto-message-next))
-                  (not (member "unread" (notmuch-show-get-tags))))))
-    (recenter 1))
-
-
-  (defun h/notmuch/goto-inbox (prefix)
-    "convenience to go to the inbbox search"
-    (interactive "P")
-    (if prefix
-        (if (equal (system-name) "keats")
-          (notmuch-search "tag:inbox AND path:cse/**")
-        (notmuch-search "tag:inbox AND path:fastmail/**"))
-      (notmuch-search "tag:unread OR tag:flagged")))
-
-  (defun h/notmuch/flip-tags (&rest tags)
+  (defun my-notmuch-flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
     (notmuch-search-tag
      (let ((existing-tags (notmuch-search-get-tags)) (amendments nil))
@@ -49,60 +20,16 @@
            (if (member tag existing-tags) "-" "+")
            tag)
           amendments))
-       amendments)
-     ))
+       amendments)))
 
-  (defmacro h/notmuch-toggler (tag)
-    "Define a command to toggle the given tags"
-    `(lambda ()
-       (interactive)
-       (h/notmuch/flip-tags ,tag)
-       (notmuch-search-next-thread)))
-
-  (defun h/notmuch/sleep ()
-    "Tag a particular message as asleep for the next 4 days"
-    (interactive)
-    (if (member "asleep" (notmuch-search-get-tags))
-        (notmuch-search-tag (loop
-                             for tag in (notmuch-search-get-tags)
-                             if (string-prefix-p "asleep" tag)
-                             collect (concat "-" tag)))
-
-      (notmuch-search-tag (list "-inbox"
-                                "+asleep"
-                                (concat "+asleep-until-"
-                                        (format-time-string
-                                         "%Y-%m-%d"
-                                         (time-add (current-time)
-                                                   (days-to-time 4))))))))
-
-  (set-mode-name notmuch-search "nm-search")
-  (set-mode-name notmuch-show "nm-show")
-  (set-mode-name notmuch-message-mode "mail")
-
-  ;;(bind-key "C" #'notmuch-reply-to-calendar notmuch-show-mode-map)
-  (bind-key "u" #'h/notmuch/show-next-unread notmuch-show-mode-map)
-  (bind-key "U" #'h/notmuch/show-only-unread notmuch-show-mode-map)
-
-  (bind-key "." (h/notmuch-toggler "flagged") notmuch-search-mode-map)
-  (bind-key "d" (h/notmuch-toggler "deleted") notmuch-search-mode-map)
-  (bind-key "u" (h/notmuch-toggler "unread") notmuch-search-mode-map)
-  (bind-key "," #'h/notmuch/sleep notmuch-search-mode-map)
-  (bind-key "g" 'notmuch-refresh-this-buffer notmuch-search-mode-map)
-
-  (bind-key
-   "U"
-   (lambda () (interactive) (notmuch-search-filter "tag:unread"))
-   notmuch-search-mode-map)
-
-  (bind-key
-   "S"
-   (lambda () (interactive) (notmuch-search-filter "tag:flagged"))
-   notmuch-search-mode-map)
-
-  ;; other message stuff
-
-  (setf user-mail-address "tom.hinton@cse.org.uk"
+  (bind-keys
+   :map notmuch-search-mode-map
+   ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
+   ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
+   ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
+   ("g" . notmuch-refresh-this-buffer))
+  
+  (setq user-mail-address "tom.hinton@cse.org.uk"
 
         message-auto-save-directory "~/temp/messages/"
         message-fill-column nil
@@ -159,9 +86,7 @@
         notmuch-search-oldest-first nil
 
         notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode
-                            goto-address-mode
-                            h/hack-w3m-links
-                            )
+                            goto-address-mode)
 
         notmuch-show-indent-messages-width 1
 
@@ -201,6 +126,4 @@
         message-cite-prefix-regexp "[[:space:]]*>[ >]*"
         message-yank-cited-prefix ">"
         message-yank-empty-prefix ""
-        message-citation-line-format ""
-        )
-  )
+        message-citation-line-format ""))

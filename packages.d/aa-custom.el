@@ -24,11 +24,6 @@
      (smtp "smtp" "25")
      (http "http" "80"))))
  '(auth-sources (quote (epass-store)))
- '(avy-keys
-   (quote
-    (113 119 101 114 97 115 100 102 104 106 107 108 122 120 99 118)))
- '(avy-style (quote at))
- '(aw-scope (quote visible))
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
@@ -40,14 +35,13 @@
  '(calendar-week-start-day 1)
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
- '(composable-mode t)
- '(composable-object-cursor (quote hbar))
  '(custom-raised-buttons t)
+ '(custom-safe-themes
+   (quote
+    ("737d9d0e0f6c4279e80f7479ec5138af6e4908a2d052126f254e1e6d1a0d0188" default)))
  '(custom-theme-allow-multiple-selections t)
- '(debug-on-error nil)
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
- '(diff-hl-side (quote left))
  '(dired-auto-revert-buffer (quote dired-directory-changed-p))
  '(dired-dwim-target t)
  '(dired-enable-local-variables nil)
@@ -56,73 +50,11 @@
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
  '(display-buffer-alist nil)
  '(eldoc-idle-delay 0.2)
- '(elpy-modules
-   (quote
-    (elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
- '(emms-mode-line-icon-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
-static char *note[] = {
-/* width height num_colors chars_per_pixel */
-\"    10   11        2            1\",
-/* colors */
-\". c #1fb3b3\",
-\"# c None s None\",
-/* pixels */
-\"###...####\",
-\"###.#...##\",
-\"###.###...\",
-\"###.#####.\",
-\"###.#####.\",
-\"#...#####.\",
-\"....#####.\",
-\"#..######.\",
-\"#######...\",
-\"######....\",
-\"#######..#\" };")) t)
- '(erc-fill-function (quote h/erc-fill-nicks-thing))
- '(erc-fill-mode t)
- '(erc-insert-away-timestamp-function (quote erc-insert-timestamp-right))
- '(erc-insert-timestamp-function (quote h/erc-insert-timestamp-at-end))
- '(erc-notifications-mode t)
- '(erc-text-matched-hook (quote (erc-log-matches erc-beep-on-match)))
- '(erc-timestamp-use-align-to nil)
  '(ess-S-underscore-when-last-character-is-a-space t)
- '(evil-emacs-state-cursor (quote ("#D50000" bar)))
- '(evil-insert-state-cursor (quote ("#D50000" hbar)))
- '(evil-normal-state-cursor (quote ("#F57F17" box)))
- '(evil-visual-state-cursor (quote ("#66BB6A" box)))
- '(fci-rule-color "#37474f" t)
  '(focus-follows-mouse t)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
  '(geiser-default-implementation (quote guile))
- '(ggtags-oversize-limit 4000000)
- '(ggtags-use-sqlite3 t)
  '(global-auto-revert-mode t)
- '(gnus-logo-colors (quote ("#528d8d" "#c0c0c0")) t)
- '(gnus-mode-line-image-cache
-   (quote
-    (image :type xpm :ascent center :data "/* XPM */
-static char *gnus-pointer[] = {
-/* width height num_colors chars_per_pixel */
-\"    18    13        2            1\",
-/* colors */
-\". c #1fb3b3\",
-\"# c None s None\",
-/* pixels */
-\"##################\",
-\"######..##..######\",
-\"#####........#####\",
-\"#.##.##..##...####\",
-\"#...####.###...##.\",
-\"#..###.######.....\",
-\"#####.########...#\",
-\"###########.######\",
-\"####.###.#..######\",
-\"######..###.######\",
-\"###....####.######\",
-\"###..######.######\",
-\"###########.######\" };")) t)
  '(gnutls-verify-error (quote (("lrkry\\.com" (:trustfiles :hostname)))))
  '(highlight-symbol-colors
    (quote
@@ -132,69 +64,13 @@ static char *gnus-pointer[] = {
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
- '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
- '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
- '(hl-sexp-background-color "#1c1f26")
- '(ibuffer-filter-group-name-face (quote button))
- '(ibuffer-saved-filter-groups
-   (quote
-    (("default"
-      ("custom"
-       (used-mode . Custom-mode))
-      ("org-mode"
-       (used-mode . org-mode))))))
- '(ibuffer-saved-filters
-   (quote
-    (("gnus"
-      ((or
-        (mode . message-mode)
-        (mode . mail-mode)
-        (mode . gnus-group-mode)
-        (mode . gnus-summary-mode)
-        (mode . gnus-article-mode))))
-     ("programming"
-      ((or
-        (mode . emacs-lisp-mode)
-        (mode . cperl-mode)
-        (mode . c-mode)
-        (mode . java-mode)
-        (mode . idl-mode)
-        (mode . lisp-mode)))))))
- '(ido-auto-merge-delay-time 0.7)
- '(ido-cr+-max-items 50000)
- '(ido-create-new-buffer (quote always))
- '(ido-default-buffer-method (quote selected-window))
- '(ido-default-file-method (quote selected-window))
- '(ido-grid-special-commands
-   (quote
-    ((h/recentf-find-file 15 1 nil 1)
-     (lacarte-execute-menu-command 10 1 nil 1)
-     (h/ido-occur 0.25 1 nil 1))))
- '(ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process")))
- '(ido-ignore-files
-   (quote
-    ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+")))
- '(ido-match-modes-list (quote (words substring regex)))
- '(ido-max-work-directory-list 100)
- '(ido-separator nil)
- '(ido-show-dot-for-dired nil)
- '(ido-use-virtual-buffers (quote auto))
- '(ido-work-directory-list-ignore-regexps (quote ("^/net/")))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-echo-area-message "hinton")
- '(initial-major-mode (quote text-mode))
- '(initial-scratch-message "Scratch
-")
- '(iplayer-download-directory "~/music/iplayer/")
  '(isearch-allow-scroll t)
  '(ispell-extra-args (quote ("--dict-dir=/home/hinton/.nix-profile/lib/aspell")))
  '(ispell-program-name "aspell")
- '(ivy-display-style (quote fancy))
  '(kill-ring-max 1000)
- '(main-line-color1 "#1E1E1E")
- '(main-line-color2 "#111111")
- '(main-line-separator-style (quote chamfer))
  '(mark-ring-max 1000)
  '(mc/mode-line
    (quote
@@ -210,23 +86,6 @@ static char *gnus-pointer[] = {
    (quote
     ((clojure-mode nil cider-lein-command nil)
      (python-mode t python-shell-interpreter nil))))
- '(notmuch-saved-searches
-   (quote
-    ((:name "all mail" :query "*" :key "a")
-     (:name "all inbox" :query "tag:inbox" :key "i")
-     (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-     (:name "live" :query "tag:unread or tag:flagged" :key "u")
-     (:name "flagged" :query "tag:flagged" :key "f")
-     (:name "sent" :query "tag:sent" :key "t")
-     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
-     (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
- '(notmuch-search-line-faces
-   (quote
-    (("unread" :weight bold)
-     ("flagged" :background "azure1"))))
- '(nrepl-message-colors
-   (quote
-    ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
    (quote
@@ -383,9 +242,6 @@ static char *gnus-pointer[] = {
  '(org-odt-inline-image-rules (quote (("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\)\\'"))))
  '(org-odt-with-latex (quote dvipng))
  '(org-outline-path-complete-in-steps nil)
- '(org-publish-project-alist
-   (quote
-    (("lrkry" :base-directory "~/projects/website/" :publishing-directory "/ssh:lrkry.com:~/website/" :publishing-function org-html-publish-to-html))))
  '(org-refile-targets
    (quote
     ((nil :maxlevel . 2)
@@ -425,35 +281,17 @@ static char *gnus-pointer[] = {
  '(org-use-speed-commands t)
  '(paradox-github-token t)
  '(pe/follow-current t)
- '(pos-tip-background-color "#3a3a3a")
- '(pos-tip-foreground-color "#9E9E9E")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
  '(python-shell-interpreter "ipython3")
  '(python-shell-interpreter-args "-i --matplotlib=qt4")
  '(rcirc-fill-flag nil)
  '(recentf-auto-cleanup (quote never))
- '(safe-local-variable-values
-   (quote
-    ((js2-additional-externs "calc" "describe" "it" "expect" "extend" "ncopies")
-     (js2-additional-externs "calc" "describe" "it" "expect")
-     (js2-additional-externs quote
-                             ("calc" "describe" "it" "expect"))
-     (eval add-hook
-           (quote after-save-hook)
-           (lambda nil
-             (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
-           nil t))))
  '(sendmail-program "msmtpq-quiet")
  '(sentence-end-double-space nil)
- '(sml/active-background-color "#34495e")
- '(sml/active-foreground-color "#ecf0f1")
- '(sml/inactive-background-color "#dfe4ea")
- '(sml/inactive-foreground-color "#34495e")
  '(sp-show-pair-delay 0)
  '(split-width-threshold 200)
  '(tab-width 4)
- '(tabbar-background-color "#ffffff")
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
  '(tramp-verbose 2)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
@@ -532,4 +370,12 @@ static char *gnus-pointer[] = {
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(button ((t (:background "#444444" :foreground "#FFFFFF" :box (:line-width 2 :color "grey75" :style released-button) :underline nil))))
+ '(dired-subtree-depth-1-face ((t (:background "gray90"))))
+ '(dired-subtree-depth-2-face ((t (:background "gray85"))))
+ '(dired-subtree-depth-3-face ((t (:background "gray80"))))
+ '(dired-subtree-depth-4-face ((t (:background "gray75"))))
+ '(dired-subtree-depth-5-face ((t (:background "gray70"))))
+ '(dired-subtree-depth-6-face ((t (:background "gray65"))))
+ '(show-paren-match ((t (:background "deep sky blue"))))
+ '(sp-show-pair-mismatch-face ((t (:inherit error))))
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange")))))
