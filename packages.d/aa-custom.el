@@ -36,9 +36,6 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
- '(custom-safe-themes
-   (quote
-    ("737d9d0e0f6c4279e80f7479ec5138af6e4908a2d052126f254e1e6d1a0d0188" default)))
  '(custom-theme-allow-multiple-selections t)
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
@@ -51,6 +48,7 @@
  '(display-buffer-alist nil)
  '(eldoc-idle-delay 0.2)
  '(ess-S-underscore-when-last-character-is-a-space t)
+ '(fci-rule-color "#f8fce8")
  '(focus-follows-mouse t)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
  '(geiser-default-implementation (quote guile))
@@ -64,6 +62,8 @@
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
+ '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
+ '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-echo-area-message "hinton")
@@ -289,6 +289,10 @@
  '(recentf-auto-cleanup (quote never))
  '(sendmail-program "msmtpq-quiet")
  '(sentence-end-double-space nil)
+ '(sml/active-background-color "#98ece8")
+ '(sml/active-foreground-color "#424242")
+ '(sml/inactive-background-color "#4fa8a8")
+ '(sml/inactive-foreground-color "#424242")
  '(sp-show-pair-delay 0)
  '(split-width-threshold 200)
  '(tab-width 4)
@@ -364,18 +368,3 @@
      ("freshmeat" "http://freshmeat.net/search/?q=%s&section=projects" nil)
      ("ddg" "http://duckduckgo.com/?q=%s" nil))))
  '(w3m-use-tab nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(button ((t (:background "#444444" :foreground "#FFFFFF" :box (:line-width 2 :color "grey75" :style released-button) :underline nil))))
- '(dired-subtree-depth-1-face ((t (:background "gray90"))))
- '(dired-subtree-depth-2-face ((t (:background "gray85"))))
- '(dired-subtree-depth-3-face ((t (:background "gray80"))))
- '(dired-subtree-depth-4-face ((t (:background "gray75"))))
- '(dired-subtree-depth-5-face ((t (:background "gray70"))))
- '(dired-subtree-depth-6-face ((t (:background "gray65"))))
- '(show-paren-match ((t (:background "deep sky blue"))))
- '(sp-show-pair-mismatch-face ((t (:inherit error))))
- '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange")))))

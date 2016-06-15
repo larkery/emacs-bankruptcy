@@ -20,7 +20,8 @@
            (if (member tag existing-tags) "-" "+")
            tag)
           amendments))
-       amendments)))
+       amendments))
+    (notmuch-search-next-thread))
 
   (bind-keys
    :map notmuch-search-mode-map
@@ -81,7 +82,7 @@
                                  (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
 
         notmuch-search-line-faces '(("unread" :weight bold)
-                                    ("flagged" :background "seashell"))
+                                    ("flagged" :foreground "black"))
 
         notmuch-search-oldest-first nil
 
@@ -126,4 +127,5 @@
         message-cite-prefix-regexp "[[:space:]]*>[ >]*"
         message-yank-cited-prefix ">"
         message-yank-empty-prefix ""
-        message-citation-line-format ""))
+        message-citation-line-format "")
+  )

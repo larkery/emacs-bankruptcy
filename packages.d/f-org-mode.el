@@ -11,7 +11,7 @@
   (require 'org-notmuch)
 
   (org-clock-persistence-insinuate)
-  
+
   (add-hook 'org-mode-hook
             (lambda ()
               (visual-line-mode 1)
@@ -21,11 +21,17 @@
     (interactive)
     (let* ((the-path (format-time-string "~/notes/journal/%Y/%b.org"))
            (the-words (format-time-string "* %A %d")))
-      
+
       (with-current-buffer (find-file the-path)
         (goto-char (point-min))
+        
+        (let ((prefix-arg '(4)))
+          (call-interactively 'org-global-cycle))
+        
         (if (search-forward-regexp (rx-to-string `(and bol ,the-words eol)) nil t)
-            (next-line)
+            (progn (org-reveal)
+                   (org-cycle)
+                   (next-line))
           (progn
             (goto-char (point-max))
             (insert "\n" the-words "\n\n")))
@@ -33,9 +39,9 @@
 
   (defun my-journal-entry ()
     "journal and agenda"
-    (interactive)           
-    (my-org-journal-goto)           
-    (org-agenda nil "n")           
+    (interactive)
+    (my-org-journal-goto)
+    (org-agenda nil "n")
     (call-interactively #'other-window))
 
   )

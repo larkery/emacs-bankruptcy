@@ -6,6 +6,8 @@
   (ivy-mode))
 
 (req-package counsel
+  :demand
+  :bind (("<menu>" . counsel-imenu))
   :diminish (counsel-mode "")
   :config
   (setq counsel-find-file-ignore-regexp "\\`\\.")
