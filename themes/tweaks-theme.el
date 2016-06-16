@@ -4,7 +4,7 @@
  'tweaks
 
  '(region ((t (:inverse-video t))))
- '(cursor ((t (:background "red"))))
+ '(cursor ((t (:background "red3"))))
  '(dired-subtree-depth-1-face ((t (:background "gray90"))))
  '(dired-subtree-depth-2-face ((t (:background "gray85"))))
  '(dired-subtree-depth-3-face ((t (:background "gray80"))))
