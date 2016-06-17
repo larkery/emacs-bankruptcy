@@ -4,7 +4,11 @@
  'tweaks
 
  '(region ((t (:inverse-video t))))
- '(cursor ((t (:background "red3"))))
+;; '(cursor ((t (:background "red2"))))
+ 
+ '(show-paren-match    ((t (:foreground "dark cyan" :weight bold))))
+ '(show-paren-mismatch ((t (:background "black" :foreground "red" :weight bold)))))
+ 
  '(dired-subtree-depth-1-face ((t (:background "gray90"))))
  '(dired-subtree-depth-2-face ((t (:background "gray85"))))
  '(dired-subtree-depth-3-face ((t (:background "gray80"))))

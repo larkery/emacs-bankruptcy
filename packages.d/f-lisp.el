@@ -1,13 +1,23 @@
 (req-package cider)
 
+(req-package show-paren-mode
+  :config
+  (show-paren-mode 1)
+  (setq show-paren-delay 0
+        show-paren-style 'parenthesis
+        show-paren-priority 100000))
+
 (req-package smartparens
   :commands smartparens-mode show-smartparens-mode
   :init
   (add-hook 'prog-mode-hook 'smartparens-mode)
-  (add-hook 'prog-mode-hook 'show-smartparens-mode)
   :config
   (require 'smartparens-config)
 
+  (setq sp-highlight-pair-overlay nil
+        sp-highlight-wrap-tag-overlay t
+        sp-highlight-wrap-overlay t)
+  
   ;; smartparens keymap needs some work
   
   (defun my-rotate-wrappers ()
