@@ -10,11 +10,12 @@
 ;;   (load-theme 'greymatters t))
 
 (req-package minimal-theme
+  :config
   (load-theme 'minimal-light t)
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
   (load-theme 'tweaks t)
-  (setq-default cursor-type 'box)
-  )
+  (setq-default cursor-type 'box))
+
 
 (defun my-unload-themes ()
   (interactive)

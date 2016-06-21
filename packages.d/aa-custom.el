@@ -36,6 +36,9 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
+ '(custom-safe-themes
+   (quote
+    ("402e5d67fe60e7b859d7afe02ba98d842de710aa3e6c0d6099c923562de80602" "737d9d0e0f6c4279e80f7479ec5138af6e4908a2d052126f254e1e6d1a0d0188" default)))
  '(custom-theme-allow-multiple-selections t)
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
@@ -48,7 +51,10 @@
  '(display-buffer-alist nil)
  '(eldoc-idle-delay 0.2)
  '(ess-S-underscore-when-last-character-is-a-space t)
- '(fci-rule-color "#f8fce8")
+ '(excorporate-configuration
+   (quote
+    ("tomh" . "https://webmail.cse.org.uk/ews/exchange.asmx")))
+ '(fci-rule-color "#f8fce8" t)
  '(focus-follows-mouse t)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
  '(geiser-default-implementation (quote guile))
@@ -289,6 +295,7 @@
  '(recentf-auto-cleanup (quote never))
  '(sendmail-program "msmtpq-quiet")
  '(sentence-end-double-space nil)
+ '(show-paren-mode t)
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
  '(sml/inactive-background-color "#4fa8a8")
@@ -368,3 +375,9 @@
      ("freshmeat" "http://freshmeat.net/search/?q=%s&section=projects" nil)
      ("ddg" "http://duckduckgo.com/?q=%s" nil))))
  '(w3m-use-tab nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
