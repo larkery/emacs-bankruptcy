@@ -38,6 +38,7 @@
         message-kill-buffer-on-exit t
         message-send-mail-function 'message-send-mail-with-sendmail
         message-sendmail-envelope-from 'header
+        
         message-signature nil
 
         mm-inline-text-html-with-images t

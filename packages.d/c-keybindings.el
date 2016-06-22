@@ -19,6 +19,19 @@
      t)
     (indent-region a b)))
 
+(defun my-split-window ()
+  (interactive)
+  (let ((width (window-pixel-width))
+        (height (window-pixel-height)))
+    (message "%f %f" width height)
+    (cond
+     ((> width height)
+      (split-window-right))
+     (t
+      (split-window-below))
+    ))
+  )
+
 (defun my-sudo-edit ()
   (interactive)
 
@@ -57,6 +70,8 @@
 
       (find-alternate-file (concat "/sudo:root@" (system-name) ":" the-place)))))
 
+(unbind-key "C-v")
+
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)
 	   ("C-x k"   . my-kill-this-buffer)
@@ -65,12 +80,14 @@
        ("C-x C-a" . my-sudo-edit)       
 	   ([remap just-one-space] . my-just-one-space)
 
-           ("C-c t" . my-tabulate)
-           ("C-7" . ,(kbd "C-x 1"))
-           ("C-8" . ,(kbd "C-x 2"))
-           ("C-9" . ,(kbd "C-x 3"))
-           ("C-4" . ,(kbd "C-x 0"))
-           ("C-5" . ,(kbd "C-x 5 2"))
+       ("C-c t" . my-tabulate)
+       ("<f2>" . my-split-window)
+       ("C-v f" . delete-other-windows)
+       ("C-v d" . delete-window)
+       ("C-v c" . ctl-x-5-prefix)
+       ("C-v s" . my-split-window)
+       ("C-v b" . ctl-x-4-prefix)
+       ("C-M-v" . scroll-up-command)
 	   ))
   (let ((key (car binding))
 	(action (cdr binding)))
@@ -80,3 +97,8 @@
 
 ;; use control h for backspace, we have f1 for help
 (define-key key-translation-map [?\C-h] [?\C-?])
+
+;;(lookup-key global-map (kbd "C-x 4"))
+
+
+
