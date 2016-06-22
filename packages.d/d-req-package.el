@@ -22,4 +22,5 @@
    (req-package-force el-get)
    (require 'el-get)))
 
-(add-hook 'after-init-hook #'req-package-finish)
+(unless (member "--update" command-line-args)
+  (add-hook 'after-init-hook #'req-package-finish))

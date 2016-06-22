@@ -70,35 +70,28 @@
 
       (find-alternate-file (concat "/sudo:root@" (system-name) ":" the-place)))))
 
-(unbind-key "C-v")
+;;(unbind-key "C-v")
 
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)
 	   ("C-x k"   . my-kill-this-buffer)
 	   ("M-/" . hippie-expand)
 	   ("C-z" . undo)
-       ("C-x C-a" . my-sudo-edit)       
+       ("C-x C-a" . my-sudo-edit)
 	   ([remap just-one-space] . my-just-one-space)
 
        ("C-c t" . my-tabulate)
+       ("<f1>" . delete-other-windows)
        ("<f2>" . my-split-window)
-       ("C-v f" . delete-other-windows)
-       ("C-v d" . delete-window)
-       ("C-v c" . ctl-x-5-prefix)
-       ("C-v s" . my-split-window)
-       ("C-v b" . ctl-x-4-prefix)
-       ("C-M-v" . scroll-up-command)
+  ;;     ("C-v f" . delete-other-windows)
+    ;;   ("C-v d" . delete-window)
+;;       ("C-v c" . ctl-x-5-prefix)
+;;       ("C-v s" . my-split-window)
+;;       ("C-v b" . ctl-x-4-prefix)
+;;       ("C-M-v" . scroll-up-command)
 	   ))
   (let ((key (car binding))
 	(action (cdr binding)))
     (global-set-key
      (if (stringp key) (kbd key) key)
      action)))
-
-;; use control h for backspace, we have f1 for help
-(define-key key-translation-map [?\C-h] [?\C-?])
-
-;;(lookup-key global-map (kbd "C-x 4"))
-
-
-
