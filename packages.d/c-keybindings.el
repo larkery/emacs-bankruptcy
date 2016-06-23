@@ -24,13 +24,13 @@
   (let ((width (window-pixel-width))
         (height (window-pixel-height)))
     (message "%f %f" width height)
-    (cond
-     ((> width height)
-      (split-window-right))
-     (t
-      (split-window-below))
-    ))
-  )
+    (select-window
+     (cond
+      ((> width height)
+       (split-window-right))
+      (t
+       (split-window-below))
+      ))))
 
 (defun my-sudo-edit ()
   (interactive)
