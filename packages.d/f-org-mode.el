@@ -4,7 +4,7 @@
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
-         ("<f6>"  . my-journal-entry))
+         ("<f6>"  . my-org-journal-goto))
   :config
 
   (require 'org-contacts)
@@ -24,10 +24,10 @@
 
       (with-current-buffer (find-file the-path)
         (goto-char (point-min))
-        
+
         (let ((prefix-arg '(4)))
           (call-interactively 'org-global-cycle))
-        
+
         (if (search-forward-regexp (rx-to-string `(and bol ,the-words eol)) nil t)
             (progn (org-reveal)
                    (org-cycle)
@@ -35,13 +35,4 @@
           (progn
             (goto-char (point-max))
             (insert "\n" the-words "\n\n")))
-        )))
-
-  (defun my-journal-entry ()
-    "journal and agenda"
-    (interactive)
-    (my-org-journal-goto)
-    (org-agenda nil "n")
-    (call-interactively #'other-window))
-
-  )
+        ))))

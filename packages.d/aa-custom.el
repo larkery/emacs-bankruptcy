@@ -87,6 +87,7 @@
          (face mode-line-emphasis))
        (mc/num-cursors))))))
  '(mouse-autoselect-window t)
+ '(mouse-wheel-progressive-speed nil)
  '(netrc-file "~/.netrc")
  '(nix-sandbox-interpreter-mode-alist
    (quote
