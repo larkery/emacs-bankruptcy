@@ -70,6 +70,19 @@
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
  '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
+ '(ibuffer-display-summary t)
+ '(ibuffer-formats
+   (quote
+    ((mark modified read-only " "
+           (name 30 30 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " "
+           (name 16 -1)
+           " " filename))))
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-echo-area-message "hinton")
