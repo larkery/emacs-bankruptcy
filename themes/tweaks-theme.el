@@ -15,6 +15,8 @@
  '(dired-subtree-depth-5-face ((t (:background "gray30"))))
  '(dired-subtree-depth-6-face ((t (:background "gray35"))))
 
+;; '(font-lock-comment-face ((t (:foreground "white"))))
+
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
 
  '(outline-1 ((t (:height 1.5))))

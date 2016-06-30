@@ -19,7 +19,7 @@
 
 ;; sanityinc-tomorrow-day
 
-(req-package darktooth
+(req-package darktooth-theme
   :config
   (load-theme 'darktooth t)
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
