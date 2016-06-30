@@ -29,7 +29,7 @@
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
    ("g" . notmuch-refresh-this-buffer))
-  
+
   (setq user-mail-address "tom.hinton@cse.org.uk"
 
         message-auto-save-directory "~/temp/messages/"
@@ -38,7 +38,7 @@
         message-kill-buffer-on-exit t
         message-send-mail-function 'message-send-mail-with-sendmail
         message-sendmail-envelope-from 'header
-        
+
         message-signature nil
 
         mm-inline-text-html-with-images t
@@ -83,7 +83,7 @@
                                  (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
 
         notmuch-search-line-faces '(("unread" :weight bold)
-                                    ("flagged" :background "grey95"))
+                                    ("flagged" :inherit "highlight"))
 
         notmuch-search-oldest-first nil
 
@@ -97,7 +97,7 @@
                                                    '(:foreground "blue")))
                               ("flagged" "★"
                                (notmuch-apply-face tag
-                                                   '(:foreground "red")))
+                                                   '(:foreground "dark cyan")))
                               ("attachment" "⛁"))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"

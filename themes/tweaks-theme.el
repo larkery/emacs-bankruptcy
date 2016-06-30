@@ -3,20 +3,40 @@
 (custom-theme-set-faces
  'tweaks
 
- '(region ((t (:inverse-video t))))
- 
- '(show-paren-match    ((t (:foreground "dark cyan" :weight bold))))
  '(show-paren-mismatch ((t (:background "black" :foreground "red" :weight bold))))
 
  '(org-todo ((t (:foreground "white" :background "red3"))))
  '(org-done ((t (:foreground "white" :background "green3"))))
- 
- '(dired-subtree-depth-1-face ((t (:background "gray90"))))
- '(dired-subtree-depth-2-face ((t (:background "gray85"))))
- '(dired-subtree-depth-3-face ((t (:background "gray80"))))
- '(dired-subtree-depth-4-face ((t (:background "gray75"))))
- '(dired-subtree-depth-5-face ((t (:background "gray70"))))
- '(dired-subtree-depth-6-face ((t (:background "gray65"))))
- '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange")))))
+
+ '(dired-subtree-depth-1-face ((t (:background "gray10"))))
+ '(dired-subtree-depth-2-face ((t (:background "gray15"))))
+ '(dired-subtree-depth-3-face ((t (:background "gray20"))))
+ '(dired-subtree-depth-4-face ((t (:background "gray25"))))
+ '(dired-subtree-depth-5-face ((t (:background "gray30"))))
+ '(dired-subtree-depth-6-face ((t (:background "gray35"))))
+
+ '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
+
+ '(outline-1 ((t (:height 1.5))))
+ '(outline-2 ((t (:height 1.5))))
+ '(outline-3 ((t (:height 1.5))))
+ '(outline-4 ((t (:height 1.5))))
+ '(outline-5 ((t (:height 1.5))))
+ '(outline-6 ((t (:height 1.5))))
+ '(outline-7 ((t (:height 1.5))))
+ '(outline-8 ((t (:height 1.5))))
+ '(outline-9 ((t (:height 1.5))))
+
+ '(org-level-1 ((t (:height 1.5))))
+ '(org-level-2 ((t (:height 1.5))))
+ '(org-level-3 ((t (:height 1.5))))
+ '(org-level-4 ((t (:height 1.5))))
+ '(org-level-5 ((t (:height 1.5))))
+ '(org-level-6 ((t (:height 1.5))))
+ '(org-level-7 ((t (:height 1.5))))
+ '(org-level-8 ((t (:height 1.5))))
+ '(org-level-9 ((t (:height 1.5))))
+
+ )
 
 (provide-theme 'tweaks)

@@ -23,10 +23,10 @@
   (interactive)
   (let ((width (window-pixel-width))
         (height (window-pixel-height)))
-    (message "%f %f" width height)
     (select-window
      (cond
-      ((> width height)
+      ((and (> width 450)
+            (> width height))
        (split-window-right))
       (t
        (split-window-below))
@@ -93,6 +93,18 @@
          (insert (file-relative-name filename)))))
 
 ;;(unbind-key "C-v")
+
+(defun my-fill-or-unfill ()
+  "Like `fill-paragraph', but unfill if used twice."
+  (interactive)
+  (let ((fill-column
+         (if (eq last-command 'endless/fill-or-unfill)
+             (progn (setq this-command nil)
+                    (point-max))
+           fill-column)))
+    (call-interactively #'fill-paragraph)))
+
+(global-set-key [remap fill-paragraph] #'my-fill-or-unfill)
 
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)

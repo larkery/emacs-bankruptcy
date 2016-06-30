@@ -18,6 +18,7 @@
         ess-yank
         h/kill-sexp-appropriately
         h/slurp-appropriately
+        haskell-indentation-common-electric-command
         iy-go-to-char--command
         jump-char-process-char
         jump-char-repeat-backward
@@ -35,6 +36,7 @@
         multiple-cursors-mode
         mwim-end-of-code-or-line
         my-just-one-space
+        my-wrap-paren
         my-wrap-with-\(
         org-backward-sentence
         org-delete-char
@@ -46,6 +48,7 @@
         outshine-self-insert-command
         sacha/smarter-move-beginning-of-line
         sgml-slash
+        sp-backward-sexp
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp
@@ -126,6 +129,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        counsel-M-x
         eval-defun
         god-mode-all
         god-mode-self-insert

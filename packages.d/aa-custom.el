@@ -38,8 +38,9 @@
  '(custom-raised-buttons t)
  '(custom-safe-themes
    (quote
-    ("402e5d67fe60e7b859d7afe02ba98d842de710aa3e6c0d6099c923562de80602" "737d9d0e0f6c4279e80f7479ec5138af6e4908a2d052126f254e1e6d1a0d0188" default)))
+    ("b57509f3b2788adca70e2f04d223e96eb4c83a45fa3a57f0d62f10b0234ac40f" "dfad010777641dd2ba20dee0b075cd47e7fde574409b620ed31edc232f498b20" "8b80b7b7534909ca8c50753174163e1fb68efda03215b5eaf0d60995de0857c7" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "a164837cd2821475e1099911f356ed0d7bd730f13fa36907895f96a719e5ac3e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "f69b720037b9971ece885b84b63f3ffca952af91b0b96dda18bc1e1cd0971794" "3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "39dd7106e6387e0c45dfce8ed44351078f6acd29a345d8b22e7b8e54ac25bac4" "cab317d0125d7aab145bc7ee03a1e16804d5abdfa2aa8738198ac30dc5f7b569" "b2a6f5a8cc4574716cd021f462c71678443ce073138b62623f146e6f45440911" "cc0dbb53a10215b696d391a90de635ba1699072745bf653b53774706999208e3" "402e5d67fe60e7b859d7afe02ba98d842de710aa3e6c0d6099c923562de80602" "737d9d0e0f6c4279e80f7479ec5138af6e4908a2d052126f254e1e6d1a0d0188" default)))
  '(custom-theme-allow-multiple-selections t)
+ '(debug-on-error t)
  '(delete-selection-mode t)
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-auto-revert-buffer (quote dired-directory-changed-p))
@@ -70,6 +71,22 @@
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
  '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
+ '(ibuffer-filter-group-name-face (quote warning))
+ '(ibuffer-formats
+   (quote
+    ((mark modified read-only " "
+           (name 40 40 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " "
+           (name 16 -1)
+           " " filename))))
+ '(ibuffer-marked-face (quote highlight))
+ '(ibuffer-title-face (quote bold))
+ '(ibuffer-truncate-lines nil)
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-echo-area-message "hinton")
