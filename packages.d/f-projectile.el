@@ -12,6 +12,18 @@
 
 (req-package ibuffer-projectile
   :commands ibuffer-projectile-set-filter-groups
+  :init
+  (bind-key "/ j g" 'ibuffer-projectile-set-filter-groups ibuffer-mode-map)
+  (bind-key "/ j f" 'ibuffer-filter-by-projectile-root ibuffer-mode-map)
   :config
-  (bind-key "/ p" 'ibuffer-projectile-set-filter-groups ibuffer-mode-map)
+
+  (define-ibuffer-filter projectile-root
+    "Toggle current view to buffers with projectile root dir QUALIFIER."
+    (:description "projectile root dir"
+                  :reader (expand-file-name
+                           (completing-read "Filter by projectile root dir (regexp): "
+                                            projectile-known-projects)))
+    (ibuffer-awhen (ibuffer-projectile-root buf)
+      (equal qualifier it)))
+
   )

@@ -94,10 +94,10 @@
 
         notmuch-tag-formats '(("unread" "♢"
                                (notmuch-apply-face tag
-                                                   '(:foreground "blue")))
+                                                   '(:foreground "white")))
                               ("flagged" "★"
                                (notmuch-apply-face tag
-                                                   '(:foreground "dark cyan")))
+                                                   '(:foreground "white")))
                               ("attachment" "⛁"))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"

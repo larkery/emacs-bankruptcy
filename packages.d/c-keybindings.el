@@ -106,6 +106,16 @@
 
 (global-set-key [remap fill-paragraph] #'my-fill-or-unfill)
 
+(defun my-adv-multi-pop-to-mark (orig-fun &rest args)
+  "Call ORIG-FUN until the cursor moves.
+Try the repeated popping up to 10 times."
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point))
+        (apply orig-fun args)))))
+
+(advice-add 'pop-to-mark-command :around #'my-adv-multi-pop-to-mark)
+
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)
 	   ("C-x k"   . my-kill-this-buffer)
@@ -117,6 +127,7 @@
        ("C-c t" . my-tabulate)
        ("<f1>" . delete-other-windows)
        ("<f2>" . my-split-window)
+       ("M-<f2>" . make-frame-command)
        ("C-c C-/" . my-insert-file-name)
 
   ;;     ("C-v f" . delete-other-windows)

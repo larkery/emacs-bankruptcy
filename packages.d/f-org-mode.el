@@ -10,6 +10,8 @@
   (require 'org-contacts)
   (require 'org-notmuch)
 
+  (setq org-ellipsis "⤵")
+
   (org-clock-persistence-insinuate)
 
   (add-hook 'org-mode-hook

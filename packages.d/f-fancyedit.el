@@ -8,7 +8,7 @@
   :config
 
   (setq anzu-cons-mode-line-p nil)
-  
+
   (global-anzu-mode)
   (bind-key "M-%" #'anzu-query-replace)
   (bind-key "C-M-%" #'anzu-query-replace-regexp)
@@ -46,18 +46,32 @@
   (advice-add 'anzu--query-from-string :around #'my-anzu-pcre-mode))
 
 (req-package multiple-cursors
-  :require smartrep
-  :bind (("C-; C-;" . mc/mark-all-like-this-dwim)
-         ("C-; C-a" . mc/edit-beginnings-of-lines)
-         ("C-; C-e" . mc/edit-ends-of-lines))
-  :init
-  (smartrep-define-key
-      global-map
-      "C-;"
-    '(("C-n" . mc/mark-next-like-this)
-      ("C-p" . mc/mark-previous-like-this))
-    ))
+  :commands my-mc-map
+  :require smartrep region-bindings-mode
+  :bind (("C-x C-m" . my-mc-map))
+  :config
 
+  (define-prefix-command 'my-mc-map)
+
+  (bind-keys
+   :map my-mc-map
+   ("m" . mc/mark-all-like-this-in-defun)
+   ("M" . mc/mark-all-like-this)
+   ("a" . mc/mark-beginnings-of-lines)
+   ("e" . mc/mark-ends-of-lines)
+   ("N" . mc/insert-numbers))
+
+  (bind-keys
+   :map region-bindings-mode-map
+   ("m" . my-mc-map)
+   )
+
+  (smartrep-define-key
+      my-mc-map
+      ""
+      '(("n" . mc/mark-next-like-this)
+        ("p" . mc/mark-previous-like-this)))
+  )
 
 (req-package wgrep)
 (req-package ag :commands ag)

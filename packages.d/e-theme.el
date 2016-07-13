@@ -20,10 +20,18 @@
 ;; sanityinc-tomorrow-day
 
 (req-package darktooth-theme
-  :config
-  (load-theme 'darktooth t)
+  :defer t
+  :init
+  (require 'cl)
+  ;; display-graphic-p does not work with emacs server
+  (cl-letf (((symbol-function 'display-graphic-p)
+             (lambda (&rest r) (getenv "DISPLAY"))))
+    (load-theme 'darktooth t)
+    )
+
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
   (load-theme 'tweaks t))
+
 
 (defun my-unload-themes ()
   (interactive)
