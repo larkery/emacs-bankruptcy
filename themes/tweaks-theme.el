@@ -3,6 +3,8 @@
 (custom-theme-set-faces
  'tweaks
 
+ '(ivy-remote ((t (:inherit error))))
+
  '(show-paren-match ((t (:background "gray50" :foreground "dark orange" :weight bold))))
  '(show-paren-mismatch ((t (:background "black" :foreground "red" :weight bold))))
 

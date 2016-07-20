@@ -82,8 +82,7 @@
                                  (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
                                  (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
 
-        notmuch-search-line-faces '(("unread" :weight bold)
-                                    ("flagged" :background "lemon chiffon"))
+        notmuch-search-line-faces '(("unread" :weight bold))
 
         notmuch-search-oldest-first nil
 
@@ -92,17 +91,11 @@
 
         notmuch-show-indent-messages-width 1
 
-        notmuch-tag-formats '(("unread" "★"
-                               (notmuch-apply-face tag
-                                                   '(:inherit font-lock-keyword-face)))
-                              ("inbox" "✉"
-                               (notmuch-apply-face tag
-                                                   '(:foreground "black")))
+        notmuch-tag-formats '(("unread" "★" (notmuch-apply-face tag '(:inherit font-lock-keyword-face)))
+                              ("inbox" "✉" (notmuch-apply-face tag '(:inherit font-lock-builtin-face)))
                               ("EXS" "☢")
                               ("replied" "↵")
-                              ("flagged" "⚑"
-                               (notmuch-apply-face tag
-                                                   '(:inherit error)))
+                              ("flagged" "⚑" (notmuch-apply-face tag '(:inherit error)))
                               ("attachment" "⛁"))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
