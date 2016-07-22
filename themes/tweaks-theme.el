@@ -11,12 +11,12 @@
  '(org-todo ((t (:foreground "white" :background "red3"))))
  '(org-done ((t (:foreground "white" :background "green3"))))
 
- '(dired-subtree-depth-1-face ((t (:background "gray90"))))
- '(dired-subtree-depth-2-face ((t (:background "gray85"))))
- '(dired-subtree-depth-3-face ((t (:background "gray70"))))
- '(dired-subtree-depth-4-face ((t (:background "gray65"))))
- '(dired-subtree-depth-5-face ((t (:background "gray60"))))
- '(dired-subtree-depth-6-face ((t (:background "gray55"))))
+ '(dired-subtree-depth-1-face ((t (:inherit secondary-selection))))
+ '(dired-subtree-depth-2-face ((t (:inherit default))))
+ '(dired-subtree-depth-3-face ((t (:inherit secondary-selection))))
+ '(dired-subtree-depth-4-face ((t (:inherit default))))
+ '(dired-subtree-depth-5-face ((t (:inherit secondary-selection))))
+ '(dired-subtree-depth-6-face ((t (:inherit default))))
 
 ;; '(font-lock-comment-face ((t (:foreground "white"))))
 
