@@ -57,8 +57,8 @@
    :map my-mc-map
    ("m" . mc/mark-all-like-this-in-defun)
    ("M" . mc/mark-all-like-this)
-   ("a" . mc/mark-beginnings-of-lines)
-   ("e" . mc/mark-ends-of-lines)
+   ("a" . mc/edit-beginnings-of-lines)
+   ("e" . mc/edit-ends-of-lines)
    ("N" . mc/insert-numbers))
 
   (bind-keys

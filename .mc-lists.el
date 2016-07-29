@@ -19,6 +19,7 @@
         h/kill-sexp-appropriately
         h/slurp-appropriately
         haskell-indentation-common-electric-command
+        ivy-done
         iy-go-to-char--command
         jump-char-process-char
         jump-char-repeat-backward

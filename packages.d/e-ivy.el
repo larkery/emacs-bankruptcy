@@ -3,7 +3,8 @@
   :config
   (setq ivy-format-function 'ivy-format-function-line
         ivy-use-virtual-buffers t)
-  (ivy-mode))
+  (ivy-mode)
+  (require 'ivy-buffer-extend))
 
 (req-package counsel
   :demand

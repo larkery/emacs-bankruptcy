@@ -6,9 +6,22 @@
   (bind-keys
    :map projectile-mode-map
    ("C-c p s S" . projectile-ag)
-   ("C-c p s G" . projectile-grep)
-   ("C-c p s s" . counsel-ag)
-   ("C-c p s g" . counsel-grep)))
+   ("C-c p s G" . counsel-git-grep)
+
+   ("C-c p s s" . counsel-projectile-ag)
+   ;; ("C-c p s g" . counsel-projectile-grep)
+   )
+
+  (defun counsel-projectile-ag ()
+    (interactive)
+    (counsel-ag nil (projectile-project-root)))
+
+  ;; (defun counsel-projectile-grep ()
+  ;;   (interactive)
+  ;;   (counsel-grep nil (projectile-project-root)))
+
+
+  )
 
 (req-package ibuffer-projectile
   :commands ibuffer-projectile-set-filter-groups

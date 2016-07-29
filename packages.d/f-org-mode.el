@@ -10,7 +10,7 @@
   (require 'org-contacts)
   (require 'org-notmuch)
 
-  (setq org-ellipsis "⤵")
+  (setq org-ellipsis "…")
 
   (org-clock-persistence-insinuate)
 
@@ -36,5 +36,5 @@
                    (next-line))
           (progn
             (goto-char (point-max))
-            (insert "\n" the-words "\n\n")))
+            (insert "\n" the-words "\n")))
         ))))

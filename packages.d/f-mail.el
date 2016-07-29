@@ -122,4 +122,22 @@
         message-yank-cited-prefix ">"
         message-yank-empty-prefix ""
         message-citation-line-format "")
+
+  (setq mailcap-mime-data
+        (mapcar
+         (lambda (entry)
+
+           (cons (car entry)
+                 (cons
+                  ;; todo these may want to be at the end rather than the start?
+                  `(".*"
+                    (viewer . "xdg-open %s")
+                    (type . ,(format "%s/*" (car entry))))
+                  (remove-if-not #'identity
+                                 (mapcar
+                                  (lambda (subtype)
+                                    (unless (stringp (cdr (assoc 'viewer subtype)))
+                                      subtype))
+                                  (cdr entry))))))
+         mailcap-mime-data))
   )
