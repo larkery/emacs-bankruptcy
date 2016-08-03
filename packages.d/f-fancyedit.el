@@ -76,16 +76,29 @@
 (req-package wgrep)
 (req-package ag :commands ag)
 
-(req-package avy
-  :bind (("M-g w" . avy-goto-word-1)
-         ("M-g e" . avy-goto-paren)
-         ("M-g s" . avy-isearch)
-         ("C-c v" . avy-goto-char-in-line))
+(req-package eno
+  :bind (("M-g w" . eno-word-goto)
+         ("M-g e" . eno-paren-goto)
+         ("M-g s" . eno-symbol-goto)
+         ("M-g M-w" . eno-word-copy)
+         ("M-g M-s" . eno-symbol-copy)
+         ("M-g M-e" . eno-paren-copy))
   :config
-  (defun avy-goto-paren ()
-    (interactive)
-    (avy--generic-jump "(\\|\\[" nil 'at))
-  (setq avy-style 'at-full))
+  (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
+  (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
+  (setq eno-stay-key-list '("<prior>" "<next>" "<wheel-up>" "<wheel-down>")))
+
+;; (req-package avy
+;;   :bind (("M-g w" . avy-goto-word-1)
+;;          ("M-g e" . avy-goto-paren)
+;;          ("M-g s" . avy-isearch)
+;;          ("C-c v" . avy-goto-char-in-line))
+;;   :config
+;;   (defun avy-goto-paren ()
+;;     (interactive)
+;;     (avy--generic-jump "(\\|\\[" nil 'at))
+;;   (setq avy-style 'at-full))
+
 
 (req-package expand-region :bind ("C-=" . er/expand-region))
 

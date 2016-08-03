@@ -140,4 +140,5 @@
         kmacro-end-or-call-macro
         lispy-cursor-down
         smex
+        yank-rectangle
         ))

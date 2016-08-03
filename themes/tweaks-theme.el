@@ -5,20 +5,18 @@
 
  '(ivy-remote ((t (:inherit error))))
 
- '(show-paren-match ((t (:background "gray50" :foreground "dark orange" :weight bold))))
+ '(show-paren-match ((t (:background nil :foreground "cyan" :weight bold :underline t))))
  '(show-paren-mismatch ((t (:background "black" :foreground "red" :weight bold))))
 
  '(org-todo ((t (:foreground "white" :background "red3"))))
  '(org-done ((t (:foreground "white" :background "green3"))))
 
- '(dired-subtree-depth-1-face ((t (:inherit secondary-selection))))
- '(dired-subtree-depth-2-face ((t (:inherit default))))
- '(dired-subtree-depth-3-face ((t (:inherit secondary-selection))))
- '(dired-subtree-depth-4-face ((t (:inherit default))))
- '(dired-subtree-depth-5-face ((t (:inherit secondary-selection))))
- '(dired-subtree-depth-6-face ((t (:inherit default))))
-
-;; '(font-lock-comment-face ((t (:foreground "white"))))
+ '(dired-subtree-depth-1-face ((t ())))
+ '(dired-subtree-depth-5-face ((t ())))
+ '(dired-subtree-depth-3-face ((t ())))
+ '(dired-subtree-depth-2-face ((t ())))
+ '(dired-subtree-depth-4-face ((t ())))
+ '(dired-subtree-depth-6-face ((t ())))
 
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
 

@@ -49,6 +49,8 @@
  '(dired-listing-switches "-alhv")
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
+ '(dired-subtree-line-prefix "    ┃")
+ '(dired-subtree-use-backgrounds nil)
  '(display-buffer-alist nil)
  '(eldoc-idle-delay 0.2)
  '(emms-mode-line-icon-image-cache
@@ -73,6 +75,10 @@ static char *note[] = {
 \"######....\",
 \"#######..#\" };")))
  '(ess-S-underscore-when-last-character-is-a-space t)
+ '(evil-emacs-state-cursor (quote ("#E57373" bar)))
+ '(evil-insert-state-cursor (quote ("#E57373" hbar)))
+ '(evil-normal-state-cursor (quote ("#FFEE58" box)))
+ '(evil-visual-state-cursor (quote ("#C5E1A5" box)))
  '(excorporate-configuration
    (quote
     ("tomh" . "https://webmail.cse.org.uk/ews/exchange.asmx")))
@@ -114,7 +120,7 @@ static char *gnus-pointer[] = {
  '(highlight-tail-colors (quote (("#F8BBD0" . 0) ("#FAFAFA" . 100))))
  '(hippie-expand-try-functions-list
    (quote
-    (try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name)))
+    (yas-hippie-try-expand try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name try-expand-line)))
  '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(ibuffer-filter-group-name-face (quote warning))
@@ -156,6 +162,7 @@ static char *gnus-pointer[] = {
    (quote
     ((clojure-mode nil cider-lein-command nil)
      (python-mode t python-shell-interpreter nil))))
+ '(nxml-slash-auto-complete-flag t)
  '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
    (quote
@@ -361,6 +368,13 @@ static char *gnus-pointer[] = {
  '(rainbow-identifiers-cie-l*a*b*-saturation 40)
  '(rcirc-fill-flag nil)
  '(recentf-auto-cleanup (quote never))
+ '(safe-local-variable-values
+   (quote
+    ((eval add-hook
+           (quote after-save-hook)
+           (lambda nil
+             (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
+           nil t))))
  '(sendmail-program "msmtpq-quiet")
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
@@ -376,6 +390,7 @@ static char *gnus-pointer[] = {
  '(split-width-threshold 200)
  '(sr-speedbar-right-side t)
  '(tab-width 4)
+ '(tabbar-background-color "#353535")
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
  '(tramp-verbose 2)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
