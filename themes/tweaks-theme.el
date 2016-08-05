@@ -24,7 +24,7 @@
 
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
 
- '(outline-1 ((t (:height 1.5 :box "grey50"))))
+ '(outline-1 ((t (:height 1.3 :box "grey50"))))
  '(outline-2 ((t (:height 1.2 :box "grey50"))))
  '(outline-3 ((t (:height 1.1 :box "grey50"))))
  '(outline-4 ((t (:height 1.1 :box "grey50"))))
@@ -34,7 +34,7 @@
  '(outline-8 ((t (:height 1.1 :box "grey50"))))
  '(outline-9 ((t (:height 1.1 :box "grey50"))))
 
- '(org-level-1 ((t (:height 1.5 :box "grey50"))))
+ '(org-level-1 ((t (:height 1.3 :box "grey50"))))
  '(org-level-2 ((t (:height 1.2 :box "grey50"))))
  '(org-level-3 ((t (:height 1.1 :box "grey50"))))
  '(org-level-4 ((t (:height 1.1 :box "grey50"))))
