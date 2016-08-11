@@ -35,8 +35,8 @@
     (base2  ("#b2b2b2" "#666666") ("color-249" "color-237"))
     (base3  ("#949494" "#888888") ("color-246" "color-240"))
     (base4  ("#767676" "#aaaaaa") ("color-243" "color-243"))
-    (base5  ("#585858" "#eeeeec") ("color-240" "color-246"))
-    (base6  ("#3a3a3a" "#fcfcfc") ("color-237" "color-249"))
+    (base5  ("#353535" "#eeeeec") ("color-240" "color-246"))
+    (base6  ("#303030" "#fcfcfc") ("color-237" "color-249"))
     (base7  ("#1c1c1c" "#ffffff") ("color-234" "color-252"))
 
     (yellow ("#ffaf00" "#ffd700") ("color-214" "color-220"))

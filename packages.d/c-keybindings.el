@@ -125,9 +125,11 @@ Try the repeated popping up to 10 times."
 	   ([remap just-one-space] . my-just-one-space)
 
        ("C-c t" . my-tabulate)
-       ("<f1>" . delete-other-windows)
-       ("<f2>" . my-split-window)
-       ("M-<f2>" . make-frame-command)
+
+       ("<f8> <f6>" . delete-other-windows)
+       ("<f8> <f7>" . delete-window)
+       ("<f8> <f8>" . my-split-window)
+       ("<f8> <f9>" . make-frame-command)
        ("C-c C-/" . my-insert-file-name)
 
   ;;     ("C-v f" . delete-other-windows)

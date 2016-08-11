@@ -66,5 +66,5 @@
     auto-save-file-name-transforms `((".*" ,backup-directory t))))
 
 (setq-default indent-tabs-mode nil
-	      abbrev-mode nil
-	      case-fold-search t)
+;;              abbrev-mode nil
+              case-fold-search t)

@@ -362,6 +362,7 @@ static char *gnus-pointer[] = {
  '(pos-tip-foreground-color "#FFFFC8")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
+ '(projectile-switch-project-action (quote projectile-commander))
  '(python-shell-interpreter "ipython3")
  '(python-shell-interpreter-args "-i --matplotlib=qt4")
  '(rainbow-identifiers-cie-l*a*b*-lightness 25)

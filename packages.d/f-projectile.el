@@ -1,20 +1,23 @@
 (req-package projectile
   :diminish (projectile-mode . "")
   :config
-  (setq projectile-completion-system 'ivy)
+  (setq projectile-completion-system 'ido)
   (projectile-global-mode t)
-  (bind-keys
-   :map projectile-mode-map
-   ("C-c p s S" . projectile-ag)
-   ("C-c p s G" . counsel-git-grep)
+  ;; (bind-keys
+  ;;  :map projectile-mode-map
+  ;;  ("C-c p s S" . projectile-ag)
+  ;;  ("C-c p s G" . counsel-git-grep)
 
-   ("C-c p s s" . counsel-projectile-ag)
-   ;; ("C-c p s g" . counsel-projectile-grep)
-   )
+  ;;  ;; ("C-c p s s" . counsel-projectile-ag)
 
-  (defun counsel-projectile-ag ()
-    (interactive)
-    (counsel-ag nil (projectile-project-root)))
+  ;;  ;; ("C-c p s g" . counsel-projectile-grep)
+  ;;  )
+
+
+  ;; (defun counsel-projectile-ag ()
+  ;;   (interactive)
+  ;;   (counsel-ag nil (projectile-project-root)))
+
 
   ;; (defun counsel-projectile-grep ()
   ;;   (interactive)
