@@ -6,6 +6,45 @@
    ("C-c m" . notmuch-mua-new-mail))
   :config
 
+  (defun my-mml-attach-dired ()
+    (interactive)
+
+    (lexical-let ((mail-buffer (current-buffer)))
+      (my-split-window)
+      (dired default-directory)
+      (local-set-key (kbd "q")
+                     (lambda ()
+                       (interactive)
+
+                       (let ((marked-files
+                              (delq nil
+                                    (mapcar
+                                     ;; don't attach directories
+                                     (lambda (f) (if (file-directory-p f) nil f))
+                                     (nreverse
+                                      (let ((arg nil)) ;; Silence XEmacs 21.5 when compiling.
+                                        (dired-map-over-marks (dired-get-filename) arg)))))
+                              ))
+
+                         (with-current-buffer mail-buffer
+
+                           (save-excursion
+                             (goto-char (point-max))
+                             (dolist (f marked-files)
+                               (mml-attach-file f (or (mm-default-file-encoding f)
+                                                      "application/octet-stream") nil)
+
+                               )))
+                         )
+
+                       (kill-this-buffer)
+                       (delete-window)
+                       )
+                     ))
+    )
+
+  (bind-key "C-c C-m C-a" 'my-mml-attach-dired message-mode-map)
+
   (defun my-inbox ()
     (interactive)
     (notmuch-search "tag:unread OR tag:flagged"))

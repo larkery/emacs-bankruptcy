@@ -59,6 +59,9 @@
 (req-package ido-ubiquitous
   :config
   (ido-ubiquitous-mode))
+(req-package ido-everywhere
+  :config
+  (ido-everywhere 1))
 (req-package ido-at-point
   :config
   (ido-at-point-mode 1))
