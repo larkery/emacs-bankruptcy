@@ -58,9 +58,7 @@
   (ido-match-modes-enable))
 (req-package ido-ubiquitous
   :config
-  (ido-ubiquitous-mode))
-(req-package ido-everywhere
-  :config
+  (ido-ubiquitous-mode)
   (ido-everywhere 1))
 (req-package ido-at-point
   :config

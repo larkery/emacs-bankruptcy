@@ -49,7 +49,12 @@
     (violet ("#8700d7" "#af00d7") ("color-92"  "color-128"))))
 
 (defvar punpun-faces
- '(;; compile.el
+ '(;; messages
+   (message-header-name :foreground base6 :weight bold)
+   (message-header-other :foreground base7)
+   (message-header-cc :foreground base5 :slant italic)
+   (message-header-to :foreground base6 :underline t)
+   ;; compile.el
    (compilation-mode-line-fail :inherit error :weight bold)
    (compilation-mode-line-exit :inherit success :weight bold)
 
