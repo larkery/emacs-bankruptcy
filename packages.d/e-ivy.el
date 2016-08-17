@@ -94,6 +94,7 @@
       (error nil)
       ))
 
+  (defvar my-last-ido-regexp "")
   (defun my-ido-set-matches-1 (items &optional do-full)
     ;; I have no idea what do-full is for.
 
@@ -129,15 +130,17 @@
           ))
 
       (setq matches (nconc exact-matches prefix-matches matches))
+      (setq my-last-ido-regexp re)
+      (delete-consecutive-dups matches t)))
 
-      (delete-consecutive-dups matches t)
-      (if matches
-          (setq ido-enable-regexp t ido-text (if (string= ido-text " ")
-                                                 ido-text
-                                               re))
-        )
+  (defun my-ido-grid-re-hack (o &rest args)
+    (let ((ido-enable-regexp t)
+          (ido-text my-last-ido-regexp))
+      (apply o args)))
 
-      matches))
+
+  (advice-add 'ido-grid--grid-ensure-visible :around
+              #'my-ido-grid-re-hack)
 
   (advice-add 'ido-set-matches-1 :override #'my-ido-set-matches-1)
 
