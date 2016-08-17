@@ -21,7 +21,8 @@
 ;;       (call-interactively 'yank-pop)))
 ;;   (ad-activate 'counsel-yank-pop))
 
-(el-get-bundle larkery/ido-match-modes.el)
+;; (el-get-bundle larkery/ido-match-modes.el)
+
 (el-get-bundle larkery/ido-describe-prefix-bindings.el)
 (el-get-bundle larkery/ido-grid.el)
 
@@ -33,7 +34,7 @@
    ido-create-new-buffer (quote always)
    ido-default-buffer-method (quote selected-window)
    ido-default-file-method (quote selected-window)
-   ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process"))
+   ido-ignore-buffers (quote ("\\` " "*Help*" "*magit-process" "\\` *tramp"))
    ido-ignore-files
      (quote
       ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "^\\.[^\\.]+"))
@@ -43,7 +44,105 @@
      ido-use-virtual-buffers (quote auto)
      ido-work-directory-list-ignore-regexps (quote ("^/net/"))
      )
-  (ido-mode))
+  (ido-mode)
+
+  (defun my-ido-regex (input)
+    ;; todo handle backslash space
+
+    (condition-case
+        error
+        (cond
+         ((string= "" input) nil)
+         ((string= "^" input) (cons "" 0))
+         ((string= "$" input) (cons "" 0))
+         (t (let ((rx-list nil)
+                  (count 0)
+                  (first t)
+                  (end-s nil))
+
+              (when (= ?^ (aref input 0))
+                (push 'bos rx-list)
+                (setq input (substring input 1)))
+
+              (when (= ?  (aref input 0))
+                (unless (eq 'bos (car rx-list))
+                  (push 'bos rx-list))
+                (push " " rx-list)
+                (incf count)
+                (setq input (substring input 1)))
+
+              (when (and (not (zerop (length input)))
+                         (= ?$ (aref input (- (length input) 1))))
+                (setq end-s t)
+                (setq input (substring input 0 (- (length input) 1))))
+
+              (let ((parts (split-string input " " t " ")))
+                (dolist (p parts)
+                  (unless first
+                    (push '(1+ nonl) rx-list))
+                  (setq first nil)
+                  (push (list 'group p) rx-list)
+                  (incf count (length p))))
+
+              (when end-s
+                (push 'eos rx-list))
+
+              (cons (rx-to-string
+                     (nconc (list 'seq) (nreverse rx-list)))
+                    count)
+              )))
+      (error nil)
+      ))
+
+  (defun my-ido-set-matches-1 (items &optional do-full)
+    ;; I have no idea what do-full is for.
+
+    (let* ((matches nil)
+           (exact-matches nil)
+           (prefix-matches nil)
+
+           (rc (my-ido-regex ido-text))
+           (re (or (car rc) (regexp-quote ido-text)))
+           (count (or (cdr rc) (length ido-text)))
+           (non-prefix-dot (or (not ido-enable-dot-prefix)
+                               (not ido-process-ignore-lists)
+                               ido-enable-prefix
+                               (= (length ido-text) 0))))
+
+      (dolist (item items)
+        (let ((name (ido-name item))
+              mi)
+          (when (and (or non-prefix-dot
+                         (if (= (aref ido-text 0) ?.)
+                             (= (aref name 0) ?.)
+                           (/= (aref name 0) ?.)))
+                     (setq mi (string-match re name)))
+
+            (cond
+             ((= count (length name))
+              (setq exact-matches (cons item exact-matches)))
+             ((zerop mi)
+              (setq prefix-matches (cons item prefix-matches)))
+             (t (setq matches (cons item matches)))
+             )
+            )
+          ))
+
+      (setq matches (nconc exact-matches prefix-matches matches))
+
+      (delete-consecutive-dups matches t)
+      (if matches
+          (setq ido-enable-regexp t ido-text (if (string= ido-text " ")
+                                                 ido-text
+                                               re))
+        )
+
+      matches))
+
+  (advice-add 'ido-set-matches-1 :override #'my-ido-set-matches-1)
+
+  (add-hook 'ido-setup-hook
+            (lambda () (define-key ido-completion-map " " #'self-insert-command))))
 
 
 (req-package ido-match-modes :require ido
