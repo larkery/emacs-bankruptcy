@@ -116,6 +116,12 @@ Try the repeated popping up to 10 times."
 
 (advice-add 'pop-to-mark-command :around #'my-adv-multi-pop-to-mark)
 
+(defun dired-ffap ()
+  (interactive)
+  (condition-case x
+      (dired-find-file-other-window)
+    (error (dired-jump-other-window))))
+
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)
 	   ("C-x k"   . my-kill-this-buffer)
@@ -125,6 +131,7 @@ Try the repeated popping up to 10 times."
 	   ([remap just-one-space] . my-just-one-space)
 
        ("C-c t" . my-tabulate)
+       ("C-c d" . dired-ffap)
 
        ("<f8> <f6>" . delete-other-windows)
        ("<f8> <f7>" . delete-window)

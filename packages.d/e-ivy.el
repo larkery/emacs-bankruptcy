@@ -133,14 +133,6 @@
       (setq my-last-ido-regexp re)
       (delete-consecutive-dups matches t)))
 
-  (defun my-ido-grid-re-hack (o &rest args)
-    (let ((ido-enable-regexp t)
-          (ido-text my-last-ido-regexp))
-      (apply o args)))
-
-
-  (advice-add 'ido-grid--grid-ensure-visible :around
-              #'my-ido-grid-re-hack)
 
   (advice-add 'ido-set-matches-1 :override #'my-ido-set-matches-1)
 
@@ -148,16 +140,18 @@
             (lambda () (define-key ido-completion-map " " #'self-insert-command))))
 
 
-(req-package ido-match-modes :require ido
-  :config
-  (setq ido-match-modes-list (quote (words substring regex))))
-
 (req-package ido-grid
-  :require ido-match-modes
   :config
   (setq ido-grid-indent 0)
   (ido-grid-enable)
-  (ido-match-modes-enable))
+
+  (defun my-ido-grid-re-hack (o &rest args)
+    (let ((ido-enable-regexp t)
+          (ido-text my-last-ido-regexp))
+      (apply o args)))
+
+  (advice-add 'ido-grid--grid-ensure-visible :around #'my-ido-grid-re-hack))
+
 (req-package ido-ubiquitous
   :config
   (ido-ubiquitous-mode)
