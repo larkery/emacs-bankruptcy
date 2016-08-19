@@ -156,14 +156,18 @@
   :config
   (ido-ubiquitous-mode)
   (ido-everywhere 1))
+
 (req-package ido-at-point
   :config
   (ido-at-point-mode 1))
+
 (req-package ido-describe-prefix-bindings
   :demand
   :bind ("M-X" . ido-describe-mode-bindings)
   :config
+  (require 's)
   (ido-describe-prefix-bindings-mode 1))
+
 (req-package smex
   :commands smex
   :require (ido ido-ubiquitous)

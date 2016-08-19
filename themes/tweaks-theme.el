@@ -3,7 +3,7 @@
 (custom-theme-set-faces
  'tweaks
 
- '(cursor ((t (:background "cyan"))))
+ '(cursor ((t (:background "green"))))
  '(ivy-remote ((t (:inherit error))))
 
  '(show-paren-match ((t (:background nil :foreground nil :weight bold
