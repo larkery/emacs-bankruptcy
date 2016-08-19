@@ -46,13 +46,18 @@
   (advice-add 'anzu--query-from-string :around #'my-anzu-pcre-mode))
 
 (req-package multiple-cursors
-  :commands my-mc-map
+  :commands
+
+  mc/mark-all-like-this-in-defun
+  mc/mark-all-like-this
+  mc/edit-beginnings-of-lines
+  mc/edit-ends-of-lines
+  mc/insert-numbers
+
   :require smartrep region-bindings-mode
-  :bind (("C-x C-m" . my-mc-map))
-  :config
+  :init
 
   (define-prefix-command 'my-mc-map)
-
   (bind-keys
    :map my-mc-map
    ("m" . mc/mark-all-like-this-in-defun)
@@ -63,8 +68,7 @@
 
   (bind-keys
    :map region-bindings-mode-map
-   ("m" . my-mc-map)
-   )
+   ("m" . my-mc-map))
 
   (smartrep-define-key
       my-mc-map
