@@ -16,6 +16,10 @@
  '(org-todo ((t (:foreground "white" :background "red3"))))
  '(org-done ((t (:foreground "white" :background "green3"))))
 
+ '(ido-grid-match-1 ((t (:inherit shadow :foreground "darkcyan"))))
+ '(ido-grid-match-2 ((t (:inherit shadow :foreground "deepskyblue"))))
+ '(ido-grid-match-3 ((t (:inherit shadow :foreground "magenta"))))
+
  '(dired-subtree-depth-1-face ((t ())))
  '(dired-subtree-depth-5-face ((t ())))
  '(dired-subtree-depth-3-face ((t ())))

@@ -128,7 +128,7 @@
         notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode
                             goto-address-mode)
 
-        notmuch-show-indent-messages-width 1
+        notmuch-show-indent-messages-width 2
 
         notmuch-tag-formats '(("unread" "★" (notmuch-apply-face tag '(:inherit font-lock-keyword-face)))
                               ("inbox" "✉" (notmuch-apply-face tag '(:inherit font-lock-builtin-face)))
