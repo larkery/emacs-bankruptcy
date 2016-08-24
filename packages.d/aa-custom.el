@@ -256,12 +256,6 @@ static char *gnus-pointer[] = {
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-goto-interface (quote outline-path-completion))
- '(org-journal-date-prefix "#+TITLE: ")
- '(org-journal-dir "~/notes/journal/")
- '(org-journal-file-format "journal-%Y-%m-%d")
- '(org-journal-hide-entries-p nil)
- '(org-journal-time-format "")
- '(org-journal-time-prefix "")
  '(org-latex-classes
    (quote
     (("beamer" "\\documentclass[presentation]{beamer}"
