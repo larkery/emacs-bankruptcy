@@ -45,6 +45,9 @@
       next-line-add-newlines t
       )
 
+;; otherwise tabs in xmonad have a different title when you can't see them
+(setq icon-title-format frame-title-format)
+
 ;; "dangerous" functions which are normally disabled
 (put 'erase-buffer 'disabled nil)
 (put 'downcase-region 'disabled nil)
