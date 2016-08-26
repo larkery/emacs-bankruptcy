@@ -12,7 +12,7 @@
  '(ansi-color-names-vector
    ["#3c3836" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#8ec07c" "#ebdbb2"])
  '(ansi-term-color-vector
-   [unspecified "#343d46" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#81a2be" "#dfe1e8"])
+   [unspecified "#343d46" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#81a2be" "#dfe1e8"] t)
  '(anzu-cons-mode-line-p nil)
  '(auth-source-cache-expiry nil)
  '(auth-source-protocols
@@ -112,7 +112,7 @@ static char *gnus-pointer[] = {
 \"###....####.######\",
 \"###..######.######\",
 \"###########.######\" };")) t)
- '(gnutls-verify-error (quote (("lrkry\\.com" (:trustfiles :hostname)))))
+ '(gnutls-verify-error nil)
  '(highlight-symbol-colors
    (quote
     ("#F57F17" "#66BB6A" "#0097A7" "#42A5F5" "#7E57C2" "#D84315")))
@@ -458,6 +458,9 @@ static char *gnus-pointer[] = {
      ("freshmeat" "http://freshmeat.net/search/?q=%s&section=projects" nil)
      ("ddg" "http://duckduckgo.com/?q=%s" nil))))
  '(w3m-use-tab nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "black" "dark gray" "dark red" "red" "dark green" "light green" "brown" "yellow" "deepskyblue" "light blue" "dark magenta" "magenta" "dark cyan" "light cyan" "gray" "white")))
  '(xterm-color-names
    ["#EEDFCC" "#A33555" "#AE6A56" "#666E4D" "#375E54" "#5B5040" "#6F756E" "#444444"])
  '(xterm-color-names-bright

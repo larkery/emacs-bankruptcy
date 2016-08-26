@@ -38,3 +38,11 @@
             (goto-char (point-max))
             (insert "\n" the-words "\n")))
         ))))
+
+(req-package org-journal
+  :bind ("<f6>" . org-journal-new-entry)
+  :init (global-unset-key (kbd "C-c C-j"))
+  :commands org-journal-new-entry
+  :config
+  (setq org-journal-dir "~/notes/j/")
+  )

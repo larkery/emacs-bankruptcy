@@ -55,6 +55,8 @@
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inherit ido-first-match))))
  '(ido-virtual ((t (:inherit nil :slant italic))))
+
+ '(weechat-nick-self-face ((t (:inherit highlightssss))))
  )
 
 (provide-theme 'tweaks)

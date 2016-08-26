@@ -130,12 +130,12 @@
 
         notmuch-show-indent-messages-width 2
 
-        notmuch-tag-formats '(("unread" "★" (notmuch-apply-face tag '(:inherit font-lock-keyword-face)))
-                              ("inbox" "✉" (notmuch-apply-face tag '(:inherit font-lock-builtin-face)))
-                              ("EXS" "☢")
-                              ("replied" "↵")
-                              ("flagged" "⚑" (notmuch-apply-face tag '(:inherit error)))
-                              ("attachment" "⛁"))
+        notmuch-tag-formats '(("unread" "U" (notmuch-apply-face tag '(:inherit font-lock-keyword-face)))
+                              ("inbox" "I" (notmuch-apply-face tag '(:inherit font-lock-builtin-face)))
+                              ("EXS" "J")
+                              ("replied" "r")
+                              ("flagged" "F" (notmuch-apply-face tag '(:inherit error)))
+                              ("attachment" "a"))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
         notmuch-wash-signature-lines-max 30
