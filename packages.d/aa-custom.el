@@ -24,6 +24,7 @@
      (smtp "smtp" "25")
      (http "http" "80"))))
  '(auth-sources (quote (epass-store)))
+ '(bbdb-file-remote "/ssh:lrkry.com:~/bbdb")
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
@@ -228,7 +229,6 @@ static char *gnus-pointer[] = {
     (:maxlevel 2 :lang "en" :scope file :block nil :wstart 1 :mstart 1 :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil nil nil :effort-durations t)))
  '(org-completion-use-ido t)
  '(org-confirm-babel-evaluate (quote ignore))
- '(org-contacts-files (quote ("~/notes/exclude/contacts.org")))
  '(org-custom-properties (quote ("code")))
  '(org-effort-durations
    (quote
