@@ -162,6 +162,12 @@ static char *gnus-pointer[] = {
    (quote
     ((clojure-mode nil cider-lein-command nil)
      (python-mode t python-shell-interpreter nil))))
+ '(notmuch-search-result-format
+   (quote
+    (("date" . "%12.12s│")
+     ("tags" . "%12.12s│")
+     ("subject" . "%-60.60s│")
+     ("authors" . "%-80s"))))
  '(nxml-slash-auto-complete-flag t)
  '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
