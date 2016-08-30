@@ -7,7 +7,6 @@
          ("<f6>"  . my-org-journal-goto))
   :config
 
-  (require 'org-contacts)
   (require 'org-notmuch)
 
   (setq org-ellipsis "…")

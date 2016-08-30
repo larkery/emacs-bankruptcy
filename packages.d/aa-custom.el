@@ -24,6 +24,7 @@
      (smtp "smtp" "25")
      (http "http" "80"))))
  '(auth-sources (quote (epass-store)))
+ '(bbdb-file-remote "/ssh:lrkry.com:~/bbdb")
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
@@ -234,7 +235,6 @@ static char *gnus-pointer[] = {
     (:maxlevel 2 :lang "en" :scope file :block nil :wstart 1 :mstart 1 :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil nil nil :effort-durations t)))
  '(org-completion-use-ido t)
  '(org-confirm-babel-evaluate (quote ignore))
- '(org-contacts-files (quote ("~/notes/exclude/contacts.org")))
  '(org-custom-properties (quote ("code")))
  '(org-effort-durations
    (quote
@@ -362,7 +362,6 @@ static char *gnus-pointer[] = {
  '(pos-tip-foreground-color "#FFFFC8")
  '(projectile-cache-file "/home/hinton/.emacs.d/state/projectile.cache")
  '(projectile-known-projects-file "~/.emacs.d/state/projectile-bookmarks.eld")
- '(projectile-switch-project-action (quote projectile-commander))
  '(python-shell-interpreter "ipython3")
  '(python-shell-interpreter-args "-i --matplotlib=qt4")
  '(rainbow-identifiers-cie-l*a*b*-lightness 25)
@@ -376,6 +375,7 @@ static char *gnus-pointer[] = {
            (lambda nil
              (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
            nil t))))
+ '(save-interprogram-paste-before-kill t)
  '(sendmail-program "msmtpq-quiet")
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
