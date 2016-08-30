@@ -466,7 +466,7 @@ static char *gnus-pointer[] = {
  '(w3m-use-tab nil)
  '(weechat-color-list
    (quote
-    (unspecified "black" "dark gray" "dark red" "red" "dark green" "light green" "brown" "yellow" "deepskyblue" "light blue" "dark magenta" "magenta" "dark cyan" "light cyan" "gray" "white")))
+    (unspecified "black" "dark gray" "dark red" "red" "green" "light green" "brown" "yellow" "deepskyblue" "light blue" "dark magenta" "magenta" "dark cyan" "light cyan" "gray" "white")))
  '(xterm-color-names
    ["#EEDFCC" "#A33555" "#AE6A56" "#666E4D" "#375E54" "#5B5040" "#6F756E" "#444444"])
  '(xterm-color-names-bright
