@@ -27,7 +27,6 @@
                               ))
 
                          (with-current-buffer mail-buffer
-
                            (save-excursion
                              (goto-char (point-max))
                              (dolist (f marked-files)
@@ -44,6 +43,13 @@
     )
 
   (bind-key "C-c C-m C-a" 'my-mml-attach-dired message-mode-map)
+
+  (defun my-notmuch-adjust-name (args)
+    (let ((a (car args))
+          (authors (cadr args)))
+      (list a (and authors (replace-regexp-in-string "Tom Hinton" "Me" authors)))))
+
+  (advice-add 'notmuch-search-insert-authors :filter-args #'my-notmuch-adjust-name)
 
   (defun my-inbox ()
     (interactive)
@@ -160,7 +166,20 @@
         message-cite-prefix-regexp "[[:space:]]*>[ >]*"
         message-yank-cited-prefix ">"
         message-yank-empty-prefix ""
-        message-citation-line-format "")
+        message-citation-line-format ""
+
+        notmuch-search-result-format
+        (quote
+         (("date" . "%12.12s│")
+          ("subject" . "%-50.50s│")
+          ("authors" . "%-60s│")
+          ("tags" . "%12.12s")))
+
+        notmuch-search-line-faces
+        (quote
+         (("unread" :weight bold)
+          ("flagged" :foreground "white" :background "darkred")))
+        )
 
   (setq mailcap-mime-data
         (mapcar

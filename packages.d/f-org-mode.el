@@ -45,3 +45,17 @@
   :config
   (setq org-journal-dir "~/notes/j/")
   )
+
+(req-package org-caldav
+  :config
+  (setq org-caldav-url
+        "https://caldav.fastmail.com/dav/calendars/user/larkery@fastmail.fm"
+
+        org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
+
+        org-caldav-inbox "~/notes/calendar.org"
+        org-caldav-files '("~/notes/calendar.org")
+
+        org-icalendar-timezone "Europe/London"
+
+        ))

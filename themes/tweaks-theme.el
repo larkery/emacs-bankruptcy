@@ -13,8 +13,8 @@
                                      ))))
  '(show-paren-mismatch ((t (:background "black" :foreground "red" :weight bold))))
 
- '(org-todo ((t (:foreground "white" :background "red3"))))
- '(org-done ((t (:foreground "white" :background "green3"))))
+ '(org-todo ((t (:foreground "white" :background "red3" :weight bold))))
+ '(org-done ((t (:foreground "white" :background "green3" :weight bold))))
 
  '(ido-grid-match-1 ((t (:inherit shadow :foreground "darkcyan"))))
  '(ido-grid-match-2 ((t (:inherit shadow :foreground "deepskyblue"))))
