@@ -151,3 +151,8 @@ Try the repeated popping up to 10 times."
     (global-set-key
      (if (stringp key) (kbd key) key)
      action)))
+
+(defun my-insert-date ()
+    (interactive)
+  (insert (shell-command-to-string "date -I"))
+  (call-interactively 'backward-delete-char))

@@ -23,7 +23,7 @@
      (sftp "sftp" "115")
      (smtp "smtp" "25")
      (http "http" "80"))))
- '(auth-sources (quote (epass-store)))
+ '(auth-sources (quote (quote (password-store))))
  '(bbdb-file-remote "/ssh:lrkry.com:~/bbdb")
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
@@ -37,6 +37,9 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
+ '(custom-safe-themes
+   (quote
+    ("04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "de3e2710b310bafa3456c0b6cc74da58cf3f3519b9f8e507f2fd73e342f1d553" "40bc0ac47a9bd5b8db7304f8ef628d71e2798135935eb450483db0dbbfff8b11" "603a9c7f3ca3253cb68584cb26c408afcf4e674d7db86badcfe649dd3c538656" "5e2dc1360a92bb73dafa11c46ba0f30fa5f49df887a8ede4e3533c3ab6270e08" "b747fb36e99bc7f497248eafd6e32b45613ee086da74d1d92a8da59d37b9a829" "2916d16e583c17bb2a1a9d231ea8ddcb3577f8cb97179eea689e91036213ff03" "5a21604c4b1f2df98e67cda2347b8f42dc9ce471a48164fcb8d3d52c3a0d10be" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "d8f76414f8f2dcb045a37eb155bfaa2e1d17b6573ed43fb1d18b936febc7bbc2" "b57509f3b2788adca70e2f04d223e96eb4c83a45fa3a57f0d62f10b0234ac40f" "dfad010777641dd2ba20dee0b075cd47e7fde574409b620ed31edc232f498b20" "8b80b7b7534909ca8c50753174163e1fb68efda03215b5eaf0d60995de0857c7" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "a164837cd2821475e1099911f356ed0d7bd730f13fa36907895f96a719e5ac3e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "f69b720037b9971ece885b84b63f3ffca952af91b0b96dda18bc1e1cd0971794" "3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "39dd7106e6387e0c45dfce8ed44351078f6acd29a345d8b22e7b8e54ac25bac4" "cab317d0125d7aab145bc7ee03a1e16804d5abdfa2aa8738198ac30dc5f7b569" "b2a6f5a8cc4574716cd021f462c71678443ce073138b62623f146e6f45440911" "cc0dbb53a10215b696d391a90de635ba1699072745bf653b53774706999208e3" "402e5d67fe60e7b859d7afe02ba98d842de710aa3e6c0d6099c923562de80602" "737d9d0e0f6c4279e80f7479ec5138af6e4908a2d052126f254e1e6d1a0d0188" default)))
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -51,6 +54,27 @@
  '(dired-subtree-use-backgrounds nil)
  '(display-buffer-alist nil)
  '(eldoc-idle-delay 0.2)
+ '(emms-mode-line-icon-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *note[] = {
+/* width height num_colors chars_per_pixel */
+\"    10   11        2            1\",
+/* colors */
+\". c #358d8d\",
+\"# c None s None\",
+/* pixels */
+\"###...####\",
+\"###.#...##\",
+\"###.###...\",
+\"###.#####.\",
+\"###.#####.\",
+\"#...#####.\",
+\"....#####.\",
+\"#..######.\",
+\"#######...\",
+\"######....\",
+\"#######..#\" };")))
  '(ess-S-underscore-when-last-character-is-a-space t)
  '(evil-emacs-state-cursor (quote ("#E57373" bar)))
  '(evil-insert-state-cursor (quote ("#E57373" hbar)))
@@ -66,7 +90,30 @@
  '(geiser-default-implementation (quote guile))
  '(global-auto-revert-mode t)
  '(gnus-logo-colors (quote ("#0d7b72" "#adadad")) t)
-  '(gnutls-verify-error nil)
+ '(gnus-mode-line-image-cache
+   (quote
+    (image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #358d8d\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };")) t)
+ '(gnutls-verify-error nil)
  '(highlight-symbol-colors
    (quote
     ("#F57F17" "#66BB6A" "#0097A7" "#42A5F5" "#7E57C2" "#D84315")))
@@ -116,15 +163,23 @@
    (quote
     ((clojure-mode nil cider-lein-command nil)
      (python-mode t python-shell-interpreter nil))))
-
+ '(notmuch-search-line-faces
+   (quote
+    (("unread" :weight bold)
+     ("flagged" :foreground "white" :background "darkred"))))
+ '(notmuch-search-result-format
+   (quote
+    (("date" . "%12.12s│")
+     ("subject" . "%-50.50s│")
+     ("authors" . "%-60s│")
+     ("tags" . "%12.12s"))))
  '(nxml-slash-auto-complete-flag t)
  '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
    (quote
     (("n" "Agenda and all TODO's"
       ((agenda ""
-               ((org-agenda-span 1)
-                (org-agenda-clockreport-parameter-plist
+               ((org-agenda-clockreport-parameter-plist
                  (quote
                   (:step day :fileskip0 t :stepskip0)))
                 (org-agenda-log-mode-items
@@ -157,7 +212,7 @@
       "** TODO %?%a
 %u")
      ("e" "calendar event" entry
-      (file "~/notes/calendar/cse.org")
+      (file "~/notes/calendar.org")
       "* %?
 %^T"))))
  '(org-clock-clocked-in-display (quote mode-line))
@@ -210,6 +265,7 @@
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-goto-interface (quote outline-path-completion))
+ '(org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo todo-start)))
  '(org-latex-classes
    (quote
     (("beamer" "\\documentclass[presentation]{beamer}"
@@ -424,4 +480,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(pass-mode-directory-face ((t (:inherit highlight)))))

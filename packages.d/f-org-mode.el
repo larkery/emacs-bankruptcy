@@ -36,7 +36,44 @@
           (progn
             (goto-char (point-max))
             (insert "\n" the-words "\n")))
-        ))))
+        )))
+
+  (defun my-time-to-minutes (str)
+
+    (string-to-number
+     (calc-eval (math-remove-units (math-convert-units (calc-eval str 'raw) (calc-eval "min" 'raw))))))
+
+  (defun my-org-icalendar--valarm (entry timestamp summary)
+  "Create a VALARM component.
+
+ENTRY is the calendar entry triggering the alarm.  TIMESTAMP is
+the start date-time of the entry.  SUMMARY defines a short
+summary or subject for the task.
+
+Return VALARM component as a string, or nil if it isn't allowed."
+  ;; Create a VALARM entry if the entry is timed.  This is not very
+  ;; general in that:
+  ;; (a) only one alarm per entry is defined,
+  ;; (b) only minutes are allowed for the trigger period ahead of the
+  ;;     start time,
+  ;; (c) only a DISPLAY action is defined.                       [ESF]
+  (let ((alarm-time
+     (let ((warntime
+        (org-element-property :APPT_WARNTIME entry)))
+       (if warntime (my-time-to-minutes warntime) 0))))
+    (and (or (> alarm-time 0) (> org-icalendar-alarm-time 0))
+     (org-element-property :hour-start timestamp)
+     (format "BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:%s
+TRIGGER:-P0DT0H%dM0S
+END:VALARM\n"
+         summary
+         (if (zerop alarm-time) org-icalendar-alarm-time alarm-time)))))
+
+  (advice-add 'org-icalendar--valarm :override 'my-org-icalendar--valarm)
+
+  )
 
 (req-package org-journal
   :bind ("<f6>" . org-journal-new-entry)
@@ -53,9 +90,7 @@
 
         org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
 
-        org-caldav-inbox "~/notes/calendar.org"
+        org-caldav-inbox '(file+headline "~/notes/calendar.org" "New appointments")
         org-caldav-files '("~/notes/calendar.org")
 
-        org-icalendar-timezone "Europe/London"
-
-        ))
+        org-icalendar-timezone "Europe/London"))

@@ -6,7 +6,9 @@
 (req-package smart-tab
   :config
   (global-smart-tab-mode)
-  (setq smart-tab-using-hippie-expand t))
+  (setq smart-tab-using-hippie-expand t)
+  (push 'message-mode smart-tab-disabled-major-modes)
+  (push 'notmuch-message-mode smart-tab-disabled-major-modes))
 
 (req-package clojure-snippets)
 (req-package java-snippets)

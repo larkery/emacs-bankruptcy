@@ -5,5 +5,4 @@
   :commands bbdb-handy-enable
   :init
   (eval-after-load 'message
-    (require 'bbdb-handy)
-    (bbdb-handy-enable)))
+    (require 'bbdb-handy)))

@@ -179,7 +179,12 @@
         (quote
          (("unread" :weight bold)
           ("flagged" :foreground "white" :background "darkred")))
-        )
+
+        message-tab-body-function #'hippie-expand
+
+        notmuch-address-selection-function
+        (lambda (prompt collection initial-input)
+          (ido-completing-read prompt collection nil nil nil 'notmuch-address-history)))
 
   (setq mailcap-mime-data
         (mapcar
