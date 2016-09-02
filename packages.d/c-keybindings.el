@@ -35,7 +35,8 @@
 (defun my-sudo-edit ()
   (interactive)
 
-  (let ((the-place (or buffer-file-name default-directory)))
+  (let ((the-place (or buffer-file-name default-directory))
+        (position (point)))
     (if (file-remote-p the-place)
         (let* ((dat (tramp-dissect-file-name the-place))
                (u (tramp-file-name-user dat))
@@ -67,8 +68,8 @@
 
           (find-alternate-file sudo-path))
       ;; non-remote files are easier
-
-      (find-alternate-file (concat "/sudo:root@" (system-name) ":" the-place)))))
+      (find-alternate-file (concat "/sudo:root@" (system-name) ":" the-place)))
+    (goto-char position)))
 
 
 (defun my-insert-file-name (filename &optional args)

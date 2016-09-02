@@ -20,4 +20,7 @@
           weechat-tracking
           weechat-notifications
           weechat-image)
-        ))
+
+        weechat-tracking-types
+        '(:message
+          :highlight)))

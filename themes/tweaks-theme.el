@@ -27,6 +27,7 @@
  '(dired-subtree-depth-4-face ((t ())))
  '(dired-subtree-depth-6-face ((t ())))
  '(dired-symlink ((t (:underline t :foreground nil))))
+ '(dired-directory ((t (:weight bold))))
 
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
 
