@@ -93,4 +93,11 @@ END:VALARM\n"
         org-caldav-inbox '(file+headline "~/notes/calendar.org" "New appointments")
         org-caldav-files '("~/notes/calendar.org")
 
-        org-icalendar-timezone "Europe/London"))
+        org-icalendar-timezone "Europe/London"
+
+        org-caldav-save-directory "~/notes/.meta/"
+        )
+
+  )
+
+;; EAS 14.1 should be supported on android
