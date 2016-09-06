@@ -1,4 +1,5 @@
 (req-package weechat
+  :commands weechat-connect
   :config
   (setq weechat-mode-default 'ssl
         weechat-color-list
@@ -23,4 +24,6 @@
 
         weechat-tracking-types
         '(:message
-          :highlight)))
+          :highlight))
+  (weechat-tracking-setup)
+  )

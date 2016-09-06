@@ -194,7 +194,7 @@ static char *gnus-pointer[] = {
                 ("code")))))))))
  '(org-agenda-files
    (quote
-    ("~/notes/" "~/notes/work/" "~/notes/home/" "~/notes/calendar/")))
+    ("~/notes/calendar.org" "~/notes/inbox.org" "~/notes/work/" "~/notes/home")))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-archive-location "%s.archive::")
  '(org-babel-js-cmd "nodejs")
@@ -471,6 +471,8 @@ static char *gnus-pointer[] = {
  '(weechat-color-list
    (quote
     (unspecified "black" "dark gray" "dark red" "red" "green" "light green" "brown" "yellow" "deepskyblue" "light blue" "dark magenta" "magenta" "dark cyan" "light cyan" "gray" "white")))
+ '(weechat-notification-mode t)
+ '(weechat-notification-types (quote (:highlight :disconnect :query)))
  '(xterm-color-names
    ["#EEDFCC" "#A33555" "#AE6A56" "#666E4D" "#375E54" "#5B5040" "#6F756E" "#444444"])
  '(xterm-color-names-bright
