@@ -53,7 +53,7 @@
 
   (defun my-inbox ()
     (interactive)
-    (notmuch-search "tag:unread OR tag:flagged"))
+    (notmuch-search "tag:inbox OR tag:flagged OR tag:unread"))
 
   (defun my-notmuch-flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
@@ -136,12 +136,12 @@
 
         notmuch-show-indent-messages-width 2
 
-        notmuch-tag-formats '(("unread" "U" (notmuch-apply-face tag '(:inherit font-lock-keyword-face)))
-                              ("inbox" "I" (notmuch-apply-face tag '(:inherit font-lock-builtin-face)))
+        notmuch-tag-formats '(("unread" "U" (notmuch-apply-face tag '(:foreground "green")))
+                              ("inbox" "I" (notmuch-apply-face tag '(:foreground "white")))
                               ("EXS" "J")
                               ("replied" "r")
-                              ("flagged" "F" (notmuch-apply-face tag '(:inherit error)))
-                              ("attachment" "a"))
+                              ("flagged" "F" (notmuch-apply-face tag '(:foreground "red")))
+                              ("attachment" "A" (notmuch-apply-face tag '(:foreground "white"))))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
         notmuch-wash-signature-lines-max 30
@@ -168,19 +168,9 @@
         message-yank-empty-prefix ""
         message-citation-line-format ""
 
-        notmuch-search-result-format
-        (quote
-         (("date" . "%12.12s│")
-          ("subject" . "%-50.50s│")
-          ("authors" . "%-60s│")
-          ("tags" . "%12.12s")))
-
         notmuch-search-line-faces
         (quote
-         (("unread" :weight bold)
-          ("flagged" :foreground "white" :background "darkred")))
-
-        message-tab-body-function #'hippie-expand
+         (("unread" :weight bold)))
 
         notmuch-address-selection-function
         (lambda (prompt collection initial-input)
