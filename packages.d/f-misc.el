@@ -12,7 +12,10 @@
 ;; 	     (setq max-mini-window-height 0.2))
 
 (req-package w3m
-	     :config
+  :config
+
+  (setq w3m-use-title-buffer-name t)
+
 	     (setq w3m-default-symbol
 		   '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
 		     "─┴" " └" "──" ""   "─┘" ""   ""   ""

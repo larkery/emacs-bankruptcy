@@ -13,7 +13,7 @@
     (load-theme (if dark-mode dark-theme light-theme) t)
     (load-theme 'tweaks t)
 
-    (shell-command (if dark-mode "xrdb ~/.Xresources -DDARK" "xrdb ~/.Xresources -UDARK"))
+    (shell-command (if dark-mode "xrdb ~/.Xresources -ULIGHT" "xrdb ~/.Xresources -DLIGHT"))
     (shell-command (if dark-mode "xsetroot -solid black" "xsetroot -solid gray50"))
     )
   (bind-key "<f11>" 'toggle-dark-mode)
