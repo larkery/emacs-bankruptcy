@@ -3,7 +3,6 @@
 (custom-theme-set-faces
  'tweaks
 
- '(cursor ((t (:background "red"))))
  '(ivy-remote ((t (:inherit error))))
 
  '(show-paren-match ((t (:background nil :foreground nil :weight bold
@@ -59,7 +58,7 @@
  '(ido-only-match ((t (:inherit ido-first-match))))
  '(ido-virtual ((t (:inherit nil :slant italic))))
 
- '(weechat-nick-self-face ((t (:inherit highlightssss))))
+ '(weechat-nick-self-face ((t (:inherit highlight))))
  )
 
 (provide-theme 'tweaks)
