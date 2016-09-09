@@ -14,9 +14,11 @@
 (req-package w3m
   :config
 
-  (setq w3m-use-title-buffer-name t)
+  (setq w3m-use-title-buffer-name t
+        w3m-confirm-leaving-secure-page nil
+        )
 
-	     (setq w3m-default-symbol
+  (setq w3m-default-symbol
 		   '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
 		     "─┴" " └" "──" ""   "─┘" ""   ""   ""
 		     "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""
