@@ -9,7 +9,8 @@
 
   (require 'org-notmuch)
 
-  (setq org-ellipsis "…")
+  (setq org-ellipsis ""
+        org-id-locations-file "~/notes/.metadata/org-id-locations")
 
   (org-clock-persistence-insinuate)
 
@@ -39,7 +40,8 @@
         )))
 
   (defun my-time-to-minutes (str)
-
+    (require 'calc)
+    (require 'calc-units)
     (string-to-number
      (calc-eval (math-remove-units (math-convert-units (calc-eval str 'raw) (calc-eval "min" 'raw))))))
 
@@ -90,14 +92,12 @@ END:VALARM\n"
 
         org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
 
-        org-caldav-inbox '(file+headline "~/notes/calendar.org" "New appointments")
+        org-caldav-inbox '(id "0acf3497-88d2-4219-8b31-648ab52a8c53")
         org-caldav-files '("~/notes/calendar.org")
 
         org-icalendar-timezone "Europe/London"
 
-        org-caldav-save-directory "~/notes/.meta/"
+        org-caldav-save-directory "~/notes/.metadata/"
         )
 
   )
-
-;; EAS 14.1 should be supported on android

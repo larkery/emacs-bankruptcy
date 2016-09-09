@@ -3,7 +3,6 @@
 (custom-theme-set-faces
  'tweaks
 
- '(cursor ((t (:background "red"))))
  '(ivy-remote ((t (:inherit error))))
 
  '(show-paren-match ((t (:background nil :foreground nil :weight bold
@@ -30,6 +29,8 @@
  '(dired-directory ((t (:weight bold))))
 
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
+ '(w3m-anchor ((t (:inherit link))))
+
 
  '(outline-1 ((t (:height 1.3 :background "gray40" :foreground "white"))))
  '(outline-2 ((t (:height 1.2 :background "gray40" :foreground "white"))))
@@ -57,7 +58,7 @@
  '(ido-only-match ((t (:inherit ido-first-match))))
  '(ido-virtual ((t (:inherit nil :slant italic))))
 
- '(weechat-nick-self-face ((t (:inherit highlightssss))))
+ '(weechat-nick-self-face ((t (:inherit highlight))))
  )
 
 (provide-theme 'tweaks)

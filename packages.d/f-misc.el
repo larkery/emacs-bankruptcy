@@ -12,8 +12,13 @@
 ;; 	     (setq max-mini-window-height 0.2))
 
 (req-package w3m
-	     :config
-	     (setq w3m-default-symbol
+  :config
+
+  (setq w3m-use-title-buffer-name t
+        w3m-confirm-leaving-secure-page nil
+        )
+
+  (setq w3m-default-symbol
 		   '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
 		     "─┴" " └" "──" ""   "─┘" ""   ""   ""
 		     "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""

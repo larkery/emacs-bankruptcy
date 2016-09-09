@@ -89,7 +89,7 @@
 
    ;; faces.el
    (default :foreground base5 :background base0)
-   (cursor :background base4)
+   (cursor :background base7)
    (region :foreground unspecified :background base2)
    (fringe :foreground base7 :background base1)
    (vertical-border :foreground base6)
