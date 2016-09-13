@@ -36,7 +36,6 @@
  '(colir-compose-method (quote colir-compose-overlay))
  '(column-number-mode t)
  '(custom-raised-buttons t)
-
  '(custom-theme-allow-multiple-selections t)
  '(debug-on-error nil)
  '(delete-selection-mode t)
@@ -160,7 +159,6 @@ static char *gnus-pointer[] = {
    (quote
     ((clojure-mode nil cider-lein-command nil)
      (python-mode t python-shell-interpreter nil))))
-
  '(nxml-slash-auto-complete-flag t)
  '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
@@ -202,7 +200,10 @@ static char *gnus-pointer[] = {
      ("e" "calendar event" entry
       (file "~/notes/calendar.org")
       "* %?
-%^T"))))
+%^T")
+     ("l" "Interesting link" entry
+      (file "~/notes/links.org")
+      "* %a %u"))))
  '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-history-length 100)
  '(org-clock-in-resume t)
