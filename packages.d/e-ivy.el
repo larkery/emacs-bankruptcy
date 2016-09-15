@@ -43,6 +43,7 @@
      ido-show-dot-for-dired t
      ido-use-virtual-buffers (quote auto)
      ido-work-directory-list-ignore-regexps (quote ("^/net/"))
+     ido-save-directory-list-file (concat (my-state-dir "") "ido.last")
      )
   (ido-mode)
 
@@ -173,7 +174,7 @@
   :require (ido ido-ubiquitous)
   :bind (("M-x" . smex))
   :config
-  (setq smex-save-file (concat (my-state-dir "/") "smex")
+  (setq smex-save-file (concat (my-state-dir "") "smex")
         smex-flex-matching nil)
 
   (defun h/advise-smex-bindings ()

@@ -61,7 +61,7 @@
     (apply o args))
 
   (advice-add 'pe/goto-file :around 'my-project-explorer-hl-advice)
-
+  (setq pe/cache-directory (my-state-dir "project-explorer-cache"))
   )
 
 (req-package sr-speedbar
