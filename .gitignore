@@ -3,3 +3,7 @@ state
 el-get
 anaconda-mode
 sandboxes
+bbdb
+emms
+eshell
+var

@@ -32,10 +32,13 @@
        (split-window-below))
       ))))
 
-(defun my-sudo-edit ()
-  (interactive)
+(defun my-sudo-edit (prefix)
+  (interactive "P")
 
-  (let ((the-place (or buffer-file-name default-directory))
+  (let ((target-user (if prefix
+                         (completing-read "edit as: " '("root" "nixops"))
+                         "root"))
+        (the-place (or buffer-file-name default-directory))
         (position (point)))
     (if (file-remote-p the-place)
         (let* ((dat (tramp-dissect-file-name the-place))
@@ -60,7 +63,7 @@
 
                            tramp-postfix-hop-format
 
-                           "sudo:root@" h
+                           "sudo:" target-user "@" h
 
                            tramp-postfix-host-format
 

@@ -16,7 +16,8 @@
 
   (setq w3m-use-title-buffer-name t
         w3m-confirm-leaving-secure-page nil
-        )
+        w3m-history-minimize-in-new-session t
+        w3m-make-new-session t)
 
   (setq w3m-default-symbol
 		   '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
