@@ -194,7 +194,7 @@ Prefix argument edits before sending"
             )))))
 
 (defvar notmuch-calendar-capture-target
-  '(file "~/org/work/calendar.org"))
+  '(file "~/notes/calendar.org"))
 
 (defun notmuch-calendar-capture (e)
   (let* ((appointment
