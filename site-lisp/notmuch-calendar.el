@@ -93,11 +93,15 @@ Prefix argument edits before sending"
     ;; TODO this is incorrect - the sender should be the ORGANIZER of the event
     ;; todo maybe offer reply?
     (notmuch-mua-mail organizer subject ())
+    (set-buffer-file-coding-system 'utf-8)
     (goto-char (point-max))
 
     (save-excursion
-     (mml-insert-part "text/calendar; method=REPLY; charset=UTF8")
-     (insert (org-icalendar-fold-string response))))
+      (mml-insert-part "text/calendar; method=REPLY")
+      (insert
+       (decode-coding-string
+        (string-make-unibyte (org-icalendar-fold-string response))
+        'utf-8))))
 
   (if (zerop arg)
       (notmuch-mua-send-and-exit)))
