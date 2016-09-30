@@ -9,8 +9,7 @@
 
   (require 'org-notmuch)
 
-  (setq org-ellipsis ""
-        org-id-locations-file "~/notes/.metadata/org-id-locations")
+  (setq org-id-locations-file "~/notes/.metadata/org-id-locations")
 
   (org-clock-persistence-insinuate)
 
