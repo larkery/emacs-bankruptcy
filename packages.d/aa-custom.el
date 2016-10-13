@@ -27,7 +27,8 @@
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
- '(browse-url-generic-program "xdg-open")
+;; '(browse-url-generic-args '("-bg")) -- not sure
+ '(browse-url-generic-program "/home/hinton/bin/xdg-open")
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)
  '(calendar-latitude 51.45)
@@ -48,7 +49,10 @@
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
  '(dired-subtree-line-prefix "    ┃")
  '(dired-subtree-use-backgrounds nil)
+ '(display-battery-mode t)
  '(display-buffer-alist nil)
+ '(display-time-mail-file (quote none))
+ '(display-time-mode t)
  '(eldoc-idle-delay 0.2)
  '(emms-mode-line-icon-image-cache
    (quote
@@ -178,6 +182,7 @@ static char *gnus-pointer[] = {
         (quote
          (:link t :maxlevel 3 :step day :fileskip0 t :stepskip0 t :tcolumns 0 :properties
                 ("code")))))))))
+ '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
     ("~/notes/calendar.org" "~/notes/inbox.org" "~/notes/work/" "~/notes/home")))
@@ -349,6 +354,9 @@ static char *gnus-pointer[] = {
  '(org-todo-state-tags-triggers nil)
  '(org-use-property-inheritance (quote ("CODE")))
  '(org-use-speed-commands t)
+ '(package-selected-packages
+   (quote
+    (ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spike-theme spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab silkworm-theme request req-package region-bindings-mode rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pe/follow-current t)
  '(pos-tip-background-color "#EEDFCC")

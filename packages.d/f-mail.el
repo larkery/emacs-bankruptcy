@@ -127,7 +127,8 @@
                                  (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
                                  (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
 
-        notmuch-search-line-faces '(("unread" :weight bold))
+        notmuch-search-line-faces '(("unread" :weight bold)
+                                    ("flagged" :background "darkgreen"))
 
         notmuch-search-oldest-first nil
 
@@ -140,7 +141,7 @@
                               ("inbox" "I" (notmuch-apply-face tag '(:foreground "white")))
                               ("EXS" "J")
                               ("replied" "r")
-                              ("flagged" "F" (notmuch-apply-face tag '(:foreground "red")))
+                              ("flagged" "F" (notmuch-apply-face tag '(:weight bold)))
                               ("attachment" "A" (notmuch-apply-face tag '(:foreground "white"))))
 
         notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
@@ -167,10 +168,6 @@
         message-yank-cited-prefix ">"
         message-yank-empty-prefix ""
         message-citation-line-format ""
-
-        notmuch-search-line-faces
-        (quote
-         (("unread" :weight bold)))
 
         notmuch-address-selection-function
         (lambda (prompt collection initial-input)
