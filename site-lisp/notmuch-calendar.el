@@ -31,6 +31,7 @@ Prefix argument edits before sending"
                          (notmuch-show-get-subject)))
         to-re
         response
+        handle-coding
         organizer)
 
     ;; find mail addresses we have which may relate to the to: header
@@ -45,7 +46,7 @@ Prefix argument edits before sending"
     (notmuch-show-apply-to-current-part-handle
      (lambda (handle)
        (with-temp-buffer
-         (insert (mm-get-part handle))
+         (mm-insert-part handle)
          ;; now we need to edit some lines, and then fold them?
          (set-buffer (icalendar--get-unfolded-buffer (current-buffer)))
          (goto-char (point-min))
@@ -87,21 +88,26 @@ Prefix argument edits before sending"
                                     (group (one-or-more nonl)) eol) nil t)
              (setq organizer (match-string-no-properties 1)))
 
-         (setq response (buffer-substring-no-properties (point-min) (point-max)))
+         (setq response (decode-coding-string
+                         (string-make-unibyte
+                          (buffer-substring-no-properties (point-min) (point-max)))
+                         'utf-8))
          )))
 
     ;; TODO this is incorrect - the sender should be the ORGANIZER of the event
     ;; todo maybe offer reply?
     (notmuch-mua-mail organizer subject ())
-    (set-buffer-file-coding-system 'utf-8)
     (goto-char (point-max))
 
     (save-excursion
       (mml-insert-part "text/calendar; method=REPLY")
-      (insert
-       (decode-coding-string
-        (string-make-unibyte (org-icalendar-fold-string response))
-        'utf-8))))
+      (decode-coding-string (org-icalendar-fold-string response)
+                            handle-coding
+                            t (current-buffer))
+      ;; (insert
+
+      ;;  )
+      ))
 
   (if (zerop arg)
       (notmuch-mua-send-and-exit)))

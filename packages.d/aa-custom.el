@@ -27,7 +27,6 @@
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
-;; '(browse-url-generic-args '("-bg")) -- not sure
  '(browse-url-generic-program "/home/hinton/bin/xdg-open")
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)
@@ -356,7 +355,7 @@ static char *gnus-pointer[] = {
  '(org-use-speed-commands t)
  '(package-selected-packages
    (quote
-    (ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spike-theme spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab silkworm-theme request req-package region-bindings-mode rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
+    (undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spike-theme spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab silkworm-theme request req-package region-bindings-mode rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pe/follow-current t)
  '(pos-tip-background-color "#EEDFCC")
