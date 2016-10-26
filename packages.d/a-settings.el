@@ -17,10 +17,13 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; display settings
+(setq gc-cons-threshold (* 511 1024 1024))
+(setq gc-cons-percentage 0.5)
+(run-with-idle-timer 5 t #'garbage-collect)
+(setq garbage-collection-messages t)
 
 (setq load-prefer-newer         t
       ;; don't gc as frequently
-      gc-cons-threshold         50000000
 
       history-length            1000
       history-delete-duplicates t
