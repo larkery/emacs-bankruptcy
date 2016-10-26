@@ -162,6 +162,10 @@ static char *gnus-pointer[] = {
    (quote
     ((clojure-mode nil cider-lein-command nil)
      (python-mode t python-shell-interpreter nil))))
+ '(notmuch-fcc-dirs
+   (quote
+    (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\"")
+     ("larkery\\.com" . "\"fastmail/Sent Items\""))))
  '(nxml-slash-auto-complete-flag t)
  '(org-adapt-indentation nil)
  '(org-agenda-custom-commands
@@ -355,7 +359,7 @@ static char *gnus-pointer[] = {
  '(org-use-speed-commands t)
  '(package-selected-packages
    (quote
-    (undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spike-theme spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab silkworm-theme request req-package region-bindings-mode rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
+    (csv-mode yasnippet ivy projectile bbdb org undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab request req-package rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pe/follow-current t)
  '(pos-tip-background-color "#EEDFCC")
