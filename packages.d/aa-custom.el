@@ -27,6 +27,7 @@
  '(beacon-color "#F8BBD0")
  '(bookmark-default-file "~/.emacs.d/state/bookmarks")
  '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-args (quote ("-bg")))
  '(browse-url-generic-program "/home/hinton/bin/xdg-open")
  '(calendar-date-style (quote european))
  '(calendar-intermonth-spacing 2)

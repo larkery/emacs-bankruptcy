@@ -80,6 +80,7 @@
         message-auto-save-directory "~/temp/messages/"
         message-fill-column nil
         message-header-setup-hook '(notmuch-fcc-header-setup)
+        message-default-headers "X-Clacks-Overhead: GNU Terry Pratchett\n"
         message-kill-buffer-on-exit t
         message-send-mail-function 'message-send-mail-with-sendmail
         message-sendmail-envelope-from 'header
@@ -109,8 +110,8 @@
         notmuch-archive-tags (quote ("-inbox" "-unread"))
         notmuch-crypto-process-mime t
         notmuch-fcc-dirs (quote
-                          (("tom\\.hinton@cse\\.org\\.uk" . "cse/Sent Items")
-                           ("larkery\\.com" . "fastmail/Sent Items")))
+                          (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\" +sent")
+                           ("larkery\\.com" . "\"fastmail/Sent Items\" +sent")))
         notmuch-hello-sections '(notmuch-hello-insert-search
                                  notmuch-hello-insert-alltags
                                  notmuch-hello-insert-inbox
