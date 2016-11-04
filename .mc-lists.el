@@ -132,6 +132,7 @@
       '(
         counsel-M-x
         eval-defun
+        eval-print-last-sexp
         god-mode-all
         god-mode-self-insert
         handle-select-window

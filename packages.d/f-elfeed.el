@@ -19,6 +19,8 @@
           ("https://aseasyasridingabike.wordpress.com/feed/" bike blog)
           ("http://weputachipinit.tumblr.com/rss" iot stupid)
           ("https://mathbabe.org/feed" math data)
+          ("http://www.formerdays.com/feeds/posts/default" pictures)
+          ("http://planet.nixos.org/atom.xml" nixos)
           )
 
         elfeed-use-curl t

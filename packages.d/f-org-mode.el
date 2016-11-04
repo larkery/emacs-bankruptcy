@@ -74,6 +74,30 @@ END:VALARM\n"
 
   (advice-add 'org-icalendar--valarm :override 'my-org-icalendar--valarm)
 
+  (defun org-refile-to-datetree ()
+    "Refile a subtree to a datetree corresponding to it's timestamp."
+    (interactive)
+    (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
+           (date (org-date-to-gregorian datetree-date)))
+      (when date
+        (save-excursion
+          (save-restriction
+            (org-save-outline-visibility
+                (outline-show-all)
+              (save-excursion
+                (org-cut-subtree)
+
+                (org-datetree-find-date-create date)
+                (org-narrow-to-subtree)
+                (show-subtree)
+                (org-end-of-subtree t)
+                (newline)
+                (goto-char (point-max))
+                (org-paste-subtree 4)
+                ))))
+        )
+      ))
+  
   )
 
 (req-package org-journal

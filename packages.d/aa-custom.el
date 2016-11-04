@@ -147,6 +147,7 @@ static char *gnus-pointer[] = {
  '(ispell-extra-args (quote ("--dict-dir=/home/hinton/.nix-profile/lib/aspell")))
  '(ispell-program-name "aspell")
  '(kill-ring-max 1000)
+ '(magit-completing-read-function (quote magit-ido-completing-read))
  '(mark-ring-max 1000)
  '(mc/mode-line
    (quote
@@ -327,7 +328,10 @@ static char *gnus-pointer[] = {
      (org-agenda-files :maxlevel . 2))))
  '(org-refile-use-outline-path (quote file))
  '(org-show-notification-handler "notify-send")
- '(org-speed-commands-user (quote (("k" . org-cut-subtree))))
+ '(org-speed-commands-user
+   (quote
+    (("d" . org-refile-to-datetree)
+     ("k" . org-cut-subtree))))
  '(org-src-lang-modes
    (quote
     (("ocaml" . tuareg)
@@ -360,7 +364,7 @@ static char *gnus-pointer[] = {
  '(org-use-speed-commands t)
  '(package-selected-packages
    (quote
-    (csv-mode yasnippet ivy projectile bbdb org undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab request req-package rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
+    (org-bullets csv-mode yasnippet ivy projectile bbdb org undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab request req-package rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pe/follow-current t)
  '(pos-tip-background-color "#EEDFCC")
@@ -483,4 +487,5 @@ static char *gnus-pointer[] = {
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(outline-1 ((t (:height 1.3 :font-family "Sans-serif"))))
  '(pass-mode-directory-face ((t (:inherit highlight)))))
