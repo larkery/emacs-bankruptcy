@@ -47,7 +47,7 @@
  '(dired-listing-switches "-alhv")
  '(dired-local-variables-file nil)
  '(dired-omit-files "^\\.?#\\|^\\.[^\\.].*$")
- '(dired-subtree-line-prefix "    ┃")
+ '(dired-subtree-line-prefix "  ┃")
  '(dired-subtree-use-backgrounds nil)
  '(display-battery-mode t)
  '(display-buffer-alist nil)
@@ -143,6 +143,14 @@ static char *gnus-pointer[] = {
  '(indicate-buffer-boundaries (quote left))
  '(indicate-empty-lines t)
  '(inhibit-startup-echo-area-message "hinton")
+ '(initial-buffer-choice t)
+ '(initial-scratch-message
+   ";; If we were not so single-minded / about keeping our lives moving,
+;; and for once could do nothing, / perhaps a huge silence
+;; might interrupt this sadness / of never understanding ourselves
+;; and of threatening ourselves with death. / Perhaps the earth can teach us
+;; as when everything seems dead / and later proves to be alive.
+")
  '(isearch-allow-scroll t)
  '(ispell-extra-args (quote ("--dict-dir=/home/hinton/.nix-profile/lib/aspell")))
  '(ispell-program-name "aspell")
@@ -364,7 +372,7 @@ static char *gnus-pointer[] = {
  '(org-use-speed-commands t)
  '(package-selected-packages
    (quote
-    (org-bullets csv-mode yasnippet ivy projectile bbdb org undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab request req-package rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
+    (dired-narrow org-bullets csv-mode yasnippet ivy projectile bbdb org undo-tree ws-butler which-key wgrep weechat w3m ucs-utils twilight-anti-bright-theme tao-theme tangotango-theme stekene-theme sr-speedbar spacemacs-theme spacegray-theme smex smartrep smartparens smart-tab request req-package rainbow-mode project-explorer pdf-tools pcre2el pass paren-face org-journal org-caldav notmuch nix-mode multiple-cursors minimal-theme majapahit-theme magit lua-mode js2-mode jira-markup-mode java-snippets java-imports ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol hexrgb haskell-mode graphviz-dot-mode git-timemachine fringe-current-line font-utils flimenu expand-region eno emojify elfeed el-get eclim dired-subtree dired-ranger darktooth-theme counsel composable comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext base16-theme avy auto-capitalize auth-password-store apropospriate-theme anzu anaconda-mode alect-themes ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pe/follow-current t)
  '(pos-tip-background-color "#EEDFCC")
@@ -399,7 +407,7 @@ static char *gnus-pointer[] = {
  '(speedbar-verbosity-level 0)
  '(split-width-threshold 200)
  '(sr-speedbar-right-side t)
- '(tab-width 4)
+ '(tab-width 8)
  '(tabbar-background-color "#353535")
  '(tramp-persistency-file-name "~/.emacs.d/state/tramp")
  '(tramp-verbose 2)

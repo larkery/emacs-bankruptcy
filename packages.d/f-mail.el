@@ -1,6 +1,7 @@
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
+  :require notmuch-calendar
   :bind
   (("C-c i" . my-inbox)
    ("C-c m" . notmuch-mua-new-mail))

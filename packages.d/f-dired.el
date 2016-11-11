@@ -15,3 +15,7 @@
 	     :init
 	     (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
          )
+
+(req-package dired-narrow
+  :init
+  (bind-key "/" #'dired-narrow dired-mode-map))

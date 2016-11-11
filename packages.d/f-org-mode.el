@@ -74,6 +74,20 @@ END:VALARM\n"
 
   (advice-add 'org-icalendar--valarm :override 'my-org-icalendar--valarm)
 
+  (defun org-insert-datetree-entry ()
+    (interactive)
+
+    (org-datetree-find-date-create (calendar-current-date))
+    (org-end-of-subtree)
+    (org-narrow-to-subtree))
+
+  (define-minor-mode org-log-mode
+    :lighter " org-log"
+    :keymap (let ((map (make-sparse-keymap)))
+              (define-key map (kbd "C-c e")
+                'org-insert-datetree-entry)
+              map))
+
   (defun org-refile-to-datetree ()
     "Refile a subtree to a datetree corresponding to it's timestamp."
     (interactive)
@@ -82,31 +96,27 @@ END:VALARM\n"
       (when date
         (save-excursion
           (save-restriction
-            (org-save-outline-visibility
-                (outline-show-all)
+            (org-save-outline-visibility t
               (save-excursion
+                (outline-show-all)
+                (setq last-command nil) ; prevent kill appending
                 (org-cut-subtree)
 
                 (org-datetree-find-date-create date)
                 (org-narrow-to-subtree)
                 (show-subtree)
                 (org-end-of-subtree t)
-                (newline)
+
                 (goto-char (point-max))
                 (org-paste-subtree 4)
-                ))))
-        )
-      ))
-  
-  )
+                ))))))))
 
-(req-package org-journal
-  :bind ("<f6>" . org-journal-new-entry)
-  :init (global-unset-key (kbd "C-c C-j"))
-  :commands org-journal-new-entry
-  :config
-  (setq org-journal-dir "~/notes/j/")
-  )
+;; (req-package org-journal
+;;   :bind ("<f6>" . org-journal-new-entry)
+;;   :init (global-unset-key (kbd "C-c C-j"))
+;;   :commands org-journal-new-entry
+;;   :config
+;;   (setq org-journal-dir "~/notes/j/"))
 
 (req-package org-caldav
   :config
@@ -115,7 +125,7 @@ END:VALARM\n"
 
         org-caldav-calendar-id "calendar~Ytc0GVEQhRpkeUZSVkj_zw1"
 
-        org-caldav-inbox '(id "0acf3497-88d2-4219-8b31-648ab52a8c53")
+        org-caldav-inbox '(id "488ca023-fb86-4edf-a10e-26e3e0297034")
         org-caldav-files '("~/notes/calendar.org")
 
         org-icalendar-timezone "Europe/London"
