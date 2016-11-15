@@ -387,7 +387,8 @@ static char *gnus-pointer[] = {
  '(recentf-auto-cleanup (quote never))
  '(safe-local-variable-values
    (quote
-    ((eval add-hook
+    ((eval org-insert-datetree-entry)
+     (eval add-hook
            (quote after-save-hook)
            (lambda nil
              (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml"))
