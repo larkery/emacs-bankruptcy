@@ -3,12 +3,17 @@
 (req-package org
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
-         ("C-c c" . org-capture))
+         ("C-c c" . org-capture)
+         ("C-c j" . org-goto-log))
   :config
 
   (require 'org-notmuch)
 
-  (setq org-id-locations-file "~/notes/.metadata/org-id-locations")
+  (setq org-id-locations-file "~/notes/.metadata/org-id-locations"
+        org-adapt-indentation nil
+        org-agenda-files '("~/notes" "~/notes/home" "~/notes/work")
+        org-use-speed-commands t
+        )
 
   (org-clock-persistence-insinuate)
 
@@ -69,6 +74,11 @@ END:VALARM\n"
               (define-key map (kbd "C-c e")
                 'org-insert-datetree-entry)
               map))
+
+  (defun org-goto-log ()
+    (interactive)
+    (with-current-buffer (find-file "~/notes/journal.org")
+      (normal-mode)))
 
   (defun org-refile-to-datetree ()
     "Refile a subtree to a datetree corresponding to it's timestamp."

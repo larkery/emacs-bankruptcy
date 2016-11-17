@@ -17,10 +17,11 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; display settings
-(setq gc-cons-threshold (* 511 1024 1024))
-(setq gc-cons-percentage 0.5)
+(setq gc-cons-threshold (* 511 1024 1024)
+      gc-cons-percentage 0.5
+      garbage-collection-messages nil)
+
 (run-with-idle-timer 5 t #'garbage-collect)
-(setq garbage-collection-messages t)
 
 (setq load-prefer-newer         t
       ;; don't gc as frequently
@@ -46,7 +47,9 @@
 
       ;; control n goes down even where nowhere to go
       next-line-add-newlines t
-      )
+
+      focus-follows-mouse t
+      mouse-autoselect-window t)
 
 ;; otherwise tabs in xmonad have a different title when you can't see them
 (setq icon-title-format frame-title-format)
@@ -72,5 +75,4 @@
     auto-save-file-name-transforms `((".*" ,backup-directory t))))
 
 (setq-default indent-tabs-mode nil
-;;              abbrev-mode nil
               case-fold-search t)

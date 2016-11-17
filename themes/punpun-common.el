@@ -49,7 +49,10 @@
     (violet ("#8700d7" "#af00d7") ("color-92"  "color-128"))))
 
 (defvar punpun-faces
- '(;; messages
+  '(;; messages
+
+    (highlight-symbol-face :underline violet)
+
    (message-header-name :foreground base6 :weight bold)
    (message-header-other :foreground base7)
    (message-header-cc :foreground base5 :slant italic)
@@ -201,7 +204,7 @@
    (reb-match-3 :foreground base7 :background orange)
 
    ;; replace.el
-   (match :background yellow)
+   (match :background violet)
 
    ;; rst.el
    (rst-level-1 :inherit outline-1)

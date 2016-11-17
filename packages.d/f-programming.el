@@ -24,5 +24,9 @@
   :config
   (bind-key "C-c C-f" 'anaconda-mode-show-doc python-mode-map))
 
+(req-package python
+  :config
+  (setq python-shell-interpreter "python3"))
+
 (req-package comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
