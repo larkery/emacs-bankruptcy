@@ -50,9 +50,6 @@
 
 (defvar punpun-faces
   '(;; messages
-
-    (notmuch-message-summary-face :inverse-video t)
-
     (highlight-symbol-face :underline violet)
 
    (message-header-name :foreground base6 :weight bold)
@@ -106,7 +103,7 @@
    (trailing-whitespace :background red)
    (escape-glyph :foreground green :weight bold)
 
-   (mode-line :foreground base5 :background base1)
+   (mode-line :foreground base6 :background base3)
    (mode-line-inactive :foreground base3 :background base1)
    (mode-line-highlight :slant italic)
    (mode-line-highlight :box (:line-width -1))

@@ -3,6 +3,8 @@
 (custom-theme-set-faces
  'tweaks
 
+ '(notmuch-message-summary-face ((t (:inherit (font-lock-builtin-face mode-line-inactive)))))
+
  '(ivy-remote ((t (:inherit error))))
 
  '(show-paren-match ((t (:background nil :foreground nil :weight bold
