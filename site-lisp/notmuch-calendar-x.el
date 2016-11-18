@@ -1,4 +1,4 @@
-;;; notmuch-calendar.el --- integrate notmuch with calendar
+;;; notmuch-calendar-x.el --- integrate notmuch with calendar
 
 ;;; Commentary:
 
@@ -269,6 +269,6 @@ Prefix argument edits before sending"
 (fset 'notmuch-show-insert-part-text/calendar
       #'notmuch-calendar-show-insert-part-text/calendar)
 
-(provide 'notmuch-calendar)
+(provide 'notmuch-calendar-x)
 
-;;; notmuch-calendar.el ends here
+;;; notmuch-calendar-2.el ends here
