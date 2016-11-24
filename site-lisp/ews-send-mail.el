@@ -1,4 +1,18 @@
 
+(defvar message-send-mail-rexp-alist
+  '(("@cse\\.org\\.uk$" . message-send-mail-with-ews)
+    (".*" . message-send-mail-with-sendmail)))
+
+(defun message-send-mail-with-rexp ()
+  (let* ((from-address (message-sendmail-envelope-from))
+         (fn (cl-loop for rexp in message-send-mail-rexp-alist
+                      when (string-match-p (car rexp) from-address)
+                      return (cdr rexp))))
+    (message "sending with %s" fn)
+    (funcall fn)))
+
+(setq message-send-mail-function 'message-send-mail-with-rexp)
+
 (defun message-send-mail-with-ews ()
   (goto-char (point-min))
   (re-search-forward
@@ -7,14 +21,7 @@
   (backward-char 1)
   (setq delimline (point-marker))
   (run-hooks 'message-send-mail-hook)
-  (goto-char (1+ delimline))
-  (let* ((default-directory "/")
-         (message-text
-          (buffer-substring-no-properties (point-min) (point-max)))
-         )
-    (ews-mail-send message-text)
-    )
-  )
+  (ews-mail-send (buffer-substring-no-properties (point-min) (point-max))))
 
 (defun ews-mail-send (message-text)
   (with-temp-buffer
@@ -34,7 +41,6 @@
       <m:Items>
         <t:Message>
           <t:MimeContent CharacterSet='UTF-8'>")
-    (message message-text)
     (insert (base64-encode-string message-text))
     (insert "</t:MimeContent>
         </t:Message>
@@ -42,16 +48,30 @@
     </m:CreateItem>
   </soap:Body>
 </soap:Envelope>")
-    ;; we now have the buffer content
+    ;; process the result to see if it worked OK.
+    ;; not sure what to do if it didn't - could queue the results somewhere
     (let ((url-request-method "POST")
           (url-request-extra-headers '(("Content-Type" . "text/xml")))
           (url-request-data (buffer-string))
-          )
+          result-node)
 
-      (pop-to-buffer (url-retrieve-synchronously
-        "https://webmail.cse.org.uk/ews/exchange.asmx"
-        )))
-    ))
+      (with-current-buffer
+          (url-retrieve-synchronously "https://webmail.cse.org.uk/ews/exchange.asmx")
+        ;; skip headers
+        (goto-char (point-min))
+        (re-search-forward "\r?\n\r?\n")
+        (setq result-node (xml-parse-region (point) (point-max)))
+        (kill-buffer))
+
+      (let* ((response (xml-match '(:* m:CreateItemResponseMessage) result-node)))
+        (and (= 1 (length response))
+             (string=
+              "Success"
+              (alist-get 'ResponseClass (nth 1 (nth 0 response)))))
+        ))))
 
 
-(setq message-send-mail-function 'message-send-mail-with-ews)
+
+
+
+;; (setq message-send-mail-function 'message-send-mail-with-ews)

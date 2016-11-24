@@ -84,7 +84,7 @@
         message-kill-buffer-on-exit t
         message-send-mail-function 'message-send-mail-with-sendmail
         message-sendmail-envelope-from 'header
-        sendmail-program "msmtp-quiet"
+        sendmail-program "msmtpq-quiet"
 
         message-signature nil
 
