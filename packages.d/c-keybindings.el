@@ -43,7 +43,8 @@
     (if (file-remote-p the-place)
         (let* ((dat (tramp-dissect-file-name the-place))
                (u (tramp-file-name-user dat))
-               (m (tramp-file-name-method dat))
+               (m1 (tramp-file-name-method dat))
+               (m (if (string= m1 "scp") "ssh" m1))
                (h (tramp-file-name-host dat))
                (l (tramp-file-name-localname dat))
 

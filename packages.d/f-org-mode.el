@@ -1,19 +1,20 @@
 ;; settings for org mode
 
+(add-to-initsplit "^org-")
+
 (req-package org
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c j" . org-goto-log))
+  :init
+  (defun org-goto-log ()
+    (interactive)
+    (with-current-buffer (find-file "~/notes/journal.org")
+      (org-insert-datetree-entry)))
+
   :config
-
   (require 'org-notmuch)
-
-  (setq org-id-locations-file "~/notes/.metadata/org-id-locations"
-        org-adapt-indentation nil
-        org-agenda-files '("~/notes" "~/notes/home" "~/notes/work")
-        org-use-speed-commands t
-        )
 
   (org-clock-persistence-insinuate)
 
@@ -75,10 +76,8 @@ END:VALARM\n"
                 'org-insert-datetree-entry)
               map))
 
-  (defun org-goto-log ()
-    (interactive)
-    (with-current-buffer (find-file "~/notes/journal.org")
-      (normal-mode)))
+
+
 
   (defun org-refile-to-datetree ()
     "Refile a subtree to a datetree corresponding to it's timestamp."
@@ -119,3 +118,12 @@ END:VALARM\n"
         )
 
   )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-adapt-indentation nil)
+ '(org-agenda-files (quote ("~/notes" "~/notes/home" "~/notes/work")))
+ '(org-id-locations-file "~/notes/.metadata/org-id-locations")
+ '(org-use-speed-commands t))

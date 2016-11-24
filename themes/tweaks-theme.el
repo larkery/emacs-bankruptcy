@@ -1,5 +1,5 @@
 (deftheme tweaks "small adjustments to theme")
-
+(require 'highlight-symbol)
 (custom-theme-set-faces
  'tweaks
 
@@ -17,9 +17,9 @@
  '(org-todo ((t (:foreground "white" :background "red3" :weight bold))))
  '(org-done ((t (:foreground "white" :background "green3" :weight bold))))
 
- '(ido-grid-match-1 ((t (:inherit shadow :foreground "darkcyan"))))
- '(ido-grid-match-2 ((t (:inherit shadow :foreground "deepskyblue"))))
- '(ido-grid-match-3 ((t (:inherit shadow :foreground "magenta"))))
+ '(ido-grid-match-1 ((t (:inherit match))))
+ `(ido-grid-match-2 ((t (:foreground ,(nth 1 highlight-symbol-colors)))))
+ `(ido-grid-match-3 ((t (:foreground ,(nth 2 highlight-symbol-colors)))))
 
  '(dired-subtree-depth-1-face ((t ())))
  '(dired-subtree-depth-5-face ((t ())))
@@ -32,7 +32,6 @@
 
  '(w3m-lnum ((t (:background "#F0F0F0" :foreground "dark orange"))))
  '(w3m-anchor ((t (:inherit link))))
-
 
  '(outline-1 ((t (:height 1.3 :family "Sans" :weight bold))))
  '(outline-2 ((t (:height 1.2 :family "Sans" :weight bold))))
@@ -47,12 +46,12 @@
  '(org-level-1 ((t (:height 1.4 :family "Sans" :weight bold))))
  '(org-level-2 ((t (:height 1.3 :family "Sans" :weight bold))))
  '(org-level-3 ((t (:height 1.2 :family "Sans" :weight bold))))
- '(org-level-4 ((t (:height 1.1 :family "Sans" ))))
- '(org-level-5 ((t (:height 1.1 :family "Sans" ))))
- '(org-level-6 ((t (:height 1.1 :family "Sans" ))))
- '(org-level-7 ((t (:height 1.1 :family "Sans" ))))
- '(org-level-8 ((t (:height 1.1 :family "Sans" ))))
- '(org-level-9 ((t (:height 1.1 :family "Sans" ))))
+ '(org-level-4 ((t (:height 1.1 :family "Sans" :weight bold))))
+ '(org-level-5 ((t (:height 1.1 :family "Sans" :weight bold))))
+ '(org-level-6 ((t (:height 1.1 :family "Sans" :weight bold))))
+ '(org-level-7 ((t (:height 1.1 :family "Sans" :weight bold))))
+ '(org-level-8 ((t (:height 1.1 :family "Sans" :weight bold))))
+ '(org-level-9 ((t (:height 1.1 :family "Sans" :weight bold))))
 
  '(message-cited-text ((t (:weight bold))))
 

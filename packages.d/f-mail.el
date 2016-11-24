@@ -1,11 +1,11 @@
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
-  :require notmuch-calendar-x
   :bind
   (("C-c i" . my-inbox)
    ("C-c m" . notmuch-mua-new-mail))
   :config
+  (require 'notmuch-calendar-x)
 
   (defun my-mml-attach-dired ()
     (interactive)
@@ -81,7 +81,6 @@
         message-auto-save-directory "~/temp/messages/"
         message-fill-column nil
         message-header-setup-hook '(notmuch-fcc-header-setup)
-        message-default-headers "X-Clacks-Overhead: GNU Terry Pratchett\n"
         message-kill-buffer-on-exit t
         message-send-mail-function 'message-send-mail-with-sendmail
         message-sendmail-envelope-from 'header
@@ -111,8 +110,8 @@
         notmuch-archive-tags (quote ("-inbox" "-unread"))
         notmuch-crypto-process-mime t
         notmuch-fcc-dirs (quote
-                          (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\" +sent")
-                           ("larkery\\.com" . "\"fastmail/Sent Items\" +sent")))
+                          (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\" +sent -inbox")
+                           ("larkery\\.com" . "\"fastmail/Sent Items\" +sent -inbox")))
         notmuch-hello-sections '(notmuch-hello-insert-search
                                  notmuch-hello-insert-alltags
                                  notmuch-hello-insert-inbox

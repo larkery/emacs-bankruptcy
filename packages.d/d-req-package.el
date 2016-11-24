@@ -1,15 +1,3 @@
-(require 'package)
-
-(setq package-archives
-      '(("melpa-unstable" . "http://melpa.org/packages/")
-        ("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")
-        ("gnu" .  "http://elpa.gnu.org/packages/")))
-
-(add-to-list 'package-directory-list "~/.nix-profile/share/emacs/site-lisp/elpa")
-
-(package-initialize)
-
 ;; make sure req-package exists, and el-get
 
 (condition-case nil

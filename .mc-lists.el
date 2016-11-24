@@ -16,6 +16,7 @@
         ess-smart-comma
         ess-smarter-underscore
         ess-yank
+        forward-sexp
         h/kill-sexp-appropriately
         h/slurp-appropriately
         haskell-indentation-common-electric-command
