@@ -69,7 +69,7 @@ END:VALARM\n"
   (define-minor-mode org-log-mode
     :lighter " org-log"
     :keymap (let ((map (make-sparse-keymap)))
-              (define-key map (kbd "C-c j") 'normal-mode)
+              (define-key map (kbd "C-c j") 'org-goto-log)
 
               (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
               map))
