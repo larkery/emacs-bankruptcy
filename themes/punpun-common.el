@@ -43,7 +43,7 @@
     (orange ("#d75f00" "#ff5f00") ("color-166" "color-202"))
     (red    ("#d70000" "#ff0000") ("color-160" "color-196"))
     (green  ("#00af00" "#00d700") ("color-34"  "color-40" ))
-    (blue   ("#5f00ff" "#005fff") ("color-57"  "color-27" ))
+    (blue   ("#5f00ff" "#446fff") ("color-57"  "color-27" ))
     (cyan   ("#0087ff" "#00d7ff") ("color-33"  "color-45" ))
     (pink   ("#ff005f" "#ff0087") ("color-197" "color-198"))
     (violet ("#8700d7" "#af00d7") ("color-92"  "color-128"))))

@@ -12,6 +12,7 @@
     (term-send-raw-string "\C-z"))
 
   (bind-key "C-z" 'term-suspend term-raw-map)
+  (bind-key "M-DEL" (lambda () (interactive) (term-send-raw-meta)) term-raw-map)
 
   (defun multi-term-tramp (path)
     (if (file-remote-p path)
