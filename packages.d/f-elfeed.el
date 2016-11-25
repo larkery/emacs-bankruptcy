@@ -1,3 +1,5 @@
+(initsplit-this-file bos "elfeed-")
+
 (req-package elfeed
   :commands elfeed
   :bind ("C-c f" . elfeed)

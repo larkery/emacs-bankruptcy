@@ -1,3 +1,5 @@
+url
+tramp
 elpa
 state
 el-get
@@ -7,3 +9,5 @@ bbdb
 emms
 eshell
 var
+org-caldav-backup.org
+projectile-bookmarks.eld

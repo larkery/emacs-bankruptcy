@@ -1,6 +1,6 @@
 ;; settings for org mode
 
-(add-to-initsplit "^org-")
+(initsplit-this-file bos "org-")
 
 (req-package org
   :bind (("C-c a" . org-agenda)
@@ -30,32 +30,32 @@
      (calc-eval (math-remove-units (math-convert-units (calc-eval str 'raw) (calc-eval "min" 'raw))))))
 
   (defun my-org-icalendar--valarm (entry timestamp summary)
-  "Create a VALARM component.
+    "Create a VALARM component.
 
 ENTRY is the calendar entry triggering the alarm.  TIMESTAMP is
 the start date-time of the entry.  SUMMARY defines a short
 summary or subject for the task.
 
 Return VALARM component as a string, or nil if it isn't allowed."
-  ;; Create a VALARM entry if the entry is timed.  This is not very
-  ;; general in that:
-  ;; (a) only one alarm per entry is defined,
-  ;; (b) only minutes are allowed for the trigger period ahead of the
-  ;;     start time,
-  ;; (c) only a DISPLAY action is defined.                       [ESF]
-  (let ((alarm-time
-     (let ((warntime
-        (org-element-property :APPT_WARNTIME entry)))
-       (if warntime (my-time-to-minutes warntime) 0))))
-    (and (or (> alarm-time 0) (> org-icalendar-alarm-time 0))
-     (org-element-property :hour-start timestamp)
-     (format "BEGIN:VALARM
+    ;; Create a VALARM entry if the entry is timed.  This is not very
+    ;; general in that:
+    ;; (a) only one alarm per entry is defined,
+    ;; (b) only minutes are allowed for the trigger period ahead of the
+    ;;     start time,
+    ;; (c) only a DISPLAY action is defined.                       [ESF]
+    (let ((alarm-time
+           (let ((warntime
+                  (org-element-property :APPT_WARNTIME entry)))
+             (if warntime (my-time-to-minutes warntime) 0))))
+      (and (or (> alarm-time 0) (> org-icalendar-alarm-time 0))
+           (org-element-property :hour-start timestamp)
+           (format "BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:%s
 TRIGGER:-P0DT0H%dM0S
 END:VALARM\n"
-         summary
-         (if (zerop alarm-time) org-icalendar-alarm-time alarm-time)))))
+                   summary
+                   (if (zerop alarm-time) org-icalendar-alarm-time alarm-time)))))
 
   (advice-add 'org-icalendar--valarm :override 'my-org-icalendar--valarm)
 
@@ -69,15 +69,10 @@ END:VALARM\n"
   (define-minor-mode org-log-mode
     :lighter " org-log"
     :keymap (let ((map (make-sparse-keymap)))
-              (define-key map (kbd "C-c j")
-                'normal-mode map)
+              (define-key map (kbd "C-c j") 'normal-mode)
 
-              (define-key map (kbd "C-c e")
-                'org-insert-datetree-entry)
+              (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
               map))
-
-
-
 
   (defun org-refile-to-datetree ()
     "Refile a subtree to a datetree corresponding to it's timestamp."
@@ -100,7 +95,8 @@ END:VALARM\n"
 
                 (goto-char (point-max))
                 (org-paste-subtree 4)
-                ))))))))
+                )))))))
+  )
 
 (req-package org-caldav
   :config
@@ -125,5 +121,15 @@ END:VALARM\n"
  ;; If there is more than one, they won't work right.
  '(org-adapt-indentation nil)
  '(org-agenda-files (quote ("~/notes" "~/notes/home" "~/notes/work")))
+ '(org-capture-templates
+   (quote
+    (("c" "Task" entry
+      (file "~/notes/inbox.org")
+      "* TODO %?%a
+%u")
+     ("e" "Calendar" entry
+      (file "~/notes/calendar.org")
+      "* %?
+%^T"))))
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-use-speed-commands t))

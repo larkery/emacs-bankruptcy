@@ -1,0 +1,10 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("thermos-folder"
+ (filename . "~/projects/110-thermos/")
+ (front-context-string . "data\n  -rw-r--r-")
+ (rear-context-string . "76 Nov 15 11:55 ")
+ (position . 232))
+)

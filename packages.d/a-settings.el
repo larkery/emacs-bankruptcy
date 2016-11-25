@@ -36,9 +36,13 @@
       set-mark-command-repeat-pop t
       
       frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b")))
+      '((:eval (concat
+                (if (buffer-file-name)
+                    (abbreviate-file-name (buffer-file-name))
+                  "%b")
+                (if (frame-parameter nil 'quick)
+                    " Q" ""))))
+
 
 
       ;; /net is a bad place

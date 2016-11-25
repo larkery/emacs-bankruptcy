@@ -1,3 +1,5 @@
+(initsplit-this-file bos "dired-")
+
 (add-hook
  'dired-mode-hook
  (lambda () (interactive) (local-set-key (kbd "V") #'magit-status)))

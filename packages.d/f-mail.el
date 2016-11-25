@@ -1,3 +1,10 @@
+(initsplit-this-file bos (| "notmuch-"
+                            "message-"
+                            "mm-"
+                            "mml2015-"
+                            "sendmail-"
+                            (seq "user-mail-address" eos)))
+
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
@@ -6,6 +13,17 @@
    ("C-c m" . notmuch-mua-new-mail))
   :config
   (require 'notmuch-calendar-x)
+
+  (defun my-notmuch-show-unsubscribe ()
+    (interactive)
+    (notmuch-show-move-to-message-bottom)
+    (when (search-backward "unsubscribe" (notmuch-show-message-top))
+      (if (ffap-url-at-point)
+          (goto-char (car ffap-string-at-point-region)))
+
+      (ffap-next-url)))
+
+  (bind-key "U" #'my-notmuch-show-unsubscribe 'notmuch-show-mode-map)
 
   (defun my-mml-attach-dired ()
     (interactive)

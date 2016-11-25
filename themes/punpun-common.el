@@ -50,6 +50,14 @@
 
 (defvar punpun-faces
   '(;; messages
+    (term-color-blue :background blue :foreground blue)
+    (term-color-cyan :background cyan :foreground cyan)
+    (term-color-green :background green :foreground green)
+    (term-color-magenta :background violet :foreground violet)
+    (term-color-red :background red :foreground red)
+    (term-color-white :background base0 :foreground base0)
+    (term-color-yellow :background yellow :foreground yellow)
+
     (highlight-symbol-face :underline violet)
 
    (message-header-name :foreground base6 :weight bold)

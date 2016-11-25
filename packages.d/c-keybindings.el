@@ -21,16 +21,22 @@
 
 (defun my-split-window ()
   (interactive)
-  (let ((width (window-pixel-width))
-        (height (window-pixel-height)))
-    (select-window
-     (cond
-      ((and (> width 450)
-            (> width height))
-       (split-window-right))
-      (t
-       (split-window-below))
-      ))))
+  (let ((fwidth (frame-pixel-width))
+        (width (window-pixel-width)))
+    (if (or (< width (* 0.6 fwidth))
+            (< (window-text-width) 120))
+        (split-window-below)
+      (split-window-right)))
+  (balance-windows))
+
+(defun delete-window-or-frame (&optional window)
+  (interactive)
+  (let* ((window (or window (get-buffer-window)))
+         (frame (window-frame window))
+         (siblings (window-list frame)))
+    (if (= 1 (length siblings))
+        (delete-frame frame)
+      (delete-window window))))
 
 (defun my-sudo-edit (prefix)
   (interactive "P")
