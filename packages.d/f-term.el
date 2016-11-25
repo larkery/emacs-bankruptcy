@@ -1,8 +1,7 @@
 (initsplit-this-file bos (| "multi-term-" "term-"))
 
 (req-package multi-term
-  :bind (("<f6>" . multi-term-dedicated-toggle)
-         ("C-c C-m" . multi-term-here))
+  :bind (("C-c C-m" . multi-term-here))
 
   :commands multi-term multi-term-dedicated-toggle multi-term-here
 

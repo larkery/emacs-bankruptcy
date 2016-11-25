@@ -15,6 +15,9 @@
   (require 'notmuch-calendar-x)
 
   (defun my-notmuch-show-unsubscribe ()
+    "When in a notmuch show mail, try to find an unsubscribe link and click it..
+
+This will be the link nearest the end of the message which either contains or follows the word unsubscribe."
     (interactive)
     (notmuch-show-move-to-message-bottom)
     (when (search-backward "unsubscribe" (notmuch-show-message-top))

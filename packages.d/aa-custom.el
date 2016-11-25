@@ -702,6 +702,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode t)
+ '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-chromium-arguments (quote ("--new-window")))
+ '(browse-url-generic-program "xdg-open")
  '(custom-safe-themes
    (quote
     ("4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "1e67765ecb4e53df20a96fb708a8601f6d7c8f02edb09d16c838e465ebe7f51b" default)))
