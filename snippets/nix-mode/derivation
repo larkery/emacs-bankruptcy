@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: derivation
+# key: derivation
+# --
+with (import <nixpkgs>) {} ;
+stdenv.mkDerivation {
+   name = ${1};
+   src = pkgs.fetchurl {
+
+   };
+}

@@ -3,16 +3,22 @@
 (req-package multi-term
   :bind (("C-c C-m" . multi-term-here))
 
-  :commands multi-term multi-term-dedicated-toggle multi-term-here
+  :commands multi-term multi-term-dedicated-toggle multi-term-here multi-term-quick-frame
 
   :config
 
-  (defun term-suspend ()
-    (interactive)
-    (term-send-raw-string "\C-z"))
-
-  (bind-key "C-z" 'term-suspend term-raw-map)
-  (bind-key "M-DEL" (lambda () (interactive) (term-send-raw-meta)) term-raw-map)
+  (add-hook 'term-mode-hook
+            (lambda ()
+              (dolist (map '(term-mode-map term-raw-map))
+                (bind-keys :map (eval map)
+                           ("C-a" . (lambda ()
+                                      (interactive)
+                                      (window--adjust-process-windows)
+                                      (call-interactively 'term-send-raw)
+                                      ))
+                           ("C-z" . term-send-raw)
+                           ("M-DEL" . term-send-raw-meta)
+                           ("M-<Backspace>" . term-send-raw-meta)))))
 
   (defun multi-term-tramp (path)
     (if (file-remote-p path)
@@ -82,5 +88,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(multi-term-scroll-show-maximum-output t)
+ '(multi-term-scroll-to-bottom-on-output t)
  '(multi-term-switch-after-close nil)
- '(term-unbind-key-list ("C-x" "C-c" "C-h" "C-y" "<ESC>")))
+ '(term-scroll-show-maximum-output t)
+ '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>"))))

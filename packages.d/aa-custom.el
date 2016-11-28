@@ -13,8 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(outline-1 ((t (:height 1.3 :font-family "Sans-serif"))))
- '(pass-mode-directory-face ((t (:inherit highlight)))))
+ '(outline-1 ((t (:height 1.3 :font-family "Sans-serif")))))
 
 ;; (custom-set-variables
 ;;  ;; custom-set-variables was added by Custom.
@@ -709,6 +708,7 @@
    (quote
     ("4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "1e67765ecb4e53df20a96fb708a8601f6d7c8f02edb09d16c838e465ebe7f51b" default)))
  '(delete-selection-mode t)
+ '(mml-secure-openpgp-encrypt-to-self t)
  '(package-selected-packages
    (quote
     (multi-term "initsplit" initsplit ess python heroku-theme paganini-theme dired-atool dired-ranger dired-filetype-face ws-butler wgrep weechat w3m sr-speedbar smex smartrep smartparens req-package rainbow-mode project-explorer pcre2el pass paren-face org-caldav org-bullets notmuch nix-mode multiple-cursors magit java-snippets ivy ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol haskell-mode git-timemachine flimenu expand-region eno elfeed el-get dired-subtree dired-narrow csv-mode comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext avy auth-password-store anzu anaconda-mode ag adaptive-wrap)))

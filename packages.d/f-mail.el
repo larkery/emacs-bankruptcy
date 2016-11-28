@@ -14,6 +14,14 @@
   :config
   (require 'notmuch-calendar-x)
 
+  (defun my-notmuch-fix-fcc ()
+    (interactive)
+    (save-excursion
+      (message-goto-fcc)
+      (let ((bounds (bounds-of-thing-at-point 'line)))
+        (delete-region (car bounds) (cdr bounds)))
+      (notmuch-fcc-header-setup)))
+
   (defun my-notmuch-show-unsubscribe ()
     "When in a notmuch show mail, try to find an unsubscribe link and click it..
 
@@ -97,105 +105,6 @@ This will be the link nearest the end of the message which either contains or fo
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
    ("g" . notmuch-refresh-this-buffer))
 
-  (setq user-mail-address "tom.hinton@cse.org.uk"
-
-        message-auto-save-directory "~/temp/messages/"
-        message-fill-column nil
-        message-header-setup-hook '(notmuch-fcc-header-setup)
-        message-kill-buffer-on-exit t
-        message-send-mail-function 'message-send-mail-with-sendmail
-        message-sendmail-envelope-from 'header
-        sendmail-program "msmtpq-quiet"
-
-        message-signature nil
-
-        mm-inline-text-html-with-images t
-        mm-inlined-types '("image/.*"
-                           "text/.*"
-                           "message/delivery-status"
-                           "message/rfc822"
-                           "message/partial"
-                           "message/external-body"
-                           "application/emacs-lisp"
-                           "application/x-emacs-lisp"
-                           "application/pgp-signature"
-                           "application/x-pkcs7-signature"
-                           "application/pkcs7-signature"
-                           "application/x-pkcs7-mime"
-                           "application/pkcs7-mime"
-                           "application/pgp")
-        mm-sign-option 'guided
-        mm-text-html-renderer 'w3m
-        mml2015-encrypt-to-self t
-
-        ;; notmuch configuration
-        notmuch-archive-tags (quote ("-inbox" "-unread"))
-        notmuch-crypto-process-mime t
-        notmuch-fcc-dirs (quote
-                          (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\" +sent -inbox")
-                           ("larkery\\.com" . "\"fastmail/Sent Items\" +sent -inbox")))
-        notmuch-hello-sections '(notmuch-hello-insert-search
-                                 notmuch-hello-insert-alltags
-                                 notmuch-hello-insert-inbox
-                                 notmuch-hello-insert-saved-searches)
-
-        notmuch-mua-cite-function 'message-cite-original-without-signature
-
-        notmuch-saved-searches '((:name "all mail" :query "*" :key "a")
-                                 (:name "all inbox" :query "tag:inbox" :key "i")
-                                 (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-                                 (:name "live" :query "tag:unread or tag:flagged" :key "u")
-                                 (:name "flagged" :query "tag:flagged" :key "f")
-                                 (:name "sent" :query "tag:sent" :key "t")
-                                 (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
-                                 (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))
-
-        notmuch-search-line-faces '(("unread" :weight bold)
-                                    ("flagged" :background "#555"))
-
-        notmuch-search-oldest-first nil
-
-        notmuch-show-hook '(notmuch-show-turn-on-visual-line-mode
-                            goto-address-mode)
-
-        notmuch-show-indent-messages-width 2
-
-        notmuch-tag-formats '(("unread" "U" (notmuch-apply-face tag '(:foreground "green")))
-                              ("inbox" "I" (notmuch-apply-face tag '(:foreground "white")))
-                              ("EXS" "J")
-                              ("replied" "r")
-                              ("flagged" "F" (notmuch-apply-face tag '(:foreground "cyan" :weight bold)))
-                              ("attachment" "A" (notmuch-apply-face tag '(:foreground "white"))))
-
-        notmuch-wash-original-regexp "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$"
-        notmuch-wash-signature-lines-max 30
-        notmuch-wash-signature-regexp (rx
-                                       bol
-
-                                       (or
-                                        (seq (* nonl) "not the intended recipient" (* nonl))
-                                        (seq "The original of this email was scanned for viruses" (* nonl))
-                                        (seq "__" (* "_"))
-                                        (seq "****" (* "*"))
-                                        (seq "--" (** 0 5 "-") (* " ")))
-
-                                       eol)
-
-        ;; citation stuff
-        message-cite-style nil
-        message-cite-function (quote message-cite-original-without-signature)
-        message-citation-line-function (quote message-insert-formatted-citation-line)
-        message-cite-reply-position 'traditional
-        message-yank-prefix "> "
-        message-cite-prefix-regexp "[[:space:]]*>[ >]*"
-        message-yank-cited-prefix ">"
-        message-yank-empty-prefix ""
-        message-citation-line-format ""
-
-        notmuch-address-selection-function
-        (lambda (prompt collection initial-input)
-          (ido-completing-read prompt collection nil nil nil 'notmuch-address-history)))
-
   (setq mailcap-mime-data
         (mapcar
          (lambda (entry)
@@ -214,3 +123,110 @@ This will be the link nearest the end of the message which either contains or fo
                                   (cdr entry))))))
          mailcap-mime-data))
   )
+
+;;        '(message-header-setup-hook '(notmuch-fcc-header-setup))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(message-auto-save-directory "~/temp/messages/")
+ '(message-citation-line-format "")
+ '(message-citation-line-function (quote message-insert-formatted-citation-line))
+ '(message-cite-function (quote message-cite-original-without-signature))
+ '(message-cite-prefix-regexp "[[:space:]]*>[ >]*")
+ '(message-cite-reply-position (quote traditional))
+ '(message-cite-style nil)
+ '(message-fill-column nil)
+ '(message-kill-buffer-on-exit t)
+ '(message-send-mail-function (quote message-send-mail-with-sendmail))
+ '(message-sendmail-envelope-from (quote header))
+ '(message-signature nil)
+ '(message-yank-cited-prefix ">")
+ '(message-yank-empty-prefix "")
+ '(message-yank-prefix "> ")
+ '(mm-inline-text-html-with-images t)
+ '(mm-inlined-types
+   (quote
+    ("image/.*" "text/.*" "message/delivery-status" "message/rfc822" "message/partial" "message/external-body" "application/emacs-lisp" "application/x-emacs-lisp" "application/pgp-signature" "application/x-pkcs7-signature" "application/pkcs7-signature" "application/x-pkcs7-mime" "application/pkcs7-mime" "application/pgp")))
+ '(mm-sign-option (quote guided))
+ '(mm-text-html-renderer (quote w3m))
+ '(mml2015-encrypt-to-self t)
+ '(notmuch-address-selection-function
+   (lambda
+     (prompt collection initial-input)
+     (ido-completing-read prompt collection nil nil nil
+                          (quote notmuch-address-history))))
+ '(notmuch-archive-tags (quote ("-inbox" "-unread")))
+ '(notmuch-crypto-process-mime t)
+ '(notmuch-fcc-dirs
+   (quote
+    (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\" +sent -inbox")
+     ("larkery\\.com" . "\"fastmail/Sent Items\" +sent -inbox"))))
+ '(notmuch-hello-sections
+   (quote
+    (notmuch-hello-insert-search notmuch-hello-insert-alltags notmuch-hello-insert-inbox notmuch-hello-insert-saved-searches)))
+ '(notmuch-mua-cite-function (quote message-cite-original-without-signature))
+ '(notmuch-mua-send-hook (quote (my-notmuch-fix-fcc notmuch-mua-message-send-hook)))
+ '(notmuch-saved-searches
+   (quote
+    ((:name "all mail" :query "*" :key "a")
+     (:name "all inbox" :query "tag:inbox" :key "i")
+     (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
+     (:name "live" :query "tag:unread or tag:flagged" :key "u")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "t")
+     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
+     (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
+ '(notmuch-search-line-faces
+   (quote
+    (("unread" :weight bold)
+     ("flagged" :background "#555"))))
+ '(notmuch-search-oldest-first nil)
+ '(notmuch-show-hook
+   (quote
+    (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
+ '(notmuch-show-indent-messages-width 2)
+ '(notmuch-tag-formats
+   (quote
+    (("unread" "U"
+      (notmuch-apply-face tag
+                          (quote
+                           (:foreground "green"))))
+     ("inbox" "I"
+      (notmuch-apply-face tag
+                          (quote
+                           (:foreground "white"))))
+     ("EXS" "J")
+     ("replied" "r")
+     ("flagged" "F"
+      (notmuch-apply-face tag
+                          (quote
+                           (:foreground "cyan" :weight bold))))
+     ("attachment" "A"
+      (notmuch-apply-face tag
+                          (quote
+                           (:foreground "white")))))))
+ '(notmuch-wash-original-regexp
+   "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
+ '(notmuch-wash-signature-lines-max 30)
+ '(notmuch-wash-signature-regexp
+   (rx bol
+       (or
+        (seq
+         (* nonl)
+         "not the intended recipient"
+         (* nonl))
+        (seq "The original of this email was scanned for viruses"
+             (* nonl))
+        (seq "__"
+             (* "_"))
+        (seq "****"
+             (* "*"))
+        (seq "--"
+             (** 0 5 "-")
+             (* " ")))
+       eol))
+ '(sendmail-program "msmtpq-quiet")
+ '(user-mail-address "tom.hinton@cse.org.uk"))

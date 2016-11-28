@@ -1,3 +1,5 @@
+(initsplit-this-file bos (| "magit-" "git-timemachine-"))
+
 (req-package magit
 	     :commands magit
              :bind (("C-c g" . magit-status))

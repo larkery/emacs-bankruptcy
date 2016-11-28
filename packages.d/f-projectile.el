@@ -1,30 +1,11 @@
+(initsplit-this-file "projectile")
+
 (req-package projectile
   :diminish (projectile-mode . "")
   :config
-  (setq projectile-completion-system 'ido)
-  (projectile-global-mode t)
-  ;; (bind-keys
-  ;;  :map projectile-mode-map
-  ;;  ("C-c p s S" . projectile-ag)
-  ;;  ("C-c p s G" . counsel-git-grep)
 
-  ;;  ;; ("C-c p s s" . counsel-projectile-ag)
+  (projectile-global-mode t))
 
-  ;;  ;; ("C-c p s g" . counsel-projectile-grep)
-  ;;  )
-
-
-  ;; (defun counsel-projectile-ag ()
-  ;;   (interactive)
-  ;;   (counsel-ag nil (projectile-project-root)))
-
-
-  ;; (defun counsel-projectile-grep ()
-  ;;   (interactive)
-  ;;   (counsel-grep nil (projectile-project-root)))
-
-
-  )
 
 (req-package ibuffer-projectile
   :commands ibuffer-projectile-set-filter-groups
@@ -43,3 +24,9 @@
       (equal qualifier it)))
 
   )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(projectile-completion-system (quote ido)))
