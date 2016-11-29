@@ -190,21 +190,100 @@ This will be the link nearest the end of the message which either contains or fo
  '(notmuch-show-indent-messages-width 2)
  '(notmuch-tag-formats
    (quote
-    (("unread" "U"
+    (("unread"
+      #("U" 0 1
+        (face
+         ((:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green")
+          (:foreground "green"))))
       (notmuch-apply-face tag
                           (quote
                            (:foreground "green"))))
-     ("inbox" "I"
+     ("inbox"
+      #("I" 0 1
+        (face
+         ((:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white"))))
       (notmuch-apply-face tag
                           (quote
                            (:foreground "white"))))
      ("EXS" "J")
      ("replied" "r")
-     ("flagged" "F"
+     ("flagged"
+      #("F" 0 1
+        (face
+         ((:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold)
+          (:foreground "cyan" :weight bold))))
       (notmuch-apply-face tag
                           (quote
                            (:foreground "cyan" :weight bold))))
-     ("attachment" "A"
+     ("attachment"
+      #("A" 0 1
+        (face
+         ((:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white")
+          (:foreground "white"))))
       (notmuch-apply-face tag
                           (quote
                            (:foreground "white")))))))

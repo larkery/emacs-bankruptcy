@@ -9,8 +9,7 @@
 	     :commands dired-omit-mode
 	     :init
 	     (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
-             (bind-key ")" #'dired-omit-mode dired-mode-map)
-             (setq dired-omit-files "^\\.[^\\.]"))
+             (bind-key ")" #'dired-omit-mode dired-mode-map))
 
 ;;;; insert dired subtree indented rather than at bottom
 (req-package dired-subtree
@@ -23,10 +22,7 @@
   :init
   (bind-key "/" #'dired-narrow dired-mode-map))
 
-(req-package dired
-  :init
-  (setq dired-listing-switches "-lah"
-        dired-dwim-target t))
+(req-package dired)
 
 (req-package dired-filetype-face)
 
@@ -36,3 +32,12 @@
    :map dired-mode-map
    ("C-w" . dired-ranger-copy)
    ("C-y" . dired-ranger-paste)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(dired-dwim-target t)
+ '(dired-isearch-filenames (quote dwim))
+ '(dired-listing-switches "-lah")
+ '(dired-omit-files "^\\.[^\\.]"))

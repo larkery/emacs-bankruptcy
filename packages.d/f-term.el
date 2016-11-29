@@ -11,10 +11,11 @@
             (lambda ()
               (dolist (map '(term-mode-map term-raw-map))
                 (bind-keys :map (eval map)
-                           ("C-a" . (lambda ()
-                                      (interactive)
-                                      (window--adjust-process-windows)
-                                      (call-interactively 'term-send-raw)
+                           ("C-c C-l" . (lambda ()
+                                          (interactive)
+                                          (window--adjust-process-windows)
+                                          ;; (call-interactively 'term-send-raw)
+
                                       ))
                            ("C-z" . term-send-raw)
                            ("M-DEL" . term-send-raw-meta)
@@ -39,10 +40,11 @@
 
   (defun multi-term-here ()
     (interactive)
-
+    ;; TODO canonicalise hostname
     (let* ((target-directory (expand-file-name default-directory))
            (existing-term (cl-loop for buf being the buffers
                                    if (with-current-buffer buf
+                                        (message "%s %s? %s" target-directory (expand-file-name default-directory) major-mode)
                                         (and (eq major-mode 'term-mode)
                                              (string= (expand-file-name default-directory) target-directory)))
                                    return buf)))
