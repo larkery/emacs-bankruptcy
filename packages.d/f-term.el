@@ -44,7 +44,7 @@
     (let* ((target-directory (expand-file-name default-directory))
            (existing-term (cl-loop for buf being the buffers
                                    if (with-current-buffer buf
-                                        (message "%s %s? %s" target-directory (expand-file-name default-directory) major-mode)
+                                        ;; (message "%s %s? %s" target-directory (expand-file-name default-directory) major-mode)
                                         (and (eq major-mode 'term-mode)
                                              (string= (expand-file-name default-directory) target-directory)))
                                    return buf)))

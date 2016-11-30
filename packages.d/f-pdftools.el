@@ -1,5 +1,10 @@
 (initsplit-this-file bos "pdf-")
-(req-package pdf-tools)
+
+(req-package pdf-tools
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :config
+  (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
