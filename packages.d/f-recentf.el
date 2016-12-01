@@ -13,7 +13,13 @@
   (recentf-mode 1))
 
 (custom-set-variables
- '(recentf-save-file (concat (my-state-dir "") "/recentf"))
- '(recentf-exclude '(".ido.last" "org-clock-save.el" "\\`/net/" ".emacs.d/elpa" ".git"))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(recentf-exclude
+   (quote
+    (".ido.last" "org-clock-save.el" "\\`/net/" ".emacs.d/elpa" ".git")))
  '(recentf-max-menu-items 50)
- '(recentf-max-saved-items 500))
+ '(recentf-max-saved-items 500)
+ '(recentf-save-file (concat (my-state-dir "") "/recentf")))

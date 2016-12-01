@@ -38,15 +38,50 @@
       (let ((default-directory path))
         (multi-term))))
 
+  (defun host-to-ip (host)
+    (s-trim
+     (shell-command-to-string (format "host -qQ %s | tail -n 1 | cut -f 3"
+                                      (shell-quote-argument host)))))
+
+
+  (defun same-file (f1 f2)
+    "nil unless f1 and f2 are names for the same file"
+
+    (or (string= f1 f2)
+        (and (file-remote-p f1)
+             (file-remote-p f2)
+             ;; the only thing we'll fix here is hostname
+             (let ((p1 (tramp-dissect-file-name f1))
+                   (p2 (tramp-dissect-file-name f2)))
+               ;; the stuff here is compare all the parts, except hostname which
+               ;; we compare differently.
+               ;; only for ssh and scp, because argh
+               (and (member (tramp-file-name-method p1) '("ssh" "scp"))
+                    (loop for fn in
+                          '(tramp-file-name-hop
+                            tramp-file-name-user
+                            tramp-file-name-port
+                            tramp-file-name-method
+                            tramp-file-name-localname)
+                          always (equal (funcall fn p1)
+                                        (funcall fn p2)))
+
+                    (or (string= (tramp-file-name-host p1)
+                                 (tramp-file-name-host p2))
+                        (string= (host-to-ip (tramp-file-name-host p1))
+                                 (host-to-ip (tramp-file-name-host p2)))))
+               ))))
+
+
   (defun multi-term-here ()
     (interactive)
     ;; TODO canonicalise hostname
     (let* ((target-directory (expand-file-name default-directory))
            (existing-term (cl-loop for buf being the buffers
                                    if (with-current-buffer buf
-                                        ;; (message "%s %s? %s" target-directory (expand-file-name default-directory) major-mode)
                                         (and (eq major-mode 'term-mode)
-                                             (string= (expand-file-name default-directory) target-directory)))
+                                             (same-file (expand-file-name default-directory)
+                                                        target-directory)))
                                    return buf)))
       (if existing-term
           (pop-to-buffer existing-term)
@@ -60,8 +95,25 @@
   (defun term-handle-ansi-terminal-messages-fix (&rest blah)
     (when (string-match-p (rx bos "/:/") default-directory)
       (setq default-directory (substring default-directory 2)))
-    (rename-buffer
-          (format "%s<%s>" multi-term-buffer-name default-directory) t))
+    (let* ((dir-name
+            (file-name-nondirectory
+             (directory-file-name default-directory)))
+
+           (preferred-name
+            (if (file-remote-p default-directory)
+                (let ((parts (tramp-dissect-file-name default-directory)))
+                  (format "%s@%s [%s]"
+                          (or (tramp-file-name-user parts)
+                              term-ansi-at-user)
+                          (or (tramp-file-name-host parts)
+                              term-ansi-at-host)
+                          dir-name))
+              (format "[%s]" dir-name))))
+
+      (rename-buffer
+       (concat multi-term-buffer-name " " preferred-name)
+       t)))
+
 
   (advice-add 'term-handle-ansi-terminal-messages :after
               'term-handle-ansi-terminal-messages-fix)
