@@ -3,10 +3,10 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
- (filename . "~/notes/inbox.org")
- (front-context-string . "* TODO Java path")
- (rear-context-string . "2016-11-29 Tue]\n")
- (position . 5747))
+ (filename . "~/notes/calendar.org")
+ (front-context-string . "* Second THERMOS")
+ (rear-context-string . "3e0297034\n:END:\n")
+ (position . 21002))
 ("thermos-folder"
  (filename . "~/projects/110-thermos/")
  (front-context-string . "data\n  -rw-r--r-")

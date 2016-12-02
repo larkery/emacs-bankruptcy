@@ -147,3 +147,10 @@
  '(multi-term-switch-after-close nil)
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(term-color-blue ((t (:background "steel blue" :foreground "steel blue"))))
+ '(term-color-red ((t (:background "red2" :foreground "red2")))))
