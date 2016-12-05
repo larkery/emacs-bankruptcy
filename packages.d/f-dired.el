@@ -22,7 +22,10 @@
   :init
   (bind-key "/" #'dired-narrow dired-mode-map))
 
-(req-package dired)
+(req-package dired
+  :require emacs-async
+  :config
+  (dired-async-mode 1))
 
 (req-package dired-filetype-face)
 
