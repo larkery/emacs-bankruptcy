@@ -1,7 +1,8 @@
 (initsplit-this-file bos (| "multi-term-" "term-"))
 
 (req-package multi-term
-  :bind (("C-c C-m" . multi-term-here))
+  :bind (("C-c C-m" . multi-term-here)
+         ("C-x t" . ibuffer-multi-term))
 
   :commands multi-term multi-term-dedicated-toggle multi-term-here multi-term-quick-frame
 
@@ -20,6 +21,15 @@
                            ("C-z" . term-send-raw)
                            ("M-DEL" . term-send-raw-meta)
                            ("M-<Backspace>" . term-send-raw-meta)))))
+
+  (defun ibuffer-multi-term ()
+    (interactive)
+    ;; select a multi-term terminal with ido
+    ;; this could open ibuffer instead
+    (ibuffer t "*terminals*"
+             (list (cons 'used-mode 'term-mode)))
+
+    )
 
   (defun multi-term-tramp (path)
     (if (file-remote-p path)
