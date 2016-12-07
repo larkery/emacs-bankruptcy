@@ -5,6 +5,9 @@
                             "sendmail-"
                             (seq "user-mail-address" eos)))
 
+;; WAT?
+(provide 'notmuch-fcc-initialization)
+
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
@@ -13,6 +16,25 @@
    ("C-c m" . notmuch-mua-new-mail))
   :config
   (require 'notmuch-calendar-x)
+
+  (defun notmuch-new-async-sentinel (process event)
+    (unless (process-live-p process)
+      (if (zerop (process-exit-status process))
+          (notmuch-refresh-all-buffers)
+        (let ((buf (process-buffer process)))
+          (if buf
+              (pop-to-buffer buf)
+            (message "Error checking mail, and process buffer has gone missing!"))))))
+
+
+  (defun notmuch-poll-and-refresh-async ()
+    (interactive)
+    (with-current-buffer (get-buffer-create "*notmuch new*")
+      (erase-buffer))
+    (let ((proc (start-process "notmuch new" "*notmuch new*" "notmuch" "new")))
+      (set-process-sentinel proc 'notmuch-new-async-sentinel)))
+
+  (bind-key "G" #'notmuch-poll-and-refresh-async notmuch-search-mode-map)
 
   (defun my-notmuch-fix-fcc ()
     (interactive)
@@ -152,7 +174,6 @@ This will be the link nearest the end of the message which either contains or fo
     ("image/.*" "text/.*" "message/delivery-status" "message/rfc822" "message/partial" "message/external-body" "application/emacs-lisp" "application/x-emacs-lisp" "application/pgp-signature" "application/x-pkcs7-signature" "application/pkcs7-signature" "application/x-pkcs7-mime" "application/pkcs7-mime" "application/pgp")))
  '(mm-sign-option (quote guided))
  '(mm-text-html-renderer (quote w3m))
- '(mml2015-encrypt-to-self t)
  '(notmuch-address-selection-function
    (lambda
      (prompt collection initial-input)

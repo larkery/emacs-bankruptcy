@@ -140,6 +140,7 @@
   (add-hook 'ido-setup-hook
             (lambda () (define-key ido-completion-map " " #'self-insert-command))))
 
+(req-package ido-exit-target)
 
 (req-package ido-grid
   :config
