@@ -132,5 +132,13 @@ END:VALARM\n"
       (file "~/notes/calendar.org")
       "* %?
 %^T"))))
+ '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
+ '(org-outline-path-complete-in-steps nil)
+ '(org-refile-allow-creating-parent-nodes t)
+ '(org-refile-targets
+   (quote
+    ((org-agenda-files :maxlevel . 1)
+     (nil :maxlevel . 3))))
+ '(org-refile-use-outline-path (quote file))
  '(org-use-speed-commands t))

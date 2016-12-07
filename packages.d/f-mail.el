@@ -184,7 +184,7 @@ This will be the link nearest the end of the message which either contains or fo
  '(notmuch-fcc-dirs
    (quote
     (("tom\\.hinton@cse\\.org\\.uk" . "\"cse/Sent Items\" +sent -inbox")
-     ("larkery\\.com" . "\"fastmail/Sent Items\" +sent -inbox"))))
+     ("larkery\\.com" . "\"fastmail/Sent Items\" +sent -inbox"))) nil (notmuch-fcc-initialization))
  '(notmuch-hello-sections
    (quote
     (notmuch-hello-insert-search notmuch-hello-insert-alltags notmuch-hello-insert-inbox notmuch-hello-insert-saved-searches)))

@@ -2,11 +2,16 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-capture-last-stored"
- (filename . "~/notes/calendar.org")
- (front-context-string . "* Second THERMOS")
- (rear-context-string . "3e0297034\n:END:\n")
- (position . 21002))
+(("org-refile-last-stored"
+ (filename . "~/notes/work/nhm.org")
+ (front-context-string . "* TODO Respond t")
+ (rear-context-string . "stom/15/EXS-195\n")
+ (position . 1198))
+("org-capture-last-stored"
+ (filename . "~/notes/inbox.org")
+ (front-context-string . "* TODO Respond t")
+ (rear-context-string . "2016-12-02 Fri]\n")
+ (position . 5987))
 ("thermos-folder"
  (filename . "~/projects/110-thermos/")
  (front-context-string . "data\n  -rw-r--r-")
