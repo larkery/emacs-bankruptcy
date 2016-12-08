@@ -222,7 +222,7 @@ Prefix argument edits before sending"
          (org-capture-templates
           `(("a" "Calendar entry" entry ,notmuch-calendar-capture-target
              ;; template goes here - potentially risky?
-             "%(format \"%s\" appointment)\n  From: %a\n  %?"
+             "%(format \"%s\" appointment) %?"
              ))
           ))
     (org-capture nil "a"))

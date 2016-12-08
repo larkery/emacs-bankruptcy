@@ -130,6 +130,7 @@
 
   (defun multi-term-quick-frame ()
     (set-frame-parameter nil 'quick t)
+    ;; TODO alternatively reuse an existing terminal buffer which is undisplayed.
     (multi-term))
 
   (defun multi-term-close-window ()

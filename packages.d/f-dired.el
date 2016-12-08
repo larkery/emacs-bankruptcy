@@ -37,6 +37,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(dired-async-mode t)
+ '(dired-auto-revert-buffer t)
  '(dired-dwim-target t)
  '(dired-isearch-filenames (quote dwim))
  '(dired-listing-switches "-lah")
