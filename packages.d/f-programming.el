@@ -7,7 +7,9 @@
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
   (add-hook 'my-prog-mode-hook #'highlight-symbol-mode)
-  (add-hook 'my-prog-mode-hook #'highlight-symbol-nav-mode))
+  (add-hook 'my-prog-mode-hook #'highlight-symbol-nav-mode)
+  :config
+  (bind-key "M-s s" #'highlight-symbol-occur highlight-symbol-nav-mode-map))
 
 (req-package eldoc
   :init

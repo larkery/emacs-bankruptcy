@@ -232,4 +232,4 @@ This will be the link nearest the end of the message which either contains or fo
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(notmuch-tag-face ((t (:inherit highlight)))))
+ '(notmuch-tag-face ((t (:underline t :height 0.75 :family "sans")))))

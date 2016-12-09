@@ -2,6 +2,15 @@
   :demand
   :bind ("C-c b" . toggle-theme)
   :config
+
+  (setq seoul256-background 236
+        seoul256-alternate-background 253
+        seoul256-override-colors-alist
+        '((65 . "#999"))
+        seoul256-colors-alist
+        (append seoul256-override-colors-alist seoul256-default-colors-alist))
+
+
   (load-theme 'seoul256 t)
 
   (defun toggle-theme ()
@@ -12,9 +21,10 @@
   (defun theme->xresources ()
     "Generate and update xresources from current theme"
     (interactive)
+    (require 'term)
     (with-temp-buffer
       (cl-loop
-       for term in '("XTerm" "URxvt")
+       for term in '("XTerm" "URxvt" "st")
        do (cl-loop
            for spec in '(("background" default :background)
                          ("foreground" default :foreground)
@@ -59,7 +69,7 @@
        "xrdb"
        nil nil nil
        "-merge")
-      (message (buffer-string))
+      (write-region (point-min) (point-max) "~/.emacs-xresources")
       (kill-buffer)))
 
-  )
+  (theme->xresources))

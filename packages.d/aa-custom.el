@@ -128,4 +128,5 @@
  '(ido-grid-match-2 ((t (:inherit ido-grid-match-1))))
  '(ido-grid-match-3 ((t (:inherit ido-grid-match-1))))
  '(ido-only-match ((t (:inherit ido-first-match))))
+ '(ido-subdir ((t (:foreground "deep sky blue" :weight bold))))
  '(mode-line-inactive ((t (:inherit mode-line :background "#565656" :foreground "dark gray")))))
