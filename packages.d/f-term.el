@@ -540,7 +540,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(multi-term-scroll-show-maximum-output t)
- '(multi-term-scroll-to-bottom-on-output t)
+ '(multi-term-scroll-to-bottom-on-output nil)
  '(multi-term-switch-after-close nil)
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>"))))
