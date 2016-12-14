@@ -1,3 +1,5 @@
+(initsplit-this-file bos (| "ido-" "smex-"))
+
 ;; (req-package ivy
 ;;   :diminish (ivy-mode "")
 ;;   :config

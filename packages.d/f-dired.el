@@ -4,6 +4,8 @@
  'dired-mode-hook
  (lambda () (interactive) (local-set-key (kbd "V") #'magit-status)))
 
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+
 ;;;; use key ')' to toggle omitted files in dired
 (req-package dired-x
 	     :commands dired-omit-mode
