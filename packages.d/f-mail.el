@@ -200,6 +200,11 @@ This will be the link nearest the end of the message which either contains or fo
      (:name "sent" :query "tag:sent" :key "t")
      (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
      (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
+ '(notmuch-search-line-faces
+   (quote
+    (("unread" . notmuch-search-unread-face)
+     ("flagged" . notmuch-search-flagged-face)
+     ("deleted" :strike-through "red"))))
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-hook
    (quote

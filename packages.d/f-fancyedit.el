@@ -78,17 +78,18 @@
 (req-package wgrep)
 (req-package ag :commands ag)
 
-(req-package eno
-  :bind (("M-g w" . eno-word-goto)
-         ("M-g e" . eno-paren-goto)
-         ("M-g s" . eno-symbol-goto)
-         ("M-g M-w" . eno-word-copy)
-         ("M-g M-s" . eno-symbol-copy)
-         ("M-g M-e" . eno-paren-copy))
-  :config
-  (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
-  (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
-  (setq eno-stay-key-list '("<prior>" "<next>" "<wheel-up>" "<wheel-down>")))
+;; (req-package eno
+;;   :bind (("M-g w" . eno-word-goto)
+;;          ("M-g e" . eno-paren-goto)
+;;          ("M-g s" . eno-symbol-goto)
+;;          ("M-g M-w" . eno-word-copy)
+;;          ("M-g M-s" . eno-symbol-copy)
+;;          ("M-g M-e" . eno-paren-copy))
+;;   :config
+;;   (eno-set-all-letter-str " sdfjkla;weioqpruvncmghxz,./")
+;;   (eno-set-same-finger-list '("qaz" "wsx" "edc" "rfvg" "ujmhn" "ik," "ol." "p;/"))
+;;   (setq eno-stay-key-list '("<prior>" "<next>" "<wheel-up>" "<wheel-down>")))
+
 
 ;; (req-package avy
 ;;   :bind (("M-g w" . avy-goto-word-1)

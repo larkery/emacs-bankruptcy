@@ -153,6 +153,8 @@ Try the repeated popping up to 10 times."
            ("<f8> <f9>" . make-frame-command)
            ("C-c C-/" . my-insert-file-name)
 
+           ("M-o" . other-window)
+
            ;;     ("C-v f" . delete-other-windows)
            ;;   ("C-v d" . delete-window)
            ;;       ("C-v c" . ctl-x-5-prefix)
