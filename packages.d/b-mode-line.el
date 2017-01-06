@@ -13,7 +13,7 @@
 
 (setq-default
  mode-line-format
- `("%4l"
+ `("%5l"
 
    (:eval
     (when (or (< (point-min) (window-start))
@@ -30,7 +30,7 @@
    (:eval (propertize
            (concat (if (buffer-modified-p) "M" "") (if buffer-read-only "R" "W"))
            'face
-           (if (buffer-modified-p) 'mode-line-emphasis nil)
+           (if (buffer-modified-p) 'error nil)
            'help-echo
            (concat (if (buffer-modified-p) "" "un")
                    "modified, "

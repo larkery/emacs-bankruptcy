@@ -31,14 +31,14 @@
       set-mark-command-repeat-pop t
       
       frame-title-format
-      '((:eval (concat
-                (if (buffer-file-name)
-                    (abbreviate-file-name (buffer-file-name))
-                  "%b")
-                (if (frame-parameter nil 'quick)
-                    " Q" ""))))
-
-
+      '((:eval
+         (cond
+          ((buffer-file-name)
+           (abbreviate-file-name (buffer-file-name)))
+          ((derived-mode-p 'notmuch-show-mode 'notmuch-tree-mode)
+           (concat "mail: " (notmuch-show-get-subject)))
+          (t "%b"))
+         ))
 
       ;; /net is a bad place
       locate-dominating-stop-dir-regexp "\\`\\(/net/+[^/]+/+[^/]+\\)"

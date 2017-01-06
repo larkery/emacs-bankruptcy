@@ -134,10 +134,6 @@ END:VALARM\n"
 %^T"))))
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
- '(org-log-into-drawer t)
- '(org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-habit org-id org-info org-irc org-mhe org-rmail org-w3m org-notmuch)))
  '(org-outline-path-complete-in-steps nil)
  '(org-refile-allow-creating-parent-nodes t)
  '(org-refile-targets

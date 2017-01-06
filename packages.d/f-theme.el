@@ -1,21 +1,23 @@
-(req-package seoul256-theme
+(req-package alect-themes
   :demand
   :bind ("C-c b" . toggle-theme)
   :config
 
-  (setq seoul256-background 236
-        seoul256-alternate-background 253
-        seoul256-override-colors-alist
-        '((65 . "#999"))
-        seoul256-colors-alist
-        (append seoul256-override-colors-alist seoul256-default-colors-alist))
+  ;; (setq seoul256-background 236
+  ;;       seoul256-alternate-background 253
+  ;;       seoul256-override-colors-alist
+  ;;       '((65 . "#999"))
+  ;;       seoul256-colors-alist
+  ;;       (append seoul256-override-colors-alist seoul256-default-colors-alist))
 
-
-  (load-theme 'seoul256 t)
+  (load-theme 'alect-dark t)
+  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
+  (load-theme 'tweaks t)
 
   (defun toggle-theme ()
     (interactive)
-    (seoul256-switch-background)
+    ;; (seoul256-switch-background)
+
     (theme->xresources))
 
   (defun theme->xresources ()
@@ -72,4 +74,5 @@
       (write-region (point-min) (point-max) "~/.emacs-xresources")
       (kill-buffer)))
 
-  (theme->xresources))
+  (theme->xresources)
+  )

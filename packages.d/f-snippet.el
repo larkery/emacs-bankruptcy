@@ -1,14 +1,6 @@
 (req-package yasnippet
   :config
-  (add-hook 'prog-mode-hook 'yas-minor-mode))
-
-;; (req-package smart-tab
-;;   :config
-;;   (global-smart-tab-mode)
-;;   (setq smart-tab-using-hippie-expand t)
-;;   (push 'message-mode smart-tab-disabled-major-modes)
-;;   (push 'notmuch-message-mode smart-tab-disabled-major-modes))
-
+  (yas-global-mode))
 
 (req-package clojure-snippets)
 (req-package java-snippets)
