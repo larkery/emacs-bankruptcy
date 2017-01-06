@@ -5,7 +5,7 @@
 
  '(dired-directory ((t (:weight bold))))
 
- '(mode-line ((t (:box nil))))
+ '(mode-line ((t (:box nil :overline "gray40"))))
  '(mode-line-inactive ((t (:box nil :overline "gray40"))))
 
  '(outline-1 ((t (:height 1.3 :weight bold))))
