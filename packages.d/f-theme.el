@@ -66,9 +66,9 @@
                 (let ((nam (face-rgb-color face attr)))
                   (insert (format "%s*%s: %s\n" term resource nam))))))
 
-      (insert (format "*foreground: %s\n*background: %s\n"
-                      (face-rgb-color 'default :foreground)
-                      (face-rgb-color 'default :background)))
+      (insert (format "*Foreground: %s\n*Background: %s\n"
+                      (face-attribute 'default :foreground)
+                      (face-attribute 'default :background)))
 
       (call-process-region
        (point-min)
