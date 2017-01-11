@@ -8,8 +8,8 @@
  '(mode-line ((t (:box nil :overline "gray40"))))
  '(mode-line-inactive ((t (:box nil :overline "gray40"))))
 
- '(outline-1 ((t (:height 1.3 :weight bold))))
- '(outline-2 ((t (:height 1.2 :weight bold))))
+ '(outline-1 ((t (:height 1.1 :weight bold))))
+ '(outline-2 ((t (:height 1.1 :weight bold))))
  '(outline-3 ((t (:height 1.1 :weight bold))))
  '(outline-4 ((t (:height 1.1 :weight bold))))
  '(outline-5 ((t (:height 1.1 :weight bold))))
@@ -18,9 +18,9 @@
  '(outline-8 ((t (:height 1.1 :weight bold))))
  '(outline-9 ((t (:height 1.1 :weight bold))))
 
- '(org-level-1 ((t (:height 1.4 :weight bold))))
- '(org-level-2 ((t (:height 1.3 :weight bold))))
- '(org-level-3 ((t (:height 1.2 :weight bold))))
+ '(org-level-1 ((t (:height 1.1 :weight bold))))
+ '(org-level-2 ((t (:height 1.1 :weight bold))))
+ '(org-level-3 ((t (:height 1.1 :weight bold))))
  '(org-level-4 ((t (:height 1.1 :weight bold))))
  '(org-level-5 ((t (:height 1.1 :weight bold))))
  '(org-level-6 ((t (:height 1.1 :weight bold))))

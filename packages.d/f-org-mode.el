@@ -67,6 +67,13 @@ END:VALARM\n"
     (org-show-entry)
     (org-end-of-subtree))
 
+  (defun org-agenda-toggle-empty ()
+    (interactive)
+    (setq org-agenda-show-all-dates (not org-agenda-show-all-dates))
+    (call-interactively 'org-agenda-redo))
+
+  (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)
+
   (define-minor-mode org-log-mode
     :lighter " org-log"
     :keymap (let ((map (make-sparse-keymap)))
@@ -121,7 +128,10 @@ END:VALARM\n"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-adapt-indentation nil)
+ '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files (quote ("~/notes" "~/notes/home" "~/notes/work")))
+ '(org-agenda-restore-windows-after-quit t)
+ '(org-agenda-window-setup (quote other-frame))
  '(org-capture-templates
    (quote
     (("c" "Task" entry

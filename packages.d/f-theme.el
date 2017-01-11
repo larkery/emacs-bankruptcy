@@ -20,6 +20,14 @@
 
     (theme->xresources))
 
+  (defun face-rgb-color (face attr)
+    (let* ((colr (face-attribute face attr))
+           (rgb (color-name-to-rgb colr))
+           (hsl (apply 'color-rgb-to-hsl rgb))
+           (hsl2 (list (nth 0 hsl) (max 1.0 (- (nth 1 hsl) 0.1)) (min 1.0 (+ 0.1 (nth 2 hsl)))))
+           (rgb2 (apply 'color-hsl-to-rgb hsl2)))
+      (apply 'color-rgb-to-hex rgb2)))
+
   (defun theme->xresources ()
     "Generate and update xresources from current theme"
     (interactive)
@@ -55,15 +63,12 @@
                          ("color15" term-color-white :background))
            do (destructuring-bind
                   (resource face attr) spec
-                (let* ((colr (face-attribute face attr))
-                       (rgb (color-name-to-rgb colr))
-                       (hsl (apply 'color-rgb-to-hsl rgb))
-                       (hsl2 (list (nth 0 hsl) (max 1.0 (- (nth 1 hsl) 0.1)) (min 1.0 (+ 0.1 (nth 2 hsl)))))
-                       (rgb2 (apply 'color-hsl-to-rgb hsl2))
-                       (nam (apply 'color-rgb-to-hex rgb2)))
-
+                (let ((nam (face-rgb-color face attr)))
                   (insert (format "%s*%s: %s\n" term resource nam))))))
 
+      (insert (format "*foreground: %s\n*background: %s\n"
+                      (face-rgb-color 'default :foreground)
+                      (face-rgb-color 'default :background)))
 
       (call-process-region
        (point-min)

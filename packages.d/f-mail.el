@@ -26,7 +26,6 @@
               (pop-to-buffer buf)
             (message "Error checking mail, and process buffer has gone missing!"))))))
 
-
   (defun notmuch-poll-and-refresh-async ()
     (interactive)
     (with-current-buffer (get-buffer-create "*notmuch new*")
@@ -43,6 +42,27 @@
       (let ((bounds (bounds-of-thing-at-point 'line)))
         (delete-region (car bounds) (cdr bounds)))
       (notmuch-fcc-header-setup)))
+
+  (defun my-notmuch-change-from ()
+    (interactive)
+    (save-excursion
+      (message-goto-from)
+      (let* ((from-end (point))
+             (from-start (progn
+                           (message-beginning-of-line)
+                           (point)))
+             (from-text (buffer-substring from-start from-end))
+             (mails notmuch-identities))
+        (while (and mails (not (string= from-text (car mails))))
+          (setq mails (cdr mails)))
+
+        (let ((new-from (or (cadr mails)
+                            (car notmuch-identities))))
+          (delete-region from-start from-end)
+          (insert new-from)
+          (my-notmuch-fix-fcc)))))
+
+  (bind-key "C-c m" 'my-notmuch-change-from notmuch-message-mode-map)
 
   (defun my-notmuch-show-unsubscribe ()
     "When in a notmuch show mail, try to find an unsubscribe link and click it..
@@ -188,6 +208,9 @@ This will be the link nearest the end of the message which either contains or fo
  '(notmuch-hello-sections
    (quote
     (notmuch-hello-insert-search notmuch-hello-insert-alltags notmuch-hello-insert-inbox notmuch-hello-insert-saved-searches)))
+ '(notmuch-identities
+   (quote
+    ("Tom Hinton <tom.hinton@cse.org.uk>" "Tom Hinton <t@larkery.com>")))
  '(notmuch-mua-cite-function (quote message-cite-original-without-signature))
  '(notmuch-mua-send-hook (quote (my-notmuch-fix-fcc notmuch-mua-message-send-hook)))
  '(notmuch-saved-searches

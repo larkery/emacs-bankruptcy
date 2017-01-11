@@ -54,6 +54,7 @@
    (vc-mode vc-mode)
 
    ""
+
    (:eval
     (my-mode-line-pad-right
      (list
