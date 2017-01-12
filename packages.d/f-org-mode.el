@@ -120,6 +120,7 @@ END:VALARM\n"
         org-icalendar-timezone "Europe/London"
 
         org-caldav-save-directory "~/notes/.metadata/"
+        org-caldav-backup-file nil
         )
 
   )
