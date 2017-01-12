@@ -28,7 +28,7 @@
            (rgb2 (apply 'color-hsl-to-rgb hsl2)))
       (apply 'color-rgb-to-hex rgb2)))
 
-  (defun theme->xresources ()
+  (defun theme->xresources (&rest _blah)
     "Generate and update xresources from current theme"
     (interactive)
     (require 'term)
@@ -77,7 +77,7 @@
        nil nil nil
        "-merge")
       (write-region (point-min) (point-max) "~/.emacs-xresources")
-      (kill-buffer)))
-
-  (theme->xresources)
+      (kill-buffer))
+    (remove-hook 'after-make-frame-functions 'theme->xresources))
+  (add-hook 'after-make-frame-functions 'theme->xresources)
   )

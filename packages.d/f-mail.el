@@ -76,7 +76,15 @@ This will be the link nearest the end of the message which either contains or fo
 
       (ffap-next-url)))
 
+  (defun my-notmuch-show-unread ()
+    (interactive)
+    (while (and (notmuch-show-goto-message-next)
+                (not (member "unread" (notmuch-show-get-tags)))))
+    (notmuch-show-message-visible (notmuch-show-get-message-properties) t)
+    (recenter-top-bottom 0))
+
   (bind-key "U" #'my-notmuch-show-unsubscribe 'notmuch-show-mode-map)
+  (bind-key "u" #'my-notmuch-show-unread 'notmuch-show-mode-map)
 
   (defun my-mml-attach-dired ()
     (interactive)
@@ -164,9 +172,38 @@ This will be the link nearest the end of the message which either contains or fo
                                       subtype))
                                   (cdr entry))))))
          mailcap-mime-data))
+
+  (defvar my-selection-to-quote nil)
+
+  (defun my-notmuch-reply-sender-qs ()
+    (interactive "")
+    (let ((my-selection-to-quote
+           (when (use-region-p) (buffer-substring-no-properties (point) (mark)))))
+      (call-interactively 'notmuch-show-reply-sender)))
+
+  (defun my-notmuch-reply-qs ()
+    (interactive "")
+    (let ((my-selection-to-quote
+           (when (use-region-p) (buffer-substring-no-properties (point) (mark)))))
+      (call-interactively 'notmuch-show-reply)))
+
+  (bind-key "r" 'my-notmuch-reply-sender-qs 'notmuch-show-mode-map)
+  (bind-key "R" 'my-notmuch-reply-qs 'notmuch-show-mode-map)
+
+  (defun message-cite-original-without-signature-or-selection ()
+    (if my-selection-to-quote
+        (save-excursion
+          (let ((here (point)))
+            (forward-line 3)
+            (delete-region (point) (mark))
+
+            (insert my-selection-to-quote)
+            (set-mark (point))
+            (goto-char here))))
+    (message-cite-original-without-signature))
+
   )
 
-;;        '(message-header-setup-hook '(notmuch-fcc-header-setup))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -176,7 +213,8 @@ This will be the link nearest the end of the message which either contains or fo
  '(message-auto-save-directory "~/temp/messages/")
  '(message-citation-line-format "")
  '(message-citation-line-function (quote message-insert-formatted-citation-line))
- '(message-cite-function (quote message-cite-original-without-signature))
+ '(message-cite-function
+   (quote message-cite-original-without-signature-or-selection))
  '(message-cite-prefix-regexp "[[:space:]]*>[ >]*")
  '(message-cite-reply-position (quote traditional))
  '(message-cite-style nil)
@@ -211,7 +249,8 @@ This will be the link nearest the end of the message which either contains or fo
  '(notmuch-identities
    (quote
     ("Tom Hinton <tom.hinton@cse.org.uk>" "Tom Hinton <t@larkery.com>")))
- '(notmuch-mua-cite-function (quote message-cite-original-without-signature))
+ '(notmuch-mua-cite-function
+   (quote message-cite-original-without-signature-or-selection))
  '(notmuch-mua-send-hook (quote (my-notmuch-fix-fcc notmuch-mua-message-send-hook)))
  '(notmuch-saved-searches
    (quote
