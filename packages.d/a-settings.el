@@ -8,7 +8,6 @@
 (tool-bar-mode -1)
 (setq inhibit-startup-screen t)
 (defalias 'yes-or-no-p 'y-or-n-p)
-
 ;; utf8
 
 (prefer-coding-system 'utf-8)
