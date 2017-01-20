@@ -148,11 +148,21 @@ This will be the link nearest the end of the message which either contains or fo
        amendments))
     (notmuch-search-next-thread))
 
+
+  (defvar my-notmuch-random-tag nil)
+  (make-variable-buffer-local 'my-notmuch-random-tag)
+
   (bind-keys
    :map notmuch-search-mode-map
    ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
+   ("," . (lambda (arg) (interactive "P")
+            (when (or arg (not my-notmuch-random-tag))
+              (setq my-notmuch-random-tag
+                    (completing-read "toggle tag: " '())))
+            (when my-notmuch-random-tag
+              (my-notmuch-flip-tags my-notmuch-random-tag))))
    ("g" . notmuch-refresh-this-buffer))
 
   (setq mailcap-mime-data
@@ -262,11 +272,40 @@ This will be the link nearest the end of the message which either contains or fo
      (:name "sent" :query "tag:sent" :key "t")
      (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
      (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
+ '(notmuch-search-line-faces
+   (quote
+    (("unread" . notmuch-search-unread-face)
+     ("flagged" . notmuch-search-flagged-face)
+     ("deleted" :strike-through "red"))))
  '(notmuch-search-oldest-first nil)
+ '(notmuch-search-result-format
+   (quote
+    (("date" . "%12s ")
+     ("count" . "%-7s ")
+     ("authors" . "%-20s ")
+     ("subject" . "%s ")
+     ("tags" . "%s"))))
  '(notmuch-show-hook
    (quote
     (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
  '(notmuch-show-indent-messages-width 2)
+ '(notmuch-tag-formats
+   (quote
+    (("flagged")
+     ("inbox" "I"
+      (notmuch-apply-face tag
+                          (quote
+                           (:weight bold))))
+     ("replied" "R"
+      (notmuch-apply-face tag
+                          (quote
+                           (:weight bold))))
+     ("sent")
+     ("unread")
+     ("attachment" "A"
+      (notmuch-apply-face tag
+                          (quote
+                           (:weight bold)))))))
  '(notmuch-wash-original-regexp
    "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
  '(notmuch-wash-signature-lines-max 30)
@@ -294,4 +333,4 @@ This will be the link nearest the end of the message which either contains or fo
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(notmuch-tag-face ((t (:underline t :height 0.75 :family "sans")))))
+ '(notmuch-tag-face ((t (:foreground "white" :box (:line-width 1 :color "white" :style pressed-button) :height 0.8)))))

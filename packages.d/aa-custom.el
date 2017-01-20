@@ -18,6 +18,7 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#3f3f3f" "#ea3838" "#7fb07f" "#fe8b04" "#62b6ea" "#e353b9" "#1fb3b3" "#d5d2be"])
+ '(appt-display-mode-line nil)
  '(blink-cursor-mode t)
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-chromium-arguments (quote ("--new-window")))

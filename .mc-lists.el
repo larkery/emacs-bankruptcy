@@ -51,6 +51,7 @@
         outshine-self-insert-command
         sacha/smarter-move-beginning-of-line
         sgml-slash
+        sh-assignment
         sp-backward-sexp
         sp-forward-sexp
         sp-forward-slurp-sexp

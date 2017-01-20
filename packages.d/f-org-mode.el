@@ -73,7 +73,10 @@ END:VALARM\n"
     (setq org-agenda-show-all-dates (not org-agenda-show-all-dates))
     (call-interactively 'org-agenda-redo))
 
-  (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)
+
+  (add-hook 'org-agenda-mode-hook
+            (lambda ()
+              (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
   (define-minor-mode org-log-mode
     :lighter " org-log"
