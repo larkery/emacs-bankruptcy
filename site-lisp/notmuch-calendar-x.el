@@ -2,8 +2,8 @@
 
 ;;; Commentary:
 
-;; makes notmuch work with icalendar, including buttons; derived from notmuch-calendar-import.el
-;; by Vagn Johansen
+;; A grim hack by tom hinton.
+;; makes notmuch work with icalendar, including buttons; derived from notmuch-calendar-import.el by Vagn Johansen.
 
 ;;; Code:
 
