@@ -24,8 +24,10 @@
           ("https://mathbabe.org/feed" math data)
           ("http://www.formerdays.com/feeds/posts/default" pictures)
           ("http://planet.nixos.org/atom.xml" nixos)
-          ("http://www.world-nuclear-news.org/rss.aspx?fid=790" nuke)
-          ("https://www.iaea.org/feeds/topnews" nuke)
+          ;; ("http://www.world-nuclear-news.org/rss.aspx?fid=790" nuke)
+
+          ;; ("https://www.iaea.org/feeds/topnews" nuke)
+
           )
 
         elfeed-use-curl t
