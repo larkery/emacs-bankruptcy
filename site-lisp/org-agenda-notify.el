@@ -4,6 +4,7 @@
 
 (require 'notifications)
 (require 'diary-lib)
+(require 'org-agenda)
 
 (defun my-notifications-bus-adv (o &rest args)
   (let ((bus (with-temp-buffer (insert-file-contents "~/.dbus_session_bus_address")
@@ -15,12 +16,13 @@
 
 (defun org-agenda-notify--set-next ()
   (setq org-agenda-notify-next (cdr (pop org-agenda-notify-queue)))
-
+  (message "%s" org-agenda-notify-next)
   (when org-agenda-notify-next
     (setq org-agenda-notify-next
           (string-trim (substring-no-properties
                         org-agenda-notify-next
-                        (+ 1 (seq-position org-agenda-notify-next ?:))))))
+                        (+ 1 (or (seq-position org-agenda-notify-next ?:)
+                                 -1))))))
 
   (with-temp-buffer (insert (or org-agenda-notify-next
                                 "nothing") "\n")
@@ -111,6 +113,6 @@
   (org-agenda-notify--set-next))
 
 (org-agenda-notify)
-(run-at-time "00:00" (* 24 60 60) 'org-agenda-notify)
+(run-at-time "00:00" (* 4 60 60) 'org-agenda-notify)
 
 (provide 'org-agenda-notify)

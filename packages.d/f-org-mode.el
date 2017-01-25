@@ -17,6 +17,7 @@
   :config
   (require 'org-notmuch)
   (require 'org-capture-pop-frame)
+  (require 'org-agenda-notify)
 
   (org-clock-persistence-insinuate)
 

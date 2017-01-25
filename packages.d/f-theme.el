@@ -69,15 +69,18 @@
       (insert (format "*Foreground: %s\n*Background: %s\n"
                       (face-attribute 'default :foreground)
                       (face-attribute 'default :background)))
+      (goto-char (point-min))
+      (unless (search-forward-regexp "undefined" nil t)
+        (call-process-region
+         (point-min)
+         (point-max)
+         "xrdb"
+         nil nil nil
+         "-merge")
+        (write-region (point-min) (point-max) "~/.emacs-xresources")
 
-      (call-process-region
-       (point-min)
-       (point-max)
-       "xrdb"
-       nil nil nil
-       "-merge")
-      (write-region (point-min) (point-max) "~/.emacs-xresources")
-      (kill-buffer))
-    (remove-hook 'after-make-frame-functions 'theme->xresources))
-  (add-hook 'after-make-frame-functions 'theme->xresources)
+        (remove-hook 'window-configuration-change-hook 'theme->xresources))
+      (kill-buffer)))
+
+  (add-hook 'window-configuration-change-hook 'theme->xresources)
   )
