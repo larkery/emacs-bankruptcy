@@ -34,7 +34,6 @@
     (when final (org-agenda-notify--set-next))
 
     (notifications-notify
-    :bus (dbus-init-bus bus)
     :title "appt"
     :body msg
     :urgency (if final 'critical 'normal))))

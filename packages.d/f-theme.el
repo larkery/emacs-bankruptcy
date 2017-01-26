@@ -70,14 +70,14 @@
                       (face-attribute 'default :foreground)
                       (face-attribute 'default :background)))
       (goto-char (point-min))
-      (unless (search-forward-regexp "undefined" nil t)
+      (unless (search-forward "unspecified" nil t)
         (call-process-region
          (point-min)
          (point-max)
          "xrdb"
          nil nil nil
          "-merge")
-        (write-region (point-min) (point-max) "~/.emacs-xresources")
+        (write-region (point-min) (point-max) "~/.Xresources_emacs")
 
         (remove-hook 'window-configuration-change-hook 'theme->xresources))
       (kill-buffer)))

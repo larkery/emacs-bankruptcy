@@ -128,6 +128,7 @@
         special-swiper
         subword-left
         subword-right
+        upcase-region
         yas-expand
         ))
 
