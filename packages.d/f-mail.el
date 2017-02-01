@@ -187,8 +187,10 @@ This will be the link nearest the end of the message which either contains or fo
 
   (defun my-notmuch-reply-sender-qs ()
     (interactive "")
+
     (let ((my-selection-to-quote
-           (when (use-region-p) (buffer-substring-no-properties (point) (mark)))))
+           (when (use-region-p)
+             (buffer-substring-no-properties (point) (mark)))))
       (call-interactively 'notmuch-show-reply-sender)))
 
   (defun my-notmuch-reply-qs ()
@@ -200,16 +202,37 @@ This will be the link nearest the end of the message which either contains or fo
   (bind-key "r" 'my-notmuch-reply-sender-qs 'notmuch-show-mode-map)
   (bind-key "R" 'my-notmuch-reply-qs 'notmuch-show-mode-map)
 
+  (defun minimally-indent (p m)
+    (interactive "r")
+    (save-excursion
+      (save-restriction
+        (goto-char p)
+        (let ((mindent (progn (back-to-indentation)
+                              (current-column))))
+          (while (< (point) m)
+            (forward-line)
+            (back-to-indentation)
+            (unless (looking-at "^$")
+              (setq mindent (min mindent (current-column))))
+            (end-of-line))
+          (forward-line -1)
+          (move-to-column mindent)
+          (delete-rectangle p (point))))))
+
   (defun message-cite-original-without-signature-or-selection ()
     (if my-selection-to-quote
         (save-excursion
-          (let ((here (point)))
+          (let ((here (point))
+                after-header)
             (forward-line 3)
             (delete-region (point) (mark))
-
+            (setq after-header (point))
             (insert my-selection-to-quote)
             (set-mark (point))
-            (goto-char here))))
+            (goto-char after-header)
+            (minimally-indent (point) (mark))
+            (goto-char here)
+            )))
     (message-cite-original-without-signature))
 
   )

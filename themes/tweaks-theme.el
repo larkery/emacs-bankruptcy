@@ -27,6 +27,8 @@
  '(org-level-7 ((t (:height 1.1 :weight bold))))
  '(org-level-8 ((t (:height 1.1 :weight bold))))
  '(org-level-9 ((t (:height 1.1 :weight bold))))
+
+ '(alect-title ((t (:foreground "orange"))))
  )
 
 (provide-theme 'tweaks)
