@@ -103,7 +103,14 @@
 ;;   (setq avy-style 'at-full))
 
 
-(req-package expand-region :bind ("C-=" . er/expand-region))
+(req-package expand-region :bind ("C-=" . er/expand-region)
+  :config
+
+  (with-eval-after-load 'notmuch
+    (er/enable-mode-expansions 'notmuch-show-mode
+                               'er/add-text-mode-expansions))
+
+  )
 
 (req-package adaptive-wrap
   :commands adaptive-wrap-prefix-mode
