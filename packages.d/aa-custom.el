@@ -23,6 +23,7 @@
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-chromium-arguments (quote ("--new-window")))
  '(browse-url-generic-program "xdg-open")
+ '(clean-buffer-list-delay-general 2)
  '(comint-prompt-read-only t)
  '(custom-safe-themes
    (quote
@@ -84,6 +85,7 @@
  '(linum-format " %6d ")
  '(main-line-color1 "#222232")
  '(main-line-color2 "#333343")
+ '(midnight-mode t)
  '(mml-secure-openpgp-encrypt-to-self t)
  '(nrepl-message-colors
    (quote

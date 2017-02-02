@@ -463,6 +463,9 @@ Subject: " my-reply-subject "
           (:weight bold)
           (:weight bold)
           (:weight bold)
+          (:weight bold)
+          (:weight bold)
+          (:weight bold)
           (:weight bold))))
       (notmuch-apply-face tag
                           (quote
@@ -471,6 +474,9 @@ Subject: " my-reply-subject "
       #("R" 0 1
         (face
          ((:weight bold)
+          (:weight bold)
+          (:weight bold)
+          (:weight bold)
           (:weight bold)
           (:weight bold)
           (:weight bold)
@@ -545,6 +551,9 @@ Subject: " my-reply-subject "
       #("A" 0 1
         (face
          ((:weight bold)
+          (:weight bold)
+          (:weight bold)
+          (:weight bold)
           (:weight bold)
           (:weight bold)
           (:weight bold)
