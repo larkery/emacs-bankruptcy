@@ -14,9 +14,9 @@
  (position . 21286))
 ("org-capture-last-stored"
  (filename . "~/notes/calendar.org")
- (front-context-string . "* Liz Birthday R")
- (rear-context-string . "2017-01-15 Sun>\n")
- (position . 22900))
+ (front-context-string . "* THERMOS catch-")
+ (rear-context-string . "06 13:00-14:00>\n")
+ (position . 28204))
 ("thermos-folder"
  (filename . "~/projects/110-thermos/")
  (front-context-string . "data\n  -rw-r--r-")

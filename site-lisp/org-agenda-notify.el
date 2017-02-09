@@ -19,10 +19,12 @@
   (message "%s" org-agenda-notify-next)
   (when org-agenda-notify-next
     (setq org-agenda-notify-next
+          ;; (substring-no-properties org-agenda-notify-next)
           (string-trim (substring-no-properties
                         org-agenda-notify-next
                         (+ 1 (or (seq-position org-agenda-notify-next ?:)
-                                 -1))))))
+                                 -1))))
+          ))
 
   (with-temp-buffer (insert (or org-agenda-notify-next
                                 "nothing") "\n")
@@ -68,7 +70,6 @@
                           (apply 'org-agenda-get-day-entries
                                  file today scope)))))
     ;; Map thru entries and find if we should filter them out
-
     (mapc
      (lambda (x)
        (let* ((evt (org-trim
@@ -111,6 +112,8 @@
 
   (org-agenda-notify--set-next))
 
+;; TODO this doesn't work right on first startup, only after running org agenda
+;; once
 (org-agenda-notify)
 (run-at-time "00:00" (* 4 60 60) 'org-agenda-notify)
 
