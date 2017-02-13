@@ -26,10 +26,10 @@
                                  -1))))
           ))
 
-  (with-temp-buffer (insert (or org-agenda-notify-next
-                                "nothing") "\n")
-                    (write-region (point-min) (point-max)
-                                  "~/.xmonad/xmobar-pipe" t)))
+  (start-process "xprop" nil
+                 "xprop" "-root"
+                 "-f" "NEXT_APPOINTMENT" "8s"
+                 "-set" "NEXT_APPOINTMENT" (or org-agenda-notify-next "n/a")))
 
 (defun org-agenda-notify--trigger (msg wrn)
   (let ((final (zerop wrn)))

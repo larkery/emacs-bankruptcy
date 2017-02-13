@@ -146,7 +146,8 @@ END:VALARM\n"
 %u")
      ("e" "Calendar" entry
       (file "~/notes/calendar.org")
-      "* %?"))))
+      "* %?
+%^T"))))
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-outline-path-complete-in-steps nil)

@@ -338,8 +338,7 @@ Subject: " my-reply-subject "
      (:name "live" :query "tag:unread or tag:flagged" :key "u")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t")
-     (:name "personal inbox" :query "tag:inbox and path:fm/**" :key "p")
-     (:name "jira" :query "from:jira@cseresearch.atlassian.net" :key "j" :count-query "J"))))
+     (:name "personal inbox" :query "tag:inbox and path:fastmail/**" :key "p"))))
  '(notmuch-search-line-faces
    (quote
     (("unread" . notmuch-search-unread-face)
@@ -360,12 +359,23 @@ Subject: " my-reply-subject "
  '(notmuch-tag-formats
    (quote
     (("flagged")
-     ("inbox" "I" (notmuch-apply-face tag (quote (:weight bold))))
-     ("replied" "R" (notmuch-apply-face tag (quote (:weight bold))))
+     ("inbox"
+      "I"
+      (notmuch-apply-face tag
+                          (quote
+                           (:weight bold))))
+     ("replied"
+      "R"
+      (notmuch-apply-face tag
+                          (quote
+                           (:weight bold))))
      ("sent")
-     ("unread" "U")
-     ("attachment" "A" (notmuch-apply-face tag (quote (:weight bold)))))))
-
+     ("unread")
+     ("attachment"
+      "A"
+      (notmuch-apply-face tag
+                          (quote
+                           (:weight bold)))))))
  '(notmuch-wash-original-regexp
    "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
  '(notmuch-wash-signature-lines-max 30)
