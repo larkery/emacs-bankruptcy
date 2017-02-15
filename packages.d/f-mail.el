@@ -282,6 +282,26 @@ Subject: " my-reply-subject "
 
   )
 
+(setq notmuch-tag-formats
+      (quote
+       (("flagged")
+        ("inbox"
+         "I"
+         (notmuch-apply-face tag
+                             (quote
+                              (:weight bold))))
+        ("replied"
+         "R"
+         (notmuch-apply-face tag
+                             (quote
+                              (:weight bold))))
+        ("sent")
+        ("unread")
+        ("attachment"
+         "A"
+         (notmuch-apply-face tag
+                             (quote
+                              (:weight bold)))))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -356,26 +376,6 @@ Subject: " my-reply-subject "
    (quote
     (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
  '(notmuch-show-indent-messages-width 2)
- '(notmuch-tag-formats
-   (quote
-    (("flagged")
-     ("inbox"
-      "I"
-      (notmuch-apply-face tag
-                          (quote
-                           (:weight bold))))
-     ("replied"
-      "R"
-      (notmuch-apply-face tag
-                          (quote
-                           (:weight bold))))
-     ("sent")
-     ("unread")
-     ("attachment"
-      "A"
-      (notmuch-apply-face tag
-                          (quote
-                           (:weight bold)))))))
  '(notmuch-wash-original-regexp
    "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
  '(notmuch-wash-signature-lines-max 30)

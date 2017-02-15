@@ -138,6 +138,7 @@ END:VALARM\n"
  '(org-agenda-files (quote ("~/notes" "~/notes/home" "~/notes/work")))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t))))
  '(org-capture-templates
    (quote
     (("c" "Task" entry
@@ -148,8 +149,10 @@ END:VALARM\n"
       (file "~/notes/calendar.org")
       "* %?
 %^T"))))
+ '(org-confirm-babel-evaluate nil)
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
+ '(org-log-done (quote time))
  '(org-outline-path-complete-in-steps nil)
  '(org-refile-allow-creating-parent-nodes t)
  '(org-refile-targets

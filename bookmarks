@@ -13,10 +13,10 @@
  (rear-context-string . "09 14:00-15:30>\n")
  (position . 21286))
 ("org-capture-last-stored"
- (filename . "~/notes/inbox.org")
- (front-context-string . "* TODO Put out t")
- (rear-context-string . "2017-02-02 Thu]\n")
- (position . 6185))
+ (filename . "~/notes/calendar.org")
+ (front-context-string . "* Future Energy ")
+ (rear-context-string . "02 13:15-14:00>\n")
+ (position . 29740))
 ("thermos-folder"
  (filename . "~/projects/110-thermos/")
  (front-context-string . "data\n  -rw-r--r-")
