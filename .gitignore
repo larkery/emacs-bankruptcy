@@ -12,3 +12,4 @@ var
 org-caldav-backup.org
 projectile-bookmarks.eld
 *.elc
+bookmarks
