@@ -6,7 +6,7 @@
        (save-restriction
          (let ((bounds (bounds-of-thing-at-point 'line))
                equal-sign)
-           (narrow-to-region (car bounds) (cdr bounds))
+           (narrow-to-region (car bounds) (- (cdr bounds) 1))
            (goto-char (point-min))
 
            (when (setq equal-sign (search-forward-regexp "\\([[:space:]]*=\\)\\|\\([[:space:]]+$\\)" nil t))

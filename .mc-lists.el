@@ -36,6 +36,8 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        math-eval-line
+        message-beginning-of-line
         multiple-cursors-mode
         mwim-end-of-code-or-line
         my-just-one-space

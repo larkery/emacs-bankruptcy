@@ -296,7 +296,7 @@ Subject: " my-reply-subject "
                              (quote
                               (:weight bold))))
         ("sent")
-        ("unread")
+        ("unread" "U" (notmuch-apply-face tag (quote (:background "purple"))))
         ("attachment"
          "A"
          (notmuch-apply-face tag
