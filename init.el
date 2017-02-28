@@ -18,7 +18,7 @@
 
 (package-initialize)
 
-(byte-recompile-directory user-emacs-directory)
+;; (byte-recompile-directory user-emacs-directory)
 
 (dolist (f (directory-files
 	    (concat user-emacs-directory
