@@ -16,15 +16,16 @@
 
 (defun org-agenda-notify--set-next ()
   (setq org-agenda-notify-next (cdr (pop org-agenda-notify-queue)))
-  (message "%s" org-agenda-notify-next)
   (when org-agenda-notify-next
     (setq org-agenda-notify-next
           ;; (substring-no-properties org-agenda-notify-next)
           (string-trim (substring-no-properties
-                        org-agenda-notify-next
-                        (+ 1 (or (seq-position org-agenda-notify-next ?:)
-                                 -1))))
-          ))
+                        (replace-regexp-in-string
+                         (rx (| (: bos (+ (not digit)) ":")
+                                (: (* whitespace) ":" (+ (not (any ":"))) ":" eos)))
+                         ""
+                         org-agenda-notify-next
+                         )))))
 
   (start-process "xprop" nil
                  "xprop" "-root"

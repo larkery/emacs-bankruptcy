@@ -324,6 +324,8 @@ Subject: " my-reply-subject "
  '(message-yank-cited-prefix ">")
  '(message-yank-empty-prefix "")
  '(message-yank-prefix "> ")
+ '(mm-inline-large-images (quote resize))
+ '(mm-inline-large-images-proportion 0.75)
  '(mm-inline-text-html-with-images t)
  '(mm-inlined-types
    (quote
