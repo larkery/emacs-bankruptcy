@@ -19,14 +19,17 @@
   (when org-agenda-notify-next
     (setq org-agenda-notify-next
           ;; (substring-no-properties org-agenda-notify-next)
-          (string-trim (substring-no-properties
-                        (replace-regexp-in-string
-                         (rx (| (: bos (+ (not digit)) ":")
-                                (: (* whitespace) ":" (+ (not (any ":"))) ":" eos)))
-                         ""
-                         org-agenda-notify-next
-                         )))))
 
+          (replace-regexp-in-string
+           (rx (| (seq line-start (+ whitespace))
+                  (seq whitespace ":" (one-or-more (not whitespace)) ":" (zero-or-more whitespace)
+                       line-end)))
+           ""
+
+           (replace-regexp-in-string
+            (rx (+ whitespace)) " "
+            org-agenda-notify-next
+            ))))
   (start-process "xprop" nil
                  "xprop" "-root"
                  "-f" "NEXT_APPOINTMENT" "8s"
