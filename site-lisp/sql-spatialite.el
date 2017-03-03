@@ -1,4 +1,5 @@
 (require 'sql)
+(require 'subr-x)
 
 (defcustom
   sql-spatialite-program (or (executable-find "spatialite")
@@ -34,6 +35,7 @@ works when the database is a TRAMP remote path"
 
 (defvar spatialite-syntax
   (eval-when-compile
+    (require 'subr-x)
     (let ((spatialite-syntax (make-hash-table :test 'equal)))
       (with-temp-buffer
         ;; xidel spatialite-sql-4.3.0.html --extract '//tr/td[position()=2]' | perl -0777 -nle \
@@ -970,6 +972,7 @@ ExportDXF( out_dir String , filename String , sql_query String , layer_col_name 
 
 (defvar sql-mode-spatialite-font-lock-keywords
   (eval-when-compile
+    (require 'subr-x)
     (list
      ;; SQLite 
      '("^[.].*$" . font-lock-doc-face)

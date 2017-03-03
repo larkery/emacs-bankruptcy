@@ -49,6 +49,35 @@
      )
   (ido-mode)
 
+  (defun my-ido-find-common-substring (items text)
+    "I don't know if this works a bit worse, but it's faster"
+    (or (when items
+          (let* (chr
+                 name
+                 nlen
+
+                 (skip (length text))
+                 (first (ido-name (car items)))
+                 (items (cdr items))
+                 (maxi (- (length first) 1)))
+
+            (loop for item in items
+                  until (= maxi skip)
+                  do
+                  (setq name (ido-name item))
+                  (setq nlen (- (length name) 1))
+                  (setq maxi
+                        (loop for i from (min skip nlen) to (min maxi nlen)
+                              until (/= (aref first i) (aref name i))
+                              finally return i)))
+
+            (substring-no-properties first 0 (min (- (length first) 1) maxi)))
+          ) ""))
+
+  (advice-add 'ido-find-common-substring
+              :override
+              'my-ido-find-common-substring)
+
   (defun my-ido-regex (input)
     ;; todo handle backslash space
 
@@ -101,7 +130,13 @@
   (defun my-ido-set-matches-1 (items &optional do-full)
     ;; I have no idea what do-full is for.
 
-    (let* ((matches nil)
+    (let* (name
+           mi
+
+           (ido-text0 (if (zerop (length ido-text))
+                          0 (aref ido-text 0)))
+
+           (matches nil)
            (exact-matches nil)
            (prefix-matches nil)
 
@@ -114,23 +149,20 @@
                                (= (length ido-text) 0))))
 
       (dolist (item items)
-        (let ((name (ido-name item))
-              mi)
-          (when (and (or non-prefix-dot
-                         (if (= (aref ido-text 0) ?.)
-                             (= (aref name 0) ?.)
-                           (/= (aref name 0) ?.)))
-                     (setq mi (string-match re name)))
-
-            (cond
-             ((= count (length name))
-              (setq exact-matches (cons item exact-matches)))
-             ((zerop mi)
-              (setq prefix-matches (cons item prefix-matches)))
-             (t (setq matches (cons item matches)))
-             )
-            )
-          ))
+        (setq name (ido-name item)
+              mi nil)
+        (when (and (or non-prefix-dot
+                       (= ido-text0 (aref name 0) ?.)
+                       (and (= ?. ido-text0)
+                            (/= (aref name 0) ?.)))
+                   (setq mi (string-match re name)))
+          (cond
+           ((= count (length name))
+            (setq exact-matches (cons item exact-matches)))
+           ((zerop mi)
+            (setq prefix-matches (cons item prefix-matches)))
+           (t (setq matches (cons item matches)))
+           )))
 
       (setq matches (nconc exact-matches prefix-matches matches))
       (setq my-last-ido-regexp re)

@@ -12,6 +12,7 @@
 ;; 	     (setq max-mini-window-height 0.2))
 
 (req-package w3m
+  :defer t
   :config
 
   (setq w3m-use-title-buffer-name t

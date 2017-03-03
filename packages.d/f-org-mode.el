@@ -3,6 +3,7 @@
 (initsplit-this-file bos "org-")
 
 (req-package org
+  :defer t
   :require orgit org-capture-pop-frame
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
@@ -112,6 +113,7 @@ END:VALARM\n"
   )
 
 (req-package org-caldav
+  :commands org-caldav-sync
   :config
   (setq org-caldav-url
         "https://caldav.fastmail.com/dav/calendars/user/larkery@fastmail.fm"

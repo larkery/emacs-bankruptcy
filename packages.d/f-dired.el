@@ -21,13 +21,14 @@
              (setq dired-subtree-line-prefix "  ┇"))
 
 (req-package dired-narrow
+  : commands dired-narrow
   :init
   (bind-key "/" #'dired-narrow dired-mode-map))
 
-(req-package dired :require emacs-async)
-
 (req-package dired-ranger
-  :config
+  :commands dired-ranger-copy dired-ranger-paste
+  :defer t
+  :init
   (bind-keys
    :map dired-mode-map
    ("C-w" . dired-ranger-copy)

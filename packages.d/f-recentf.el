@@ -2,7 +2,6 @@
 
 (req-package recentf
   :demand t
-  :require ivy
   :bind ("C-x C-r" . cr-recentf)
   :config
 

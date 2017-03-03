@@ -27,6 +27,7 @@
   (bind-key "C-c C-f" 'anaconda-mode-show-doc python-mode-map))
 
 (req-package python
+  :defer t
   :config
   (setq python-shell-interpreter "python3"))
 
