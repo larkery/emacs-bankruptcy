@@ -49,38 +49,18 @@
      )
   (ido-mode)
 
+  (defvar my-ido-common-completion "")
+
   (defun my-ido-find-common-substring (items text)
-    "I don't know if this works a bit worse, but it's faster"
-    (or (when items
-          (let* (chr
-                 name
-                 nlen
+    "Replace ido-find-common-substring with the optimised version computed in my-ido-set-matches-1"
+    my-ido-common-completion)
 
-                 (skip (length text))
-                 (first (ido-name (car items)))
-                 (items (cdr items))
-                 (maxi (- (length first) 1)))
-
-            (loop for item in items
-                  until (= maxi skip)
-                  do
-                  (setq name (ido-name item))
-                  (setq nlen (- (length name) 1))
-                  (setq maxi
-                        (loop for i from (min skip nlen) to (min maxi nlen)
-                              until (/= (aref first i) (aref name i))
-                              finally return i)))
-
-            (substring-no-properties first 0 (min (- (length first) 1) maxi)))
-          ) ""))
 
   (advice-add 'ido-find-common-substring
               :override
               'my-ido-find-common-substring)
 
   (defun my-ido-regex (input)
-    ;; todo handle backslash space
-
     (condition-case
         error
         (cond
@@ -130,8 +110,15 @@
   (defun my-ido-set-matches-1 (items &optional do-full)
     ;; I have no idea what do-full is for.
 
+    ;; unlike ido-set-matches-1, this also sets my-ido-common-completion
+    ;; which is the longest string that can be inserted at point
+
+    (setq my-ido-common-completion nil)
     (let* (name
-           mi
+           nlen
+           mi me
+
+           common-completion-length
 
            (ido-text0 (if (zerop (length ido-text))
                           0 (aref ido-text 0)))
@@ -150,19 +137,58 @@
 
       (dolist (item items)
         (setq name (ido-name item)
-              mi nil)
+              mi nil
+              me nil)
+        (setq nlen (length name))
         (when (and (or non-prefix-dot
                        (= ido-text0 (aref name 0) ?.)
                        (and (= ?. ido-text0)
                             (/= (aref name 0) ?.)))
                    (setq mi (string-match re name)))
+          (setq me (match-end 0))
+
           (cond
-           ((= count (length name))
-            (setq exact-matches (cons item exact-matches)))
+           ((= count nlen)
+            (setq exact-matches (cons item exact-matches)
+                  my-ido-common-completion ""
+                  common-completion-length 0)) ;; clear the completion since this is full-length
            ((zerop mi)
             (setq prefix-matches (cons item prefix-matches)))
-           (t (setq matches (cons item matches)))
-           )))
+           (t (setq matches (cons item matches))))
+
+          (if my-ido-common-completion
+              ;; if the ccl is already zero, we don't bother
+              (unless (zerop common-completion-length)
+                ;; if the current match goes to the end
+                ;; we know that there can be no more completion
+                (if (= me nlen)
+                    (setq my-ido-common-completion ""
+                          common-completion-length 0)
+                  ;; otherwise, scan the rest of item
+                  ;; until either we get to the end
+                  ;; or a mismatch
+                  (setq common-completion-length
+                          (loop for i from 0 to (min (- common-completion-length 1)
+                                                     (- nlen me 1))
+
+                                until (/= (aref my-ido-common-completion i)
+                                          (aref name (+ i me)))
+
+                                finally return i))
+                  ))
+            ;; this is the case where it's the first item
+            ;; so the completion is all the rest.
+            (progn (setq my-ido-common-completion (substring name me))
+                   (setq common-completion-length (length my-ido-common-completion)))
+            )))
+
+      ;; set the completion string
+      ;; for some reason that has the input string
+      ;; added to the start.
+      (setq my-ido-common-completion
+            (if my-ido-common-completion
+                (concat ido-text (substring my-ido-common-completion 0 common-completion-length))
+              ""))
 
       (setq matches (nconc exact-matches prefix-matches matches))
       (setq my-last-ido-regexp re)
