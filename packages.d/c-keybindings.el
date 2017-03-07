@@ -133,6 +133,27 @@ Try the repeated popping up to 10 times."
       (dired-find-file-other-window)
     (error (dired-jump-other-window))))
 
+(defun my-cycle-case (p m)
+  (interactive "r")
+  ;; wor_d -> woR_d -> WOR_D -> wor_d
+  (let* ((bounds (if (region-active-p)
+                     (cons p m)
+                   (bounds-of-thing-at-point 'symbol)))
+
+         (thing (buffer-substring (car bounds) (cdr bounds)))
+         (uthing (upcase thing)))
+    ;; (delete-region)
+    (cond
+     ;; all uppercase, downcase whole thing
+     ((string= thing uthing)
+      (downcase-region (car bounds) (cdr bounds)))
+     ;; char at point is uppercase word char, uppercase whole thing
+     ((string= (substring thing 0 1)
+               (substring uthing 0 1))
+      (upcase-region (car bounds) (cdr bounds)))
+     ;; char at point is lowercase word char, uppercase char at point
+     (t (upcase-region (car bounds) (1+ (car bounds)))))))
+
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)
 	   ("C-x k"   . my-kill-this-buffer)
