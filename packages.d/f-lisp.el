@@ -1,4 +1,13 @@
-(req-package cider)
+(req-package cider
+  :require smartparens
+  :mode (("\\(?:build\\|profile\\)\\.boot\\'" . clojure-mode)
+         ("\\.cljs\\'" . clojurescript-mode)
+         ("\\.cljx\\'" . clojurex-mode)
+         ("\\.cljc\\'" . clojurec-mode)
+         ("\\.\\(clj\\|dtm\\|edn\\)\\'" . clojure-mode))
+
+  :config
+  (add-hook 'cider-repl-mode-hook 'smartparens-mode))
 
 (require 'paren)
 (show-paren-mode 1)

@@ -31,6 +31,7 @@
  '(alect-title ((t (:foreground "orange"))))
 
  '(font-lock-comment-face ((t (:foreground "grey60"))))
+ '(font-lock-comment-delimiter-face ((t (:foreground "grey75" :weight bold))))
  )
 
 (provide-theme 'tweaks)
