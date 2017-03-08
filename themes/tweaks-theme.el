@@ -29,6 +29,8 @@
  '(org-level-9 ((t (:height 1.1 :weight bold))))
 
  '(alect-title ((t (:foreground "orange"))))
+
+ '(font-lock-comment-face ((t (:foreground "grey60"))))
  )
 
 (provide-theme 'tweaks)
