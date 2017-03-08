@@ -188,7 +188,7 @@
       (setq my-ido-common-completion
             (if my-ido-common-completion
                 (concat ido-text (substring my-ido-common-completion 0 common-completion-length))
-              ""))
+              ido-text))
 
       (setq matches (nconc exact-matches prefix-matches matches))
       (setq my-last-ido-regexp re)
