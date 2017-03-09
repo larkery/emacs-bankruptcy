@@ -38,6 +38,12 @@
         (delete-frame frame)
       (delete-window window))))
 
+(defun xman (args)
+  (with-current-buffer (man args)
+    (local-set-key
+     (kbd "q")
+     #'delete-window-or-frame)))
+
 (defun my-sudo-edit (prefix)
   (interactive "P")
 
