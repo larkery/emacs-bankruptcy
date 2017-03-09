@@ -26,9 +26,10 @@
     "Generate and update xresources from current theme"
     (interactive)
     (require 'term)
-    (with-temp-buffer
+    (with-current-buffer (get-buffer-create "*gen-resources*")
+      (erase-buffer)
       (cl-loop
-       for term in '("XTerm" "URxvt" "st")
+       for term in '("XTerm" "URxvt")
        do (cl-loop
            for spec in '(("background" default :background)
                          ("foreground" default :foreground)
@@ -44,8 +45,10 @@
                          ("color7" term-color-white :background))
            do (destructuring-bind
                   (resource face attr) spec
-                (insert (format "%s*%s: %s\n" term resource
-                                (face-attribute face attr)))))
+                (let ((att (face-attribute face attr)))
+                  (unless (eq att 'unspecified)
+                    (insert (format "%s*%s: %s\n" term resource att))))))
+
        do (cl-loop
            for spec in '(("color8" term-color-black :background)
                          ("color9" term-color-red :background)
@@ -75,7 +78,11 @@
         (write-region (point-min) (point-max) "~/.Xresources_emacs")
 
         (remove-hook 'window-configuration-change-hook 'theme->xresources))
-      (kill-buffer)))
+      (kill-buffer)
+
+      ;; (display-buffer (current-buffer))
+
+      ))
 
   (add-hook 'window-configuration-change-hook 'theme->xresources)
   )
