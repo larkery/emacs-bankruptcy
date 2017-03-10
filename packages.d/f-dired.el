@@ -21,7 +21,7 @@
              (setq dired-subtree-line-prefix "  ┇"))
 
 (req-package dired-narrow
-  : commands dired-narrow
+  :commands dired-narrow
   :init
   (bind-key "/" #'dired-narrow dired-mode-map))
 

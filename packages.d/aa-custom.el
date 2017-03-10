@@ -86,6 +86,7 @@
  '(linum-format " %6d ")
  '(main-line-color1 "#222232")
  '(main-line-color2 "#333343")
+ '(midnight-mode t)
  '(mml-secure-openpgp-encrypt-to-self t)
  '(nrepl-message-colors
    (quote

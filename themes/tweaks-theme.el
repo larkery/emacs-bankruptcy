@@ -7,6 +7,7 @@
 
  '(mode-line ((t (:box nil :overline "gray40"))))
  '(mode-line-inactive ((t (:box nil :overline "gray40"))))
+ '(mode-line ((t (:box nil :overline "gray40"))))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
