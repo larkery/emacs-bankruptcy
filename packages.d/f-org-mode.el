@@ -137,7 +137,9 @@ END:VALARM\n"
  ;; If there is more than one, they won't work right.
  '(org-adapt-indentation nil)
  '(org-agenda-diary-file "~/notes/calendar.org")
- '(org-agenda-files (quote ("~/notes" "~/notes/home" "~/notes/work")))
+ '(org-agenda-files
+   (quote
+    ("/home/hinton/notes/calendar.org" "/home/hinton/notes/idle.org" "/home/hinton/notes/inbox.org" "/home/hinton/notes/journal.org" "/home/hinton/notes/links.org" "/home/hinton/notes/personal.org" "/home/hinton/notes/home/books.org" "/home/hinton/notes/home/brewing.org" "/home/hinton/notes/home/cooking.org" "/home/hinton/notes/home/media.org" "/home/hinton/notes/home/technical.org" "/home/hinton/notes/work/cse-crm.org" "/home/hinton/notes/work/fedman.org" "/home/hinton/notes/work/mangling-tables-R.org" "/home/hinton/notes/work/nhm.org" "/home/hinton/notes/work/solar-method.org" "/home/hinton/notes/work/thermos.org" "/home/hinton/notes/work/timesheet.org")))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t))))
