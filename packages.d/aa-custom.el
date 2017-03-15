@@ -37,6 +37,7 @@
  '(debug-on-quit nil)
  '(delete-selection-mode t)
  '(directory-free-space-program nil)
+ '(direnv-mode t)
  '(evil-emacs-state-cursor (quote ("#E57373" hbar)))
  '(evil-insert-state-cursor (quote ("#E57373" bar)))
  '(evil-normal-state-cursor (quote ("#FFEE58" box)))

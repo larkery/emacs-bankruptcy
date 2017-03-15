@@ -154,7 +154,8 @@ END:VALARM\n"
       "* %?
 %^T"))))
  '(org-confirm-babel-evaluate nil)
- '(org-fontify-whole-heading-line t)
+ '(org-hide-emphasis-markers t)
+ '(org-highlight-latex-and-related (quote (latex script entities)))
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
  '(org-outline-path-complete-in-steps nil)
