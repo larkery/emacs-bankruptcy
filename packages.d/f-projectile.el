@@ -4,7 +4,9 @@
   :diminish (projectile-mode . "")
   :config
 
-  (projectile-global-mode t))
+  (projectile-global-mode t)
+  (bind-key "C-x M-b" #'projectile-switch-to-buffer)
+  )
 
 
 (req-package ibuffer-projectile
