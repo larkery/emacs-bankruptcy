@@ -23,8 +23,9 @@
  '(org-level-8 ((t (:height 1.1 :weight bold))))
  '(org-level-9 ((t (:height 1.1 :weight bold))))
 
- ;; '(font-lock-comment-face ((t (:foreground "grey60"))))
- '(font-lock-comment-delimiter-face ((t (:foreground "grey75" :weight bold))))
+ '(font-lock-comment-face ((t (:slant italic))))
+ ;; '(font-lock-comment-delimiter-face ((t (:foreground "grey75" :weight bold))))
+
 
  '(region ((t (:background "black"))))
  )
