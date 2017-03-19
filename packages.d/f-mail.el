@@ -129,7 +129,8 @@ This will be the link nearest the end of the message which either contains or fo
           (authors (cadr args)))
       (list a (and authors (replace-regexp-in-string "Tom Hinton" "Me" authors)))))
 
-  (advice-add 'notmuch-search-insert-authors :filter-args #'my-notmuch-adjust-name)
+  ;;(advice-add 'notmuch-search-insert-authors :filter-args #'my-notmuch-adjust-name)
+;;  (advice-remove 'notmuch-search-insert-authors #'my-notmuch-adjust-name)
 
   (defun my-inbox ()
     (interactive)

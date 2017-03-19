@@ -542,8 +542,6 @@
  '(multi-term-scroll-show-maximum-output t)
  '(multi-term-scroll-to-bottom-on-output t)
  '(multi-term-switch-after-close nil)
- '(term-default-bg-color "#fdf6e3")
- '(term-default-fg-color "#657b83")
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>"))))
 (custom-set-faces
