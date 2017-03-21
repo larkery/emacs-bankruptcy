@@ -35,6 +35,27 @@
 
   (bind-key "G" #'notmuch-poll-and-refresh-async notmuch-search-mode-map)
 
+  (defun dired-attach-advice (o &rest args)
+    (let ((the-files (dired-get-marked-files))
+          (result (apply o args)))
+      (when the-files
+        (dolist (the-file the-files)
+          (mml-attach-file the-file)))
+      result))
+
+  (advice-add 'notmuch-mua-new-mail :around 'dired-attach-advice)
+
+  (defun dired-compose-attach ()
+    (interactive)
+
+    (let ((the-files (dired-get-marked-files)))
+      (notmuch-mua-new-mail)
+
+      (save-excursion
+        (goto-char (point-max))
+        (dolist (f the-files)
+          (mml-attach-file f)))))
+
   (defun my-notmuch-fix-fcc ()
     (interactive)
     (save-excursion

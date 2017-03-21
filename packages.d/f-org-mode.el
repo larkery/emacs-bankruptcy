@@ -4,11 +4,12 @@
 
 (req-package org
   :defer t
-  :require orgit org-capture-pop-frame
+  :require orgit org-capture-pop-frame org-agenda-property
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c j" . org-goto-log))
+
   :init
   (defun org-goto-log ()
     (interactive)
@@ -136,10 +137,25 @@ END:VALARM\n"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-adapt-indentation nil)
+ '(org-agenda-custom-commands
+   (quote
+    (("n" "Agenda and unscheduled TODOs"
+      ((agenda "" nil)
+       (alltodo "" nil))
+      ((org-agenda-todo-ignore-scheduled t))))))
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
-    ("~/notes/home/reviews.org" "/home/hinton/notes/calendar.org" "/home/hinton/notes/idle.org" "/home/hinton/notes/inbox.org" "/home/hinton/notes/journal.org" "/home/hinton/notes/links.org" "/home/hinton/notes/personal.org" "/home/hinton/notes/home/brewing.org" "/home/hinton/notes/home/cooking.org" "/home/hinton/notes/home/media.org" "/home/hinton/notes/home/technical.org" "/home/hinton/notes/work/cse-crm.org" "/home/hinton/notes/work/fedman.org" "/home/hinton/notes/work/mangling-tables-R.org" "/home/hinton/notes/work/nhm.org" "/home/hinton/notes/work/solar-method.org" "/home/hinton/notes/work/thermos.org" "/home/hinton/notes/work/timesheet.org")))
+    ("/home/hinton/notes/personal.org" "/home/hinton/notes/calendar.org" "/home/hinton/notes/idle.org" "/home/hinton/notes/inbox.org" "/home/hinton/notes/journal.org" "/home/hinton/notes/links.org" "/home/hinton/notes/home/brewing.org" "/home/hinton/notes/home/cooking.org" "/home/hinton/notes/home/media.org" "/home/hinton/notes/home/technical.org" "/home/hinton/notes/work/cse-crm.org" "/home/hinton/notes/work/fedman.org" "/home/hinton/notes/work/mangling-tables-R.org" "/home/hinton/notes/work/nhm.org" "/home/hinton/notes/work/solar-method.org" "/home/hinton/notes/work/thermos.org" "/home/hinton/notes/work/timesheet.org")))
+ '(org-agenda-prefix-format
+   (quote
+    ((agenda . " %i %-12:c%?-12t% s")
+     (timeline . "  % s")
+     (todo . " %i %-12:c %t")
+     (tags . " %i %-12:c")
+     (search . " %i %-12:c"))))
+ '(org-agenda-property-list (quote ("LOCATION")))
+ '(org-agenda-property-position (quote same-line))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t))))
@@ -154,7 +170,9 @@ END:VALARM\n"
       "* %?
 %^T"))))
  '(org-confirm-babel-evaluate nil)
- '(org-fontify-whole-heading-line t)
+ '(org-habit-show-habits-only-for-today nil)
+ '(org-hide-emphasis-markers t)
+ '(org-highlight-latex-and-related (quote (latex script entities)))
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
  '(org-outline-path-complete-in-steps nil)

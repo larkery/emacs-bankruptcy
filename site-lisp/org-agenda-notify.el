@@ -55,6 +55,7 @@
         org-agenda-notify-queue ())
 
   (let* ((scope '(:deadline* :scheduled* :timestamp))
+         (org-agenda-prefix-format '((agenda . "%t %s")))
          (org-agenda-new-buffers nil)
          (org-deadline-warning-days 0)
          ;; Do not use `org-today' here because appt only takes
