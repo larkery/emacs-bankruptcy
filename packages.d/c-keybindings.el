@@ -160,6 +160,38 @@ Try the repeated popping up to 10 times."
      ;; char at point is lowercase word char, uppercase char at point
      (t (upcase-region (car bounds) (1+ (car bounds)))))))
 
+(defun ibuffer-recent-buffer (o &rest args) ()
+       "Open ibuffer with cursor pointed to most recent buffer name"
+       (let ((last-buffer (if (minibufferp) (buffer-name (minibuffer-selected-window))
+                            (buffer-name))))
+         (apply o args)
+         (ibuffer-jump-to-buffer last-buffer)
+         (let ((ln (save-excursion
+                     (goto-char (point-max))
+                     (line-number-at-pos))))
+           (set-window-text-height (get-buffer-window)
+                                   (min 15 ln)))))
+
+(advice-add #'ibuffer :around #'ibuffer-recent-buffer)
+
+(defun narrow-dwim (p)
+  (interactive "P")
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
+        ((region-active-p)
+         (narrow-to-region (region-beginning)
+                           (region-end)))
+        ((derived-mode-p 'org-mode)
+         ;; `org-edit-src-code' is not a real narrowing
+         ;; command. Remove this first conditional if
+         ;; you don't want it.
+         (cond ((ignore-errors (org-edit-src-code) t)
+                (delete-other-windows))
+               ((ignore-errors (org-narrow-to-block) t))
+               (t (org-narrow-to-subtree))))
+        ((derived-mode-p 'latex-mode)
+         (LaTeX-narrow-to-environment))
+        (t (narrow-to-defun))))
+
 (dolist (binding
 	 `(("C-x C-b" . ibuffer)
 	   ("C-x k"   . my-kill-this-buffer)
@@ -167,6 +199,7 @@ Try the repeated popping up to 10 times."
 	   ("C-z" . undo)
            ("C-x C-a" . my-sudo-edit)
 	   ([remap just-one-space] . my-just-one-space)
+           ([remap narrow-to-region] . narrow-dwim)
 
            ("C-c t" . my-tabulate)
            ("C-c d" . dired-ffap)
