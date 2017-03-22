@@ -16,8 +16,6 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   ["#3f3f3f" "#ea3838" "#7fb07f" "#fe8b04" "#62b6ea" "#e353b9" "#1fb3b3" "#d5d2be"])
  '(appt-display-mode-line nil)
  '(back-button-mode t)
  '(beacon-color "#ec4780")
@@ -36,7 +34,6 @@
  '(evil-insert-state-cursor (quote ("#E57373" bar)))
  '(evil-normal-state-cursor (quote ("#FFEE58" box)))
  '(evil-visual-state-cursor (quote ("#C5E1A5" box)))
- '(fci-rule-color "#222222")
  '(frames-only-mode nil)
  '(fringe-mode (quote (0)) nil (fringe))
  '(garbage-collection-messages nil)
@@ -104,9 +101,6 @@
  '(multi-term-scroll-show-maximum-output t)
  '(multi-term-scroll-to-bottom-on-output t)
  '(multi-term-switch-after-close nil)
- '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
     (org-agenda-property company solarized-theme metalheart-theme forest-blue-theme direnv zop-to-char back-button ibuffer-tramp elisp-slime-nav org-capture-pop-frame ace-mc tup-mode clues-theme alect-themes afternoon-theme pcmpl-args bash-completion multishell seoul256-theme hc-zenburn-theme zenburn-theme greymatters-theme anti-zenburn-theme tangotango-theme apropospriate-theme leuven-theme paradox yasnippet projectile org bbdb bind-key jdee spu xpm ido-exit-target notmuch flatui-theme gruvbox-theme farmhouse-theme minimal-theme spacegray-theme darktooth-theme ggtags gradle-mode pdf-tools orgit thingatpt+ exwm multi-term "initsplit" initsplit ess python heroku-theme paganini-theme dired-atool dired-ranger dired-filetype-face ws-butler wgrep weechat w3m sr-speedbar smex smartrep smartparens req-package rainbow-mode project-explorer pcre2el pass paren-face org-caldav org-bullets nix-mode multiple-cursors magit java-snippets ivy ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol haskell-mode git-timemachine flimenu expand-region eno elfeed el-get dired-subtree dired-narrow csv-mode comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext avy auth-password-store anzu anaconda-mode ag adaptive-wrap)))
@@ -122,28 +116,6 @@
  '(tabbar-background-color "#353535")
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>")))
- '(vc-annotate-background "#222222")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#fa5151")
-     (40 . "#ea3838")
-     (60 . "#f8ffa0")
-     (80 . "#e8e815")
-     (100 . "#fe8b04")
-     (120 . "#e5c900")
-     (140 . "#32cd32")
-     (160 . "#8ce096")
-     (180 . "#7fb07f")
-     (200 . "#3cb370")
-     (220 . "#099709")
-     (240 . "#2fdbde")
-     (260 . "#1fb3b3")
-     (280 . "#8cf1f1")
-     (300 . "#94bff3")
-     (320 . "#62b6ea")
-     (340 . "#30a5f5")
-     (360 . "#e353b9"))))
- '(vc-annotate-very-old-color "#e353b9")
  '(when
       (or
        (not
@@ -153,10 +125,3 @@
         (facep
          (aref ansi-term-color-vector 0)))))
  '(yas-global-mode t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(term-color-blue ((t (:background "steel blue" :foreground "steel blue"))))
- '(term-color-red ((t (:background "red2" :foreground "red2")))))
