@@ -8,18 +8,21 @@
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
-         ("C-c j" . org-goto-log))
+         ("C-c j" . org-log-goto))
 
   :init
+
   (defun org-goto-log ()
     (interactive)
     (with-current-buffer (find-file "~/notes/journal.org")
       (org-insert-datetree-entry)))
 
+
   :config
   (require 'org-notmuch)
   (require 'org-capture-pop-frame)
   (require 'org-agenda-notify)
+  (require 'org-log)
 
   (org-clock-persistence-insinuate)
 
@@ -64,30 +67,31 @@ END:VALARM\n"
 
   (advice-add 'org-icalendar--valarm :override 'my-org-icalendar--valarm)
 
-  (defun org-insert-datetree-entry ()
-    (interactive)
-    (org-cycle '(8))
-    (org-datetree-find-date-create (calendar-current-date))
-    (org-show-entry)
-    (org-end-of-subtree))
+  ;; (defun org-insert-datetree-entry ()
+  ;;   (interactive)
+  ;;   (org-cycle '(8))
+  ;;   (org-datetree-find-date-create (calendar-current-date))
+  ;;   (org-show-entry)
+  ;;   (org-end-of-subtree))
+
 
   (defun org-agenda-toggle-empty ()
     (interactive)
     (setq org-agenda-show-all-dates (not org-agenda-show-all-dates))
     (call-interactively 'org-agenda-redo))
 
-
   (add-hook 'org-agenda-mode-hook
             (lambda ()
               (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
-  (define-minor-mode org-log-mode
-    :lighter " org-log"
-    :keymap (let ((map (make-sparse-keymap)))
-              (define-key map (kbd "C-c j") 'org-goto-log)
+  ;; (define-minor-mode org-log-mode
+  ;;   :lighter " org-log"
+  ;;   :keymap (let ((map (make-sparse-keymap)))
+  ;;             (define-key map (kbd "C-c j") 'org-goto-log)
 
-              (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
-              map))
+  ;;             (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
+  ;;             map))
+
 
   (defun org-refile-to-datetree ()
     "Refile a subtree to a datetree corresponding to it's timestamp."
