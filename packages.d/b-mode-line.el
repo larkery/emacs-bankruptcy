@@ -28,19 +28,14 @@
    " "
 
    (:eval (propertize
-           (concat (if (buffer-modified-p) "M" "") (if buffer-read-only "R" "W"))
+           (if buffer-read-only "[ro] " "")
            'face
-           (if (buffer-modified-p) 'error nil)
-           'help-echo
-           (concat (if (buffer-modified-p) "" "un")
-                   "modified, "
-                   (if buffer-read-only "r/o" "r/w"))
-           ))
-   " "
+           'error))
 
-
-   (:eval (propertize "%b"
-                      'face 'mode-line-buffer-id
+   (:eval (propertize (concat "%b" (if (buffer-modified-p) "*"))
+                      'face (if (buffer-modified-p)
+                                'error
+                              'mode-line-buffer-id)
                       'help-echo (buffer-file-name)
                       'mouse-face 'mode-line-highlight
                       ))
