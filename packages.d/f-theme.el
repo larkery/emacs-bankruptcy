@@ -10,7 +10,7 @@
     (unless (eq colr 'unspecified)
       (let* ((rgb (color-name-to-rgb colr))
              (hsl (apply 'color-rgb-to-hsl rgb))
-             (hsl2 (list (nth 0 hsl) (max 1.0 (- (nth 1 hsl) 0.1)) (min 1.0 (+ 0.05 (nth 2 hsl)))))
+             (hsl2 (list (nth 0 hsl) (min 1.0 (+ 0.3 (nth 1 hsl))) (min 1.0 (+ 0.1 (nth 2 hsl)))))
              (rgb2 (apply 'color-hsl-to-rgb hsl2)))
         (apply 'color-rgb-to-hex rgb2)))))
 
