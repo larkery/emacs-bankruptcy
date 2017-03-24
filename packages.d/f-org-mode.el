@@ -144,7 +144,7 @@ END:VALARM\n"
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
-    ("~/notes/home/reviews.org" "/home/hinton/notes/calendar.org" "/home/hinton/notes/idle.org" "/home/hinton/notes/inbox.org" "/home/hinton/notes/journal.org" "/home/hinton/notes/links.org" "/home/hinton/notes/personal.org" "/home/hinton/notes/home/brewing.org" "/home/hinton/notes/home/cooking.org" "/home/hinton/notes/home/media.org" "/home/hinton/notes/home/technical.org" "/home/hinton/notes/work/cse-crm.org" "/home/hinton/notes/work/fedman.org" "/home/hinton/notes/work/mangling-tables-R.org" "/home/hinton/notes/work/nhm.org" "/home/hinton/notes/work/solar-method.org" "/home/hinton/notes/work/thermos.org" "/home/hinton/notes/work/timesheet.org")))
+    ("~/notes/work/heat-projections.org" "~/notes/home/reviews.org" "/home/hinton/notes/calendar.org" "/home/hinton/notes/idle.org" "/home/hinton/notes/inbox.org" "/home/hinton/notes/journal.org" "/home/hinton/notes/links.org" "/home/hinton/notes/personal.org" "/home/hinton/notes/home/brewing.org" "/home/hinton/notes/home/cooking.org" "/home/hinton/notes/home/media.org" "/home/hinton/notes/home/technical.org" "/home/hinton/notes/work/cse-crm.org" "/home/hinton/notes/work/fedman.org" "/home/hinton/notes/work/mangling-tables-R.org" "/home/hinton/notes/work/nhm.org" "/home/hinton/notes/work/solar-method.org" "/home/hinton/notes/work/thermos.org" "/home/hinton/notes/work/timesheet.org")))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
  '(org-archive-default-command (quote org-archive-set-tag))

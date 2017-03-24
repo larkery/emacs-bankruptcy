@@ -32,7 +32,8 @@
            'face
            'error))
 
-   (:eval (propertize (concat "%b" (if (buffer-modified-p) "*"))
+   (:eval (propertize (concat "%b" ;; (if (buffer-modified-p) "*")
+                              )
                       'face (if (buffer-modified-p)
                                 'error
                               'mode-line-buffer-id)
