@@ -1,7 +1,7 @@
 (defcustom org-log-location
   '("~/notes/journal/%Y.org"
     "* %B"
-    "** [%Y-%m-%d %a]")
+    "** [%Y-%m-%d %a].")
   "A list of strings, each of which will be used with `format-time-string'.
 The first will find a file, and the rest headings and subheadings and so on.")
 
@@ -21,7 +21,7 @@ The first will find a file, and the rest headings and subheadings and so on.")
   (goto-char (point-max))
   (widen)
   (org-cycle '(4))
-  (org-reveal))
+  (org-show-context 'ancestors))
 
 
 (provide 'org-log)
