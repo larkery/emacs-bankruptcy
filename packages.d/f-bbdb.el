@@ -11,4 +11,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bbdb-file-remote "/ssh:larkery.com:~/bbdb"))
+ '(bbdb-file "~/notes/bbdb")
+ '(bbdb-file-remote nil))
