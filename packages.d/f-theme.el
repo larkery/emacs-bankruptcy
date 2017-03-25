@@ -1,9 +1,10 @@
-(req-package zenburn-theme)
+;; (req-package zenburn-theme)
+
 (req-package hc-zenburn-theme)
 
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
 (load-theme 'hc-zenburn t)
-;; (load-theme 'tweaks t)
+(load-theme 'tweaks t)
 
 (defun face-rgb-color (face attr)
   (let* ((colr (face-attribute face attr)))

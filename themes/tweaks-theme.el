@@ -3,6 +3,8 @@
 (custom-theme-set-faces
  'tweaks
 
+ '(ido-first-match ((t (:inverse-video t))))
+
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
  '(outline-3 ((t (:height 1.1 :weight bold))))
