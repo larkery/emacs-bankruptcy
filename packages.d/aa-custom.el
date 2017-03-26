@@ -116,6 +116,7 @@
  '(tabbar-background-color "#353535")
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>")))
+ '(tramp-gvfs-methods (quote ("afp" "dav" "davs" "obex" "synce")))
  '(when
       (or
        (not

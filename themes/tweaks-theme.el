@@ -4,6 +4,10 @@
  'tweaks
 
  '(ido-first-match ((t (:inverse-video t))))
+ '(ido-only-match ((t (:inverse-video t))))
+
+ '(org-tag ((t (:inherit shadow))))
+ '(org-todo ((t (:foreground "red"))))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
