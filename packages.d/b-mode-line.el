@@ -28,7 +28,7 @@
    " "
 
    (:eval (propertize
-           (if buffer-read-only "[ro] " "")
+           (if buffer-read-only "! " "")
            'face
            'error))
 
@@ -60,7 +60,4 @@
       '(:propertize (:eval (anzu--update-mode-line))
                     face 'mode-line-emphasis)
       "  ")
-     ))
-
-   )
- )
+     ))))

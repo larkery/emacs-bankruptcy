@@ -8,8 +8,9 @@
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
-         ("C-c j" . org-log-goto))
-
+         ("C-c j" . org-log-goto)
+         ("<f6> SPC" . org-timesheets-punch-clock)
+         ("<f6> <f6>" . org-timesheets-switch-task))
   :init
 
   (defun org-goto-log ()
@@ -23,6 +24,7 @@
   (require 'org-capture-pop-frame)
   (require 'org-agenda-notify)
   (require 'org-log)
+  (require 'org-timesheets)
 
   (org-clock-persistence-insinuate)
 
@@ -159,7 +161,10 @@ END:VALARM\n"
       (file "~/notes/calendar.org")
       "* %?
 %^T"))))
+ '(org-clock-mode-line-total (quote today))
+ '(org-clock-out-remove-zero-time-clocks t)
  '(org-confirm-babel-evaluate nil)
+ '(org-contacts-files (quote ("~/notes/contacts.org")))
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))

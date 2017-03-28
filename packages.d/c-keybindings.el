@@ -87,7 +87,6 @@
       (find-alternate-file (concat "/sudo:root@" (system-name) ":" the-place)))
     (goto-char position)))
 
-
 (defun my-insert-file-name (filename &optional args)
   "Insert name of file FILENAME into buffer after point.
 
@@ -173,6 +172,23 @@ Try the repeated popping up to 10 times."
                                    (min 15 ln)))))
 
 (advice-add #'ibuffer :around #'ibuffer-recent-buffer)
+(with-eval-after-load
+    'ibuffer
+  (define-ibuffer-column display-time
+    (:inline t :name "Seen")
+    (let* ((delta (time-subtract (current-time) buffer-display-time))
+           (lsec (nth 1 delta)))
+      (cond
+       ((< lsec 60) "now")
+       ((< lsec 1800)
+        (format "%dm" (/ lsec 60)))
+       ((< lsec (* 3600 7))
+        (format "%dh" (/ lsec 3600)))
+       (t ".")
+       )))
+
+  )
+
 
 (defun narrow-dwim (p)
   (interactive "P")

@@ -1,11 +1,4 @@
 ;; (req-package zenburn-theme)
-
-(req-package hc-zenburn-theme)
-
-(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
-(load-theme 'hc-zenburn t)
-(load-theme 'tweaks t)
-
 (defun face-rgb-color (face attr)
   (let* ((colr (face-attribute face attr)))
     (unless (eq colr 'unspecified)
@@ -14,6 +7,7 @@
              (hsl2 (list (nth 0 hsl) (min 1.0 (+ 0.3 (nth 1 hsl))) (min 1.0 (+ 0.1 (nth 2 hsl)))))
              (rgb2 (apply 'color-hsl-to-rgb hsl2)))
         (apply 'color-rgb-to-hex rgb2)))))
+
 
 (defun theme->xresources (&rest _blah)
   "Generate and update xresources from current theme"
@@ -77,4 +71,9 @@
 
     ))
 
-(add-hook 'window-configuration-change-hook 'theme->xresources)
+(req-package hc-zenburn-theme
+  :config
+  (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
+  (load-theme 'hc-zenburn t)
+  (load-theme 'tweaks t)
+  (add-hook 'window-configuration-change-hook 'theme->xresources))

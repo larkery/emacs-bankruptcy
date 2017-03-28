@@ -357,7 +357,7 @@ Subject: " my-reply-subject "
  '(notmuch-address-selection-function
    (lambda
      (prompt collection initial-input)
-     (ido-completing-read prompt collection nil nil nil
+     (completing-read prompt collection nil nil nil
                           (quote notmuch-address-history))))
  '(notmuch-archive-tags (quote ("-inbox" "-unread")))
  '(notmuch-crypto-process-mime t)
