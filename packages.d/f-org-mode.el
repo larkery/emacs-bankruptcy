@@ -9,8 +9,9 @@
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c j" . org-log-goto)
-         ("<f6> SPC" . org-timesheets-punch-clock)
-         ("<f6> <f6>" . org-timesheets-switch-task))
+         ("<f6> i" . org-timesheets-switch-task)
+         ("<f6> o" . org-timesheets-clock-out)
+         ("<f6> j" . org-clock-goto))
   :init
 
   (defun org-goto-log ()
@@ -84,40 +85,40 @@ END:VALARM\n"
 
   (add-hook 'org-agenda-mode-hook
             (lambda ()
-              (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
+              (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map))))
 
-  ;; (define-minor-mode org-log-mode
-  ;;   :lighter " org-log"
-  ;;   :keymap (let ((map (make-sparse-keymap)))
-  ;;             (define-key map (kbd "C-c j") 'org-goto-log)
+;; (define-minor-mode org-log-mode
+;;   :lighter " org-log"
+;;   :keymap (let ((map (make-sparse-keymap)))
+;;             (define-key map (kbd "C-c j") 'org-goto-log)
 
-  ;;             (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
-  ;;             map))
+;;             (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
+;;             map))
 
 
-  (defun org-refile-to-datetree ()
-    "Refile a subtree to a datetree corresponding to it's timestamp."
-    (interactive)
-    (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
-           (date (org-date-to-gregorian datetree-date)))
-      (when date
-        (save-excursion
-          (save-restriction
-            (org-save-outline-visibility t
-              (save-excursion
-                (outline-show-all)
-                (setq last-command nil) ; prevent kill appending
-                (org-cut-subtree)
+(defun org-refile-to-datetree ()
+  "Refile a subtree to a datetree corresponding to it's timestamp."
+  (interactive)
+  (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
+         (date (org-date-to-gregorian datetree-date)))
+    (when date
+      (save-excursion
+        (save-restriction
+          (org-save-outline-visibility t
+            (save-excursion
+              (outline-show-all)
+              (setq last-command nil) ; prevent kill appending
+              (org-cut-subtree)
 
-                (org-datetree-find-date-create date)
-                (org-narrow-to-subtree)
-                (show-subtree)
-                (org-end-of-subtree t)
+              (org-datetree-find-date-create date)
+              (org-narrow-to-subtree)
+              (show-subtree)
+              (org-end-of-subtree t)
 
-                (goto-char (point-max))
-                (org-paste-subtree 4)
-                )))))))
-  )
+              (goto-char (point-max))
+              (org-paste-subtree 4)
+              )))))))
+
 
 (req-package org-caldav
   :commands org-caldav-sync

@@ -358,7 +358,7 @@ Subject: " my-reply-subject "
    (lambda
      (prompt collection initial-input)
      (completing-read prompt collection nil nil nil
-                          (quote notmuch-address-history))))
+                      (quote notmuch-address-history))))
  '(notmuch-archive-tags (quote ("-inbox" "-unread")))
  '(notmuch-crypto-process-mime t)
  '(notmuch-fcc-dirs
@@ -371,6 +371,7 @@ Subject: " my-reply-subject "
  '(notmuch-identities
    (quote
     ("Tom Hinton <tom.hinton@cse.org.uk>" "Tom Hinton <t@larkery.com>")))
+ '(notmuch-message-headers-visible nil)
  '(notmuch-mua-cite-function
    (quote message-cite-original-without-signature-or-selection))
  '(notmuch-mua-send-hook (quote (my-notmuch-fix-fcc notmuch-mua-message-send-hook)))

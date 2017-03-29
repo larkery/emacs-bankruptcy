@@ -1,5 +1,15 @@
 (initsplit-this-file bos (| "counsel-" "ivy-"))
 
+;; this actually works with completing read so we're good
+(el-get-bundle larkery/ido-describe-prefix-bindings.el)
+
+(req-package ido-describe-prefix-bindings
+  :demand
+  :bind ("M-X" . ido-describe-mode-bindings)
+  :config
+  (require 's)
+  (ido-describe-prefix-bindings-mode 1))
+
 (req-package ivy
   :diminish ""
   :config

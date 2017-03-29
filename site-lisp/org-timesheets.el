@@ -30,17 +30,19 @@
 
 (add-hook 'org-clock-out-hook 'org-timesheets-maybe-lose-time)
 
-(defun org-timesheets-punch-clock ()
+
+(defun org-timesheets-clock-out (p)
   "Punch that clock. Wham."
-  (interactive)
+  (interactive "P")
 
-  (let ((org-clock-continuously t))
-    (if org-timesheets-clocked-in
-        (progn (org-timesheets-maybe-lose-time)
-               (setq org-timesheets-clocked-in nil)
-               (org-clock-out))
+  (when org-timesheets-clocked-in
+    (org-timesheets-maybe-lose-time)
+    (setq org-timesheets-clocked-in nil)
+    (org-clock-out nil nil
+                   (when p
+                     (org-read-date t t)))
 
-      (org-timesheets-switch-task))))
+    ))
 
 (defun org-refile--get-location-toplevel (o &rest args)
   (let ((ores (apply o args)))
@@ -52,32 +54,34 @@
             :around
             'org-refile--get-location-toplevel)
 
-(defun org-timesheets-switch-task ()
+(defun org-timesheets-switch-task (p)
   "Clock into a different task in the timesheet using a magical menu."
-  (interactive)
+  (interactive "P")
 
-  (let ((org-clock-continuously t))
-    (org-timesheets-maybe-lose-time)
-    ;; TODO clock into something, maybe creating it
+  ;; if we are meant to be clocked in, then we should clock continuously
+  ;; but otherwise it is a new day today
 
+  (org-timesheets-maybe-lose-time)
 
-    (let* ((org-refile-targets `(((,org-timesheets-file) .
-                                  (:maxlevel . 2))))
-           (org-refile-top-level-target (list org-timesheets-file
-                                              org-timesheets-file))
-           (org-refile-use-outline-path 't)
-           (org-refile-history nil)
-           (loc (org-refile-get-location "Clock into" nil t))
+  (let* ((org-refile-targets `(((,org-timesheets-file) .
+                                (:maxlevel . 3))))
+         (org-refile-top-level-target (list org-timesheets-file
+                                            org-timesheets-file))
+         (org-refile-use-outline-path 't)
+         (org-refile-history nil)
+         (loc (org-refile-get-location "Clock into" nil t))
 
-           (filename (nth 1 loc))
-           (pos (nth 3 loc)))
+         (filename (nth 1 loc))
+         (pos (nth 3 loc)))
 
-      ;; loc is where we are clocking into?
-      (save-excursion
-        (with-current-buffer
-            (find-file-noselect filename)
-          (goto-char pos)
-          (org-clock-in))))
+    ;; loc is where we are clocking into?
+    (save-excursion
+      (with-current-buffer
+          (find-file-noselect filename)
+        (goto-char pos)
+        (let ((org-clock-continuously (if p nil
+                                        org-timesheets-clocked-in)))
+          (org-clock-in nil (when p (org-read-date t t))))))
 
     (setq org-timesheets-clocked-in t)))
 
