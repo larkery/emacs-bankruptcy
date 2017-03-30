@@ -44,11 +44,12 @@
 
     ))
 
-(defun org-refile--get-location-toplevel (o &rest args)
-  (let ((ores (apply o args)))
+(defun org-refile--get-location-toplevel (o refloc tbl)
+  (let ((ores (funcall o refloc tbl)))
     (or ores
-        (when org-refile-top-level-target
-          (org-refile-new-child org-refile-top-level-target (car args))))))
+        (when (and (not (string-match "\\`\\(.*\\)/\\([^/]+\\)\\'" refloc))
+                   org-refile-top-level-target)
+          (org-refile-new-child org-refile-top-level-target refloc)))))
 
 (advice-add 'org-refile--get-location
             :around

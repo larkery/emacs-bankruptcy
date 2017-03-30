@@ -33,3 +33,13 @@
 
 (req-package comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
+
+(req-package key-combo
+  :commands key-combo-mode
+  :init
+  (add-hook 'my-prog-mode-hook 'key-combo-mode)
+  :config
+  (key-combo-define-hook '(ess-mode-hook)
+                         'my-ess-combo-hook
+                         '(("<" . ("<" "<- "))
+                           (">" . (">" "%>%")))))
