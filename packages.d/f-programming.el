@@ -42,4 +42,4 @@
   (key-combo-define-hook '(ess-mode-hook)
                          'my-ess-combo-hook
                          '(("<" . ("<" "<- "))
-                           (">" . (">" "%>%")))))
+                           (">" . (">" "%>%\n")))))
