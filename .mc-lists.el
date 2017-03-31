@@ -50,6 +50,7 @@
         org-forward-sentence
         org-kill-line
         org-self-insert-command
+        orgtbl-hijacker-command-109
         outshine-self-insert-command
         sacha/smarter-move-beginning-of-line
         sgml-slash

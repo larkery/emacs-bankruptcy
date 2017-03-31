@@ -1,13 +1,13 @@
 (initsplit-this-file "projectile")
 
 (req-package projectile
+  :require counsel-projectile
   :diminish (projectile-mode . "")
   :config
 
   (projectile-global-mode t)
-  (bind-key "C-x M-b" #'projectile-switch-to-buffer)
-  )
-
+  (counsel-projectile-on)
+  (bind-key "C-x M-b" #'projectile-switch-to-buffer))
 
 (req-package ibuffer-projectile
   :commands ibuffer-projectile-set-filter-groups
