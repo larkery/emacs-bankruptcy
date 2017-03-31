@@ -17,7 +17,9 @@
 (req-package counsel
   :diminish ""
   :config
-  (counsel-mode 1))
+  (counsel-mode 1)
+
+  (define-key counsel-mode-map [remap yank-pop] nil))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
