@@ -12,8 +12,9 @@
 (req-package ibuffer-projectile
   :commands ibuffer-projectile-set-filter-groups
   :init
-  (bind-key "/ j g" 'ibuffer-projectile-set-filter-groups ibuffer-mode-map)
-  (bind-key "/ j f" 'ibuffer-filter-by-projectile-root ibuffer-mode-map)
+  (with-eval-after-load 'ibuffer
+    (bind-key "/ j g" 'ibuffer-projectile-set-filter-groups ibuffer-mode-map)
+    (bind-key "/ j f" 'ibuffer-filter-by-projectile-root ibuffer-mode-map))
   :config
 
   (define-ibuffer-filter projectile-root
