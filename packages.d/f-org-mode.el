@@ -165,6 +165,7 @@ END:VALARM\n"
  '(org-catch-invisible-edits (quote smart))
  '(org-clock-mode-line-total (quote today))
  '(org-clock-out-remove-zero-time-clocks t)
+ '(org-clock-report-include-clocking-task t)
  '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/notes/contacts.org")))
  '(org-ellipsis "…")
