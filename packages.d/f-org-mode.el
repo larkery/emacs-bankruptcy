@@ -147,7 +147,7 @@ END:VALARM\n"
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
-    ("~/notes/journal/2017.org" "~/notes/work/heat-projections.org" "~/notes/home/reviews.org" "/home/hinton/notes/calendar.org" "/home/hinton/notes/idle.org" "/home/hinton/notes/inbox.org" "/home/hinton/notes/links.org" "/home/hinton/notes/personal.org" "/home/hinton/notes/home/brewing.org" "/home/hinton/notes/home/cooking.org" "/home/hinton/notes/home/media.org" "/home/hinton/notes/home/technical.org" "/home/hinton/notes/work/cse-crm.org" "/home/hinton/notes/work/fedman.org" "/home/hinton/notes/work/mangling-tables-R.org" "/home/hinton/notes/work/nhm.org" "/home/hinton/notes/work/solar-method.org" "/home/hinton/notes/work/thermos.org" "/home/hinton/notes/work/timesheet.org")))
+    ("~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
  '(org-archive-default-command (quote org-archive-set-tag))
@@ -162,21 +162,14 @@ END:VALARM\n"
       (file "~/notes/calendar.org")
       "* %?
 %^T"))))
- '(org-catch-invisible-edits (quote smart))
  '(org-clock-mode-line-total (quote today))
  '(org-clock-out-remove-zero-time-clocks t)
- '(org-clock-report-include-clocking-task t)
  '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/notes/contacts.org")))
- '(org-ellipsis "…")
- '(org-hide-emphasis-markers t)
+ '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
- '(org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-habit org-id org-info org-irc org-mhe org-rmail org-w3m org-notmuch)))
  '(org-outline-path-complete-in-steps nil)
- '(org-pretty-entities t)
  '(org-refile-allow-creating-parent-nodes t)
  '(org-refile-targets
    (quote
@@ -184,7 +177,4 @@ END:VALARM\n"
      (nil :maxlevel . 3))))
  '(org-refile-use-outline-path (quote file))
  '(org-tags-column 0)
- '(org-time-clocksum-format
-   (quote
-    (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
  '(org-use-speed-commands t))
