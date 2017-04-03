@@ -162,14 +162,20 @@ END:VALARM\n"
       (file "~/notes/calendar.org")
       "* %?
 %^T"))))
+ '(org-catch-invisible-edits (quote smart))
  '(org-clock-mode-line-total (quote today))
  '(org-clock-out-remove-zero-time-clocks t)
  '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/notes/contacts.org")))
- '(org-fontify-whole-heading-line t)
+ '(org-ellipsis "…")
+ '(org-hide-emphasis-markers t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-habit org-id org-info org-irc org-mhe org-rmail org-w3m org-notmuch)))
  '(org-outline-path-complete-in-steps nil)
+ '(org-pretty-entities t)
  '(org-refile-allow-creating-parent-nodes t)
  '(org-refile-targets
    (quote
@@ -177,4 +183,7 @@ END:VALARM\n"
      (nil :maxlevel . 3))))
  '(org-refile-use-outline-path (quote file))
  '(org-tags-column 0)
+ '(org-time-clocksum-format
+   (quote
+    (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
  '(org-use-speed-commands t))

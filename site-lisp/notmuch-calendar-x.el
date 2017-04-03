@@ -99,20 +99,24 @@ Prefix argument edits before sending"
     (notmuch-mua-mail organizer subject ())
     (goto-char (point-max))
 
+    (make-variable-buffer-local 'message-syntax-checks)
+    (push '(illegible-text . disabled) message-syntax-checks)
+
     (save-excursion
       (mml-insert-part "text/calendar; method=REPLY")
       (decode-coding-string (org-icalendar-fold-string response)
                             handle-coding
                             t (current-buffer))
-      ;; (insert
-
-      ;;  )
+      ;;   ;; (add-text-properties (point) (+ (point) p)
+      ;;   ;;                      '(no-illegible-text t))
+      ;;   ;; (add-text-properties (+ (point) p) (+ (point) p 1)
+      ;;   ;;                      '(untranslated-utf-8 t))
       ))
-
   (if (zerop arg)
       (notmuch-mua-send-and-exit)))
 
-;;;; Modifying display in notmuch-show to be org-ish
+
+;;;; modifying display in notmuch-show to be org-ish
 
 (defun notmuch-calendar-datetime->iso (datetime)
   "Convert a date retrieved via `icalendar--get-event-property' to ISO format."
@@ -232,7 +236,8 @@ Prefix argument edits before sending"
   (save-current-buffer (notmuch-calendar-respond 0 ?a))
   (notmuch-calendar-capture e))
 
-(defun notmuch-calendar-decline (e) (notmuch-calendar-respond 0 ?r))
+(defun notmuch-calendar-decline (e)
+  (notmuch-calendar-respond 0 ?r))
 
 (defun notmuch-calendar-show-insert-part-text/calendar (msg part content-type nth depth button)
   (let ((output-buffer (current-buffer)))

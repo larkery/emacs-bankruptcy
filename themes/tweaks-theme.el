@@ -7,7 +7,8 @@
  '(ido-only-match ((t (:inverse-video t))))
 
  '(org-tag ((t (:inherit shadow))))
- '(org-todo ((t (:foreground "red"))))
+ '(org-todo ((t (:background "red" :foreground "white"))))
+ '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
@@ -32,6 +33,7 @@
  '(font-lock-comment-face ((t (:slant italic))))
  ;; '(font-lock-comment-delimiter-face ((t (:foreground "grey75" :weight bold))))
 
+ '(highlight ((t (:inverse-video t))))
 
  '(region ((t (:background "black"))))
  )
