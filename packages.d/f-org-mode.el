@@ -11,7 +11,9 @@
          ("C-c j" . org-log-goto)
          ("<f6> i" . org-timesheets-switch-task)
          ("<f6> o" . org-timesheets-clock-out)
-         ("<f6> j" . org-clock-goto))
+         ("<f6> j" . org-clock-goto)
+         ("<f6> t" . org-timesheets-report-today)
+         ("<f6> w" . org-timesheets-report-this-week))
   :init
 
   (defun org-goto-log ()
@@ -164,6 +166,7 @@ END:VALARM\n"
 %^T"))))
  '(org-clock-mode-line-total (quote today))
  '(org-clock-out-remove-zero-time-clocks t)
+ '(org-clock-report-include-clocking-task t)
  '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/notes/contacts.org")))
  '(org-fontify-whole-heading-line t)

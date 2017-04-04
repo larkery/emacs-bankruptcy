@@ -86,4 +86,71 @@
 
     (setq org-timesheets-clocked-in t)))
 
+(defun org-timesheets-report (params)
+  (with-current-buffer (get-buffer-create "*Org-Timesheets*")
+    (pop-to-buffer (current-buffer))
+    (read-only-mode 0)
+    (org-mode)
+    (erase-buffer)
+    (org-clock-report)
+    (search-forward ":")
+    (search-forward ":")
+    (backward-char)
+    (kill-line)
+    (insert params)
+    (org-clock-report)
+
+    (condition-case nil
+     (let ((ln (save-excursion
+                 (goto-char (point-max))
+                 (line-number-at-pos))))
+       (set-window-text-height (get-buffer-window)
+                               (+ 1 ln)))
+     (error))
+    (read-only-mode 1)
+    (bury-q-minor-mode)))
+
+(defun org-timesheets-report-move (delta)
+  (goto-char (point-min))
+  (search-forward ":block")
+  (forward-word)
+  (read-only-mode 0)
+  (let* ((kill-ring nil)
+        (value
+
+         (+ delta (or (when (looking-at (rx "-" (one-or-more digit)))
+                        (kill-word nil)
+                        (string-to-number (car kill-ring)))
+                      0))))
+
+    (when (< value 0) (insert (format "%d" value))))
+  (org-clock-report)
+  (read-only-mode 1))
+
+(defun org-timesheets-report-forward ()
+  (interactive)
+  (org-timesheets-report-move 1))
+
+(defun org-timesheets-report-back ()
+  (interactive)
+  (org-timesheets-report-move -1))
+
+(defun org-timesheets-report-today ()
+  (interactive)
+  (org-timesheets-report ":scope agenda :block today :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t"))
+
+(defun org-timesheets-report-this-week ()
+  (interactive)
+  (org-timesheets-report ":scope agenda :block thisweek :step day :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t"))
+
+(define-minor-mode bury-q-minor-mode
+  "A very minor mode which binds q to bury buffer"
+  nil ""
+  '(("q" . quit-window)
+    ("n" . forward-paragraph)
+    ("p" . backward-paragraph)
+    ("b" . org-timesheets-report-back)
+    ("f" . org-timesheets-report-forward)))
+
+
 (provide 'org-timesheets)

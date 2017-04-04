@@ -164,8 +164,7 @@ Prefix argument edits before sending"
         ;; else
         (format "<%s %s>--<%s %s>" start-d start-t end-d end-t))))
 
-
-(defun notmuch-calendar-event->org (e)
+(defun notmuch-calendar-event-insert-headline (e)
   "Format E as an org headline"
   (let* ((location (icalendar--get-event-property e 'LOCATION))
           (organizer (icalendar--get-event-property e 'ORGANIZER))
@@ -182,13 +181,57 @@ Prefix argument edits before sending"
     (dolist (a attendees)
       (insert (format  "  :ATTENDING: [[%s]]\n" a)))
     (insert "  :END:\n ")
-    ;; make button to go to agenda
+    ;; Make button to go to agenda. Alternatively could generate day agenda and insert
+    (insert org-timestr "\n")))
+
+(defun notmuch-calendar-event-insert-agenda (e)
+  (let* ((location (icalendar--get-event-property e 'LOCATION))
+         (organizer (icalendar--get-event-property e 'ORGANIZER))
+         (summary (icalendar--convert-string-for-import
+                   (or (icalendar--get-event-property e 'SUMMARY)
+                       "No summary")))
+         (attendees (icalendar--get-event-properties e 'ATTENDEE))
+         (org-timestr (notmuch-calendar-ical->org-timestring e))
+         (time-parts (org-parse-time-string org-timestr))
+         (minutes (nth 1 time-parts))
+         (hours (nth 2 time-parts))
+         (day (nth 3 time-parts))
+         (month (nth 4 time-parts))
+         (year (nth 5 time-parts)))
+
+    (insert "\n" summary "\n")
+
     (insert-button org-timestr
                    :type 'notmuch-show-part-button-type
                    'action #'org-open-at-mouse)
-    (insert "\n")))
 
-(defun notmuch-calendar-icalendar->org (output-buffer)
+    (insert "\n--------------\n")
+
+    (org-eval-in-environment (org-make-parameter-alist
+                              `(org-agenda-span
+                                'day
+                                org-agenda-start-day ,(format "%04d-%02d-%02d"
+                                                              year month day)
+                                org-agenda-use-time-grid t
+                                org-agenda-remove-tags t
+                                org-agenda-window-setup 'nope))
+      (let* ((wins (current-window-configuration))
+             org-agenda-sticky)
+        ;; TODO for some reason this loses some text properties
+        ;; for org-hd-marker that let it respond to clicks.
+        (save-excursion
+                (with-current-buffer
+                    (get-buffer-create org-agenda-buffer-name)
+                  (pop-to-buffer (current-buffer))
+                  (org-agenda nil "a")))
+        (set-window-configuration wins)
+        (let ((p (point)))
+          (insert-buffer-substring org-agenda-buffer-name)
+          (put-text-property p (point) 'keymap
+                             org-agenda-keymap))
+        ))))
+
+(defun notmuch-calendar-icalendar-render (output-buffer fun)
   "Transform icalendar events in the current buffer into org headlines and insert them into the output-buffer."
   (save-current-buffer
     (set-buffer (icalendar--get-unfolded-buffer (current-buffer)))
@@ -202,7 +245,7 @@ Prefix argument edits before sending"
             (with-current-buffer output-buffer
               (let ((here (point)))
                 (dolist (e ical-events)
-                  (notmuch-calendar-event->org e))
+                  (funcall fun e))
 
                 (list here (point))))
             )))))
@@ -219,7 +262,9 @@ Prefix argument edits before sending"
                  (with-temp-buffer
                    (mm-insert-part handle)
                    (delete-trailing-whitespace)
-                   (notmuch-calendar-icalendar->org output-buffer)
+                   (notmuch-calendar-icalendar-render
+                    output-buffer
+                    #'notmuch-calendar-event-insert-headline)
                    ))
                (buffer-substring-no-properties (point-min) (point-max))
                ))))
@@ -227,10 +272,9 @@ Prefix argument edits before sending"
           `(("a" "Calendar entry" entry ,notmuch-calendar-capture-target
              ;; template goes here - potentially risky?
              "%(format \"%s\" appointment) %?"
-             ))
-          ))
-    (org-capture nil "a"))
-  )
+             ))))
+    (org-capture nil "a")))
+
 
 (defun notmuch-calendar-accept-and-capture (e)
   (save-current-buffer (notmuch-calendar-respond 0 ?a))
@@ -268,7 +312,9 @@ Prefix argument edits before sending"
         (replace-match "\n" nil nil))
       ;; insert buttons:
 
-      (notmuch-calendar-icalendar->org output-buffer))
+      (notmuch-calendar-icalendar-render
+       output-buffer
+       #'notmuch-calendar-event-insert-agenda))
     t))
 
 (fset 'notmuch-show-insert-part-text/calendar
