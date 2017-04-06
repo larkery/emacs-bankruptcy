@@ -41,8 +41,8 @@
     (org-clock-out nil nil
                    (when p
                      (org-read-date t t)))
+    (force-mode-line-update t)))
 
-    ))
 
 (defun org-refile--get-location-toplevel (o refloc tbl)
   (let ((ores (funcall o refloc tbl)))
@@ -108,22 +108,39 @@
                                (+ 1 ln)))
      (error))
     (read-only-mode 1)
-    (bury-q-minor-mode)))
+    (org-timesheets-minor-mode 1)))
+
+(defun org-timesheets-toggle-day-step ()
+  (interactive)
+  (read-only-mode 0)
+  (save-excursion (goto-char (point-min))
+                  (if (search-forward " :step " nil t)
+                      (progn (backward-word)
+                             (backward-char 2)
+                             (let (kill-ring)
+                               (kill-word 2)))
+                    (progn (search-forward "clocktable")
+                           (end-of-line)
+                           (insert " :step day"))))
+  (org-clock-report)
+  (read-only-mode 1))
 
 (defun org-timesheets-report-move (delta)
-  (goto-char (point-min))
-  (search-forward ":block")
-  (forward-word)
   (read-only-mode 0)
-  (let* ((kill-ring nil)
-        (value
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward ":block")
+    (forward-word)
 
-         (+ delta (or (when (looking-at (rx "-" (one-or-more digit)))
-                        (kill-word nil)
-                        (string-to-number (car kill-ring)))
-                      0))))
+    (let* ((kill-ring nil)
+           (value
 
-    (when (< value 0) (insert (format "%d" value))))
+            (+ delta (or (when (looking-at (rx "-" (one-or-more digit)))
+                           (kill-word nil)
+                           (string-to-number (car kill-ring)))
+                         0))))
+
+      (when (< value 0) (insert (format "%d" value)))))
   (org-clock-report)
   (read-only-mode 1))
 
@@ -137,20 +154,27 @@
 
 (defun org-timesheets-report-today ()
   (interactive)
-  (org-timesheets-report ":scope agenda :block today :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t"))
+  (org-timesheets-report ":link t :scope agenda :block today :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t"))
+
+  (org-clock-report)
+  (read-only-mode 1))
 
 (defun org-timesheets-report-this-week ()
   (interactive)
-  (org-timesheets-report ":scope agenda :block thisweek :step day :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t"))
+  (org-timesheets-report ":link t :scope agenda :block thisweek :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t :step day"))
 
-(define-minor-mode bury-q-minor-mode
-  "A very minor mode which binds q to bury buffer"
+
+(define-minor-mode org-timesheets-minor-mode
+  "Some keys for the timesheet popup"
   nil ""
   '(("q" . quit-window)
     ("n" . forward-paragraph)
     ("p" . backward-paragraph)
     ("b" . org-timesheets-report-back)
-    ("f" . org-timesheets-report-forward)))
+    ("f" . org-timesheets-report-forward)
+    ("w" . org-timesheets-report-this-week)
+    ("t" . org-timesheets-report-today)
+    ("s" . org-timesheets-toggle-day-step)))
 
 
 (provide 'org-timesheets)

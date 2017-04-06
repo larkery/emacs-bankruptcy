@@ -19,6 +19,14 @@
      t)
     (indent-region a b)))
 
+(defun insert-date (p)
+  "Insert date (and time, with C-u)"
+  (interactive "P")
+  (insert (format-time-string
+           (cond
+            (p "%c")
+            (t "%x")))))
+
 (defun my-split-window ()
   (interactive)
   (let ((fwidth (frame-pixel-width))
@@ -137,6 +145,10 @@ Try the repeated popping up to 10 times."
   (condition-case x
       (dired-find-file-other-window)
     (error (dired-jump-other-window))))
+
+(defun run-terminal-here ()
+  (interactive)
+  (call-process "urxvt" nil 0 nil))
 
 (defun my-cycle-case (p m)
   (interactive "r")

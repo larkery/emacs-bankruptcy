@@ -1,8 +1,17 @@
 (initsplit-this-file bos "dired-")
 
-(add-hook
- 'dired-mode-hook
- (lambda () (interactive) (local-set-key (kbd "V") #'magit-status)))
+(bind-key "V" #'magit-status dired-mode-map)
+(bind-key "C-c RET" #'run-terminal-here dired-mode-map)
+(bind-key "C-c o" #'dired-xdg-open dired-mode-map)
+
+(defun dired-xdg-open (&optional arg file-list)
+  (interactive
+   (let ((files (dired-get-marked-files t current-prefix-arg)))
+     (list
+      ;; Want to give feedback whether this file or marked files are used:
+      current-prefix-arg
+      files)))
+  (dired-do-async-shell-command "xdg-open" arg file-list))
 
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 

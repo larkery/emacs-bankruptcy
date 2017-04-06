@@ -18,7 +18,7 @@
 (req-package smartparens
   :commands smartparens-mode show-smartparens-mode
   :init
-  (add-hook 'prog-mode-hook 'smartparens-mode)
+  (add-hook 'my-prog-mode-hook 'smartparens-mode)
   :config
   (require 'smartparens-config)
 
