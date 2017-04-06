@@ -11,6 +11,7 @@
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
 
  '(mode-line-inactive ((t (:box nil))))
+ '(mode-line ((t (:box "grey50"))))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
