@@ -86,6 +86,15 @@
 
     (setq org-timesheets-clocked-in t)))
 
+(defun org-timesheets-resize ()
+  (condition-case nil
+     (let ((ln (save-excursion
+                 (goto-char (point-max))
+                 (line-number-at-pos))))
+       (set-window-text-height (get-buffer-window)
+                               (+ 0 ln)))
+     (error)))
+
 (defun org-timesheets-report (params)
   (with-current-buffer (get-buffer-create "*Org-Timesheets*")
     (pop-to-buffer (current-buffer))
@@ -100,13 +109,7 @@
     (insert params)
     (org-clock-report)
 
-    (condition-case nil
-     (let ((ln (save-excursion
-                 (goto-char (point-max))
-                 (line-number-at-pos))))
-       (set-window-text-height (get-buffer-window)
-                               (+ 1 ln)))
-     (error))
+    (org-timesheets-resize)
     (read-only-mode 1)
     (org-timesheets-minor-mode 1)))
 
@@ -123,6 +126,7 @@
                            (end-of-line)
                            (insert " :step day"))))
   (org-clock-report)
+  (org-timesheets-resize)
   (read-only-mode 1))
 
 (defun org-timesheets-report-move (delta)
@@ -142,6 +146,7 @@
 
       (when (< value 0) (insert (format "%d" value)))))
   (org-clock-report)
+  (org-timesheets-resize)
   (read-only-mode 1))
 
 (defun org-timesheets-report-forward ()
@@ -173,7 +178,7 @@
     ("b" . org-timesheets-report-back)
     ("f" . org-timesheets-report-forward)
     ("w" . org-timesheets-report-this-week)
-    ("t" . org-timesheets-report-today)
+    ("d" . org-timesheets-report-today)
     ("s" . org-timesheets-toggle-day-step)))
 
 

@@ -12,7 +12,7 @@
          ("<f6> i" . org-timesheets-switch-task)
          ("<f6> o" . org-timesheets-clock-out)
          ("<f6> j" . org-clock-goto)
-         ("<f6> t" . org-timesheets-report-today)
+         ("<f6> d" . org-timesheets-report-today)
          ("<f6> w" . org-timesheets-report-this-week))
   :init
 
@@ -180,4 +180,7 @@ END:VALARM\n"
      (nil :maxlevel . 3))))
  '(org-refile-use-outline-path (quote file))
  '(org-tags-column 0)
+ '(org-time-clocksum-format
+   (quote
+    (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
  '(org-use-speed-commands t))
