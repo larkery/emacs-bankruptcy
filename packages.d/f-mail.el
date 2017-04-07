@@ -401,6 +401,22 @@ Subject: " my-reply-subject "
    (quote
     (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
  '(notmuch-show-indent-messages-width 2)
+ '(notmuch-tag-formats
+   (quote
+    (("unread"
+      (propertize tag
+                  (quote face)
+                  (quote notmuch-tag-unread)))
+     ("flagged"
+      (notmuch-tag-format-image-data tag
+                                     (notmuch-tag-star-icon))
+      (propertize tag
+                  (quote face)
+                  (quote notmuch-tag-flagged)))
+     ("attachment" "📎")
+     ("replied" "r")
+     ("sent")
+     ("inbox" "i"))) t)
  '(notmuch-wash-original-regexp
    "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
  '(notmuch-wash-signature-lines-max 30)
@@ -429,4 +445,4 @@ Subject: " my-reply-subject "
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(notmuch-message-summary-face ((t (:inherit mode-line))))
- '(notmuch-tag-face ((t (:foreground "white" :box (:line-width 1 :color "white" :style pressed-button) :height 0.8)))))
+ '(notmuch-tag-face ((t (:foreground "gold")))))

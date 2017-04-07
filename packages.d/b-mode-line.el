@@ -2,13 +2,10 @@
   "Return empty space using FACE and leaving RESERVE space on the right."
   (let* ((the-rhs (format-mode-line rhs))
          (reserve (length the-rhs)))
-    (when (and window-system (eq 'right (get-scroll-bar-mode)))
-      (setq reserve (- reserve 3)))
-
     (list
      (propertize " "
-                 'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
-                 )
+                 'display `((space :align-to (- right
+                                                ,reserve))))
      rhs)))
 
 (setq-default
@@ -54,10 +51,9 @@
    (:eval
     (my-mode-line-pad-right
      (list
-      mode-line-modes
       global-mode-string
+      " "
+      mode-line-modes
+      '(:propertize (:eval (anzu--update-mode-line)) face 'mode-line-emphasis))
 
-      '(:propertize (:eval (anzu--update-mode-line))
-                    face 'mode-line-emphasis)
-      "  ")
      ))))

@@ -9,9 +9,11 @@
  '(org-tag ((t (:inherit shadow))))
  '(org-todo ((t (:background "red" :foreground "white"))))
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
+ '(org-mode-line-clock ((t (:background nil))))
 
- '(mode-line-inactive ((t (:box nil))))
- '(mode-line ((t (:box "grey50"))))
+ '(mode-line-inactive ((t (:background "grey20"))))
+ '(mode-line ((t (:background "grey30"))))
+ '(hl-line ((t :background "grey30")))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))

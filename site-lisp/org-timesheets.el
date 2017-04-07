@@ -30,7 +30,6 @@
 
 (add-hook 'org-clock-out-hook 'org-timesheets-maybe-lose-time)
 
-
 (defun org-timesheets-clock-out (p)
   "Punch that clock. Wham."
   (interactive "P")
@@ -88,30 +87,13 @@
 
 (defun org-timesheets-resize ()
   (condition-case nil
-     (let ((ln (save-excursion
-                 (goto-char (point-max))
-                 (line-number-at-pos))))
-       (set-window-text-height (get-buffer-window)
-                               (+ 0 ln)))
-     (error)))
+      (let ((ln (save-excursion
+                  (goto-char (point-max))
+                  (line-number-at-pos))))
+        (set-window-text-height (get-buffer-window)
+                                (+ 0 ln)))
+    (error)))
 
-(defun org-timesheets-report (params)
-  (with-current-buffer (get-buffer-create "*Org-Timesheets*")
-    (pop-to-buffer (current-buffer))
-    (read-only-mode 0)
-    (org-mode)
-    (erase-buffer)
-    (org-clock-report)
-    (search-forward ":")
-    (search-forward ":")
-    (backward-char)
-    (kill-line)
-    (insert params)
-    (org-clock-report)
-
-    (org-timesheets-resize)
-    (read-only-mode 1)
-    (org-timesheets-minor-mode 1)))
 
 (defun org-timesheets-toggle-day-step ()
   (interactive)
@@ -157,17 +139,49 @@
   (interactive)
   (org-timesheets-report-move -1))
 
+(defun org-timesheets-report (&rest params)
+  (with-current-buffer (get-buffer-create "*Org-Timesheets*")
+    (pop-to-buffer (current-buffer))
+    (read-only-mode 0)
+    (org-mode)
+    (erase-buffer)
+    (org-clock-report)
+    (search-forward ":")
+    (search-forward ":")
+    (backward-char)
+    (kill-line)
+    (dolist (param params)
+      (insert " " (prin1-to-string param))
+      )
+
+    (org-clock-report)
+    (org-timesheets-resize)
+    (read-only-mode 1)
+    (org-timesheets-minor-mode 1)))
+
 (defun org-timesheets-report-today ()
   (interactive)
-  (org-timesheets-report ":link t :scope agenda :block today :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t"))
-
-  (org-clock-report)
-  (read-only-mode 1))
+  (org-timesheets-report
+   :link t
+   :scope (list org-timesheets-file)
+   :block 'today
+   :compact t
+   :properties '("CODE")
+   :fileskip0 t
+   :stepskip0 t
+   ))
 
 (defun org-timesheets-report-this-week ()
   (interactive)
-  (org-timesheets-report ":link t :scope agenda :block thisweek :compact t :properties (\"CODE\") :fileskip0 t :stepskip0 t :step day"))
-
+  (org-timesheets-report
+   :link t
+   :scope (list org-timesheets-file)
+   :block 'thisweek
+   :compact t
+   :properties '("CODE")
+   :fileskip0 t
+   :stepskip0 t
+   :step 'day))
 
 (define-minor-mode org-timesheets-minor-mode
   "Some keys for the timesheet popup"
@@ -180,6 +194,5 @@
     ("w" . org-timesheets-report-this-week)
     ("d" . org-timesheets-report-today)
     ("s" . org-timesheets-toggle-day-step)))
-
 
 (provide 'org-timesheets)
