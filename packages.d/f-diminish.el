@@ -33,7 +33,7 @@
           (replace
            (setq new-mode-name
                  (replace-regexp-in-string (cadr amendment) (caddr amendment)
-                                           new-mode-name)))))
+                                           new-mode-name t)))))
       (setq mode-name new-mode-name))))
 
 (add-hook 'after-change-major-mode-hook #'change-mode-name)
