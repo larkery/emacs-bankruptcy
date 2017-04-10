@@ -1,13 +1,17 @@
-(req-package ess
-  :commands R R-mode
+(req-package ess-site
+  :ensure ess
+  :commands R
   :mode (("/R/.*\\.q\\'" . R-mode)
          ("\\.[rR]\\'" . R-mode))
   :defer t
+
   :config
+  (ess-disable-smart-underscore nil)
   (add-hook 'ess-mode-hook 'my-run-prog-mode-hook)
-  (add-hook 'ess-mode-hook #'ess-disable-smart-underscore)
-  (add-hook 'inferior-ess-mode-hook #'ess-disable-smart-underscore)
-  (push 'ess-mode align-c++-modes)
+
+  (with-eval-after-load 'align
+    (push 'ess-mode align-c++-modes))
+
   (key-combo-define-hook
    '(ess-mode-hook inferior-ess-mode-hook)
    'my-ess-combo-hook

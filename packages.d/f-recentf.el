@@ -9,7 +9,11 @@
     (interactive)
     (find-file (completing-read "recent: " recentf-list)))
 
-  (recentf-mode 1))
+  (recentf-mode 1)
+
+  ;; save recentf every now and then
+  (run-at-time nil (* 5 60) 'recentf-save-list)
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

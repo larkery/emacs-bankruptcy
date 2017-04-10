@@ -416,7 +416,7 @@ Subject: " my-reply-subject "
      ("attachment" "📎")
      ("replied" "r")
      ("sent")
-     ("inbox" "i"))) t)
+     ("inbox" "i"))))
  '(notmuch-wash-original-regexp
    "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
  '(notmuch-wash-signature-lines-max 30)
