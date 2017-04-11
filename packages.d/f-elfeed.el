@@ -27,7 +27,7 @@
           ;; ("http://www.world-nuclear-news.org/rss.aspx?fid=790" nuke)
 
           ;; ("https://www.iaea.org/feeds/topnews" nuke)
-
+          ("https://nathaliesternmusic.bandcamp.com/feed" music)
           )
 
         elfeed-use-curl t

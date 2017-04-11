@@ -441,7 +441,9 @@ Subject: " my-reply-subject "
  '(notmuch-wash-signature-regexp
    (rx bol
        (or
-        (seq "Tel:" (one-or-more (| digit " ")))
+        (seq "Tel:"
+             (one-or-more
+              (| digit " ")))
         (seq
          (* nonl)
          "not the intended recipient"
@@ -452,7 +454,6 @@ Subject: " my-reply-subject "
          (* nonl)
          ("intended")
          (* nonl))
-
         (seq "The original of this email was scanned for viruses"
              (* nonl))
         (seq "__"
