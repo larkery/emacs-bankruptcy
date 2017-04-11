@@ -246,6 +246,18 @@ This will be the link nearest the end of the message which either contains or fo
   (bind-key "r" 'my-notmuch-reply-sender-qs 'notmuch-show-mode-map)
   (bind-key "R" 'my-notmuch-reply-qs 'notmuch-show-mode-map)
 
+  (defun my-notmuch-cycle-renderer ()
+    (interactive)
+    (let* ((vals (mapcar #'car mm-text-html-renderer-alist))
+           (nextval (loop for cell on vals
+                          if (eq (car cell) mm-text-html-renderer)
+                          return (cadr cell)))
+           (nextval (or nextval (car vals))))
+      (message "mm-text-html-renderer: %s" (setq mm-text-html-renderer nextval))
+      (notmuch-refresh-this-buffer)))
+
+  (bind-key "H" 'my-notmuch-cycle-renderer 'notmuch-show-mode-map)
+
   (defun minimally-indent (p m)
     (interactive "r")
     (save-excursion
@@ -302,7 +314,16 @@ Subject: " my-reply-subject "
             )))
     (message-cite-original-without-signature))
 
-  )
+  (defun mm-render-with-mail-renderer ()
+    (shell-command-on-region
+     (point-min) (point-max)
+     (format "render-mail %d" (- (window-width) 2))
+     (current-buffer) t))
+
+  (push '(outlook mm-inline-render-with-function
+                  mm-render-with-mail-renderer)
+        mm-text-html-renderer-alist))
+
 
 (setq notmuch-tag-formats
       (quote
@@ -353,7 +374,7 @@ Subject: " my-reply-subject "
    (quote
     ("image/.*" "text/.*" "message/delivery-status" "message/rfc822" "message/partial" "message/external-body" "application/emacs-lisp" "application/x-emacs-lisp" "application/pgp-signature" "application/x-pkcs7-signature" "application/pkcs7-signature" "application/x-pkcs7-mime" "application/pkcs7-mime" "application/pgp")))
  '(mm-sign-option (quote guided))
- '(mm-text-html-renderer (quote shr))
+ '(mm-text-html-renderer (quote outlook))
  '(notmuch-address-selection-function
    (lambda
      (prompt collection initial-input)
@@ -378,12 +399,9 @@ Subject: " my-reply-subject "
  '(notmuch-saved-searches
    (quote
     ((:name "all mail" :query "*" :key "a")
-     (:name "all inbox" :query "tag:inbox" :key "i")
-     (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-     (:name "live" :query "tag:unread or tag:flagged" :key "u")
+     (:name "i/f/r" :query "tag:inbox OR tag:flagged OR tag:unread" :key "i")
      (:name "flagged" :query "tag:flagged" :key "f")
-     (:name "sent" :query "tag:sent" :key "t")
-     (:name "personal inbox" :query "tag:inbox and path:fastmail/**" :key "p"))))
+     (:name "sent" :query "tag:sent" :key "t"))))
  '(notmuch-search-line-faces
    (quote
     (("unread" . notmuch-search-unread-face)
@@ -418,15 +436,23 @@ Subject: " my-reply-subject "
      ("sent")
      ("inbox" "i"))))
  '(notmuch-wash-original-regexp
-   "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
- '(notmuch-wash-signature-lines-max 30)
+   "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes\\|\\(From: .+\\)$")
+ '(notmuch-wash-signature-lines-max 300)
  '(notmuch-wash-signature-regexp
    (rx bol
        (or
+        (seq "Tel:" (one-or-more (| digit " ")))
         (seq
          (* nonl)
          "not the intended recipient"
          (* nonl))
+        (seq
+         (* nonl)
+         "confidential"
+         (* nonl)
+         ("intended")
+         (* nonl))
+
         (seq "The original of this email was scanned for viruses"
              (* nonl))
         (seq "__"

@@ -40,10 +40,9 @@
  '(gc-cons-percentage 0.5)
  '(gc-cons-threshold 535822336)
  '(highlight-indent-guides-auto-enabled nil)
- '(highlight-symbol-colors
-   (quote
-    ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
- '(highlight-symbol-foreground-color "#E0E0E0")
+ '(highlight-symbol-foreground-color nil)
+ '(highlight-symbol-highlight-single-occurrence nil)
+ '(highlight-symbol-on-navigation-p t)
  '(highlight-tail-colors (quote (("#ec4780" . 0) ("#424242" . 100))))
  '(hippie-expand-try-functions-list
    (quote
@@ -128,3 +127,9 @@
         (facep
          (aref ansi-term-color-vector 0)))))
  '(yas-global-mode t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-symbol-face ((t (:underline t)))))

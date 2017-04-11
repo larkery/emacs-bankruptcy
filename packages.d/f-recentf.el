@@ -13,7 +13,8 @@
 
   ;; save recentf every now and then
   (run-at-time nil (* 5 60) 'recentf-save-list)
-  )
+
+  (advice-add 'recentf-save-list :around #'shut-up))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -22,7 +23,7 @@
  ;; If there is more than one, they won't work right.
  '(recentf-exclude
    (quote
-    (".ido.last" "org-clock-save.el" "\\`/net/" ".emacs.d/elpa" ".git")))
+    (".ido.last" "org-clock-save.el" "\\`/net/" ".emacs.d/elpa" ".git" ".emacs.d/state")))
  '(recentf-max-menu-items 50)
  '(recentf-max-saved-items 500)
  '(recentf-save-file (concat (my-state-dir "") "/recentf")))

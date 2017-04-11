@@ -8,6 +8,7 @@
   :config
   (ess-disable-smart-underscore nil)
   (add-hook 'ess-mode-hook 'my-run-prog-mode-hook)
+  (add-hook 'inferior-ess-mode-hook 'my-run-prog-mode-hook)
 
   (with-eval-after-load 'align
     (push 'ess-mode align-c++-modes))
