@@ -42,3 +42,7 @@
   :commands key-combo-mode key-combo-define-hook
   :init
   (add-hook 'my-prog-mode-hook 'key-combo-mode))
+
+(req-package syntactic-close
+  :commands syntactic-close
+  :bind ("C-c ]" . syntactic-close))

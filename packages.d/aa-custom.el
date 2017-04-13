@@ -34,6 +34,7 @@
  '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
  '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
  '(evil-visual-state-cursor (quote ("#C5E1A5" box)) t)
+ '(fci-rule-color "#5E5E5E")
  '(frames-only-mode nil)
  '(fringe-mode (quote (0)) nil (fringe))
  '(garbage-collection-messages nil)
@@ -104,13 +105,13 @@
  '(multi-term-switch-after-close nil)
  '(package-selected-packages
    (quote
-    (pophint seq popwin key-combo counsel-projectile counsel org-agenda-property company solarized-theme metalheart-theme forest-blue-theme direnv zop-to-char back-button ibuffer-tramp elisp-slime-nav org-capture-pop-frame ace-mc tup-mode clues-theme alect-themes afternoon-theme pcmpl-args bash-completion multishell seoul256-theme hc-zenburn-theme zenburn-theme greymatters-theme anti-zenburn-theme tangotango-theme apropospriate-theme leuven-theme paradox yasnippet projectile org bbdb bind-key jdee spu xpm ido-exit-target notmuch flatui-theme gruvbox-theme farmhouse-theme minimal-theme spacegray-theme darktooth-theme ggtags gradle-mode pdf-tools orgit thingatpt+ exwm multi-term "initsplit" initsplit ess python heroku-theme paganini-theme dired-atool dired-ranger dired-filetype-face ws-butler wgrep weechat w3m sr-speedbar smex smartrep smartparens req-package rainbow-mode project-explorer pcre2el pass paren-face org-caldav org-bullets nix-mode multiple-cursors magit java-snippets ivy ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol haskell-mode git-timemachine flimenu expand-region eno elfeed el-get dired-subtree dired-narrow csv-mode comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext avy auth-password-store anzu anaconda-mode ag adaptive-wrap)))
+    (syntactic-close pophint seq popwin key-combo counsel-projectile counsel org-agenda-property company solarized-theme metalheart-theme forest-blue-theme direnv zop-to-char back-button ibuffer-tramp elisp-slime-nav org-capture-pop-frame ace-mc tup-mode clues-theme alect-themes afternoon-theme pcmpl-args bash-completion multishell seoul256-theme hc-zenburn-theme zenburn-theme greymatters-theme anti-zenburn-theme tangotango-theme apropospriate-theme leuven-theme paradox yasnippet projectile org bbdb bind-key jdee spu xpm ido-exit-target notmuch flatui-theme gruvbox-theme farmhouse-theme minimal-theme spacegray-theme darktooth-theme ggtags gradle-mode pdf-tools orgit thingatpt+ exwm multi-term "initsplit" initsplit ess python heroku-theme paganini-theme dired-atool dired-ranger dired-filetype-face ws-butler wgrep weechat w3m sr-speedbar smex smartrep smartparens req-package rainbow-mode project-explorer pcre2el pass paren-face org-caldav org-bullets nix-mode multiple-cursors magit java-snippets ivy ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol haskell-mode git-timemachine flimenu expand-region eno elfeed el-get dired-subtree dired-narrow csv-mode comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext avy auth-password-store anzu anaconda-mode ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")
  '(powerline-color2 "#333343")
- '(recenter-positions (quote (2 middle bottom)))
+ '(recenter-positions (quote (middle top bottom)))
  '(safe-local-variable-values (quote ((eval org-insert-datetree-entry))))
  '(sentence-end-double-space nil)
  '(shr-color-visible-distance-min 8)
@@ -118,6 +119,28 @@
  '(tabbar-background-color "#353535")
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>")))
+ '(vc-annotate-background "#202020")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#C99090")
+     (40 . "#D9A0A0")
+     (60 . "#ECBC9C")
+     (80 . "#DDCC9C")
+     (100 . "#EDDCAC")
+     (120 . "#FDECBC")
+     (140 . "#6C8C6C")
+     (160 . "#8CAC8C")
+     (180 . "#9CBF9C")
+     (200 . "#ACD2AC")
+     (220 . "#BCE5BC")
+     (240 . "#CCF8CC")
+     (260 . "#A0EDF0")
+     (280 . "#79ADB0")
+     (300 . "#89C5C8")
+     (320 . "#99DDE0")
+     (340 . "#9CC7FB")
+     (360 . "#E090C7"))))
+ '(vc-annotate-very-old-color "#E090C7")
  '(when
       (or
        (not

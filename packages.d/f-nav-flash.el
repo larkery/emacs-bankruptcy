@@ -8,5 +8,6 @@
   (defun flash-after (fn)
     (advice-add fn :filter-return #'flash-after-advice))
 
-  (flash-after #'recenter-top-bottom))
-
+  (flash-after #'recenter-top-bottom)
+  (flash-after #'move-to-window-line-top-bottom)
+  )
