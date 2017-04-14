@@ -45,17 +45,6 @@
 
   (advice-add 'notmuch-mua-new-mail :around 'dired-attach-advice)
 
-  (defun dired-compose-attach ()
-    (interactive)
-
-    (let ((the-files (dired-get-marked-files)))
-      (notmuch-mua-new-mail)
-
-      (save-excursion
-        (goto-char (point-max))
-        (dolist (f the-files)
-          (mml-attach-file f)))))
-
   (defun my-notmuch-fix-fcc ()
     (interactive)
     (save-excursion
@@ -106,52 +95,6 @@ This will be the link nearest the end of the message which either contains or fo
 
   (bind-key "U" #'my-notmuch-show-unsubscribe 'notmuch-show-mode-map)
   (bind-key "u" #'my-notmuch-show-unread 'notmuch-show-mode-map)
-
-  (defun my-mml-attach-dired ()
-    (interactive)
-
-    (lexical-let ((mail-buffer (current-buffer)))
-      (my-split-window)
-      (dired default-directory)
-      (local-set-key (kbd "q")
-                     (lambda ()
-                       (interactive)
-
-                       (let ((marked-files
-                              (delq nil
-                                    (mapcar
-                                     ;; don't attach directories
-                                     (lambda (f) (if (file-directory-p f) nil f))
-                                     (nreverse
-                                      (let ((arg nil)) ;; Silence XEmacs 21.5 when compiling.
-                                        (dired-map-over-marks (dired-get-filename) arg)))))
-                              ))
-
-                         (with-current-buffer mail-buffer
-                           (save-excursion
-                             (goto-char (point-max))
-                             (dolist (f marked-files)
-                               (mml-attach-file f (or (mm-default-file-encoding f)
-                                                      "application/octet-stream") nil)
-
-                               )))
-                         )
-
-                       (kill-this-buffer)
-                       (delete-window)
-                       )
-                     ))
-    )
-
-  (bind-key "C-c C-m C-a" 'my-mml-attach-dired message-mode-map)
-
-  (defun my-notmuch-adjust-name (args)
-    (let ((a (car args))
-          (authors (cadr args)))
-      (list a (and authors (replace-regexp-in-string "Tom Hinton" "Me" authors)))))
-
-  ;;(advice-add 'notmuch-search-insert-authors :filter-args #'my-notmuch-adjust-name)
-;;  (advice-remove 'notmuch-search-insert-authors #'my-notmuch-adjust-name)
 
   (defun my-inbox ()
     (interactive)
@@ -205,46 +148,21 @@ This will be the link nearest the end of the message which either contains or fo
                                   (cdr entry))))))
          mailcap-mime-data))
 
-  (defvar my-selection-to-quote nil)
-  (defvar my-reply-subject nil)
-  (defvar my-reply-to nil)
-
-  (defun my-notmuch-reply-someone-qs (headers tocall)
-    (let* ((nm-headers (plist-get (notmuch-show-get-message-properties)
-                                  :headers))
-
-           (my-reply-subject (plist-get nm-headers :Subject))
-           (my-reply-to (plist-get nm-headers :To))
-
-           (message-cite-style
-            (loop for style in message-cite-styles
-                  for hdr in headers
-
-                  when (let ((h (plist-get nm-headers hdr)))
-                         (when h (string-match-p (car style) h)))
-                  return (cdr style)
-
-                  finally return message-cite-style))
-
-           (my-selection-to-quote
-            (when (use-region-p)
-              (buffer-substring-no-properties (point) (mark)))))
-
-      (eval `(let ,(if (symbolp message-cite-style)
-                       (symbol-value message-cite-style)
-                     message-cite-style)
-               (call-interactively ,(quote tocall))))))
-
-  (defun my-notmuch-reply-sender-qs ()
-    (interactive "")
-    (my-notmuch-reply-someone-qs '(:From) 'notmuch-show-reply-sender))
-
-  (defun my-notmuch-reply-qs ()
-    (interactive "")
-    (my-notmuch-reply-someone-qs '(:From :Cc :To) 'notmuch-show-reply))
-
+  (require 'notmuch-reply-with-selection)
   (bind-key "r" 'my-notmuch-reply-sender-qs 'notmuch-show-mode-map)
   (bind-key "R" 'my-notmuch-reply-qs 'notmuch-show-mode-map)
+
+  (defun my-notmuch-cycle-renderer ()
+    (interactive)
+    (let* ((vals (mapcar #'car mm-text-html-renderer-alist))
+           (nextval (loop for cell on vals
+                          if (eq (car cell) mm-text-html-renderer)
+                          return (cadr cell)))
+           (nextval (or nextval (car vals))))
+      (message "mm-text-html-renderer: %s" (setq mm-text-html-renderer nextval))
+      (notmuch-refresh-this-buffer)))
+
+  (bind-key "H" 'my-notmuch-cycle-renderer 'notmuch-show-mode-map)
 
   (defun minimally-indent (p m)
     (interactive "r")
@@ -286,44 +204,109 @@ Subject: " my-reply-subject "
         (message-yank-empty-prefix "")
         ))))
 
-  (defun message-cite-original-without-signature-or-selection ()
-    (if my-selection-to-quote
-        (save-excursion
-          (let* ((here (point))
-                 after-header)
-            (forward-line 3)
-            (delete-region (point) (mark))
-            (setq after-header (point))
-            (insert my-selection-to-quote)
-            (set-mark (point))
-            (goto-char after-header)
-            (minimally-indent (point) (mark))
-            (goto-char here)
-            )))
-    (message-cite-original-without-signature))
+  (defun mm-inline-render-with-render-mail (handle)
+    (let ((source (mm-get-part handle)))
+      (mm-insert-inline
+       handle
+       (mm-with-multibyte-buffer
+         (insert source)
+         (apply 'mm-inline-wash-with-stdin nil
+                "render-mail" (list (format "%d" (- (window-width) 2))))
+         (buffer-string)))))
 
+  (push (cons 'outlook #'mm-inline-render-with-render-mail)
+        mm-text-html-renderer-alist)
+
+  (defun notmuch-elide-citations-in-html (o msg part content-type nth depth button)
+    (let ((start (if button
+                     (button-start button)
+                   (point)))
+          (result (apply o (list msg part content-type nth depth button))))
+      (save-excursion
+        (save-restriction
+          (narrow-to-region start (point-max))
+          (goto-char (point-min))
+          (notmuch-wash-excerpt-citations msg depth)))
+      result))
+
+  (advice-add 'notmuch-show-insert-part-text/html :around #'notmuch-elide-citations-in-html)
+
+  (defun org-mime-htmlize-nicely ()
+    (interactive)
+    (require 'org-mime)
+
+    ;; replace quoted regions with blockquote tags
+    ;; TODO nested blockquote tags when >>>
+    (let* ((region-p (org-region-active-p))
+           (html-start (set-marker
+                        (make-marker)
+                        (or (and region-p (region-beginning))
+                            (save-excursion
+                              (goto-char (point-min))
+                              (search-forward mail-header-separator)
+                              (+ (point) 1)))))
+           (html-end (set-marker
+                      (make-marker)
+                      (or (and region-p (region-end))
+                          (point-max)))))
+      (goto-char html-start)
+      (while (and (< (point) html-end)
+                  (search-forward-regexp "^>" html-end t))
+        (let* ((quote-start (match-beginning 0))
+               (quote-end quote-start))
+          (goto-char quote-start)
+          (while (and (< (point) html-end)
+                      (looking-at (rx bol (| ">" eol))))
+            (when (looking-at (rx bol ">"))
+              (setq quote-end (point)))
+            (forward-line))
+          (goto-char quote-end)
+          (end-of-line)
+          (insert "\n#+END_QUOTE\n")
+          (save-excursion
+            (goto-char quote-start)
+            (insert "#+BEGIN_QUOTE\n"))))
+
+      ;; htmlize
+
+      (call-interactively #'org-mime-htmlize)
+
+      ;; remove BEGIN_QUOTE and END_QUOTE from the raw text section
+      ))
+
+  (add-hook 'org-mime-html-hook
+            (lambda ()
+              (org-mime-change-element-style
+               "blockquote"
+               "margin:0; padding:0; padding-left:1em; border-left:2px blue solid;")))
+
+  (bind-key "C-c h" #'org-mime-htmlize-nicely notmuch-message-mode-map)
+
+  (defun message-font-lock-fancy-quoting ()
+    "Use font-lock to make quotes fancier.
+
+Overlays unicode box drawing lines for quote markers, and cycles
+colours from highlight symbol"
+    (interactive)
+    (require 'highlight-symbol)
+    (require 'font-lock)
+    (font-lock-add-keywords
+     nil `((,(rx bol (* blank) (group ">" (* (| blank ">"))))
+            (0 (progn (add-text-properties (match-beginning 1) (match-end 1)
+                                           `(display
+                                             ,(replace-regexp-in-string ">" "│" (match-string 1))))
+                      nil)))
+
+           (,(rx bol (* blank) (group ">" (* (| ">" blank))) (* any) eol)
+            (0 (list :foreground
+                     (nth (mod (loop for x across (match-string 1)
+                                     count (= ?> x))
+                               (length highlight-symbol-colors))
+                          highlight-symbol-colors)))))))
+
+  (add-hook 'notmuch-show-mode-hook #'message-font-lock-fancy-quoting)
+  (add-hook 'notmuch-message-mode-hook #'message-font-lock-fancy-quoting)
   )
-
-(setq notmuch-tag-formats
-      (quote
-       (("flagged")
-        ("inbox"
-         "I"
-         (notmuch-apply-face tag
-                             (quote
-                              (:weight bold))))
-        ("replied"
-         "R"
-         (notmuch-apply-face tag
-                             (quote
-                              (:weight bold))))
-        ("sent")
-        ("unread" "U" (notmuch-apply-face tag (quote (:background "purple"))))
-        ("attachment"
-         "A"
-         (notmuch-apply-face tag
-                             (quote
-                              (:weight bold)))))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -353,7 +336,7 @@ Subject: " my-reply-subject "
    (quote
     ("image/.*" "text/.*" "message/delivery-status" "message/rfc822" "message/partial" "message/external-body" "application/emacs-lisp" "application/x-emacs-lisp" "application/pgp-signature" "application/x-pkcs7-signature" "application/pkcs7-signature" "application/x-pkcs7-mime" "application/pkcs7-mime" "application/pgp")))
  '(mm-sign-option (quote guided))
- '(mm-text-html-renderer (quote shr))
+ '(mm-text-html-renderer (quote outlook))
  '(notmuch-address-selection-function
    (lambda
      (prompt collection initial-input)
@@ -378,12 +361,9 @@ Subject: " my-reply-subject "
  '(notmuch-saved-searches
    (quote
     ((:name "all mail" :query "*" :key "a")
-     (:name "all inbox" :query "tag:inbox" :key "i")
-     (:name "work inbox" :query "tag:inbox AND path:cse/**" :key "w")
-     (:name "live" :query "tag:unread or tag:flagged" :key "u")
+     (:name "i/f/r" :query "tag:inbox OR tag:flagged OR tag:unread" :key "i")
      (:name "flagged" :query "tag:flagged" :key "f")
-     (:name "sent" :query "tag:sent" :key "t")
-     (:name "personal inbox" :query "tag:inbox and path:fastmail/**" :key "p"))))
+     (:name "sent" :query "tag:sent" :key "t"))))
  '(notmuch-search-line-faces
    (quote
     (("unread" . notmuch-search-unread-face)
@@ -418,24 +398,32 @@ Subject: " my-reply-subject "
      ("sent")
      ("inbox" "i"))))
  '(notmuch-wash-original-regexp
-   "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes$")
- '(notmuch-wash-signature-lines-max 30)
+   "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes\\|\\(From: .+\\)$")
+ '(notmuch-wash-signature-lines-max 300)
  '(notmuch-wash-signature-regexp
    (rx bol
-       (or
-        (seq
-         (* nonl)
-         "not the intended recipient"
-         (* nonl))
-        (seq "The original of this email was scanned for viruses"
-             (* nonl))
-        (seq "__"
-             (* "_"))
-        (seq "****"
-             (* "*"))
-        (seq "--"
-             (** 0 5 "-")
-             (* " ")))
+       (or "Centre for Sustainable Energy" "Head of Development" "Energy advisor"
+           (seq "Best wishes"
+                (* nonl))
+           (seq
+            (* nonl)
+            "not the intended recipient"
+            (* nonl))
+           (seq
+            (* nonl)
+            "confidential"
+            (* nonl)
+            "intended"
+            (* nonl))
+           (seq "The original of this email was scanned for viruses"
+                (* nonl))
+           (seq "__"
+                (* "_"))
+           (seq "****"
+                (* "*"))
+           (seq "--"
+                (** 0 5 "-")
+                (* " ")))
        eol))
  '(sendmail-program "msmtpq-quiet")
  '(user-mail-address "tom.hinton@cse.org.uk"))
@@ -444,5 +432,6 @@ Subject: " my-reply-subject "
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(message-cited-text ((t (:inherit font-lock-comment-face))))
  '(notmuch-message-summary-face ((t (:inherit mode-line))))
  '(notmuch-tag-face ((t (:foreground "gold")))))

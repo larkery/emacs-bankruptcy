@@ -22,7 +22,9 @@
      (replace "python"      "π")
      (replace "shell"       "sh")
      (replace "text"        "ξ")
-     (replace "wdired"      "↯δ")))
+     (replace "wdired"      "↯δ")
+     (replace "notmuch" "✉")
+     ))
 
 
 (defun change-mode-name ()

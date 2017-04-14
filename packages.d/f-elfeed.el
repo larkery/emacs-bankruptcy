@@ -27,11 +27,16 @@
           ;; ("http://www.world-nuclear-news.org/rss.aspx?fid=790" nuke)
 
           ;; ("https://www.iaea.org/feeds/topnews" nuke)
+
           ("http://www.newyorker.com/feed/articles" news)
           ("http://feeds.kottke.org/main" kottke)
           ("https://www.schneier.com/blog/atom.xml" crypto)
           ("https://www.getrevue.co/profile/azeem.rss" tech)
           ("http://tedium.co/rss" tech))
+
+          ("https://nathaliesternmusic.bandcamp.com/feed" music)
+          )
+
 
         elfeed-use-curl t
         )

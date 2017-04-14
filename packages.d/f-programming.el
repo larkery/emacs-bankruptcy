@@ -9,7 +9,11 @@
   (add-hook 'my-prog-mode-hook #'highlight-symbol-mode)
   (add-hook 'my-prog-mode-hook #'highlight-symbol-nav-mode)
   :config
-  (bind-key "M-s s" #'highlight-symbol-occur highlight-symbol-nav-mode-map))
+  (bind-key "M-s s" #'highlight-symbol-occur highlight-symbol-nav-mode-map)
+  (setq highlight-symbol-highlight-single-occurrence nil
+        highlight-symbol-on-navigation-p t
+        highlight-symbol-idle-delay 5))
+
 
 (req-package eldoc
   :init
@@ -38,3 +42,7 @@
   :commands key-combo-mode key-combo-define-hook
   :init
   (add-hook 'my-prog-mode-hook 'key-combo-mode))
+
+(req-package syntactic-close
+  :commands syntactic-close
+  :bind ("C-c ]" . syntactic-close))

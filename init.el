@@ -24,3 +24,4 @@
 	    (concat user-emacs-directory
                 "packages.d/") t "\\.el$"))
   (load f))
+(put 'set-goal-column 'disabled nil)

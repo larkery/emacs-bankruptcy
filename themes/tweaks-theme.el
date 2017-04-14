@@ -39,7 +39,9 @@
 
  '(highlight ((t (:inverse-video t))))
 
- '(region ((t (:background "black"))))
+ '(region ((t (:background "#3d4d4d"))))
+
+ '(message-cited-text ((t (:inherit nil))))
  )
 
 (provide-theme 'tweaks)
