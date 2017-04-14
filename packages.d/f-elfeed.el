@@ -32,7 +32,7 @@
           ("http://feeds.kottke.org/main" kottke)
           ("https://www.schneier.com/blog/atom.xml" crypto)
           ("https://www.getrevue.co/profile/azeem.rss" tech)
-          ("http://tedium.co/rss" tech))
+          ("http://tedium.co/rss" tech)
 
           ("https://nathaliesternmusic.bandcamp.com/feed" music)
           )

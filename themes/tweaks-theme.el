@@ -42,6 +42,7 @@
  '(region ((t (:background "#3d4d4d"))))
 
  '(message-cited-text ((t (:inherit nil))))
+ '(notmuch-wash-cited-text ((t (:inherit nil))))
  )
 
 (provide-theme 'tweaks)
