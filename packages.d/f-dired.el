@@ -3,6 +3,7 @@
 (bind-key "V" #'magit-status dired-mode-map)
 (bind-key "C-c RET" #'run-terminal-here dired-mode-map)
 (bind-key "C-c o" #'dired-xdg-open dired-mode-map)
+(bind-key "J" #'bookmark-jump dired-mode-map)
 (bind-key "^" #'dired-up-directory-here dired-mode-map)
 (bind-key "r" #'dired-from-recentf dired-mode-map)
 
