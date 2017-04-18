@@ -3,6 +3,31 @@
 (bind-key "V" #'magit-status dired-mode-map)
 (bind-key "C-c RET" #'run-terminal-here dired-mode-map)
 (bind-key "C-c o" #'dired-xdg-open dired-mode-map)
+(bind-key "^" #'dired-up-directory-here dired-mode-map)
+(bind-key "r" #'dired-from-recentf dired-mode-map)
+
+(defun dired-up-directory-here (arg)
+  (interactive "P")
+  (if arg
+      (call-interactively #'dired-up-directory)
+    (let* ((current-dir (dired-current-directory)))
+      (find-alternate-file "..")
+      (dired-goto-file current-dir))))
+
+(defun dired-from-recentf (arg)
+  (interactive "P")
+
+  (funcall (if arg #'dired-other-window #'dired)
+   (completing-read
+    "Directory: "
+
+    (delete-dups
+     (mapcar (lambda (f)
+               (if (and (not (file-remote-p f))
+                        (file-directory-p f))
+                   f
+                 (file-name-directory f)))
+             recentf-list)))))
 
 (defun dired-xdg-open ()
   (interactive)
