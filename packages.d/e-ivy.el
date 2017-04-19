@@ -13,7 +13,10 @@
 (req-package ivy
   :diminish ""
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (bind-key "M-s M-s" #'swiper)
+  (bind-key "M-s s" #'swiper-all))
+
 (req-package counsel
   :diminish ""
   :config

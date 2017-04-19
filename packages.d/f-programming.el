@@ -9,7 +9,7 @@
   (add-hook 'my-prog-mode-hook #'highlight-symbol-mode)
   (add-hook 'my-prog-mode-hook #'highlight-symbol-nav-mode)
   :config
-  (bind-key "M-s s" #'highlight-symbol-occur highlight-symbol-nav-mode-map)
+  (bind-key "M-s O" #'highlight-symbol-occur highlight-symbol-nav-mode-map)
   (setq highlight-symbol-highlight-single-occurrence nil
         highlight-symbol-on-navigation-p t
         highlight-symbol-idle-delay 5))
