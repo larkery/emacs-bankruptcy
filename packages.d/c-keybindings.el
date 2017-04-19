@@ -197,10 +197,7 @@ Try the repeated popping up to 10 times."
        ((< lsec (* 3600 7))
         (format "%dh" (/ lsec 3600)))
        (t ".")
-       )))
-
-  )
-
+       ))))
 
 (defun narrow-dwim (p)
   (interactive "P")
@@ -229,26 +226,15 @@ Try the repeated popping up to 10 times."
 	   ([remap just-one-space] . my-just-one-space)
            ([remap narrow-to-region] . narrow-dwim)
 
-           ("C-c t" . my-tabulate)
+           ("C-c t t" . my-tabulate)
+           ("C-c t a" . align-regexp)
+           ("C-c t A" . align)
            ("C-c d" . dired-ffap)
 
            ("<XF86Launch9>" . switch-to-next-buffer)
            ("<XF86Launch8>" . switch-to-prev-buffer)
-
-           ("<f8> <f6>" . delete-other-windows)
-           ("<f8> <f7>" . delete-window)
-           ("<f8> <f8>" . my-split-window)
-           ("<f8> <f9>" . make-frame-command)
            ("C-c C-/" . my-insert-file-name)
-
            ("M-o" . other-window)
-
-           ;;     ("C-v f" . delete-other-windows)
-           ;;   ("C-v d" . delete-window)
-           ;;       ("C-v c" . ctl-x-5-prefix)
-           ;;       ("C-v s" . my-split-window)
-           ;;       ("C-v b" . ctl-x-4-prefix)
-           ;;       ("C-M-v" . scroll-up-command)
 	   ))
   (let ((key (car binding))
 	(action (cdr binding)))

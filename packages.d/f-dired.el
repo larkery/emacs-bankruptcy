@@ -2,26 +2,39 @@
 
 (bind-key "V" #'magit-status dired-mode-map)
 (bind-key "C-c RET" #'run-terminal-here dired-mode-map)
-(bind-key "C-c o" #'dired-xdg-open dired-mode-map)
 (bind-key "J" #'bookmark-jump dired-mode-map)
 (bind-key "^" #'dired-up-directory-here dired-mode-map)
 (bind-key "r" #'dired-from-recentf dired-mode-map)
+(bind-key "I" #'dired-insert-patricidally dired-mode-map)
+(bind-key "K" (lambda () (interactive)
+                (let ((here (dired-current-directory)))
+                  (and (dired-goto-subdir here)
+                       (progn (dired-do-kill-lines 1)
+                              (dired-goto-file here)))))
+          dired-mode-map)
+(bind-key "e" #'dired-xdg-open dired-mode-map)
 
 (defun dired-up-directory-here (arg)
   (interactive "P")
-  (if arg
-      (call-interactively #'dired-up-directory)
-    (let* ((current-dir (dired-current-directory)))
-      (find-alternate-file "..")
-      (dired-goto-file current-dir))))
+  (let* ((here (dired-current-directory))
+         (up (file-name-directory (directory-file-name here))))
+    (or (dired-goto-file (directory-file-name here))
+        (and (cdr dired-subdir-alist)
+	     (or (dired-goto-subdir up)
+                 (condition-case nil
+                     (progn
+                       (dired-goto-subdir here)
+                       (dired-do-kill-lines 1)
+                       (dired-maybe-insert-subdir up) t)
+                   (error nil))))
+        (progn (find-alternate-file up)
+               (dired-goto-file here)))))
 
 (defun dired-from-recentf (arg)
   (interactive "P")
-
   (funcall (if arg #'dired-other-window #'dired)
    (completing-read
     "Directory: "
-
     (delete-dups
      (mapcar (lambda (f)
                (if (and (not (file-remote-p f))
@@ -29,6 +42,14 @@
                    f
                  (file-name-directory f)))
              recentf-list)))))
+
+(defun dired-insert-patricidally ()
+  (interactive)
+  (let ((here (dired-current-directory)))
+    (call-interactively #'dired-maybe-insert-subdir)
+    (save-excursion
+      (and (dired-goto-subdir here)
+           (dired-do-kill-lines 1)))))
 
 (defun dired-xdg-open ()
   (interactive)
@@ -46,11 +67,12 @@
              (bind-key ")" #'dired-omit-mode dired-mode-map))
 
 ;;;; insert dired subtree indented rather than at bottom
-(req-package dired-subtree
-	     :commands dired-subtree-toggle dired-subtree-cycle
-	     :init
-             (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-             (setq dired-subtree-line-prefix "  ┇"))
+;; (req-package dired-subtree
+;; 	     :commands dired-subtree-toggle dired-subtree-cycle
+;; 	     :init
+;;              (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+;;              (setq dired-subtree-line-prefix "  ┇"))
+
 
 (req-package dired-narrow
   :commands dired-narrow

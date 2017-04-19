@@ -72,14 +72,6 @@ END:VALARM\n"
 
   (advice-add 'org-icalendar--valarm :override 'my-org-icalendar--valarm)
 
-  ;; (defun org-insert-datetree-entry ()
-  ;;   (interactive)
-  ;;   (org-cycle '(8))
-  ;;   (org-datetree-find-date-create (calendar-current-date))
-  ;;   (org-show-entry)
-  ;;   (org-end-of-subtree))
-
-
   (defun org-agenda-toggle-empty ()
     (interactive)
     (setq org-agenda-show-all-dates (not org-agenda-show-all-dates))
@@ -87,39 +79,30 @@ END:VALARM\n"
 
   (add-hook 'org-agenda-mode-hook
             (lambda ()
-              (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map))))
+              (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
-;; (define-minor-mode org-log-mode
-;;   :lighter " org-log"
-;;   :keymap (let ((map (make-sparse-keymap)))
-;;             (define-key map (kbd "C-c j") 'org-goto-log)
+  (defun org-refile-to-datetree ()
+    "Refile a subtree to a datetree corresponding to it's timestamp."
+    (interactive)
+    (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
+           (date (org-date-to-gregorian datetree-date)))
+      (when date
+        (save-excursion
+          (save-restriction
+            (org-save-outline-visibility t
+              (save-excursion
+                (outline-show-all)
+                (setq last-command nil) ; prevent kill appending
+                (org-cut-subtree)
 
-;;             (define-key map (kbd "C-c e") 'org-insert-datetree-entry)
-;;             map))
+                (org-datetree-find-date-create date)
+                (org-narrow-to-subtree)
+                (show-subtree)
+                (org-end-of-subtree t)
 
-
-(defun org-refile-to-datetree ()
-  "Refile a subtree to a datetree corresponding to it's timestamp."
-  (interactive)
-  (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
-         (date (org-date-to-gregorian datetree-date)))
-    (when date
-      (save-excursion
-        (save-restriction
-          (org-save-outline-visibility t
-            (save-excursion
-              (outline-show-all)
-              (setq last-command nil) ; prevent kill appending
-              (org-cut-subtree)
-
-              (org-datetree-find-date-create date)
-              (org-narrow-to-subtree)
-              (show-subtree)
-              (org-end-of-subtree t)
-
-              (goto-char (point-max))
-              (org-paste-subtree 4)
-              )))))))
+                (goto-char (point-max))
+                (org-paste-subtree 4)
+                ))))))))
 
 
 (req-package org-caldav
@@ -255,6 +238,10 @@ END:VALARM\n"
     ((org-agenda-files :maxlevel . 1)
      (nil :maxlevel . 3))))
  '(org-refile-use-outline-path (quote file))
+ '(org-speed-commands-user
+   (quote
+    (("d" . org-refile-to-datetree)
+     ("k" . org-cut-subtree))))
  '(org-tags-column 0)
  '(org-time-clocksum-format
    (quote

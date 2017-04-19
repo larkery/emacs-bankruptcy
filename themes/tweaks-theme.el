@@ -7,7 +7,8 @@
  '(ido-only-match ((t (:inverse-video t))))
 
  '(org-tag ((t (:inherit shadow))))
- '(org-todo ((t (:background "red" :foreground "white"))))
+ '(org-todo ((t (:inverse-video t))))
+ '(org-done ((t (:inverse-video t))))
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
@@ -35,11 +36,12 @@
  '(org-level-8 ((t (:height 1.1 :weight bold))))
  '(org-level-9 ((t (:height 1.1 :weight bold))))
 
- '(font-lock-comment-face ((t (:slant italic))))
+; '(font-lock-comment-face ((t )))
+ '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
  '(highlight ((t (:inverse-video t))))
 
- '(region ((t (:background "#3d4d4d"))))
+ '(region ((t (:background "#3E3E4E"))))
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))
