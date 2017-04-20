@@ -7,7 +7,9 @@
 
   (projectile-global-mode t)
   (counsel-projectile-on)
-  (bind-key "C-x M-b" #'projectile-switch-to-buffer))
+  (bind-key "C-x M-b" #'projectile-switch-to-buffer)
+  (bind-key "C-c d" #'projectile-dired)
+  )
 
 (req-package ibuffer-projectile
   :commands ibuffer-projectile-set-filter-groups

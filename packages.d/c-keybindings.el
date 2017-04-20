@@ -229,7 +229,7 @@ Try the repeated popping up to 10 times."
            ("C-c t t" . my-tabulate)
            ("C-c t a" . align-regexp)
            ("C-c t A" . align)
-           ("C-c d" . dired-ffap)
+           ("C-x d" . dired-ffap)
 
            ("<XF86Launch9>" . switch-to-next-buffer)
            ("<XF86Launch8>" . switch-to-prev-buffer)
