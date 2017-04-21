@@ -4,13 +4,15 @@
 
 (req-package org
   :defer t
-  :require orgit org-capture-pop-frame org-agenda-property
+  :require org-capture-pop-frame org-agenda-property
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c j" . org-log-goto)
          ("<f6> i" . org-timesheets-switch-task)
+         ("<f6> I" . org-timesheets-switch-task-earlier)
          ("<f6> o" . org-timesheets-clock-out)
+         ("<f6> O" . org-timesheets-clock-out-earlier)
          ("<f6> j" . org-clock-goto)
          ("<f6> d" . org-timesheets-report-today)
          ("<f6> w" . org-timesheets-report-this-week))

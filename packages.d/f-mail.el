@@ -290,7 +290,10 @@ colours from highlight symbol"
     (interactive)
     (require 'highlight-symbol)
     (require 'font-lock)
-    (setq-local font-lock-defaults '(nil t))
+    (setq-local font-lock-defaults
+                (cons (car font-lock-defaults)
+                      (cons t (cddr font-lock-defaults))))
+
     (font-lock-add-keywords
      nil `((,(rx bol (* blank) (group ">" (* (| blank ">"))))
             (0 (progn (add-text-properties (match-beginning 1) (match-end 1)

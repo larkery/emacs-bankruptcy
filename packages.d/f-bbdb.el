@@ -1,8 +1,23 @@
 (initsplit-this-file bos "bbdb-")
 
+(req-package bbdb-vcard
+  :commands
+  bbdb-vcard-import-file bbdb-vcard-export
+  bbdb-vcard-import-region bbdb-vcard-import-buffer)
+
+(req-package bbdb-ext :defer t
+  :init
+  (with-eval-after-load 'bbdb
+    (require 'bbdb-ext)))
+
+(req-package bbdb-handy :defer t
+  :init
+  (with-eval-after-load 'bbdb
+    (require 'bbdb-handy)))
+
 (req-package bbdb
   :commands bbdb
-  :require bbdb-vcard bbdb-ext bbdb-handy
+  :require
   :config
   (setq bbdb-mail-user-agent (quote message-user-agent)
         bbdb-user-mail-address-re "\\<hinton\\>"))

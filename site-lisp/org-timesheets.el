@@ -30,6 +30,14 @@
 
 (add-hook 'org-clock-out-hook 'org-timesheets-maybe-lose-time)
 
+(defun org-timesheets-clock-out-earlier ()
+  (interactive)
+  (org-timesheets-clock-out '(4)))
+
+(defun org-timesheets-switch-task-earlier ()
+  (interactive)
+  (org-timesheets-switch-task '(4)))
+
 (defun org-timesheets-clock-out (p)
   "Punch that clock. Wham."
   (interactive "P")
