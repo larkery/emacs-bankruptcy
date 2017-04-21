@@ -15,10 +15,11 @@ Prefix argument edits before sending"
   (interactive "P\nc[a]ccept, [r]eject, [t]entative")
   (require 'ox-icalendar)
 
-  (cl-case reponse
-    (?a (notmuch-show-tag "+accepted"))
-    (?r (notmuch-show-tag "+rejected"))
-    (?t (notmuch-show-tag "+tentative")))
+  (notmuch-show-tag
+   (list (cl-case response
+           (?a "+accepted")
+           (?r "+rejected")
+           (?t "+tentative"))))
 
   ;; get hold of current part
   (let ((mm-inlined-types nil)
