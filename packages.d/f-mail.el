@@ -8,6 +8,42 @@
 ;; WAT?
 (provide 'notmuch-fcc-initialization)
 
+(req-package artbollocks-mode
+  :commands artbollocks-mode
+  :config
+  (setq artbollocks-weasel-words-regex
+        (concat "\\b" (regexp-opt
+                       '("one of the"
+                         "should"
+                         "just"
+                         "sort of"
+                         "a lot"
+                         "probably"
+                         "maybe"
+                         "perhaps"
+                         "i think"
+                         "really"
+                         "pretty"
+                         "maybe"
+                         "nice"
+                         "action"
+                         "utilize"
+                         "leverage") t) "\\b")
+        artbollocks-lexical-illusions-regex
+        "\\b\\(\\w+\\)\\W+\\(\\1\\)\\b"
+        artbollocks-jargon-regex
+        (concat "\\b"
+                (regexp-opt
+                 '("use case"
+                   "use-case"
+                   "spin up"
+                   "virtualize"
+                   "virtualise"))))
+
+  (defadvice artbollocks-search-for-keyword (around casefold activate)
+    (let ((case-fold-search t)) ad-do-it)))
+
+
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
@@ -310,6 +346,8 @@ colours from highlight symbol"
 
   (add-hook 'notmuch-show-mode-hook #'message-font-lock-fancy-quoting)
   (add-hook 'notmuch-message-mode-hook #'message-font-lock-fancy-quoting)
+  (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
+  (add-hook 'notmuch-message-mode-hook #'artbollocks-mode)
   )
 
 (custom-set-variables
