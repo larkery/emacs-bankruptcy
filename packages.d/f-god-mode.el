@@ -20,7 +20,7 @@
           ;; (push (face-remap-add-relative 'hl-line :background "darkcyan")
           ;;       god-cursor-face-remapping)
 
-          (push (face-remap-add-relative 'mode-line :background "darkcyan")
+          (push (face-remap-add-relative 'mode-line :background "OrangeRed4" :foreground "white")
                 god-cursor-face-remapping)
           (setq cursor-type 'bar)
           ;; (hl-line-mode 1)

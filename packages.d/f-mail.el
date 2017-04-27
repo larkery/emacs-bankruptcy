@@ -152,6 +152,31 @@ This will be the link nearest the end of the message which either contains or fo
        amendments))
     (notmuch-search-next-thread))
 
+  (defun my-notmuch-find-related ()
+    (interactive)
+
+    (let ((interesting-tags (cl-set-difference
+                             (notmuch-search-get-tags)
+                             '("inbox"
+                               "attachment"
+                               "meeting"
+                               "unread"
+                               "new"
+                               "sent"
+                               "flagged"
+                               "deleted"
+                               "replied")
+                             :test #'string=))
+          terms)
+
+      (when interesting-tags
+        (dolist (tag interesting-tags)
+          (push (format "tag:\"%s\"" tag) terms)
+          (push "OR" terms))
+
+        (pop terms)
+
+        (notmuch-search (mapconcat #'identity terms " ")))))
 
   (defvar my-notmuch-random-tag nil)
   (make-variable-buffer-local 'my-notmuch-random-tag)
@@ -161,6 +186,7 @@ This will be the link nearest the end of the message which either contains or fo
    ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
+   ("'" . (lambda () (interactive) (my-notmuch-find-related)))
    ("," . (lambda (arg) (interactive "P")
             (when (or arg (not my-notmuch-random-tag))
               (setq my-notmuch-random-tag
@@ -430,6 +456,8 @@ colours from highlight symbol"
    (quote
     ((:name "all mail" :query "*" :key "a")
      (:name "i/f/r" :query "tag:inbox OR tag:flagged OR tag:unread" :key "i")
+     (:name "wi" :query "path:cse/** AND (tag:inbox OR tag:flagged OR tag:unread)" :key "w")
+     (:name "hi" :query "path:fastmail/** AND (tag:inbox OR tag:flagged OR tag:unread)" :key "h")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t"))))
  '(notmuch-search-line-faces
