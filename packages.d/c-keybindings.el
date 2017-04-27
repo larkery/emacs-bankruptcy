@@ -3,6 +3,14 @@
   (interactive)
   (kill-buffer (buffer-name)))
 
+(defun align-paragraph ()
+  (interactive)
+  (save-excursion
+    (forward-paragraph)
+    (let ((here (point)))
+      (backward-paragraph)
+      (align (point) here))))
+
 (defun my-just-one-space ()
   (interactive)
   (cycle-spacing -1 t))
@@ -229,6 +237,7 @@ Try the repeated popping up to 10 times."
            ("C-c t t" . my-tabulate)
            ("C-c t a" . align-regexp)
            ("C-c t A" . align)
+           ("C-c t SPC" . align-paragraph)
            ("C-x d" . dired-ffap)
 
            ("<XF86Launch9>" . switch-to-next-buffer)

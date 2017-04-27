@@ -141,6 +141,7 @@
         counsel-M-x
         eval-defun
         eval-print-last-sexp
+        god-local-mode
         god-mode-all
         god-mode-self-insert
         handle-select-window
@@ -148,6 +149,7 @@
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down
+        repeat
         smex
         yank-rectangle
         ))

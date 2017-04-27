@@ -38,7 +38,10 @@
                    "use-case"
                    "spin up"
                    "virtualize"
-                   "virtualise"))))
+                   "virtualise")))
+        artbollocks-passive-voice nil
+        artbollocks-lexical-illusions nil
+        )
 
   (defadvice artbollocks-search-for-keyword (around casefold activate)
     (let ((case-fold-search t)) ad-do-it)))
@@ -267,48 +270,70 @@ Subject: " my-reply-subject "
 
   (advice-add 'notmuch-show-insert-part-text/html :around #'notmuch-elide-citations-in-html)
 
+  (defun convert-quotes-to-blocks (&optional block-start block-end)
+    (let ((block-start (or block-start "#+BEGIN_QUOTE\n"))
+          (block-end (or block-end "\n#+END_QUOTE"))
+          (changed t))
+      (while changed
+        (goto-char (point-min))
+        (setq changed nil)
+        (while (and (< (point) (point-max))
+                    (search-forward-regexp "^>" nil t))
+          (setq changed t)
+          (let* ((first-quote (match-beginning 0))
+                 (last-quote first-quote))
+            (goto-char first-quote)
+            (while (and (< (point) (point-max))
+                        (looking-at (rx bol (| ">" eol))))
+              (when (looking-at (rx bol ">"))
+                (end-of-line)
+                (setq last-quote (point)))
+              (forward-line))
+
+            (save-restriction
+              (narrow-to-region first-quote last-quote)
+              (goto-char (point-min))
+              (replace-regexp "^>" "")
+              (goto-char (point-min))
+              (insert block-start)
+              (goto-char (point-max))
+              (insert block-end)))))))
+
   (defun org-mime-htmlize-nicely ()
     (interactive)
     (require 'org-mime)
 
     ;; replace quoted regions with blockquote tags
-    ;; TODO nested blockquote tags when >>>
-    (let* ((region-p (org-region-active-p))
-           (html-start (set-marker
+    ;; TODO in general, replies get the notmuch wash stuff inserted into them!
+
+    (save-excursion
+      (let* ((region-p (org-region-active-p))
+             (html-start (set-marker
+                          (make-marker)
+                          (or (and region-p (region-beginning))
+                              (save-excursion
+                                (goto-char (point-min))
+                                (search-forward mail-header-separator)
+                                (+ (point) 1)))))
+             (html-end (set-marker
                         (make-marker)
-                        (or (and region-p (region-beginning))
-                            (save-excursion
-                              (goto-char (point-min))
-                              (search-forward mail-header-separator)
-                              (+ (point) 1)))))
-           (html-end (set-marker
-                      (make-marker)
-                      (or (and region-p (region-end))
-                          (point-max)))))
-      (goto-char html-start)
-      (while (and (< (point) html-end)
-                  (search-forward-regexp "^>" html-end t))
-        (let* ((quote-start (match-beginning 0))
-               (quote-end quote-start))
-          (goto-char quote-start)
-          (while (and (< (point) html-end)
-                      (looking-at (rx bol (| ">" eol))))
-            (when (looking-at (rx bol ">"))
-              (setq quote-end (point)))
-            (forward-line))
-          (goto-char quote-end)
-          (end-of-line)
-          (insert "\n#+END_QUOTE\n")
-          (save-excursion
-            (goto-char quote-start)
-            (insert "#+BEGIN_QUOTE\n"))))
+                        (or (and region-p (region-end))
+                            (point-max))))
+             (original-text (buffer-substring html-start html-end)))
 
-      ;; htmlize
+        (save-restriction
+          (narrow-to-region html-start html-end)
+          (convert-quotes-to-blocks))
 
-      (call-interactively #'org-mime-htmlize)
-
-      ;; remove BEGIN_QUOTE and END_QUOTE from the raw text section
-      ))
+        ;; htmlize
+        (call-interactively #'org-mime-htmlize)
+        (goto-char (point-min))
+        (when (search-forward "<#multipart type=alternative><#part type=text/plain>" nil t)
+          (let ((start (point)))
+            (when (search-forward "<#multipart type=related>" nil t)
+              (goto-char (match-beginning 0))
+              (delete-region start (point))
+              (insert original-text)))))))
 
   (add-hook 'org-mime-html-hook
             (lambda ()
@@ -356,7 +381,8 @@ colours from highlight symbol"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(message-auto-save-directory "~/temp/messages/")
- '(message-citation-line-format "")
+ '(message-citation-line-format "On %a, %b %d %Y, %N wrote:
+")
  '(message-citation-line-function (quote message-insert-formatted-citation-line))
  '(message-cite-function
    (quote message-cite-original-without-signature-or-selection))
