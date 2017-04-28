@@ -8,7 +8,8 @@
   :config
   (require 'god-mode-isearch)
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
-  (define-key god-local-mode-map (kbd "g") 'repeat)
+
+  (define-key god-local-mode-map (kbd ".") 'repeat)
 
   (add-to-list 'god-exempt-major-modes 'notmuch-search-mode)
   (add-to-list 'god-exempt-major-modes 'notmuch-show-mode)
@@ -40,5 +41,5 @@
  '(god-mod-alist
    (quote
     ((nil . "C-")
-     ("." . "M-")
-     ("," . "C-M-")))))
+     (";" . "M-")
+     ("/" . "C-M-")))))

@@ -464,7 +464,10 @@ colours from highlight symbol"
    (quote
     (("unread" . notmuch-search-unread-face)
      ("flagged" . notmuch-search-flagged-face)
-     ("deleted" :strike-through "red"))))
+     ("deleted" :strike-through "red")
+     ("low-importance" :inherit shadow)
+     ("high-importance" :background "darkorange4")
+     )))
  '(notmuch-search-oldest-first nil)
  '(notmuch-search-result-format
    (quote
@@ -489,6 +492,8 @@ colours from highlight symbol"
       (propertize tag
                   (quote face)
                   (quote notmuch-tag-flagged)))
+     ("low-importance" "⊖")
+     ("high-importance" "✪")
      ("attachment" "📎")
      ("replied" "r")
      ("sent")

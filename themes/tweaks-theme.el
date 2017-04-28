@@ -45,6 +45,8 @@
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))
+
+ '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )
 
 (provide-theme 'tweaks)
