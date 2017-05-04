@@ -152,7 +152,34 @@ This will be the link nearest the end of the message which either contains or fo
        amendments))
     (notmuch-search-next-thread))
 
-  (defun my-notmuch-find-related ()
+  (defun my-notmuch-find-related-authors ()
+    (interactive)
+    (let ((authors (plist-get (notmuch-search-get-result (point)) :authors))
+          authors-list
+          selection-list
+          query)
+
+      (dolist (author (split-string authors "[,|]+"))
+        (let ((author (s-trim author)))
+          (when (not (string= author "Tom Hinton"))
+            (push author authors-list))))
+
+      (if (cdr authors-list)
+
+          (ivy-read "authors: " authors-list
+                    :action (lambda (x) (unless (member x selection-list)
+                                          (push x selection-list))))
+
+        (push (car authors-list) selection-list))
+
+      (when selection-list
+        (dolist (s selection-list)
+          (push (format "from:\"%s\" OR to:\"%s\"" s s) query)
+          (push "OR" query))
+        (pop query)
+        (notmuch-search (mapconcat #'identity query " ")))))
+
+  (defun my-notmuch-find-related-tags ()
     (interactive)
 
     (let ((interesting-tags (cl-set-difference
@@ -181,18 +208,22 @@ This will be the link nearest the end of the message which either contains or fo
   (defvar my-notmuch-random-tag nil)
   (make-variable-buffer-local 'my-notmuch-random-tag)
 
+  (defun my-notmuch-toggle-a-tag (arg)
+    (interactive "P")
+    (when (or arg (not my-notmuch-random-tag))
+      (setq my-notmuch-random-tag
+            (completing-read "toggle tag: " (notmuch-tag-completions)))
+    (when my-notmuch-random-tag
+      (my-notmuch-flip-tags my-notmuch-random-tag))))
+
   (bind-keys
    :map notmuch-search-mode-map
    ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
-   ("'" . (lambda () (interactive) (my-notmuch-find-related)))
-   ("," . (lambda (arg) (interactive "P")
-            (when (or arg (not my-notmuch-random-tag))
-              (setq my-notmuch-random-tag
-                    (completing-read "toggle tag: " '())))
-            (when my-notmuch-random-tag
-              (my-notmuch-flip-tags my-notmuch-random-tag))))
+   ("'" . my-notmuch-find-related-tags)
+   ("@" . my-notmuch-find-related-authors)
+   ("," . my-notmuch-toggle-a-tag)
    ("g" . notmuch-refresh-this-buffer))
 
   (setq mailcap-mime-data
@@ -466,8 +497,7 @@ colours from highlight symbol"
      ("flagged" . notmuch-search-flagged-face)
      ("deleted" :strike-through "red")
      ("low-importance" :inherit shadow)
-     ("high-importance" :background "darkorange4")
-     )))
+     ("high-importance" :background "darkorange4"))))
  '(notmuch-search-oldest-first nil)
  '(notmuch-search-result-format
    (quote
