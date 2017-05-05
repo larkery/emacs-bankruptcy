@@ -290,52 +290,70 @@ Prefix argument edits before sending"
             (cadr addr))))
 
 (defun notmuch-calendar-send-invitation-from-org (organizer attendees-list)
+  ;; TODO insert identity, support sending information back again etc.
   (interactive
    (list (completing-read "Organizer: " notmuch-identities)
          (completing-read-multiple "Invite: " (notmuch-address-options ""))))
 
-  (let ((cal-file (save-restriction
-                    (org-narrow-to-subtree)
-                    (org-icalendar-export-to-ics nil nil nil)
-                    ))
-        cal-string)
-    (with-temp-buffer
-      (insert-file-contents cal-file nil)
-      (replace-string "" "")
-      (replace-regexp (rx line-end) "")
-      (with-current-buffer
-          (icalendar--get-unfolded-buffer (current-buffer))
-        (goto-char (point-min))
+  (save-excursion
+    (let ((cal-file (save-restriction
+                      (org-narrow-to-subtree)
+                      (org-icalendar-export-to-ics nil nil nil)))
+
+          cal-string)
+      (with-temp-buffer
+        (insert-file-contents cal-file nil)
         (replace-string "" "")
-        (goto-char (point-min))
-        (search-forward-regexp (rx bol "BEGIN:VEVENT" eol))
-        (end-of-line)
-        (insert
-         "\n" "ORGANIZER;" (notmuch-calendar--format-email organizer)
-         )
-        (dolist (attendee attendees-list)
-          (insert "\n"
-                  (mapconcat
-                   #'identity
-                   (list
-                    "ATTENDEE"
-                    "ROLE=REQ-PARTICIPANT"
-                    "PARTSTAT=NEEDS-ACTION"
-                    "RSVP=TRUE"
-                    (notmuch-calendar--format-email attendee))
-                   ";")))
+        (replace-regexp (rx line-end) "")
+        (with-current-buffer
+            (icalendar--get-unfolded-buffer (current-buffer))
+          (goto-char (point-min))
+          (replace-string "" "")
+          (goto-char (point-min))
+          (search-forward-regexp (rx bol "BEGIN:VEVENT" eol))
+          (end-of-line)
+          (insert
+           "\n" "ORGANIZER;" (notmuch-calendar--format-email organizer)
+           )
+          (dolist (attendee attendees-list)
+            (insert "\n"
+                    (mapconcat
+                     #'identity
+                     (list
+                      "ATTENDEE"
+                      "ROLE=REQ-PARTICIPANT"
+                      "PARTSTAT=NEEDS-ACTION"
+                      "RSVP=TRUE"
+                      (notmuch-calendar--format-email attendee))
+                     ";")))
+          (insert "\n" "TRANSP:OPAQUE"
+                  "\n" "CLASS:PUBLIC"
+                  "\n" "STATUS:CONFIRMED")
 
-        (insert "\n" "TRANSP:OPAQUE"
-         "\n" "CLASS:PUBLIC"
-         "\n" "STATUS:CONFIRMED")
+          (setq cal-string (org-icalendar-fold-string (buffer-string)))
+          (kill-buffer))
 
-        (setq cal-string (org-icalendar-fold-string (buffer-string)))
-        (kill-buffer))
+        (notmuch-mua-new-mail)
+        (message-goto-from)
+        (message-beginning-of-line)
+        (insert organizer)
+        (let ((here (point)))
+          (end-of-line)
+          (delete-region here (point)))
 
-      (with-current-buffer (get-buffer-create "*invitation*")
-        (pop-to-buffer (current-buffer))
-        (erase-buffer)
-        (insert cal-string)
+        (message-goto-to)
+        (while attendees-list
+          (insert (pop attendees-list))
+          (when attendees-list (insert ", ")))
+
+        (message-goto-body)
+        (mml-insert-multipart "alternative")
+        (save-excursion
+          (mml-insert-part "text/calendar")
+          (insert cal-string))
+        (save-excursion
+          (mml-insert-part "text/plain")
+          (insert "Please come to my meeting\n"))
         ))))
 
 
