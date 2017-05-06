@@ -93,6 +93,8 @@
 
 (define-abbrev-table 'completion-list-mode-abbrev-table '())
 
+(define-abbrev-table 'debugger-mode-abbrev-table '())
+
 (define-abbrev-table 'diary-fancy-display-mode-abbrev-table '())
 
 (define-abbrev-table 'diary-mode-abbrev-table '())
@@ -130,6 +132,7 @@
 (define-abbrev-table 'global-abbrev-table
   '(
     ("beis" "BEIS" nil 2)
+    ("nhm" "NHM" nil 0)
    ))
 
 (define-abbrev-table 'gnus-article-edit-mode-abbrev-table '())
@@ -252,15 +255,19 @@
 
 (define-abbrev-table 'org-mode-abbrev-table
   '(
-    ("beis" "BEIS" nil 5)
+    ("beis" "BEIS" nil 8)
     ("cse" "CSE" nil 9)
     ("decc" "BEIS" nil 0)
-    ("nhm" "NHM" nil 4)
+    ("nhm" "NHM" nil 8)
    ))
 
 (define-abbrev-table 'outline-mode-abbrev-table '())
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
+
+(define-abbrev-table 'pass-mode-abbrev-table '())
+
+(define-abbrev-table 'pass-view-mode-abbrev-table '())
 
 (define-abbrev-table 'perl-mode-abbrev-table '())
 
@@ -272,9 +279,7 @@
 
 (define-abbrev-table 'python-mode-abbrev-table '())
 
-(define-abbrev-table 'python-mode-skeleton-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'python-mode-skeleton-abbrev-table '())
 
 (define-abbrev-table 'reb-lisp-mode-abbrev-table '())
 

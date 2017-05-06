@@ -39,3 +39,5 @@
 
     (with-current-buffer rbuf
       (calc-repl-mode))))
+
+(provide 'calc-repl)

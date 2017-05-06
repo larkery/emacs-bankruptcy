@@ -209,7 +209,7 @@ END:VALARM\n"
  '(org-agenda-files
    (quote
     ("~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
- '(org-agenda-include-diary t)
+ '(org-agenda-include-diary nil)
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
  '(org-archive-default-command (quote org-archive-set-tag))
