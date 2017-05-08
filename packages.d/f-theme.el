@@ -12,6 +12,13 @@
         result
         ))))
 
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+
 (defun theme->xresources (&rest _blah)
   "Generate and update xresources from current theme"
   (interactive)
@@ -70,12 +77,13 @@
         (write-region (point-min) (point-max) "~/.Xresources_emacs")
         (message "updated xresources for theme")
         (remove-hook 'window-configuration-change-hook 'theme->xresources))
-      (kill-buffer)
-      )))
+      (kill-buffer)))
+  t)
 
 (req-package hc-zenburn-theme
   :config
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
   (load-theme 'hc-zenburn t)
   (load-theme 'tweaks t)
-  (add-hook 'window-configuration-change-hook 'theme->xresources))
+  (add-hook 'window-configuration-change-hook 'theme->xresources)
+  (add-hook 'after-load-theme-hook 'theme->xresources))
