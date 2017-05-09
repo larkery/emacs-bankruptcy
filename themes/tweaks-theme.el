@@ -12,8 +12,8 @@
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
- '(mode-line-inactive ((t (:background "grey20"))))
- '(mode-line ((t (:background "grey30"))))
+ '(mode-line ((t (:box "darkolivegreen"))))
+ '(mode-line-inactive ((t (:box nil))))
  '(hl-line ((t :background "grey30")))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
@@ -41,7 +41,7 @@
 
  '(highlight ((t (:inverse-video t))))
 
- '(region ((t (:background "#3E3E4E"))))
+ '(region ((t (:background "DarkSlateGray"))))
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))
