@@ -1,6 +1,7 @@
 (initsplit-this-file bos "dired-")
 
 (with-eval-after-load 'dired
+  (require 'dired-x)
   (bind-key "V" #'magit-status dired-mode-map)
   (bind-key "C-c RET" #'run-terminal-here dired-mode-map)
   (bind-key "J" #'bookmark-jump dired-mode-map)

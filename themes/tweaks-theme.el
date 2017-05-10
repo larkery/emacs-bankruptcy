@@ -1,5 +1,6 @@
 (deftheme tweaks "small adjustments to theme")
 (require 'highlight-symbol)
+
 (custom-theme-set-faces
  'tweaks
 
@@ -13,8 +14,12 @@
  '(org-mode-line-clock ((t (:background nil))))
 
  '(mode-line ((t (:box "darkolivegreen"))))
- '(mode-line-inactive ((t (:box nil))))
- '(hl-line ((t :background "grey30")))
+ '(mode-line-inactive ((((background dark)) (:box "grey30"))
+                       (((background light)) (:box "grey90"))))
+
+ '(hl-line
+   ((((background dark))  (:background "grey30"))
+    (((background light)) (:background "grey90"))))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
@@ -41,7 +46,9 @@
 
  '(highlight ((t (:inverse-video t))))
 
- '(region ((t (:background "DarkSlateGray"))))
+ '(region ((((background dark)) (:background "DarkSlateGray"))
+           (((background light)) (:background "khaki"))
+           ))
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))

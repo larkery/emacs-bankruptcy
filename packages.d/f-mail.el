@@ -205,16 +205,11 @@ This will be the link nearest the end of the message which either contains or fo
 
         (notmuch-search (mapconcat #'identity terms " ")))))
 
-  (defvar my-notmuch-random-tag nil)
-  (make-variable-buffer-local 'my-notmuch-random-tag)
+  (defun notmuch-search-mark ()
+    (interactive)
+    (my-notmuch-flip-tags "marked"))
 
-  (defun my-notmuch-toggle-a-tag (arg)
-    (interactive "P")
-    (when (or arg (not my-notmuch-random-tag))
-      (setq my-notmuch-random-tag
-            (completing-read "toggle tag: " (notmuch-tag-completions)))
-    (when my-notmuch-random-tag
-      (my-notmuch-flip-tags my-notmuch-random-tag))))
+
 
   (bind-keys
    :map notmuch-search-mode-map
@@ -223,7 +218,15 @@ This will be the link nearest the end of the message which either contains or fo
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
    ("'" . my-notmuch-find-related-tags)
    ("@" . my-notmuch-find-related-authors)
-   ("," . my-notmuch-toggle-a-tag)
+   ("," . notmuch-search-mark)
+   ("<" . (lambda () (interactive)
+            (save-excursion
+              (notmuch-search-filter "tag:marked")
+              (mark-whole-buffer)
+              (call-interactively 'notmuch-search-tag)
+              (notmuch-search-tag '("-marked"))
+              (kill-this-buffer))
+            (notmuch-refresh-this-buffer)))
    ("g" . notmuch-refresh-this-buffer))
 
   (setq mailcap-mime-data

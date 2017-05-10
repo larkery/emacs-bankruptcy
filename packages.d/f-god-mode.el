@@ -24,12 +24,12 @@
                  'mode-line
                  :background "orangered4" :box "red" :foreground "white")
                 god-cursor-face-remapping)
-          (setq cursor-type 'bar))
+          )
 
       (progn (dolist (mapping god-cursor-face-remapping)
                (face-remap-remove-relative mapping))
              (setq god-cursor-face-remapping nil)
-             (setq cursor-type t))))
+             )))
 
   (add-hook 'god-mode-enabled-hook #'god-cursor)
   (add-hook 'god-mode-disabled-hook #'god-cursor))
