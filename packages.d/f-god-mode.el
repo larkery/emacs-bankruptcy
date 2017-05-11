@@ -40,7 +40,8 @@
   (key-seq-define-global "jw" 'other-window)
   (key-seq-define-global "jf" 'find-file)
   (key-seq-define-global "jb" 'ivy-switch-buffer)
-  (key-seq-define-global "js" 'save-buffer)
+                                        ;  (key-seq-define-global "js" 'save-buffer) json
+  (key-seq-define-global "jk" 'save-buffer)
   (key-seq-define-global "jx" 'split-window-below)
   (key-seq-define-global "jz" 'delete-other-windows)
   (key-seq-define-global "jc" 'split-window-right)

@@ -1,21 +1,21 @@
 (initsplit-this-file bos "dired-")
 
 (with-eval-after-load 'dired
-  (require 'dired-x)
-  (bind-key "V" #'magit-status dired-mode-map)
-  (bind-key "C-c RET" #'run-terminal-here dired-mode-map)
-  (bind-key "J" #'bookmark-jump dired-mode-map)
-  (bind-key "^" #'dired-up-directory-here dired-mode-map)
-  (bind-key "r" #'dired-from-recentf dired-mode-map)
-  (bind-key "I" #'dired-insert-patricidally dired-mode-map)
-  (bind-key "K" (lambda () (interactive)
+  (bind-keys
+   :map dired-mode-map
+   ("V" . magit-status)
+   ("C-x C-f" .  dired-C-x-C-f)
+   ("e" .  dired-xdg-open)
+   ("K" .  (lambda () (interactive)
                   (let ((here (dired-current-directory)))
                     (and (dired-goto-subdir here)
                          (progn (dired-do-kill-lines 1)
-                                (dired-goto-file here)))))
-            dired-mode-map)
-  (bind-key "e" #'dired-xdg-open dired-mode-map)
-  (bind-key "C-x C-f" #'dired-C-x-C-f dired-mode-map)
+                                (dired-goto-file here))))))
+   ("I" .  dired-insert-patricidally)
+   ("r" .  dired-from-recentf)
+   ("^" .  dired-up-directory-here)
+   ("J" .  bookmark-jump)
+   ("C-c RET" .  run-terminal-here))
 
   (defun dired-C-x-C-f ()
     (interactive)
@@ -99,6 +99,9 @@
  ;; If there is more than one, they won't work right.
  '(dired-async-mode nil)
  '(dired-auto-revert-buffer t)
+ '(dired-bind-info nil)
+ '(dired-bind-jump nil)
+ '(dired-bind-man nil)
  '(dired-dwim-target t)
  '(dired-isearch-filenames (quote dwim))
  '(dired-listing-switches "-lah")
