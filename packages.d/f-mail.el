@@ -263,23 +263,6 @@ This will be the link nearest the end of the message which either contains or fo
 
   (bind-key "H" 'my-notmuch-cycle-renderer 'notmuch-show-mode-map)
 
-  (defun minimally-indent (p m)
-    (interactive "r")
-    (save-excursion
-      (save-restriction
-        (goto-char p)
-        (let ((mindent (progn (back-to-indentation)
-                              (current-column))))
-          (while (< (point) m)
-            (forward-line)
-            (back-to-indentation)
-            (unless (looking-at "^$")
-              (setq mindent (min mindent (current-column))))
-            (end-of-line))
-          (forward-line -1)
-          (move-to-column mindent)
-          (delete-rectangle p (point))))))
-
   (defun message-insert-outlook-citation ()
     (eval-when-compile (require 'nnheader))
     (insert "

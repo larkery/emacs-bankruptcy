@@ -9,8 +9,7 @@
  ("C-c t a" . align-regexp)
  ("C-c t A" . align)
  ("C-c t SPC" . align-paragraph)
-
- )
+ ("C-c '" . remotely-edit-string))
 
 (bind-keys
  ("C-z" . undo)
