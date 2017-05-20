@@ -483,7 +483,7 @@ colours from highlight symbol"
      ("flagged" . notmuch-search-flagged-face)
      ("deleted" :strike-through "red")
      ("low-importance" :inherit shadow)
-     ("high-importance" :background "darkorange4"))))
+     )))
  '(notmuch-search-oldest-first nil)
  '(notmuch-search-result-format
    (quote
