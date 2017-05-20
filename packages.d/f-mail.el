@@ -56,6 +56,26 @@
   :config
   (require 'notmuch-calendar-x)
 
+  (defun notmuch-search-insert-extra-field (o field format-string result)
+    (cond ((string-equal field "tags-subset")
+           (let* ((keep (cdr format-string))
+                  (fmt (car format-string))
+                  (tags (intersection (plist-get result :tags) keep :test #'string-equal))
+                  (orig-tags (intersection (plist-get result :orig-tags) keep :test #'string-equal)))
+
+             (insert (format fmt (notmuch-tag-format-tags tags orig-tags)))))
+          ((string-equal field "tags-complement")
+           (let* ((keep (cdr format-string))
+                  (fmt (car format-string))
+                  (tags (set-difference (plist-get result :tags) keep :test #'string-equal))
+                  (orig-tags (set-difference (plist-get result :orig-tags) keep :test #'string-equal)))
+
+             (insert (format fmt (notmuch-tag-format-tags tags orig-tags)))))
+          (t
+           (funcall o field format-string result))))
+
+  (advice-add 'notmuch-search-insert-field :around #'notmuch-search-insert-extra-field)
+
   (defun notmuch-new-async-sentinel (process event)
     (unless (process-live-p process)
       (if (zerop (process-exit-status process))
@@ -482,16 +502,16 @@ colours from highlight symbol"
     (("unread" . notmuch-search-unread-face)
      ("flagged" . notmuch-search-flagged-face)
      ("deleted" :strike-through "red")
-     ("low-importance" :inherit shadow)
-     ("high-importance" :background "darkorange4"))))
+     ("low-importance" :inherit shadow))))
  '(notmuch-search-oldest-first nil)
  '(notmuch-search-result-format
    (quote
     (("date" . "%12s ")
      ("count" . "%-7s ")
      ("authors" . "%-20s ")
+     ("tags-subset" "%-3s " "attachment" "meeting" "unread" "high-importance" "replied")
      ("subject" . "%s ")
-     ("tags" . "%s"))))
+     ("tags-complement" "%s" "attachment" "meeting" "unread" "high-importance" "replied"))))
  '(notmuch-show-hook
    (quote
     (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
@@ -499,19 +519,18 @@ colours from highlight symbol"
  '(notmuch-tag-formats
    (quote
     (("unread"
-      (propertize tag
+      (propertize "•"
                   (quote face)
                   (quote notmuch-tag-unread)))
-     ("flagged"
-      (notmuch-tag-format-image-data tag
-                                     (notmuch-tag-star-icon))
+     ("flagged" "🟌"
       (propertize tag
                   (quote face)
                   (quote notmuch-tag-flagged)))
+     ("meeting" "m")
      ("low-importance" "⊖")
      ("high-importance" "✪")
-     ("attachment" "📎")
-     ("replied" "r")
+     ("attachment" "a")
+     ("replied" "»")
      ("sent")
      ("inbox" "i"))))
  '(notmuch-wash-original-regexp
@@ -551,4 +570,4 @@ colours from highlight symbol"
  ;; If there is more than one, they won't work right.
  '(message-cited-text ((t (:inherit font-lock-comment-face))))
  '(notmuch-message-summary-face ((t (:inherit mode-line))))
- '(notmuch-tag-face ((t (:foreground "gold")))))
+ '(notmuch-tag-face ((((background dark)) (:foreground "gold")))))

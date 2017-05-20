@@ -15,7 +15,36 @@
    ("r" .  dired-from-recentf)
    ("^" .  dired-up-directory-here)
    ("J" .  bookmark-jump)
-   ("C-c RET" .  run-terminal-here))
+   ("C-c RET" .  run-terminal-here)
+   ("<mouse-2>" . dired-mouse-insert-or-find-file-other-window)
+   )
+
+  (defun dired-mouse-insert-or-find-file-other-window (event)
+    "In Dired, visit the file or directory name you click on."
+    (interactive "e")
+    (let (window pos file)
+      (save-excursion
+        (setq window (posn-window (event-end event))
+              pos (posn-point (event-end event)))
+        (if (not (windowp window))
+            (error "No file chosen"))
+        (set-buffer (window-buffer window))
+        (goto-char pos)
+        (setq file (dired-get-file-for-visit)))
+      (if (file-directory-p file)
+          (progn (condition-case nil
+                     (or (and (cdr dired-subdir-alist)
+                              (dired-goto-subdir file))
+                         (progn
+                           (select-window window)
+                           (dired-insert-subdir file)))
+                   (error
+                    (message "an error")
+                    (select-window window)
+                    (dired-find-alternate-file)))
+                 (call-interactively #'recenter-top-bottom))
+        (select-window window)
+        (find-file-other-window (file-name-sans-versions file t)))))
 
   (defun dired-C-x-C-f ()
     (interactive)
@@ -70,12 +99,14 @@
       (start-process "xdg-open" nil "xdg-open" file))))
 
 (add-hook 'dired-mode-hook 'auto-revert-mode)
+(add-hook 'dired-mode-hook 'dired-omit-mode)
 
 ;;;; use key ')' to toggle omitted files in dired
 (req-package dired-x
 	     :commands dired-omit-mode
 	     :init
 	     (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
+             (setq dired-omit-verbose nil)
              (bind-key ")" #'dired-omit-mode dired-mode-map))
 
 (req-package dired-narrow
