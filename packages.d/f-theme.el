@@ -63,9 +63,10 @@
                   (when nam
                     (insert (format "%s*%s: %s\n" term resource nam)))))))
 
-      (insert (format "*Foreground: %s\n*Background: %s\n"
-                      (face-attribute 'default :foreground)
-                      (face-attribute 'default :background)))
+      ;; (insert (format "*Foreground: %s\n*Background: %s\n"
+      ;;                 (face-attribute 'default :foreground)
+      ;;                 (face-attribute 'default :background)))
+
       (goto-char (point-min))
       (unless (search-forward "unspecified" nil t)
         (call-process-region

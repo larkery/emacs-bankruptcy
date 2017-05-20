@@ -230,6 +230,7 @@ END:VALARM\n"
  '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/notes/contacts.org")))
  '(org-ellipsis "…")
+ '(org-export-with-smart-quotes t)
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
@@ -243,7 +244,8 @@ END:VALARM\n"
  '(org-speed-commands-user
    (quote
     (("d" . org-refile-to-datetree)
-     ("k" . org-cut-subtree))))
+     ("k" . org-cut-subtree)
+     ("N" . narrow-dwim))))
  '(org-tags-column 0)
  '(org-time-clocksum-format
    (quote
