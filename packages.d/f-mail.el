@@ -527,6 +527,7 @@ colours from highlight symbol"
                   (quote face)
                   (quote notmuch-tag-flagged)))
      ("meeting" "m")
+     ("normal-importance" "")
      ("low-importance" "⊖")
      ("high-importance" "✪")
      ("attachment" "a")
