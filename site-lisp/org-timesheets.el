@@ -9,6 +9,7 @@
   :type 'string)
 
 (defvar org-timesheets-clocked-in nil)
+(defvar org-timesheets-history nil)
 
 (defun org-timesheets-maybe-lose-time ()
   (when (and org-timesheets-clocked-in
@@ -50,7 +51,6 @@
                      (org-read-date t t)))
     (force-mode-line-update t)))
 
-
 (defun org-refile--get-location-toplevel (o refloc tbl)
   (let ((ores (funcall o refloc tbl)))
     (or ores
@@ -71,17 +71,18 @@
 
   (org-timesheets-maybe-lose-time)
 
-  (let* ((org-refile-targets `(((,org-timesheets-file) .
-                                (:maxlevel . 3))))
+  (let* ((org-refile-targets `(((,org-timesheets-file) . (:maxlevel . 3))))
+         (org-refile-target-verify-function
+          (lambda () (not (intersection '("ARCHIVE" "SKIP") (org-get-tags-at) :test #'equalp))))
          (org-refile-top-level-target (list org-timesheets-file
                                             org-timesheets-file))
          (org-refile-use-outline-path 't)
-         (org-refile-history nil)
+         (org-refile-history org-timesheets-history)
          (loc (org-refile-get-location "Clock into" nil t))
 
          (filename (nth 1 loc))
          (pos (nth 3 loc)))
-
+    (setq org-timesheets-history org-refile-history)
     ;; loc is where we are clocking into?
     (save-excursion
       (with-current-buffer
@@ -101,7 +102,6 @@
         (set-window-text-height (get-buffer-window)
                                 (+ 0 ln)))
     (error)))
-
 
 (defun org-timesheets-toggle-day-step ()
   (interactive)

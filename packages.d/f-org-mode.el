@@ -4,26 +4,28 @@
 
 (req-package org
   :defer t
-  :require org-capture-pop-frame org-agenda-property
+  :require org-capture-pop-frame org-agenda-property hydra
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
-         ("C-c ," . org-capture)
+         ("C-c c" . org-capture)
          ("C-c j" . org-log-goto)
-         ("C-c c i" . org-timesheets-switch-task)
-         ("C-c c c" . org-timesheets-switch-task)
-         ("C-c c I" . org-timesheets-switch-task-earlier)
-         ("C-c c o" . org-timesheets-clock-out)
-         ("C-c c O" . org-timesheets-clock-out-earlier)
-         ("C-c c j" . org-clock-goto)
-         ("C-c c d" . org-timesheets-report-today)
-         ("C-c c w" . org-timesheets-report-this-week))
+         ("<f6>" . org-timesheets-hydra/body))
   :init
+
+  (defhydra org-timesheets-hydra (:exit t)
+    "Timesheets"
+    ("i" org-timesheets-switch-task "switch")
+    ("I" org-timesheets-switch-task-earlier "switch (past)")
+    ("o" org-timesheets-clock-out "stop")
+    ("O" org-timesheets-clock-out-earlier "stop (past)")
+    ("j" org-clock-goto "goto")
+    ("d" org-timesheets-report-today "day")
+    ("w" org-timesheets-report-this-week "week"))
 
   (defun org-goto-log ()
     (interactive)
     (with-current-buffer (find-file "~/notes/journal.org")
       (org-insert-datetree-entry)))
-
 
   :config
   (require 'org-notmuch)
