@@ -15,11 +15,11 @@
    (:eval
     (when (or (< (point-min) (window-start))
               (> (point-max) (window-end)))
-      (concat " ["
+      (concat " :"
               (format "%3d%%%%"
                       (/ (* 100 (- (point) (point-min)))
                          (- (point-max) (point-min))))
-              "]"
+              ;;"}"
               )))
 
    " "
@@ -29,8 +29,7 @@
            'face
            'error))
 
-   (:eval (propertize (concat "%b" ;; (if (buffer-modified-p) "*")
-                              )
+   (:eval (propertize (concat "%b")
                       'face (if (buffer-modified-p)
                                 'error
                               'mode-line-buffer-id)

@@ -9,14 +9,16 @@
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c j" . org-log-goto)
+         ("<f11>" . org-log-goto)
          ("<f6>" . org-timesheets-hydra/body))
   :init
 
   (defhydra org-timesheets-hydra (:exit t)
-    "Timesheets"
+    "Timesheets, logging"
     ("i" org-timesheets-switch-task "switch")
     ("I" org-timesheets-switch-task-earlier "switch (past)")
     ("o" org-timesheets-clock-out "stop")
+    ("l" org-log-goto "jnl")
     ("O" org-timesheets-clock-out-earlier "stop (past)")
     ("j" org-clock-goto "goto")
     ("d" org-timesheets-report-today "day")
