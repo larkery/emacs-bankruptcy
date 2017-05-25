@@ -43,7 +43,9 @@
       (save-excursion
         (widen)
         (goto-char (point-min))
-        (while (outline-next-heading)
+        (overlay-recenter (point-max))
+        (while (or (outline-on-heading-p)
+                   (outline-next-heading))
           (if (assoc "UNNUMBERED" (org-entry-properties))
               ;; if it's unnumbered delete any overlays we have on it
               (loop for o in (overlays-in (point)
@@ -71,5 +73,7 @@
                                    do (setf s (if s (format "%s.%d" s i)
                                                 (format " %d" i))
                                             ))
-                             s)))))))))
+                             s))))
+          (outline-next-heading)
+          )))))
 (provide 'org-numbers-overlay)
