@@ -39,41 +39,53 @@
 
 (defun org-numbers-overlay-update (&rest args)
   (when org-numbers-overlay-mode
-    (let ((levels (make-vector 10 0)))
+    (let ((continue t)
+          (levels (make-vector 10 0))
+          (any-unnumbered (member "UNNUMBERED" (org-buffer-property-keys))))
       (save-excursion
         (widen)
         (goto-char (point-min))
+        (or (outline-on-heading-p)
+            (outline-next-heading))
         (overlay-recenter (point-max))
-        (while (or (outline-on-heading-p)
-                   (outline-next-heading))
-          (if (assoc "UNNUMBERED" (org-entry-properties))
-              ;; if it's unnumbered delete any overlays we have on it
-              (loop for o in (overlays-in (point)
-                                          (save-excursion (end-of-line) (point)))
-                    if (eq (overlay-get o 'type) 'org-number)
-                    do (delete-overlay o))
-            ;; if it's not unnumbered add a number or update it
-            (let* ((detail (org-heading-components))
-                   (level (- (car detail) 1))
-                   (lcounter (1+ (aref levels level)))
-                   (o (or (loop for o in (overlays-in (point)
-                                                      (save-excursion (end-of-line) (point)))
-                                if (eq (overlay-get o 'type) 'org-number)
-                                return o)
-                          (make-overlay (point) (+ (point) (car detail))))))
-              (aset levels level lcounter)
-              (loop for i from (1+ level) to 9
-                    do (aset levels i 0))
-              (overlay-put o 'type 'org-number)
-              (overlay-put o 'evaporate t)
-              (overlay-put o 'after-string
-                           (let (s)
-                             (loop for i across levels
-                                   until (zerop i)
-                                   do (setf s (if s (format "%s.%d" s i)
-                                                (format " %d" i))
-                                            ))
-                             s))))
-          (outline-next-heading)
+        (while continue
+          (let* ((detail (org-heading-components))
+                 (level (- (car detail) 1))
+                 (existing-overlays (overlays-in (point)
+                                                 (save-excursion (end-of-line) (point))
+                                                 ;; (+ 1 (car detail) (point))
+                                                 )))
+            (if (and any-unnumbered
+                     (org-entry-get (point) "UNNUMBERED" 'selective))
+                ;; if it's unnumbered delete any overlays we have on it
+                (loop for o in existing-overlays
+                      if (eq (overlay-get o 'type) 'org-number)
+                      do (delete-overlay o))
+              ;; if it's not unnumbered add a number or update it
+              (let* ((lcounter (1+ (aref levels level)))
+                     (o (loop for o in existing-overlays
+                              if (eq (overlay-get o 'type) 'org-number)
+                              return o))
+                     text)
+
+                (aset levels level lcounter)
+
+                (loop for i from (1+ level) to 9
+                      do (aset levels i 0))
+
+                (loop for i across levels
+                      until (zerop i)
+                      do (setf text (if text (format "%s.%d" text i)
+                                      (format " %d" i))))
+                (if o
+                    (move-overlay o (point) (+ (point) (car detail)))
+                  (progn
+                    (setq o (make-overlay (point) (+ (point) (car detail)) nil t t))
+                    (overlay-put o 'type 'org-number)
+                    (overlay-put o 'evaporate t)))
+
+                (overlay-put o 'after-string text))))
+          (setq continue (outline-next-heading))
+
           )))))
 (provide 'org-numbers-overlay)
