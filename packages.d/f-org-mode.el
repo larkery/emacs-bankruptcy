@@ -43,6 +43,14 @@
               (visual-line-mode 1)
               (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)))
 
+  (defun org-entry-time-indicator ()
+    (let ((d (org-entry-get nil "DEADLINE"))
+          (s (org-entry-get nil "SCHEDULED")))
+      (concat
+       (if s (format "S%d" (org-time-stamp-to-now s)) "")
+       (if d (format "D%d" (org-time-stamp-to-now d)) ""))
+      ))
+
   (defun my-time-to-minutes (str)
     (require 'calc)
     (require 'calc-units)
@@ -215,6 +223,14 @@ END:VALARM\n"
    (quote
     ("~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-include-diary nil)
+ '(org-agenda-prefix-format
+   (quote
+    ((agenda . " %i %-12:c%?-12t% s")
+     (timeline . "  % s")
+     (todo . " %i %-12:c %?-6(org-entry-time-indicator) ")
+     (tags . " %i %-12:c")
+     (search . " %i %-12:c"))))
+ '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-window-setup (quote other-frame))
  '(org-archive-default-command (quote org-archive-set-tag))
