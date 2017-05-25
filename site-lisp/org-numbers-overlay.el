@@ -32,9 +32,7 @@
         (dolist (hook hooks)
           (remove-hook hook #'org-numbers-overlay-update))
 
-        (loop for o in (overlays-in (point-min) (point-max))
-              if (eq (overlay-get o 'type) 'org-number)
-              do (delete-overlay o))))))
+        (remove-overlays (point-min) (point-max) 'type 'org-number)))))
 
 (defun org-numbers-overlay-update (&rest args)
   (when org-numbers-overlay-mode
