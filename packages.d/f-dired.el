@@ -7,10 +7,10 @@
    ("C-x C-f" .  dired-C-x-C-f)
    ("e" .  dired-xdg-open)
    ("K" .  (lambda () (interactive)
-                  (let ((here (dired-current-directory)))
-                    (and (dired-goto-subdir here)
-                         (progn (dired-do-kill-lines 1)
-                                (dired-goto-file here))))))
+             (let ((here (dired-current-directory)))
+               (and (dired-goto-subdir here)
+                    (progn (dired-do-kill-lines 1)
+                           (dired-goto-file here))))))
    ("I" .  dired-insert-patricidally)
    ("r" .  dired-from-recentf)
    ("^" .  dired-up-directory-here)
@@ -101,13 +101,19 @@
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
+(req-package dired-async
+  :defer t
+  :init
+  (add-hook 'dired-load-hook (lambda () (require 'dired-async)
+                               (dired-async-mode 1))))
+
 ;;;; use key ')' to toggle omitted files in dired
 (req-package dired-x
-	     :commands dired-omit-mode
-	     :init
-	     (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
-             (setq dired-omit-verbose nil)
-             (bind-key ")" #'dired-omit-mode dired-mode-map))
+  :commands dired-omit-mode
+  :init
+  (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
+  (setq dired-omit-verbose nil)
+  (bind-key ")" #'dired-omit-mode dired-mode-map))
 
 (req-package dired-narrow
   :commands dired-narrow
@@ -128,7 +134,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(dired-async-mode nil)
  '(dired-auto-revert-buffer t)
  '(dired-bind-info nil)
  '(dired-bind-jump nil)

@@ -30,7 +30,6 @@
       (org-insert-datetree-entry)))
 
   :config
-  (require 'org-notmuch)
   (require 'org-capture-pop-frame)
   (require 'org-agenda-notify)
   (require 'org-log)
@@ -268,6 +267,7 @@ END:VALARM\n"
      ("k" . org-cut-subtree)
      ("N" . narrow-dwim))))
  '(org-tags-column 0)
+ '(org-tags-exclude-from-inheritance (quote ("swam")))
  '(org-time-clocksum-format
    (quote
     (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))

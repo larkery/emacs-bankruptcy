@@ -1,6 +1,13 @@
+(initsplit-this-file bos (| "highlight-parentheses" "highlight-symbol" "eldoc"))
+
 (defvar my-prog-mode-hook ())
 (defun my-run-prog-mode-hook () (run-hooks 'my-prog-mode-hook))
 (add-hook 'prog-mode-hook #'my-run-prog-mode-hook)
+
+(req-package highlight-parentheses
+  :commands highlight-parentheses-mode
+  :init
+  (add-hook 'my-prog-mode-hook 'highlight-parentheses-mode))
 
 (req-package highlight-symbol
   :diminish ""
@@ -13,7 +20,6 @@
   (setq highlight-symbol-highlight-single-occurrence nil
         highlight-symbol-on-navigation-p t
         highlight-symbol-idle-delay 5))
-
 
 (req-package eldoc
   :init
@@ -42,7 +48,17 @@
   :commands key-combo-mode key-combo-define-hook
   :init
   (add-hook 'my-prog-mode-hook 'key-combo-mode))
-
-(req-package syntactic-close
-  :commands syntactic-close
-  :bind ("C-c ]" . syntactic-close))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-symbol-foreground-color nil)
+ '(highlight-symbol-highlight-single-occurrence nil)
+ '(highlight-symbol-on-navigation-p t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-symbol-face ((t (:underline t)))))

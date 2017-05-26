@@ -1,3 +1,14 @@
+(initsplit-this-file bos (| "clojure-" "cider-" "paren-face-" "smartparens-"))
+
+(defvar lisp-modes-hook ())
+(defun run-lisp-modes-hook () (run-hooks 'lisp-modes-hook))
+
+(add-hook 'lisp-mode-hook 'run-lisp-modes-hook)
+(add-hook 'emacs-lisp-mode-hook 'run-lisp-modes-hook)
+(add-hook 'lisp-interaction-mode-hook 'run-lisp-modes-hook)
+
+
+
 (req-package cider
   :require smartparens
   :mode (("\\(?:build\\|profile\\)\\.boot\\'" . clojure-mode)
@@ -7,13 +18,18 @@
          ("\\.\\(clj\\|dtm\\|edn\\)\\'" . clojure-mode))
 
   :config
-  (add-hook 'cider-repl-mode-hook 'smartparens-mode))
+  (add-hook 'cider-repl-mode-hook 'smartparens-mode)
+  (add-hook 'cider-repl-mode-hook 'run-lisp-modes-hook)
+  (add-hook 'clojure-mode-hook 'run-lisp-modes-hook))
 
 (require 'paren)
 (show-paren-mode 1)
 (setq show-paren-delay 0
       show-paren-style 'parenthesis
       show-paren-priority 100000)
+
+(req-package paren-face :commands paren-face-mode)
+(add-hook 'lisp-modes-hook 'paren-face-mode)
 
 (req-package smartparens
   :commands smartparens-mode show-smartparens-mode
@@ -29,16 +45,16 @@
   ;; smartparens keymap needs some work
 
   (defun my-rotate-wrappers ()
-	       "rotate the wrappers of the current sexp through sensible choices"
-	       (interactive "")
-	       (let ((delim (plist-get (sp-get-enclosing-sexp)
-				       :op
-				       )))
-		 (pcase delim
-		   ("(" (sp-rewrap-sexp '("[" . "]")))
-		   ("[" (sp-rewrap-sexp '("{" . "}")))
-		   ("{" (sp-rewrap-sexp '("(" . ")")))
-		   ("_" my-wrap-with-\())))
+    "rotate the wrappers of the current sexp through sensible choices"
+    (interactive "")
+    (let ((delim (plist-get (sp-get-enclosing-sexp)
+                            :op
+                            )))
+      (pcase delim
+        ("(" (sp-rewrap-sexp '("[" . "]")))
+        ("[" (sp-rewrap-sexp '("{" . "}")))
+        ("{" (sp-rewrap-sexp '("(" . ")")))
+        ("_" my-wrap-with-\())))
 
   (defun my-wrap-paren ()
     (interactive)

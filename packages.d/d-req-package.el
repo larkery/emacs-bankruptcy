@@ -13,4 +13,7 @@
    (require 'el-get)))
 
 (unless (member "--update" command-line-args)
-  (add-hook 'after-init-hook #'req-package-finish))
+  (add-hook 'after-init-hook
+            (lambda ()
+              (let ((inhibit-message t))
+                (req-package-finish)))))

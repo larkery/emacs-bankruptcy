@@ -55,7 +55,7 @@
    ("C-c m" . notmuch-mua-new-mail))
   :config
   (require 'notmuch-calendar-x)
-
+  (require 'org-notmuch)
   (defun notmuch-search-insert-extra-field (o field format-string result)
     (cond ((string-equal field "tags-subset")
            (let* ((keep (cdr format-string))
@@ -225,11 +225,6 @@ This will be the link nearest the end of the message which either contains or fo
 
         (notmuch-search (mapconcat #'identity terms " ")))))
 
-  (defun notmuch-search-mark ()
-    (interactive)
-    (my-notmuch-flip-tags "marked"))
-
-
 
   (bind-keys
    :map notmuch-search-mode-map
@@ -238,15 +233,6 @@ This will be the link nearest the end of the message which either contains or fo
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
    ("'" . my-notmuch-find-related-tags)
    ("@" . my-notmuch-find-related-authors)
-   ("," . notmuch-search-mark)
-   ("<" . (lambda () (interactive)
-            (save-excursion
-              (notmuch-search-filter "tag:marked")
-              (mark-whole-buffer)
-              (call-interactively 'notmuch-search-tag)
-              (notmuch-search-tag '("-marked"))
-              (kill-this-buffer))
-            (notmuch-refresh-this-buffer)))
    ("g" . notmuch-refresh-this-buffer))
 
   (setq mailcap-mime-data
@@ -404,7 +390,17 @@ Subject: " my-reply-subject "
                "blockquote"
                "margin:0; padding:0; padding-left:1em; border-left:2px blue solid;")))
 
-  (bind-key "C-c h" #'org-mime-htmlize-nicely notmuch-message-mode-map)
+  (bind-key "C-c h" (lambda () (interactive)
+                      (orgstruct-mode)
+                      (orgtbl-mode))
+            notmuch-message-mode-map)
+
+  (defun org-mime-html-automatically (&rest args)
+    (when (or orgstruct-mode
+              orgtbl-mode)
+      (org-mime-htmlize-nicely)))
+
+  (advice-add 'notmuch-mua-send-and-exit :before #'org-mime-html-automatically)
 
   (defun message-font-lock-fancy-quoting ()
     "Use font-lock to make quotes fancier.

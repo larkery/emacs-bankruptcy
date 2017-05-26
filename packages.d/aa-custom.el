@@ -52,9 +52,6 @@
  '(global-mark-ring-max 500)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-indent-guides-auto-enabled nil)
- '(highlight-symbol-foreground-color nil)
- '(highlight-symbol-highlight-single-occurrence nil)
- '(highlight-symbol-on-navigation-p t)
  '(highlight-tail-colors (quote (("#ec4780" . 0) ("#424242" . 100))))
  '(hippie-expand-try-functions-list
    (quote
@@ -65,6 +62,9 @@
  '(hl-fg-colors
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(hl-paren-colors
+   (quote
+    ("darkorange1" "deepskyblue1" "darkorange3" "deepskyblue3")))
  '(hl-sexp-background-color "#060404")
  '(ibuffer-display-summary nil)
  '(ibuffer-formats
@@ -126,7 +126,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (hydra bm material-theme dakrone-light-theme dakrone-theme key-seq graphviz-dot-mode bongo god-mode artbollocks-mode color-theme-solarized syntactic-close pophint seq popwin key-combo counsel-projectile counsel org-agenda-property company metalheart-theme forest-blue-theme direnv zop-to-char back-button ibuffer-tramp elisp-slime-nav org-capture-pop-frame ace-mc tup-mode clues-theme alect-themes afternoon-theme pcmpl-args bash-completion multishell seoul256-theme hc-zenburn-theme zenburn-theme greymatters-theme anti-zenburn-theme tangotango-theme apropospriate-theme leuven-theme paradox yasnippet projectile org bbdb bind-key jdee spu xpm ido-exit-target notmuch flatui-theme gruvbox-theme farmhouse-theme minimal-theme spacegray-theme darktooth-theme ggtags gradle-mode pdf-tools thingatpt+ exwm multi-term "initsplit" initsplit ess python heroku-theme paganini-theme dired-atool dired-ranger dired-filetype-face ws-butler wgrep weechat w3m sr-speedbar smex smartrep smartparens req-package rainbow-mode project-explorer pcre2el pass paren-face org-caldav org-bullets nix-mode multiple-cursors magit java-snippets ivy ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol haskell-mode git-timemachine flimenu expand-region eno elfeed el-get dired-subtree dired-narrow csv-mode comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext avy auth-password-store anzu anaconda-mode ag adaptive-wrap)))
+    (paren-face highlight-parentheses hydra bm material-theme dakrone-light-theme dakrone-theme key-seq graphviz-dot-mode bongo god-mode artbollocks-mode color-theme-solarized syntactic-close pophint seq popwin key-combo counsel-projectile counsel org-agenda-property company metalheart-theme forest-blue-theme direnv zop-to-char back-button ibuffer-tramp elisp-slime-nav org-capture-pop-frame ace-mc tup-mode clues-theme alect-themes afternoon-theme pcmpl-args bash-completion multishell seoul256-theme hc-zenburn-theme zenburn-theme greymatters-theme anti-zenburn-theme tangotango-theme apropospriate-theme leuven-theme paradox yasnippet projectile org bbdb bind-key jdee spu xpm ido-exit-target notmuch flatui-theme gruvbox-theme farmhouse-theme minimal-theme spacegray-theme darktooth-theme ggtags gradle-mode pdf-tools thingatpt+ exwm multi-term "initsplit" initsplit ess python heroku-theme paganini-theme dired-atool dired-ranger dired-filetype-face ws-butler wgrep weechat w3m sr-speedbar smex smartrep smartparens req-package rainbow-mode project-explorer pcre2el pass org-caldav org-bullets nix-mode multiple-cursors magit java-snippets ivy ido-ubiquitous ido-at-point ibuffer-projectile highlight-symbol haskell-mode git-timemachine flimenu expand-region eno elfeed el-get dired-subtree dired-narrow csv-mode comment-dwim-2 clojure-snippets cider browse-kill-ring+ bbdb-vcard bbdb-handy bbdb-ext avy auth-password-store anzu anaconda-mode ag adaptive-wrap)))
  '(paradox-github-token t)
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
@@ -183,9 +183,3 @@
  '(xterm-color-names-bright
    ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"])
  '(yas-global-mode t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-symbol-face ((t (:underline t)))))
