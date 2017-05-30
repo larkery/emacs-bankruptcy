@@ -26,6 +26,7 @@
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-chromium-arguments (quote ("--new-window")))
  '(browse-url-generic-program "xdg-open")
+ '(cfw:read-date-command (quote cfw:org-read-date-command))
  '(comint-prompt-read-only t)
  '(compilation-message-face (quote default))
  '(cua-global-mark-cursor-color "#2aa198")

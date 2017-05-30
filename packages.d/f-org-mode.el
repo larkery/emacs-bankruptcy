@@ -2,6 +2,11 @@
 
 (initsplit-this-file bos (| "org-" "holiday-" "calendar-"))
 
+(req-package calfw-org
+  :commands cfw:open-org-calendar
+  :config
+  (setq cfw:org-face-agenda-item-foreground-color "white"))
+
 (req-package org
   :defer t
   :require org-capture-pop-frame org-agenda-property hydra

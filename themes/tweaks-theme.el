@@ -13,11 +13,11 @@
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
- ;; ;; '(mode-line ((t (:box nil :overline "darkolivegreen"))))
+ '(mode-line ((t (:overline "darkolivegreen"))))
 
- ;; '(mode-line-inactive ((((background dark)) (:box nil :overline "grey30"))
- ;;                       (((background light)) (:box nil :overline "grey90"))))
-
+ '(cfw:face-toolbar-button-off ((t (:weight normal :foreground nil))))
+ '(cfw:face-toolbar-button-on ((t (:weight normal :foreground nil))))
+ '(cfw:face-toolbar ((t (:foreground nil :background nil))))
 
  '(hl-line
    ((((background dark))  (:background "grey30"))
