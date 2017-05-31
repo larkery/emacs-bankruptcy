@@ -22,7 +22,7 @@
         (progn
           (push (face-remap-add-relative
                  'mode-line
-                 :background "orangered4" :box "red" :foreground "white")
+                 :background "orangered4" :box "red" :foreground "white" :overline nil)
                 god-cursor-face-remapping)
           )
 

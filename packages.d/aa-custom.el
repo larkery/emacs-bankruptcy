@@ -135,7 +135,9 @@
  '(powerline-color2 "#333343")
  '(recenter-positions (quote (middle top bottom)))
  '(safe-local-variable-values (quote ((eval org-insert-datetree-entry))))
- '(savehist-additional-variables (quote (kill-ring org-timesheets-history)))
+ '(savehist-additional-variables
+   (quote
+    (dired-remembered-state kill-ring org-timesheets-history)))
  '(savehist-mode t)
  '(sentence-end-double-space nil)
  '(shr-color-visible-distance-min 8)

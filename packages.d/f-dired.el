@@ -19,6 +19,42 @@
    ("<mouse-2>" . dired-mouse-insert-or-find-file-other-window)
    )
 
+  (defvar dired-remembered-state nil)
+  (defvar dired-loaded-yet nil)
+  (make-variable-buffer-local 'dired-loaded-yet)
+
+  (defun dired-persist (&rest _blah)
+    (when (eq dired-loaded-yet t)
+      (setq dired-remembered-state
+            (cons
+             (cons default-directory (dired-get-state))
+             (delq (assoc default-directory dired-remembered-state) dired-remembered-state)))))
+
+  (defun dired-restore (&rest _blah)
+    (unless dired-loaded-yet
+      (setq dired-loaded-yet 'loading)
+      (if-let ((state (assoc default-directory dired-remembered-state)))
+          (dired-set-state (cdr state)))
+      (setq dired-loaded-yet t)))
+
+  (defun dired-get-state ()
+    (list :subdirs (mapcar #'car dired-subdir-alist)
+          :omit dired-omit-mode
+          :details dired-hide-details-mode))
+
+  (defun dired-set-state (state)
+    (dolist (subdir (reverse (plist-get state :subdirs)))
+      (dired-insert-subdir subdir))
+    (dired-omit-mode (or (plist-get state :omit) -1))
+    (dired-hide-details-mode (or (plist-get state :details) -1)))
+
+  (add-hook 'dired-after-readin-hook #'dired-restore)
+  (add-hook 'dired-omit-mode-hook #'dired-persist)
+  (add-hook 'dired-hide-details-mode-hook #'dired-persist)
+
+  (advice-add 'dired-do-kill-lines :after #'dired-persist)
+  (advice-add 'dired-insert-subdir :after #'dired-persist)
+
   (defun dired-mouse-insert-or-find-file-other-window (event)
     "In Dired, visit the file or directory name you click on."
     (interactive "e")
