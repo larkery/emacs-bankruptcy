@@ -11,9 +11,11 @@
   (ido-describe-prefix-bindings-mode 1))
 
 (req-package ivy
+  :require ivy-hydra
   :diminish ""
   :config
   (ivy-mode 1)
+  (require 'ivy-hydra)
   (bind-key "M-s M-s" #'swiper)
   (bind-key "M-s s" #'swiper-all))
 

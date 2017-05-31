@@ -296,7 +296,8 @@ Prefix argument edits before sending"
          (completing-read-multiple "Invite: " (notmuch-address-options ""))))
 
   (save-excursion
-    (let ((cal-file (save-restriction
+    (let ((headline (nth 4 (org-heading-components)))
+          (cal-file (save-restriction
                       (org-narrow-to-subtree)
                       (org-icalendar-export-to-ics nil nil nil)))
 
@@ -310,11 +311,17 @@ Prefix argument edits before sending"
           (goto-char (point-min))
           (replace-string "" "")
           (goto-char (point-min))
+
+          (save-excursion
+            (search-forward-regexp (rx bol "BEGIN:VCALENDAR" eol))
+            (end-of-line)
+            (insert "\nMETHOD:REQUEST"))
+
           (search-forward-regexp (rx bol "BEGIN:VEVENT" eol))
           (end-of-line)
           (insert
-           "\n" "ORGANIZER;" (notmuch-calendar--format-email organizer)
-           )
+           "\n" "ORGANIZER;" (notmuch-calendar--format-email organizer))
+
           (dolist (attendee attendees-list)
             (insert "\n"
                     (mapconcat
@@ -334,6 +341,8 @@ Prefix argument edits before sending"
           (kill-buffer))
 
         (notmuch-mua-new-mail)
+        (message-goto-subject)
+        (insert headline)
         (message-goto-from)
         (message-beginning-of-line)
         (insert organizer)
@@ -349,7 +358,7 @@ Prefix argument edits before sending"
         (message-goto-body)
         (mml-insert-multipart "alternative")
         (save-excursion
-          (mml-insert-part "text/calendar")
+          (mml-insert-part "text/calendar; charset=\"utf-8\"; method=REQUEST")
           (insert cal-string))
         (save-excursion
           (mml-insert-part "text/plain")

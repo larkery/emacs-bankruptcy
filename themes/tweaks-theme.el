@@ -13,7 +13,8 @@
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
- '(mode-line ((t (:overline "darkolivegreen"))))
+ '(mode-line ((t (:foreground "white"))))
+ '(mode-line-inactive ((t (:foreground "grey50"))))
 
  '(cfw:face-toolbar-button-off ((t (:weight normal :foreground nil))))
  '(cfw:face-toolbar-button-on ((t (:weight normal :foreground nil))))

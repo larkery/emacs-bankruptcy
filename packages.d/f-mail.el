@@ -464,6 +464,8 @@ colours from highlight symbol"
     ("image/.*" "text/.*" "message/delivery-status" "message/rfc822" "message/partial" "message/external-body" "application/emacs-lisp" "application/x-emacs-lisp" "application/pgp-signature" "application/x-pkcs7-signature" "application/pkcs7-signature" "application/x-pkcs7-mime" "application/pkcs7-mime" "application/pgp")))
  '(mm-sign-option (quote guided))
  '(mm-text-html-renderer (quote outlook))
+ '(notmuch-address-command (quote internal))
+ '(notmuch-address-internal-completion (quote (sent "date:1y..")))
  '(notmuch-address-selection-function
    (lambda
      (prompt collection initial-input)

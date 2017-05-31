@@ -269,6 +269,7 @@ END:VALARM\n"
  '(org-speed-commands-user
    (quote
     (("d" . org-refile-to-datetree)
+     ("M" . notmuch-calendar-send-invitation-from-org)
      ("k" . org-cut-subtree)
      ("N" . narrow-dwim))))
  '(org-tags-column 0)
