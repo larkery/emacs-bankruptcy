@@ -9,6 +9,13 @@
 
 ;;;; Creating replies
 
+(defun notmuch-calendar-email-link (email)
+  (format "[[mailto:%s]]" email))
+
+(defun notmuch-calendar-email-unlink (link)
+  (when (string-match (rx bos "[[mailto:" (group (* any)) "]]" eos) link)
+    (match-string 1 link)))
+
 (defun notmuch-calendar-respond (arg response)
   "Respond to the calendar request at point. RESPONSE is c, r, or t.
 Prefix argument edits before sending"
@@ -185,8 +192,8 @@ Prefix argument edits before sending"
     (insert "  :PROPERTIES:\n")
     (if location  (insert "  :LOCATION: " location "\n"))
     (if organizer (insert "  :ORGANIZER: [[" organizer "]]\n" ))
-    (dolist (a attendees)
-      (insert (format  "  :ATTENDING: [[%s]]\n" a)))
+    (insert (format  "  :ATTENDING: %s\n"
+                     (mapconcat #'notmuch-calendar-email-link attendees " ")))
     (insert "  :END:\n ")
     ;; Make button to go to agenda. Alternatively could generate day agenda and insert
     (insert org-timestr "\n")))
@@ -289,27 +296,47 @@ Prefix argument edits before sending"
                 (cadr addr))
             (cadr addr))))
 
+(defun notmuch-calendar-current-organizer ()
+  (let* ((cur
+          (notmuch-calendar-email-unlink (cdr (assoc "ORGANIZER" (org-entry-properties nil "ORGANIZER")))))
+         (cur (and cur (regexp-quote cur))))
+    (when cur
+      (car (remove-if-not
+            (lambda (x) (string-match-p cur x))
+            notmuch-identities)))))
+
+(defun notmuch-calendar-current-attendees ()
+  (let ((cur (org-entry-get-multivalued-property (point) "ATTENDING")) out)
+    (mapconcat #'identity (mapcar #'notmuch-calendar-email-unlink cur) ", ")))
+
 (defun notmuch-calendar-send-invitation-from-org (organizer attendees-list)
   ;; TODO insert identity, support sending information back again etc.
   (interactive
-   (list (completing-read "Organizer: " notmuch-identities)
-         (completing-read-multiple "Invite: " (notmuch-address-options ""))))
+   (list (completing-read "Organizer: " notmuch-identities nil nil (notmuch-calendar-current-organizer))
+         (completing-read-multiple "Invite: " (notmuch-address-options "")
+                                   nil nil (notmuch-calendar-current-attendees))))
+
+  (unless organizer (error "No organizer"))
+  (unless attendees-list (error "No attendees"))
+
+  (org-set-property "ORGANIZER" organizer)
+  (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
+         (mapcar #'notmuch-calendar-email-link attendees-list))
 
   (save-excursion
     (let ((headline (nth 4 (org-heading-components)))
+          (subtree (save-restriction
+                     (org-narrow-to-subtree)
+                     (buffer-substring-no-properties (point-min) (point-max))))
           (cal-file (save-restriction
                       (org-narrow-to-subtree)
                       (org-icalendar-export-to-ics nil nil nil)))
-
           cal-string)
       (with-temp-buffer
         (insert-file-contents cal-file nil)
-        (replace-string "" "")
-        (replace-regexp (rx line-end) "")
         (with-current-buffer
             (icalendar--get-unfolded-buffer (current-buffer))
           (goto-char (point-min))
-          (replace-string "" "")
           (goto-char (point-min))
 
           (save-excursion
@@ -336,7 +363,7 @@ Prefix argument edits before sending"
           (insert "\n" "TRANSP:OPAQUE"
                   "\n" "CLASS:PUBLIC"
                   "\n" "STATUS:CONFIRMED")
-
+          (goto-char (point-min))
           (setq cal-string (org-icalendar-fold-string (buffer-string)))
           (kill-buffer))
 
@@ -358,11 +385,25 @@ Prefix argument edits before sending"
         (message-goto-body)
         (mml-insert-multipart "alternative")
         (save-excursion
-          (mml-insert-part "text/calendar; charset=\"utf-8\"; method=REQUEST")
-          (insert cal-string))
+          (let ((start (point)))
+            (mml-insert-tag 'part
+                          'type "text/calendar; charset=\"utf-8\"; method=REQUEST"
+                          'encoding "base64"
+                          'raw "t")
+            (let ((here (point)))
+              (insert cal-string)
+              (save-excursion
+                (goto-char here)
+                (while (search-forward "" nil t)
+                  (replace-match ""))))
+
+            (mml-insert-tag '/part)))
+
         (save-excursion
           (mml-insert-part "text/plain")
-          (insert "Please come to my meeting\n"))
+          (insert subtree))
+
+        (add-text-properties (point-min) (point-max) '(no-illegible-text t))
         ))))
 
 
