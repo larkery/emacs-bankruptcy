@@ -319,92 +319,112 @@ Prefix argument edits before sending"
   (unless organizer (error "No organizer"))
   (unless attendees-list (error "No attendees"))
 
-  (org-set-property "ORGANIZER" organizer)
+  (org-set-property "ORGANIZER" (notmuch-calendar-email-link organizer))
   (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
          (mapcar #'notmuch-calendar-email-link attendees-list))
 
-  (save-excursion
-    (let ((headline (nth 4 (org-heading-components)))
-          (subtree (save-restriction
-                     (org-narrow-to-subtree)
-                     (buffer-substring-no-properties (point-min) (point-max))))
-          (cal-file (save-restriction
-                      (org-narrow-to-subtree)
-                      (org-icalendar-export-to-ics nil nil nil)))
-          cal-string)
-      (with-temp-buffer
-        (insert-file-contents cal-file nil)
-        (with-current-buffer
-            (icalendar--get-unfolded-buffer (current-buffer))
-          (goto-char (point-min))
-          (goto-char (point-min))
+  (let ((sequence (+ 1 (string-to-number
+                        (or (cdar (org-entry-properties (point) "SEQUENCE")) "-1")))))
+    (org-set-property "SEQUENCE" (number-to-string sequence))
+    (save-excursion
+      (let ((headline (nth 4 (org-heading-components)))
+            (entry-properties (org-entry-properties))
+            (cal-file (save-restriction
+                        (org-narrow-to-subtree)
+                        (org-icalendar-export-to-ics nil nil nil)))
+            cal-string)
+        (with-temp-buffer
+          (insert-file-contents cal-file nil)
+          (with-current-buffer
+              (icalendar--get-unfolded-buffer (current-buffer))
+            (goto-char (point-min))
+            (goto-char (point-min))
+
+            (save-excursion
+              (search-forward-regexp (rx bol "BEGIN:VCALENDAR" eol))
+              (end-of-line)
+              (insert "\nMETHOD:REQUEST"))
+
+            (search-forward-regexp (rx bol "BEGIN:VEVENT" eol))
+            (end-of-line)
+            (insert
+             "\n" "ORGANIZER;" (notmuch-calendar--format-email organizer))
+
+            (dolist (attendee attendees-list)
+              (insert "\n"
+                      (mapconcat
+                       #'identity
+                       (list
+                        "ATTENDEE"
+                        "ROLE=REQ-PARTICIPANT"
+                        "PARTSTAT=NEEDS-ACTION"
+                        "RSVP=TRUE"
+                        (notmuch-calendar--format-email attendee))
+                       ";")))
+            (insert "\n" "TRANSP:OPAQUE"
+                    "\n" "CLASS:PUBLIC"
+                    "\n" "STATUS:CONFIRMED"
+                    "\n" (format "SEQUENCE:%d" sequence))
+            (goto-char (point-min))
+            (setq cal-string (org-icalendar-fold-string (buffer-string)))
+            (kill-buffer))
+
+          (notmuch-mua-new-mail)
+          (message-goto-subject)
+          (insert headline)
+          (message-goto-from)
+          (message-beginning-of-line)
+          (insert organizer)
+          (let ((here (point)))
+            (end-of-line)
+            (delete-region here (point)))
+
+          (message-goto-to)
+          (while attendees-list
+            (insert (pop attendees-list))
+            (when attendees-list (insert ", ")))
+
+          (message-goto-body)
+          (mml-insert-multipart "alternative")
+          (save-excursion
+            (let ((start (point)))
+              (mml-insert-tag 'part
+                              'type "text/calendar; charset=\"utf-8\"; method=REQUEST"
+                              'encoding "base64"
+                              'raw "t")
+              (let ((here (point)))
+                (insert cal-string)
+                (save-excursion
+                  (goto-char here)
+                  (while (search-forward "" nil t)
+                    (replace-match ""))))
+
+              (mml-insert-tag '/part)))
 
           (save-excursion
-            (search-forward-regexp (rx bol "BEGIN:VCALENDAR" eol))
-            (end-of-line)
-            (insert "\nMETHOD:REQUEST"))
+            (mml-insert-part "text/plain")
 
-          (search-forward-regexp (rx bol "BEGIN:VEVENT" eol))
-          (end-of-line)
-          (insert
-           "\n" "ORGANIZER;" (notmuch-calendar--format-email organizer))
+            (let* ((location (cdr (assoc "LOCATION" entry-properties)))
+                   (timestamp (cdr (assoc "TIMESTAMP" entry-properties)))
+                   (scheduled (cdr (assoc "SCHEDULED" entry-properties)))
+                   (deadline (cdr (assoc "DEADLINE" entry-properties)))
+                   (time (or timestamp scheduled deadline))
+                   (attendees (cdr (assoc "ATTENDING" entry-properties)))
+                   (organizer (cdr (assoc "ORGANIZER" entry-properties))))
 
-          (dolist (attendee attendees-list)
-            (insert "\n"
-                    (mapconcat
-                     #'identity
-                     (list
-                      "ATTENDEE"
-                      "ROLE=REQ-PARTICIPANT"
-                      "PARTSTAT=NEEDS-ACTION"
-                      "RSVP=TRUE"
-                      (notmuch-calendar--format-email attendee))
-                     ";")))
-          (insert "\n" "TRANSP:OPAQUE"
-                  "\n" "CLASS:PUBLIC"
-                  "\n" "STATUS:CONFIRMED")
-          (goto-char (point-min))
-          (setq cal-string (org-icalendar-fold-string (buffer-string)))
-          (kill-buffer))
-
-        (notmuch-mua-new-mail)
-        (message-goto-subject)
-        (insert headline)
-        (message-goto-from)
-        (message-beginning-of-line)
-        (insert organizer)
-        (let ((here (point)))
-          (end-of-line)
-          (delete-region here (point)))
-
-        (message-goto-to)
-        (while attendees-list
-          (insert (pop attendees-list))
-          (when attendees-list (insert ", ")))
-
-        (message-goto-body)
-        (mml-insert-multipart "alternative")
-        (save-excursion
-          (let ((start (point)))
-            (mml-insert-tag 'part
-                          'type "text/calendar; charset=\"utf-8\"; method=REQUEST"
-                          'encoding "base64"
-                          'raw "t")
-            (let ((here (point)))
-              (insert cal-string)
-              (save-excursion
-                (goto-char here)
-                (while (search-forward "" nil t)
-                  (replace-match ""))))
-
-            (mml-insert-tag '/part)))
-
-        (save-excursion
-          (mml-insert-part "text/plain")
-          (insert subtree))
-
-        (add-text-properties (point-min) (point-max) '(no-illegible-text t))
-        ))))
+              (insert "Invitation to " headline "\n\n")
+              (when location (insert "Location: " location "\n"))
+              (when time (insert "Time / date: " time "\n"))
+              (when organizer (insert "Organizer: " (notmuch-calendar-email-unlink organizer) "\n"))
+              (when attendees
+                (let* ((attendees
+                        (mapcar 'org-entry-restore-space
+                                (org-split-string attendees "[ \t]"))))
+                  (insert "Invited: \n")
+                  (dolist (a attendees)
+                    (insert "- " (notmuch-calendar-email-unlink a) "\n"))))))
+          (add-text-properties (point-min) (point-max) '(no-illegible-text t))
+          )))))
 
 
 (defun notmuch-calendar-accept-and-capture (e)
