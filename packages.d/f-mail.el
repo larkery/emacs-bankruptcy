@@ -396,8 +396,10 @@ Subject: " my-reply-subject "
             notmuch-message-mode-map)
 
   (defun org-mime-html-automatically (&rest args)
-    (when (or orgstruct-mode
-              orgtbl-mode)
+    (when (or (and (boundp 'orgstruct-mode)
+                   orgstruct-mode)
+              (and (boundp 'orgtbl-mode)
+                   orgtbl-mode))
       (org-mime-htmlize-nicely)))
 
   (advice-add 'notmuch-mua-send-and-exit :before #'org-mime-html-automatically)

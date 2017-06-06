@@ -5,6 +5,7 @@
 (add-hook 'prog-mode-hook #'my-run-prog-mode-hook)
 
 (req-package highlight-parentheses
+  :diminish ""
   :commands highlight-parentheses-mode
   :init
   (add-hook 'my-prog-mode-hook 'highlight-parentheses-mode))
@@ -45,6 +46,7 @@
   :bind ("M-;" . comment-dwim-2))
 
 (req-package key-combo
+  :diminish ""
   :commands key-combo-mode key-combo-define-hook
   :init
   (add-hook 'my-prog-mode-hook 'key-combo-mode))

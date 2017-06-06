@@ -66,9 +66,6 @@
   "Clock into a different task in the timesheet using a magical menu."
   (interactive "P")
 
-  ;; if we are meant to be clocked in, then we should clock continuously
-  ;; but otherwise it is a new day today
-
   (org-timesheets-maybe-lose-time)
 
   (let* ((org-refile-targets `(((,org-timesheets-file) . (:maxlevel . 3))))

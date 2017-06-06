@@ -43,16 +43,11 @@
                                         'face 'mode-line-emphasis)))
             ))
 
+
    (vc-mode vc-mode)
-
-   ""
-
    (:eval
     (my-mode-line-pad-right
      (list
-      global-mode-string
-      " "
-      mode-line-modes
-      '(:propertize (:eval (anzu--update-mode-line)) face 'mode-line-emphasis))
-
+      '(:propertize (:eval (anzu--update-mode-line)) face 'mode-line-emphasis)
+      mode-line-misc-info " " mode-line-modes)
      ))))

@@ -7,8 +7,6 @@
 (add-hook 'emacs-lisp-mode-hook 'run-lisp-modes-hook)
 (add-hook 'lisp-interaction-mode-hook 'run-lisp-modes-hook)
 
-
-
 (req-package cider
   :require smartparens
   :mode (("\\(?:build\\|profile\\)\\.boot\\'" . clojure-mode)
@@ -32,6 +30,7 @@
 (add-hook 'lisp-modes-hook 'paren-face-mode)
 
 (req-package smartparens
+  :diminish " p"
   :commands smartparens-mode show-smartparens-mode
   :init
   (add-hook 'my-prog-mode-hook 'smartparens-mode)

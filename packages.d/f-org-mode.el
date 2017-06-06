@@ -55,6 +55,14 @@
        (if d (format "D%d" (org-time-stamp-to-now d)) ""))
       ))
 
+  (defun tidy-clock (s)
+    (string-match (rx " [" (group (* any)) "] (" (group (* any)) ")") s)
+    (format "[%s %s]" (match-string 2 s) (match-string 1 s)))
+
+  (advice-add 'org-clock-get-clock-string
+              :filter-return
+              #'tidy-clock)
+
   (defun my-time-to-minutes (str)
     (require 'calc)
     (require 'calc-units)
@@ -236,6 +244,7 @@ END:VALARM\n"
      (search . " %i %-12:c"))))
  '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-restore-windows-after-quit t)
+ '(org-agenda-span (quote fortnight))
  '(org-agenda-window-setup (quote other-frame))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t))))
@@ -249,6 +258,7 @@ END:VALARM\n"
       (file "~/notes/calendar.org")
       "* %?
 %^T"))))
+ '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-mode-line-total (quote today))
  '(org-clock-out-remove-zero-time-clocks t)
  '(org-clock-report-include-clocking-task t)
