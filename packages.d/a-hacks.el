@@ -5,3 +5,10 @@
 (defun shut-up (o &rest args)
   (let ((inhibit-message t))
     (apply o args)))
+
+(defadvice pop-to-mark-command
+    (around ensure-new-position activate)
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point))
+        ad-do-it))))
