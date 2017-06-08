@@ -17,7 +17,8 @@
   (ivy-mode 1)
   (require 'ivy-hydra)
   (bind-key "M-s M-s" #'swiper)
-  (bind-key "M-s s" #'swiper-all))
+  (bind-key "M-s s" #'swiper-all)
+  (require 'ivy-fancy-buffer-menu))
 
 (req-package counsel
   :diminish ""

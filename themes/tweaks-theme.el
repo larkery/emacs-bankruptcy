@@ -24,6 +24,9 @@
    ((((background dark))  (:background "grey30"))
     (((background light)) (:background "grey90"))))
 
+ '(ivy-remote ((t (:underline "grey40"))))
+ '(ivy-virtual ((t (:slant italic))))
+
  '(outline-1 ((t (:height 1.1 :weight bold))))
  '(outline-2 ((t (:height 1.1 :weight bold))))
  '(outline-3 ((t (:height 1.1 :weight bold))))

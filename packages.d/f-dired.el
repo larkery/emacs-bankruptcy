@@ -17,6 +17,8 @@
    ("J" .  bookmark-jump)
    ("C-c RET" .  run-terminal-here)
    ("<mouse-2>" . dired-mouse-insert-or-find-file-other-window)
+   ("[" . dired-prev-subdir)
+   ("]" . dired-next-subdir)
    )
 
   (defvar dired-remembered-state nil)
