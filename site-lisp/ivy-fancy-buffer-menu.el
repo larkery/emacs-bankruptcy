@@ -1,8 +1,17 @@
 
+(defun add-face (str prop)
+  (if prop
+      (propertize str 'face prop)
+    str))
+
+
 (defun ivy--fancy-buffer-mode (buffer-name)
   (if-let ((buffer (get-buffer buffer-name)))
-      (with-current-buffer buffer mode-name)
-    "virt"))
+      (with-current-buffer buffer
+        (add-face
+         mode-name
+         (if buffer-file-name 'mode-line-buffer-id 'mode-line-emphasis)))
+    (add-face "virt" 'shadow)))
 
 (defun ivy--fancy-buffer-project (buffer-name)
   (if-let ((buffer (get-buffer buffer-name)))
@@ -29,7 +38,7 @@
 (defvar ivy--fancy-buffer-columns
   `((identity "%-45.45s")
     (ivy--fancy-buffer-host " %8.8s  " (:foreground "red"))
-    (ivy--fancy-buffer-mode " %8.8s  " (:foreground "green"))
+    (ivy--fancy-buffer-mode " %8.8s  ")
     (ivy--fancy-buffer-project " %8.8s  " (:foreground "darkcyan"))
     (ivy--fancy-buffer-directory " %s")))
 
@@ -42,8 +51,9 @@
          (choices (mapcar (lambda (buffer)
                             (cons (mapconcat
                                    (lambda (column)
-                                     (propertize (funcall #'format (cadr column) (funcall (car column) buffer))
-                                                 'face (caddr column)))
+                                     (add-face
+                                      (funcall #'format (cadr column) (funcall (car column) buffer))
+                                      (caddr column)))
                                    ivy--fancy-buffer-columns "")
 
                                    buffer))
