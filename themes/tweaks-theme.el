@@ -24,7 +24,8 @@
    ((((background dark))  (:background "grey30"))
     (((background light)) (:background "grey90"))))
 
- '(ivy-remote ((t (:underline "grey40"))))
+ '(ivy-remote ((t (:inherit default))))
+
  '(ivy-virtual ((t (:slant italic))))
 
  '(outline-1 ((t (:height 1.1 :weight bold))))
