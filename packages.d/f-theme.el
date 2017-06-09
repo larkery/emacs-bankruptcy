@@ -76,7 +76,6 @@
          nil nil nil
          "-merge")
         (write-region (point-min) (point-max) "~/.Xresources_emacs")
-        (message "updated xresources for theme")
         (remove-hook 'window-configuration-change-hook 'theme->xresources))
       (kill-buffer)))
   t)
