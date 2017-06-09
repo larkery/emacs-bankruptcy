@@ -12,6 +12,11 @@
   (add-hook 'inferior-ess-mode-hook 'my-run-prog-mode-hook)
   (add-hook 'ess-mode-hook 'my-run-prog-mode-hook)
 
+  (add-hook 'inferior-ess-mode-hook
+            (lambda ()
+              (setq-local comint-use-prompt-regexp nil)
+              (setq-local inhibit-field-text-motion nil)))
+
   (defun my-prettify-ess-symbols ()
     (interactive)
     (unless (assoc "%>%" prettify-symbols-alist)
