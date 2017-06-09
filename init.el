@@ -1,4 +1,6 @@
 ;;; Load each thing from packages.d
+(setq gc-cons-percentage 1
+      gc-cons-threshold 1000000000)
 
 (require 'package)
 
@@ -20,3 +22,6 @@
                       "packages.d/") t "\\.el$"))
     (load f)))
 (put 'set-goal-column 'disabled nil)
+
+(setq gc-cons-percentage 0.4
+      gc-cons-threshold 80000000)
