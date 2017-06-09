@@ -36,10 +36,10 @@
 
 
 (defvar ivy--fancy-buffer-columns
-  `((identity "%-45.45s")
+  `((identity "%-40.45s")
     (ivy--fancy-buffer-host " %8.8s  " (:foreground "red"))
-    (ivy--fancy-buffer-mode " %8.8s  ")
-    (ivy--fancy-buffer-project " %8.8s  " (:foreground "darkcyan"))
+    (ivy--fancy-buffer-mode " %-9.9s  ")
+    (ivy--fancy-buffer-project " %-8.8s  " (:foreground "darkcyan"))
     (ivy--fancy-buffer-directory " %s")))
 
 (defun ivy--fancy-switch-buffer ()
