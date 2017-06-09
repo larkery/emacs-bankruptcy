@@ -48,8 +48,6 @@
  '(frames-only-mode nil)
  '(fringe-mode (quote (0)) nil (fringe))
  '(garbage-collection-messages nil)
- '(gc-cons-percentage 0.5)
- '(gc-cons-threshold 535822336)
  '(global-mark-ring-max 500)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-indent-guides-auto-enabled nil)
@@ -147,6 +145,9 @@
  '(term-default-fg-color "#839496")
  '(term-scroll-show-maximum-output t)
  '(term-unbind-key-list (quote ("C-x" "C-c" "C-h" "C-y" "<ESC>")))
+ '(tramp-remote-path
+   (quote
+    ("/run/current-system/sw/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" "/home/hinton/.nix-profile/bin" tramp-own-remote-path)))
  '(vc-annotate-background "#202020")
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
