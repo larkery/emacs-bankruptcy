@@ -47,7 +47,6 @@
  '(fci-rule-color "#5E5E5E")
  '(frames-only-mode nil)
  '(fringe-mode (quote (0)) nil (fringe))
- '(garbage-collection-messages nil)
  '(global-mark-ring-max 500)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-indent-guides-auto-enabled nil)

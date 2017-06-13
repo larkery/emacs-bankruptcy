@@ -76,23 +76,23 @@
 
   (advice-add 'notmuch-search-insert-field :around #'notmuch-search-insert-extra-field)
 
-  (defun notmuch-new-async-sentinel (process event)
-    (unless (process-live-p process)
-      (if (zerop (process-exit-status process))
-          (notmuch-refresh-all-buffers)
-        (let ((buf (process-buffer process)))
-          (if buf
-              (pop-to-buffer buf)
-            (message "Error checking mail, and process buffer has gone missing!"))))))
+  ;; (defun notmuch-new-async-sentinel (process event)
+  ;;   (unless (process-live-p process)
+  ;;     (if (zerop (process-exit-status process))
+  ;;         (notmuch-refresh-all-buffers)
+  ;;       (let ((buf (process-buffer process)))
+  ;;         (if buf
+  ;;             (pop-to-buffer buf)
+  ;;           (message "Error checking mail, and process buffer has gone missing!"))))))
 
-  (defun notmuch-poll-and-refresh-async ()
-    (interactive)
-    (with-current-buffer (get-buffer-create "*notmuch new*")
-      (erase-buffer))
-    (let ((proc (start-process "notmuch new" "*notmuch new*" "notmuch" "new")))
-      (set-process-sentinel proc 'notmuch-new-async-sentinel)))
+  ;; (defun notmuch-poll-and-refresh-async ()
+  ;;   (interactive)
+  ;;   (with-current-buffer (get-buffer-create "*notmuch new*")
+  ;;     (erase-buffer))
+  ;;   (let ((proc (start-process "notmuch new" "*notmuch new*" "notmuch" "new")))
+  ;;     (set-process-sentinel proc 'notmuch-new-async-sentinel)))
 
-  (bind-key "G" #'notmuch-poll-and-refresh-async notmuch-search-mode-map)
+  ;; (bind-key "G" #'notmuch-poll-and-refresh-async notmuch-search-mode-map)
 
   (defun dired-attach-advice (o &rest args)
     (let ((the-files (dired-get-marked-files))

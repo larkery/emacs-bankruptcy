@@ -16,7 +16,7 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; display settings
-(run-with-idle-timer 5 t #'garbage-collect)
+(run-with-idle-timer 25 t #'garbage-collect)
 
 (setq load-prefer-newer         t
 
