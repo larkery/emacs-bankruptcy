@@ -511,9 +511,9 @@ colours from highlight symbol"
     (("date" . "%12s ")
      ("count" . "%-7s ")
      ("authors" . "%-20s ")
-     ("tags-subset" "%-3s " "attachment" "meeting" "unread" "high-importance" "replied")
+     ("tags-subset" "%-3s " "low-importance" "attachment" "meeting" "unread" "high-importance" "replied")
      ("subject" . "%s ")
-     ("tags-complement" "%s" "attachment" "meeting" "unread" "high-importance" "replied"))))
+     ("tags-complement" "%s" "low-importance" "attachment" "meeting" "unread" "high-importance" "replied"))))
  '(notmuch-show-hook
    (quote
     (notmuch-show-turn-on-visual-line-mode goto-address-mode)))
@@ -530,8 +530,8 @@ colours from highlight symbol"
                   (quote notmuch-tag-flagged)))
      ("meeting" "m")
      ("normal-importance" "")
-     ("low-importance" "⊖")
-     ("high-importance" "✪")
+     ("low-importance" "↓")
+     ("high-importance" "↑")
      ("attachment" "a")
      ("replied" "»")
      ("sent")
