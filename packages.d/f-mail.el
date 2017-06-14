@@ -94,6 +94,10 @@
 
   ;; (bind-key "G" #'notmuch-poll-and-refresh-async notmuch-search-mode-map)
 
+  (bind-key "G"
+            (lambda () (interactive) (compile "notmuch new"))
+            notmuch-search-mode-map)
+
   (defun dired-attach-advice (o &rest args)
     (let ((the-files (dired-get-marked-files))
           (result (apply o args)))
