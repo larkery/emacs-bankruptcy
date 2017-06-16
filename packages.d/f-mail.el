@@ -76,24 +76,6 @@
 
   (advice-add 'notmuch-search-insert-field :around #'notmuch-search-insert-extra-field)
 
-  ;; (defun notmuch-new-async-sentinel (process event)
-  ;;   (unless (process-live-p process)
-  ;;     (if (zerop (process-exit-status process))
-  ;;         (notmuch-refresh-all-buffers)
-  ;;       (let ((buf (process-buffer process)))
-  ;;         (if buf
-  ;;             (pop-to-buffer buf)
-  ;;           (message "Error checking mail, and process buffer has gone missing!"))))))
-
-  ;; (defun notmuch-poll-and-refresh-async ()
-  ;;   (interactive)
-  ;;   (with-current-buffer (get-buffer-create "*notmuch new*")
-  ;;     (erase-buffer))
-  ;;   (let ((proc (start-process "notmuch new" "*notmuch new*" "notmuch" "new")))
-  ;;     (set-process-sentinel proc 'notmuch-new-async-sentinel)))
-
-  ;; (bind-key "G" #'notmuch-poll-and-refresh-async notmuch-search-mode-map)
-
   (defun dired-attach-advice (o &rest args)
     (let ((the-files (dired-get-marked-files))
           (result (apply o args)))
@@ -159,17 +141,37 @@ This will be the link nearest the end of the message which either contains or fo
     (interactive)
     (notmuch-search "tag:inbox OR tag:flagged OR tag:unread"))
 
+  (defun my-notmuch-retrain-after-tagging (tag-changes &optional beg end)
+    (when (loop for tag in tag-changes
+                if (not
+                    (member (substring tag 1)
+                            '("deleted" "inbox" "sent" "attachment" "unread" "replied"
+                              "sent" "flagged" "meeting" "accepted" "rejected" "tentative"
+                              "low-importance" "normal-importance" "high-importance")))
+                return t)
+
+        (unless (and beg end)
+          (setq beg (car (notmuch-search-interactive-region))
+                end (cadr (notmuch-search-interactive-region))))
+      (let ((search-string (notmuch-search-find-stable-query-region
+                            beg end nil)))
+        (apply #'start-process
+               "classify" nil
+               (expand-file-name "~/.mail/.notmuch/hooks/classify")
+               "--retrain"
+               search-string
+               tag-changes))))
+
+  (advice-add #'notmuch-search-tag :after #'my-notmuch-retrain-after-tagging)
+
   (defun my-notmuch-flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
-    (notmuch-search-tag
-     (let ((existing-tags (notmuch-search-get-tags)) (amendments nil))
-       (dolist (tag tags)
-         (push
-          (concat
-           (if (member tag existing-tags) "-" "+")
-           tag)
-          amendments))
-       amendments))
+    (setq tags (delete-if-not #'stringp tags))
+    (let (amendments
+          (existing-tags (notmuch-search-get-tags)))
+      (dolist (tag tags)
+        (push (concat (if (member tag existing-tags) "-" "+") tag) amendments))
+      (notmuch-search-tag amendments))
     (notmuch-search-next-thread))
 
   (defun my-notmuch-find-related-authors ()
@@ -231,6 +233,7 @@ This will be the link nearest the end of the message which either contains or fo
    ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
+   ("S".  (lambda () (interactive) (my-notmuch-flip-tags "spam" :retrain t)))
    ("'" . my-notmuch-find-related-tags)
    ("@" . my-notmuch-find-related-authors)
    ("g" . notmuch-refresh-this-buffer))
