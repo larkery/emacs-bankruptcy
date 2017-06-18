@@ -536,6 +536,7 @@ colours from highlight symbol"
                   (quote face)
                   (quote notmuch-tag-flagged)))
      ("meeting" "m")
+     ("untrained" "+")
      ("normal-importance" "")
      ("low-importance" "↓")
      ("high-importance" "↑")
