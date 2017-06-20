@@ -35,6 +35,8 @@
           ("http://tedium.co/rss" tech)
 
           ("https://nathaliesternmusic.bandcamp.com/feed" music)
+
+          ("http://www.bentrideronline.com/?feed=rss2")
           )
 
 

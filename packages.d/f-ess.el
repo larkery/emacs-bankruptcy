@@ -21,6 +21,8 @@
     (interactive)
     (unless (assoc "%>%" prettify-symbols-alist)
       (push '("%>%" . ?➤) prettify-symbols-alist))
+    (unless (assoc "%in%" prettify-symbols-alist)
+      (push '("%in%" . ?⊂) prettify-symbols-alist))
     (prettify-symbols-mode 1))
 
   (add-hook 'ess-mode-hook #'my-prettify-ess-symbols)

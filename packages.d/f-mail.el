@@ -77,7 +77,9 @@
   (advice-add 'notmuch-search-insert-field :around #'notmuch-search-insert-extra-field)
 
   (bind-key "G"
-            (lambda () (interactive) (compile "notmuch new"))
+            (lambda () (interactive)
+              (let ((compilation-buffer-name-function (lambda (&rest _) "*notmuch new*")))
+                (compile "notmuch new")))
             notmuch-search-mode-map)
 
   (defun dired-attach-advice (o &rest args)
