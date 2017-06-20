@@ -237,7 +237,7 @@ This will be the link nearest the end of the message which either contains or fo
    ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
-   ("S".  (lambda () (interactive) (my-notmuch-flip-tags "spam" :retrain t)))
+   ("S".  (lambda () (interactive) (my-notmuch-flip-tags "spam")))
    ("'" . my-notmuch-find-related-tags)
    ("@" . my-notmuch-find-related-authors)
    ("g" . notmuch-refresh-this-buffer))
