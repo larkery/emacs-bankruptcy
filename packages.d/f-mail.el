@@ -162,7 +162,7 @@ This will be the link nearest the end of the message which either contains or fo
       (let ((search-string (notmuch-search-find-stable-query-region
                             beg end nil)))
         (apply #'start-process
-               "classify" nil
+               "classify" "*classify-retrain*"
                (expand-file-name "~/.mail/.notmuch/hooks/classify")
                "--retrain"
                search-string
@@ -302,14 +302,41 @@ Subject: " my-reply-subject "
         ))))
 
   (defun mm-inline-render-with-render-mail (handle)
-    (let ((source (mm-get-part handle)))
+    (let ((text (mm-get-part handle))
+          (b (point))
+          (charset (or (mail-content-type-get (mm-handle-type handle) 'charset)
+                       mail-parse-charset)))
       (mm-insert-inline
        handle
        (mm-with-multibyte-buffer
-         (insert source)
+         (insert text)
          (apply 'mm-inline-wash-with-stdin nil
-                "render-mail" (list (format "%d" (- (window-width) 2))))
-         (buffer-string)))))
+                "render-mail"
+                (downcase charset)
+                (list (format "%d" (- (window-width) 2))))
+         (buffer-string)))
+      (save-restriction
+        (narrow-to-region b (point))
+        (flet ((w3m-add-face-property
+                (start end name &optional object)
+                (let ((pos start)
+                      next prop)
+                  (while (< pos end)
+                    (setq prop (get-text-property pos 'face object)
+                          next (next-single-property-change pos 'face object end))
+                    (w3m-add-text-properties pos next (list 'font-lock-face (cons name prop)) object)
+                    (setq pos next)))))
+          (let ((inhibit-message t)
+                (w3m-use-symbol t)
+                (w3m-default-symbol
+                 '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
+                   "─┴" " └" "──" ""   "─┘" ""   ""   ""
+                   "─┼" " ┠" "━┯" " ┏" "─┨" " ┃" "━┓" ""
+                   "━┷" " ┗" "━━" ""   "━┛" ""   ""   ""
+                   " •" " □" " ☆" " ○" " ■" " ★" " ◎"
+                   " ●" " △" " ●" " ○" " □" " ●" "≪ ↑ ↓ ")))
+            (w3m-fontify))
+          ))))
 
   (push (cons 'outlook #'mm-inline-render-with-render-mail)
         mm-text-html-renderer-alist)
@@ -433,11 +460,13 @@ colours from highlight symbol"
                       nil)))
 
            (,(rx bol (* blank) (group ">" (* (| ">" blank))) (* any) eol)
-            (0 (list :foreground
-                     (nth (mod (loop for x across (match-string 1)
-                                     count (= ?> x))
-                               (length highlight-symbol-colors))
-                          highlight-symbol-colors)))))))
+            (0
+             (list :foreground
+                   (nth (mod (loop for x across (match-string 1)
+                                   count (= ?> x))
+                             (length highlight-symbol-colors))
+                        highlight-symbol-colors))
+             )))))
 
   (add-hook 'notmuch-show-mode-hook #'message-font-lock-fancy-quoting)
   (add-hook 'notmuch-message-mode-hook #'message-font-lock-fancy-quoting)
@@ -539,7 +568,7 @@ colours from highlight symbol"
                   (quote notmuch-tag-flagged)))
      ("meeting" "m")
      ("untrained" "+")
-     ("normal-importance" "")
+     ("normal-importance")
      ("low-importance" "↓")
      ("high-importance" "↑")
      ("attachment" "a")

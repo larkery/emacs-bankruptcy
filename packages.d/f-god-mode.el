@@ -10,7 +10,7 @@
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
   (define-key god-local-mode-map (kbd ".") 'repeat)
-;;  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
+  ;;  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
   (add-to-list 'god-exempt-major-modes 'notmuch-search-mode)
   (add-to-list 'god-exempt-major-modes 'notmuch-show-mode)
 
@@ -22,7 +22,7 @@
         (progn
           (push (face-remap-add-relative
                  'mode-line
-                 :background "orangered4" :box "red" :foreground "white" :overline nil)
+                 :background "orangered4" :foreground "white" :overline nil)
                 god-cursor-face-remapping)
           )
 

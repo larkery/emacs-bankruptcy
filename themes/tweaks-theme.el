@@ -57,8 +57,8 @@
            (((background light)) (:background "khaki"))
            ))
 
- '(message-cited-text ((t (:inherit default))))
- '(notmuch-wash-cited-text ((t (:inherit default))))
+ '(message-cited-text ((t (:inherit nil))))
+ '(notmuch-wash-cited-text ((t (:inherit nil))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )

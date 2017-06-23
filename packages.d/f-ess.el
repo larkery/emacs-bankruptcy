@@ -25,6 +25,15 @@
       (push '("%in%" . ?⊂) prettify-symbols-alist))
     (prettify-symbols-mode 1))
 
+  (defun projectile-update-R-tags (o &rest args)
+    (interactive)
+    (if (eq major-mode 'ess-mode)
+        (ess-build-tags-for-directory
+         (projectile-project-root)
+         (concat (projectile-project-root) "/TAGS"))
+      (apply o args)))
+
+  (advice-add 'projectile-regenerate-tags :around #'projectile-update-R-tags)
   (add-hook 'ess-mode-hook #'my-prettify-ess-symbols)
   (add-hook 'inferior-ess-mode-hook #'my-prettify-ess-symbols)
 

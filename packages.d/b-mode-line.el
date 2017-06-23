@@ -7,22 +7,21 @@
 (setq-default
  mode-line-format
  `("%5l "
-
-   (:eval (propertize (concat "%b")
-                      'face (list (when buffer-read-only 'error)
-                                  (when (buffer-modified-p) 'underline)
-                                  'mode-line-buffer-id)
-                      'help-echo (buffer-file-name)
-                      'mouse-face 'mode-line-highlight))
+   (:eval (propertize "%b" 'face
+                      (remove-if-not
+                       #'identity
+                       (list
+                        (when buffer-read-only    'error)
+                        (when (buffer-modified-p) 'underline)
+                        'mode-line-buffer-id))))
 
    (:eval (if (and (buffer-file-name) (file-remote-p (buffer-file-name)))
               (let ((parts (tramp-dissect-file-name (buffer-file-name))))
                 (concat " " (propertize (concat (tramp-file-name-user parts) "@" (tramp-file-name-host parts))
-                                        'face 'mode-line-emphasis)))
-            ))
-
+                                        'face 'mode-line-emphasis)))))
 
    (vc-mode vc-mode)
+
    (:eval
     (my-mode-line-pad-right
      (list

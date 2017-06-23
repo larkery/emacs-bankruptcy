@@ -59,6 +59,13 @@
     (string-match (rx " [" (group (* any)) "] (" (group (* any)) ")") s)
     (format "[%s %s]" (match-string 2 s) (match-string 1 s)))
 
+  (defun org-agenda-upd-notify (&rest _) (org-agenda-notify))
+  (advice-add 'org-time-stamp :after 'org-agenda-upd-notify)
+  (advice-add 'org-timestamp-up :after 'org-agenda-upd-notify)
+  (advice-add 'org-timestamp-down :after 'org-agenda-upd-notify)
+  (advice-add 'org-timestamp-up-day :after 'org-agenda-upd-notify)
+  (advice-add 'org-timestamp-down-day :after 'org-agenda-upd-notify)
+
   (advice-add 'org-clock-get-clock-string
               :filter-return
               #'tidy-clock)
