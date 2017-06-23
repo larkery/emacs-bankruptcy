@@ -6,11 +6,11 @@
   :init
   (define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
   :config
+  (advice-add 'god-local-mode :around 'shut-up)
   (require 'god-mode-isearch)
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
   (define-key god-local-mode-map (kbd ".") 'repeat)
-  ;;  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
   (add-to-list 'god-exempt-major-modes 'notmuch-search-mode)
   (add-to-list 'god-exempt-major-modes 'notmuch-show-mode)
 
@@ -19,12 +19,10 @@
 
   (defun god-cursor ()
     (if god-local-mode
-        (progn
-          (push (face-remap-add-relative
-                 'mode-line
-                 :background "orangered4" :foreground "white" :overline nil)
-                god-cursor-face-remapping)
-          )
+        (push (face-remap-add-relative
+               'mode-line
+               :background "orangered4" :foreground "white" :overline nil)
+              god-cursor-face-remapping)
 
       (progn (dolist (mapping god-cursor-face-remapping)
                (face-remap-remove-relative mapping))
@@ -40,7 +38,23 @@
   (key-seq-define-global "jw" 'other-window)
   (key-seq-define-global "jf" 'find-file)
   (key-seq-define-global "jb" 'ivy-switch-buffer)
-                                        ;  (key-seq-define-global "js" 'save-buffer) json
+
+  (key-seq-define-global "jk" 'save-buffer)
+  (key-seq-define-global "jx" 'split-window-below)
+  (key-seq-define-global "jz" 'delete-other-windows)
+  (key-seq-define-global "jc" 'split-window-right)
+  (key-seq-define-global "jv" 'delete-window)
+  (key-seq-define-global "jg" 'magit-status)
+  (key-seq-define-global "jj" 'god-local-mode)
+
+  (key-seq-define-global ",."  'copy-to-register)
+  (key-seq-define-global ".," 'insert-register)
+
+  (with-eval-after-load 'god-mode
+    (key-seq-define god-local-mode-map  "gg"
+                    (lambda () (interactive)
+                      (setq unread-command-events (listify-key-sequence "G")))))
+
   (key-seq-define-global "jk" 'save-buffer)
   (key-seq-define-global "jx" 'split-window-below)
   (key-seq-define-global "jz" 'delete-other-windows)
