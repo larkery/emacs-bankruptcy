@@ -164,7 +164,7 @@ This will be the link nearest the end of the message which either contains or fo
         (apply #'start-process
                "classify" "*classify-retrain*"
                (expand-file-name "~/.mail/.notmuch/hooks/classify")
-               "--retrain"
+               "retrain"
                search-string
                tag-changes))))
 
