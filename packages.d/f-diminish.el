@@ -1,6 +1,13 @@
 (req-package diminish
   :config
-  (diminish 'isearch-mode " 🔎"))
+  (diminish 'isearch-mode " 🔎")
+  (diminish 'orgstruct-mode " §")
+  (diminish 'orgtbl-mode " 🞕")
+  (diminish 'visual-line-mode " ⮱")
+  (diminish 'abbrev-mode " …")
+
+  )
+
 
 ;; hack major mode names
 
@@ -20,6 +27,7 @@
      (replace "text"        "txt")
      (replace "wdired"      "wdir")
      (replace "notmuch" "nm")
+     (replace "Message" "msg")
      ))
 
 

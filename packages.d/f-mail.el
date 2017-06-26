@@ -10,6 +10,7 @@
 
 (req-package artbollocks-mode
   :commands artbollocks-mode
+  :diminish ""
   :config
   (setq artbollocks-weasel-words-regex
         (concat "\\b" (regexp-opt
@@ -166,6 +167,7 @@ This will be the link nearest the end of the message which either contains or fo
                (expand-file-name "~/.mail/.notmuch/hooks/classify")
                "retrain"
                search-string
+               "--"
                tag-changes))))
 
   (advice-add #'notmuch-search-tag :after #'my-notmuch-retrain-after-tagging)
