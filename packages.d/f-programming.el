@@ -4,6 +4,12 @@
 (defun my-run-prog-mode-hook () (run-hooks 'my-prog-mode-hook))
 (add-hook 'prog-mode-hook #'my-run-prog-mode-hook)
 
+(req-package hl-todo
+  :commands hl-todo-mode
+  :init
+  (add-hook 'my-prog-mode-hook 'hl-todo-mode))
+
+
 (req-package highlight-parentheses
   :diminish ""
   :commands highlight-parentheses-mode

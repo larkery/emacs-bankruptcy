@@ -160,7 +160,7 @@ This will be the link nearest the end of the message which either contains or fo
         (unless (and beg end)
           (setq beg (car (notmuch-search-interactive-region))
                 end (cadr (notmuch-search-interactive-region))))
-      (let ((search-string (notmuch-search-find-stable-query-region
+        (let ((search-string (notmuch-search-find-stable-query-region
                             beg end nil)))
         (apply #'start-process
                "classify" "*classify-retrain*"
@@ -169,6 +169,28 @@ This will be the link nearest the end of the message which either contains or fo
                search-string
                "--"
                tag-changes))))
+
+  (defun notmuch-classify-explain (tag &optional beg end)
+    (interactive "sTag: ")
+    (unless (and beg end)
+          (setq beg (car (notmuch-search-interactive-region))
+                end (cadr (notmuch-search-interactive-region))))
+    (let ((search-string (notmuch-search-find-stable-query-region
+                          beg end nil)))
+      (pop-to-buffer (get-buffer-create "*classify-explain*"))
+      (with-current-buffer (get-buffer-create "*classify-explain*")
+        (erase-buffer))
+      (start-process
+       "*classify-explain*"
+       (get-buffer-create "*classify-explain*")
+       (expand-file-name "~/.mail/.notmuch/hooks/classify")
+       "classify"
+       "--dry-run"
+       "--verbose"
+       "--tag"
+       tag
+       search-string)))
+
 
   (advice-add #'notmuch-search-tag :after #'my-notmuch-retrain-after-tagging)
 
