@@ -1,6 +1,8 @@
 (deftheme tweaks "small adjustments to theme")
 (require 'highlight-symbol)
 
+(defface not-interesting nil "A face for things which just aren't that interesting")
+
 (custom-theme-set-faces
  'tweaks
 
@@ -48,7 +50,8 @@
  '(org-level-8 ((t (:height 1.1 :weight bold))))
  '(org-level-9 ((t (:height 1.1 :weight bold))))
 
-; '(font-lock-comment-face ((t )))
+ '(not-interesting ((t (:slant italic))))
+
  '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
  '(highlight ((t (:inverse-video t))))

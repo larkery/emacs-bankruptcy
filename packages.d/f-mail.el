@@ -57,6 +57,41 @@
   :config
   (require 'notmuch-calendar-x)
   (require 'org-notmuch)
+
+  ;; TODO remove this once my patch goes in?
+  (defun notmuch-show-lazy-part (part-args button)
+    ;; Insert the lazy part after the button for the part. We would just
+    ;; move to the start of the new line following the button and insert
+    ;; the part but that point might have text properties (eg colours
+    ;; from a message header etc) so instead we start from the last
+    ;; character of the button by adding a newline and finish by
+    ;; removing the extra newline from the end of the part.
+    (save-excursion
+      (goto-char (button-end button))
+      (insert "\n")
+      (let* ((inhibit-read-only t)
+             ;; We need to use markers for the start and end of the part
+             ;; because the part insertion functions do not guarantee
+             ;; to leave point at the end of the part.
+             (part-beg (copy-marker (point) nil))
+             (part-end (copy-marker (point) t))
+             ;; We have to save the depth as we can't find the depth
+             ;; when narrowed.
+             (depth (notmuch-show-get-depth)))
+        (save-restriction
+          (narrow-to-region part-beg part-end)
+          (delete-region part-beg part-end)
+          (apply #'notmuch-show-insert-bodypart-internal part-args)
+          (indent-rigidly part-beg part-end (* notmuch-show-indent-messages-width depth)))
+        (goto-char part-end)
+        (delete-char 1)
+        (notmuch-show-record-part-information (second part-args)
+                                              (button-start button)
+                                              part-end)
+        ;; Create the overlay. If the lazy-part turned out to be empty/not
+        ;; showable this returns nil.
+        (notmuch-show-create-part-overlays button part-beg part-end))))
+
   (defun notmuch-search-insert-extra-field (o field format-string result)
     (cond ((string-equal field "tags-subset")
            (let* ((keep (cdr format-string))
@@ -75,6 +110,32 @@
           (t
            (funcall o field format-string result))))
 
+  (defun notmuch-search-color-line-here ()
+    (let ((face (plist-get (text-properties-at (point)) 'face)))
+      (or (eq face 'notmuch-search-matching-authors)
+          (eq face 'notmuch-search-subject)
+          (eq face 'notmuch-search-date)
+          (not face))))
+
+  (defun notmuch-search-color-line-partially (o start end line-tag-list)
+    (save-excursion
+      (goto-char start)
+
+      (let (npt (in (notmuch-search-color-line-here)) (last start))
+        (while (and (setq npt (next-single-property-change (point) 'face nil end))
+                    (< npt end))
+          (goto-char npt)
+          (let ((face (assoc 'face (text-properties-at (point)))))
+            (if (notmuch-search-color-line-here)
+                (unless in (setq in t last (point)))
+              (when in
+                (setq in nil)
+                (funcall o last (point) line-tag-list)))))
+        (when in
+                (setq in nil)
+                (funcall o last (point) line-tag-list)))))
+
+  (advice-add 'notmuch-search-color-line :around #'notmuch-search-color-line-partially)
   (advice-add 'notmuch-search-insert-field :around #'notmuch-search-insert-extra-field)
 
   (bind-key "G"
@@ -244,7 +305,8 @@ This will be the link nearest the end of the message which either contains or fo
                                "sent"
                                "flagged"
                                "deleted"
-                               "replied")
+                               "replied"
+                               "untrained")
                              :test #'string=))
           terms)
 
@@ -496,6 +558,8 @@ colours from highlight symbol"
   (add-hook 'notmuch-message-mode-hook #'message-font-lock-fancy-quoting)
   (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
   (add-hook 'notmuch-message-mode-hook #'artbollocks-mode)
+
+  (defface notmuch-standard-tag-face '((t (:foreground "gold"))) "face for boring tags")
   )
 
 (custom-set-variables
@@ -566,7 +630,8 @@ colours from highlight symbol"
     (("unread" . notmuch-search-unread-face)
      ("flagged" . notmuch-search-flagged-face)
      ("deleted" :strike-through "red")
-     ("low-importance" :inherit shadow))))
+     ("office-misc" :inherit not-interesting)
+     ("low-importance" :inherit not-interesting))))
  '(notmuch-search-oldest-first nil)
  '(notmuch-search-result-format
    (quote
@@ -590,15 +655,36 @@ colours from highlight symbol"
       (propertize tag
                   (quote face)
                   (quote notmuch-tag-flagged)))
-     ("meeting" "m")
-     ("untrained" "+")
+     ("meeting"
+      (propertize "m"
+                  (quote face)
+                  (quote notmuch-standard-tag-face)))
+     ("untrained"
+      (propertize "+"
+                  (quote face)
+                  (quote notmuch-standard-tag-face)))
      ("normal-importance")
-     ("low-importance" "↓")
-     ("high-importance" "↑")
-     ("attachment" "a")
-     ("replied" "»")
+     ("low-importance"
+      (propertize "↓"
+                  (quote face)
+                  (quote notmuch-standard-tag-face)))
+     ("high-importance"
+      (propertize "↑"
+                  (quote face)
+                  (quote notmuch-standard-tag-face)))
+     ("attachment"
+      (propertize "a"
+                  (quote face)
+                  (quote notmuch-standard-tag-face)))
+     ("replied"
+      (propertize "»"
+                  (quote face)
+                  (quote notmuch-standard-tag-face)))
      ("sent")
-     ("inbox" "i"))))
+     ("inbox"
+      (propertize "i"
+                  (quote face)
+                  (quote notmuch-standard-tag-face))))))
  '(notmuch-wash-original-regexp
    "^\\(--+ ?[oO]riginal [mM]essage ?--+\\)\\|\\(____+\\)\\(writes:\\)writes\\|\\(From: .+\\)$")
  '(notmuch-wash-signature-lines-max 300)
