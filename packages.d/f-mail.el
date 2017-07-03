@@ -638,7 +638,10 @@ colours from highlight symbol"
     (("date" . "%12s ")
      ("count" . "%-7s ")
      ("authors" . "%-20s ")
-     ("tags-subset" "%-3s " "low-importance" "attachment" "meeting" "unread" "high-importance" "replied")
+     ("tags-subset" "%-3s " "low-importance" "attachment" "meeting"
+      #("unread" 0 6
+        (face notmuch-tag-deleted))
+      "high-importance" "replied")
      ("subject" . "%s ")
      ("tags-complement" "%s" "low-importance" "attachment" "meeting" "unread" "high-importance" "replied"))))
  '(notmuch-show-hook
@@ -722,4 +725,6 @@ colours from highlight symbol"
  ;; If there is more than one, they won't work right.
  '(message-cited-text ((t (:inherit font-lock-comment-face))))
  '(notmuch-message-summary-face ((t (:inherit mode-line))))
+ '(notmuch-tag-added ((t (:foreground "green" :weight bold))))
+ '(notmuch-tag-deleted ((t (:foreground "red" :weight bold))))
  '(notmuch-tag-face ((((background dark)) (:foreground "gold")))))
