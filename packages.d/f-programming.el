@@ -51,6 +51,11 @@
 (req-package comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
 
+(req-package editorconfig
+  :diminish ""
+  :config
+  (editorconfig-mode 1))
+
 (req-package key-combo
   :diminish ""
   :commands key-combo-mode key-combo-define-hook
