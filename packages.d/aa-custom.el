@@ -40,6 +40,7 @@
  '(delete-selection-mode t)
  '(directory-free-space-program nil)
  '(display-battery-mode nil)
+ '(display-time-mail-file (quote none))
  '(evil-emacs-state-cursor (quote ("#E57373" hbar)) t)
  '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
  '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
