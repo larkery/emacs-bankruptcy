@@ -61,7 +61,8 @@
   (define-prefix-command 'my-mc-map)
   (bind-keys
    :map my-mc-map
-   ("C-;" . mc/mark-all-like-this)
+   ("C-;" . mc/mark-all-dwim)
+   ("C-o" . mc-hide-unmatched-lines-mode)
    ("C-m" . mc/mark-all-like-this-in-defun)
    ("C-M" . mc/mark-all-like-this)
    ("C-a" . mc/edit-beginnings-of-lines)
