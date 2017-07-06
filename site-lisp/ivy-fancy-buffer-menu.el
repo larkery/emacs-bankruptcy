@@ -4,9 +4,12 @@
   (if prop (propertize str 'face prop) str))
 
 (defun ivy--fancy-buffer-mode (buffer-name)
-  (if-let ((buffer (get-buffer buffer-name)))
+  (if-let ((buffer (get-buffer buffer-name))
+           (mode major-mode))
       (with-current-buffer buffer
-        mode-name)
+        (add-face mode-name
+                  (when (eq mode major-mode)
+                    '(:foreground "darkorange"))))
     ""))
 
 (defun ivy--fancy-buffer-project (buffer-name)
@@ -32,19 +35,24 @@
                     concat "/")))))
   path)
 
+(defun ivy--fancy-buffer-full-name (buffer-name)
+  (abbreviate-file-name
+   (if-let ((buffer (get-buffer buffer-name)))
+       (with-current-buffer buffer default-directory)
+     (file-name-directory
+      (gethash buffer-name ivy--virtual-buffer-paths)))))
+
+
 (defun ivy--fancy-buffer-directory (buffer-name)
-  (let ((full-name (abbreviate-file-name
-                    (if-let ((buffer (get-buffer buffer-name)))
-                        (with-current-buffer buffer default-directory)
-                      (file-name-directory (cdr (assq buffer-name ivy--virtual-buffers)))))))
+  (let ((full-name (ivy--fancy-buffer-full-name buffer-name)))
     (if (file-remote-p full-name)
         (let* ((parts (tramp-dissect-file-name full-name))
-              (hostpart (add-face
-                         (concat
-                          (tramp-file-name-user parts)
-                          (when (> (length (tramp-file-name-user parts)) 0) "@")
-                          (car (split-string (tramp-file-name-host parts) "\\.")))
-                         '(:background "darkred"))))
+               (hostpart (add-face
+                          (concat
+                           (tramp-file-name-user parts)
+                           (when (> (length (tramp-file-name-user parts)) 0) "@")
+                           (car (split-string (tramp-file-name-host parts) "\\.")))
+                          '(:background "darkred"))))
           (concat
            hostpart
            ":"
@@ -68,22 +76,23 @@
    (if-let ((buffer (get-buffer buffer-name)))
        (let ((cmm major-mode))
          (with-current-buffer buffer
-           (or (cdr (assoc major-mode ivy-switch-buffer-faces-alist))
-               (unless buffer-file-name 'shadow)
-               (when (eq cmm major-mode) 'mode-line-buffer-id))))
+           (or (loop for tst in ivy-switch-buffer-faces-alist
+                     if (apply 'derived-mode-p (car tst))
+                     return (cdr tst))
+               (unless buffer-file-name 'shadow))))
      'ivy-virtual)))
 
-(setq ivy-switch-buffer-faces-alist '((dired-mode . ivy-subdir)
-                                      (notmuch-show-mode . (:underline t))
-                                      (notmuch-search-mode . (:underline t))
-                                      (notmuch-message-mode . (:underline t))
-                                      ))
+(setq ivy-switch-buffer-faces-alist '(((dired-mode) . ivy-subdir)
+                                      ((prog-mode ess-mode) . (:foreground "green"))
+                                      ((org-mode) . (:foreground "gold"))))
 
 (defvar ivy--fancy-buffer-columns
   `((ivy--fancy-buffer-name "%-40.45s")
-    (ivy--fancy-buffer-mode " %9.9s  " (:foreground "darkorange"))
+    (ivy--fancy-buffer-mode " %9.9s  ")
     (ivy--fancy-buffer-project " %-8.8s  " (:foreground "darkcyan"))
     (ivy--fancy-buffer-directory " %s")))
+
+(defvar ivy--virtual-buffer-paths (make-hash-table :test #'equal))
 
 (defmacro ivy--fancy-buffer-action (x &rest args)
   `(let ((,x (if (stringp ,x) ,x (cdr ,x))))
@@ -94,24 +103,27 @@
          (default (buffer-name (other-buffer (current-buffer))))
          (buffers (delete-duplicates (cons default buffers)
                                      :from-end t
-                                     :test #'string=))
-         (choices (mapcar (lambda (buffer)
-                            (cons (let ((ivy--fancy-spare-space (- (window-width) 4)))
-                                    (mapconcat
-                                     (lambda (column)
-                                       (let ((text (add-face
-                                                    (funcall #'format (cadr column) (funcall (car column) buffer))
-                                                    (caddr column))))
-                                         (setq ivy--fancy-spare-space (- ivy--fancy-spare-space (length text)))
-                                         text))
-                                     ivy--fancy-buffer-columns ""))
+                                     :test #'string=)))
 
-                                   buffer))
-                         buffers))
-         )
+    (clrhash ivy--virtual-buffer-paths)
+    (dolist (as ivy--virtual-buffers)
+      (puthash (car as) (cdr as) ivy--virtual-buffer-paths))
 
     (ivy-read "Switch to buffer: "
-              choices
+              (mapcar (lambda (buffer)
+                        (cons (let ((ivy--fancy-spare-space (- (window-width) 4)))
+                                (mapconcat
+                                 (lambda (column)
+                                   (let ((text (add-face
+                                                (funcall #'format (cadr column) (funcall (car column) buffer))
+                                                (caddr column))))
+                                     (setq ivy--fancy-spare-space (- ivy--fancy-spare-space (length text)))
+                                     text))
+                                 ivy--fancy-buffer-columns ""))
+
+                              buffer))
+                      buffers)
+
               :action (lambda (x)
                         (ivy--fancy-buffer-action x (ivy--switch-buffer-action x)))
               :keymap ivy-switch-buffer-map
