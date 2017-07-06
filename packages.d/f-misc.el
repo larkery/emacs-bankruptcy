@@ -1,7 +1,10 @@
 (req-package winner
   :demand t
   :bind (("<XF86Tools>" . winner-undo)
-         ("<XF86Launch5>" . winner-redo))
+         ("<XF86Launch5>" . winner-redo)
+         ("C-<" . winner-undo)
+         ("C->" . winner-redo))
+
   :config
   (winner-mode 1))
 ;; (req-package which-key
