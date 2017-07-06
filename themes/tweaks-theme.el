@@ -54,7 +54,8 @@
 
  '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
- '(highlight ((t (:inverse-video t))))
+ '(highlight ((((background dark)) (:background "maroon"))
+              (((background light)) (:background "gold"))))
 
  '(region ((((background dark)) (:background "DarkSlateGray"))
            (((background light)) (:background "khaki"))
