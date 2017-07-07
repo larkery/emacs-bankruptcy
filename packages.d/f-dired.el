@@ -14,11 +14,14 @@
    ("I" .  dired-insert-patricidally)
    ("r" .  dired-from-recentf)
    ("^" .  dired-up-directory-here)
+   ("C-M-p" . dired-up-directory-here)
    ("J" .  bookmark-jump)
    ("C-c RET" .  run-terminal-here)
    ("<mouse-2>" . dired-mouse-insert-or-find-file-other-window)
    ("[" . dired-prev-subdir)
    ("]" . dired-next-subdir)
+   ("M-n" . dired-next-subdir)
+   ("M-p" . dired-prev-subdir)
    )
 
   (defvar dired-remembered-state nil)
@@ -46,7 +49,9 @@
 
   (defun dired-set-state (state)
     (dolist (subdir (reverse (plist-get state :subdirs)))
-      (dired-insert-subdir subdir))
+      (condition-case nil
+          (dired-insert-subdir subdir)
+        (error nil)))
     (dired-omit-mode (or (plist-get state :omit) -1))
     (dired-hide-details-mode (or (plist-get state :details) -1)))
 

@@ -388,6 +388,7 @@ Subject: " my-reply-subject "
         ))))
 
   (defun mm-inline-render-with-render-mail (handle)
+    (require 'w3m)
     (let ((text (mm-get-part handle))
           (b (point))
           (charset (or (mail-content-type-get (mm-handle-type handle) 'charset)
