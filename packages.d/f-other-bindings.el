@@ -18,5 +18,6 @@
  ([remap narrow-to-region] . narrow-dwim)
  ("M-/" . hippie-expand)
  ("M-o" . other-window)
+ ("M-O" . swap-last-windows)
  ("C-S-l" . hl-line-mode)
  ("C-S-N" . linum-mode))

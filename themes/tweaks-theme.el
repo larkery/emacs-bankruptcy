@@ -54,8 +54,8 @@
 
  '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
- '(highlight ((((background dark)) (:background "maroon"))
-              (((background light)) (:background "gold"))))
+ '(highlight ((((background dark)) (:background "royalblue4"))
+              (((background light)) (:background "black"))))
 
  '(region ((((background dark)) (:background "DarkSlateGray"))
            (((background light)) (:background "khaki"))

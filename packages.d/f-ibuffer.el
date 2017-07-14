@@ -7,11 +7,11 @@
                             (buffer-name))))
          (apply o args)
          (ibuffer-jump-to-buffer last-buffer)
-         (let ((ln (save-excursion
+         (let* ((ln (save-excursion
                      (goto-char (point-max))
-                     (line-number-at-pos))))
-           (set-window-text-height (get-buffer-window)
-                                   (min 15 ln)))))
+                     (line-number-at-pos)))
+                (ht (min (- (frame-text-lines) 10) (max 15 ln))))
+           (set-window-text-height (get-buffer-window) ht))))
 
   (advice-add #'ibuffer :around #'ibuffer-recent-buffer)
 

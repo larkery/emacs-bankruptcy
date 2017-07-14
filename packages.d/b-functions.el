@@ -5,6 +5,17 @@
                 "\\S-+\\(\\s-+\\)"
                 1 1 t))
 
+(defun swap-last-windows ()
+  (interactive)
+
+  (let* ((this-window (selected-window))
+         (other-window (previous-window this-window))
+         (this-buffer (window-buffer this-window))
+         (other-buffer (window-buffer other-window)))
+    (set-window-buffer this-window other-buffer)
+    (set-window-buffer other-window this-buffer)
+    (select-window other-window)))
+
 (defun kill-this-buffer ()
   (interactive)
   (kill-buffer (buffer-name)))

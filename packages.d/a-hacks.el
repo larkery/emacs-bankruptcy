@@ -12,3 +12,15 @@
     (dotimes (i 10)
       (when (= p (point))
         ad-do-it))))
+
+(defun x-set-net-active-window (&rest _)
+  (x-send-client-message
+   nil                ; DISPLAY - nil is selected frame
+   0                  ; DEST - 0 is root window of display
+   nil                ; FROM - nil is selected frame
+   "_NET_ACTIVE_WINDOW"    ; MESSAGE-TYPE - name of an Atom as a string
+   32                 ; FORMAT  - size of the values in bits
+   '(1 "_NET_WM_USER_TIME" 0) ; VALUES
+   ))
+
+(advice-add 'x-focus-frame :after #'x-set-net-active-window)

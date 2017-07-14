@@ -12,6 +12,7 @@
         c-electric-slash
         composable-kill-region
         composable-save-region
+        cycle-just-one-space
         electric-newline-and-maybe-indent
         end-of-visual-line
         ess-smart-comma
