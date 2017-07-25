@@ -35,6 +35,14 @@
       (org-insert-datetree-entry)))
 
   :config
+
+
+  ;; YES or NO
+  (bind-key "C-M-u" 'org-up-element org-mode-map)
+  (bind-key "C-M-d" 'org-down-element org-mode-map)
+  (bind-key "C-M-f" 'org-forward-element org-mode-map)
+  (bind-key "C-M-b" 'org-backward-element org-mode-map)
+
   (require 'org-capture-pop-frame)
   (require 'org-agenda-notify)
   (require 'org-log)
