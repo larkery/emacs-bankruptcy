@@ -12,7 +12,7 @@
   )
 
 (req-package ibuffer-projectile
-  :commands ibuffer-projectile-set-filter-groups
+  :commands ibuffer-projectile-set-filter-groups ibuffer-filter-by-projectile-root
   :init
   (with-eval-after-load 'ibuffer
     (bind-key "/ j g" 'ibuffer-projectile-set-filter-groups ibuffer-mode-map)
@@ -25,10 +25,11 @@
                   :reader (expand-file-name
                            (completing-read "Filter by projectile root dir (regexp): "
                                             projectile-known-projects)))
-    (ibuffer-awhen (ibuffer-projectile-root buf)
-      (equal qualifier it)))
+    (if-let ((project-root
+              (with-current-buffer buf (let (projectile-require-project-root)
+                                         (projectile-project-root)))))
+        (equal qualifier project-root))))
 
-  )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

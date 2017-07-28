@@ -147,6 +147,7 @@
         god-mode-self-insert
         handle-select-window
         handle-switch-frame
+        highlight-symbol-prev
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down
