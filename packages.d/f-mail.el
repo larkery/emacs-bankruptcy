@@ -591,6 +591,7 @@ colours from highlight symbol"
  '(message-cite-reply-position (quote traditional))
  '(message-cite-style nil)
  '(message-default-charset (quote utf-8))
+ '(message-fcc-externalize-attachments nil)
  '(message-fill-column nil)
  '(message-kill-buffer-on-exit t)
  '(message-send-mail-function (quote message-send-mail-with-sendmail))
