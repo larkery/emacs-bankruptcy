@@ -14,7 +14,11 @@
            (set-window-text-height (get-buffer-window) ht))))
 
   (advice-add #'ibuffer :around #'ibuffer-recent-buffer)
+  (require 'ibuf-ext)
+  )
 
+(with-eval-after-load
+    'ibuf-ext
   (define-ibuffer-filter tramp-host
       "Filter based on the remote host"
     (:description
@@ -34,9 +38,7 @@
         (let* ((pts (tramp-dissect-file-name fn))
                (host (tramp-file-name-host pts)))
           (string-match-p (regexp-quote qualifier) host)))))
-
   (bind-key "/ h" #'ibuffer-filter-by-tramp-host ibuffer-mode-map)
-
   (define-ibuffer-column display-time
     (:inline t :name "Seen")
     (let* ((delta (time-subtract (current-time) buffer-display-time))

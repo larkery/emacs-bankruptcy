@@ -530,8 +530,12 @@ Subject: " my-reply-subject "
   (advice-add 'notmuch-mua-send-and-exit :before #'org-mime-html-automatically)
 
   (defun notmuch-fcc-post-sync-maildirs (&rest args)
-    (start-process "*sync-sent-messages*" nil "mbsync" "cse:Sent Items" "fastmail:Sent Items")
-    (start-process "*notmuch-new-no-hooks*" nil "notmuch" "new" "--no-hooks" "--quiet"))
+    (set-process-sentinel
+     (start-process "*sync-sent-messages*" nil "mbsync" "cse:Sent Items" "fastmail:Sent Items")
+     (lambda (_ c)
+       (cond
+        ((string-match-p "finished" c)
+         (start-process "*notmuch-new-no-hooks*" nil "notmuch" "new" "--no-hooks" "--quiet"))))))
 
   (advice-add 'notmuch-fcc-handler :after #'notmuch-fcc-post-sync-maildirs)
   ;; this has the opposite of a race - we insert the message into
