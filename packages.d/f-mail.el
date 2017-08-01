@@ -207,7 +207,9 @@ This will be the link nearest the end of the message which either contains or fo
 
   (defun my-inbox ()
     (interactive)
-    (notmuch-search "tag:inbox OR tag:flagged OR tag:unread"))
+
+    (let ((default-directory (expand-file-name "~/")))
+      (notmuch-search "tag:inbox OR tag:flagged OR tag:unread")))
 
   (defun my-notmuch-retrain-after-tagging (tag-changes &optional beg end)
     (when (loop for tag in tag-changes
