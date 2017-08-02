@@ -207,7 +207,9 @@ This will be the link nearest the end of the message which either contains or fo
 
   (defun my-inbox ()
     (interactive)
-    (notmuch-search "tag:inbox OR tag:flagged OR tag:unread"))
+
+    (let ((default-directory (expand-file-name "~/")))
+      (notmuch-search "tag:inbox OR tag:flagged OR tag:unread")))
 
   (defun my-notmuch-retrain-after-tagging (tag-changes &optional beg end)
     (when (loop for tag in tag-changes
@@ -393,7 +395,8 @@ Subject: " my-reply-subject "
     (let ((text (mm-get-part handle))
           (b (point))
           (charset (or (mail-content-type-get (mm-handle-type handle) 'charset)
-                       mail-parse-charset)))
+                       mail-parse-charset
+                       "utf-8")))
       (mm-insert-inline
        handle
        (mm-with-multibyte-buffer
@@ -528,6 +531,21 @@ Subject: " my-reply-subject "
 
   (advice-add 'notmuch-mua-send-and-exit :before #'org-mime-html-automatically)
 
+  (defun notmuch-fcc-post-sync-maildirs (&rest args)
+    (set-process-sentinel
+     (start-process "*sync-sent-messages*" nil "mbsync" "cse:Sent Items" "fastmail:Sent Items")
+     (lambda (_ c)
+       (cond
+        ((string-match-p "finished" c)
+         (start-process "*notmuch-new-no-hooks*" nil "notmuch" "new" "--no-hooks" "--quiet"))))))
+
+  (advice-add 'notmuch-fcc-handler :after #'notmuch-fcc-post-sync-maildirs)
+  ;; this has the opposite of a race - we insert the message into
+  ;; notmuch, but then we need to reindex it immediately because its
+  ;; filename changes after the sync because of the UID storage. we
+  ;; could do the sync between save & insert, but then the filename
+  ;; would be wrong.
+
   (defun message-font-lock-fancy-quoting ()
     "Use font-lock to make quotes fancier.
 
@@ -579,6 +597,7 @@ colours from highlight symbol"
  '(message-cite-reply-position (quote traditional))
  '(message-cite-style nil)
  '(message-default-charset (quote utf-8))
+ '(message-fcc-externalize-attachments nil)
  '(message-fill-column nil)
  '(message-kill-buffer-on-exit t)
  '(message-send-mail-function (quote message-send-mail-with-sendmail))

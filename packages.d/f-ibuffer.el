@@ -14,7 +14,31 @@
            (set-window-text-height (get-buffer-window) ht))))
 
   (advice-add #'ibuffer :around #'ibuffer-recent-buffer)
+  (require 'ibuf-ext)
+  )
 
+(with-eval-after-load
+    'ibuf-ext
+  (define-ibuffer-filter tramp-host
+      "Filter based on the remote host"
+    (:description
+     "remote host"
+     :reader
+     (completing-read "Host: "
+                      (delete-duplicates
+                       (loop for b being the buffers
+                             if (and (buffer-file-name b) (file-remote-p (buffer-file-name b)))
+                             collect (tramp-file-name-host
+                                      (tramp-dissect-file-name
+                                       (buffer-file-name b))))
+                       :test #'string=)))
+
+    (let* ((fn (buffer-file-name buf)))
+      (when (and fn (file-remote-p fn))
+        (let* ((pts (tramp-dissect-file-name fn))
+               (host (tramp-file-name-host pts)))
+          (string-match-p (regexp-quote qualifier) host)))))
+  (bind-key "/ h" #'ibuffer-filter-by-tramp-host ibuffer-mode-map)
   (define-ibuffer-column display-time
     (:inline t :name "Seen")
     (let* ((delta (time-subtract (current-time) buffer-display-time))

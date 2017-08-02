@@ -272,7 +272,19 @@ END:VALARM\n"
      ("e" "Calendar" entry
       (file "~/notes/calendar.org")
       "* %?
-%^T"))))
+%^T")
+     ("L" "Protocol Link" entry
+      (file "~/notes/links.org")
+      "* %? [[%:link][%:description]]
+ %U")
+     ("p" "Protocol Selection" entry
+      (file "~/notes/inbox.org")
+      "* %^{Title}
+Source: %u, %c
+#+BEGIN_QUOTE
+%i
+#+END_QUOTE
+%?"))))
  '(org-clock-clocked-in-display (quote mode-line))
  '(org-clock-mode-line-total (quote today))
  '(org-clock-out-remove-zero-time-clocks t)
@@ -284,6 +296,9 @@ END:VALARM\n"
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-protocol org-rmail org-w3m)))
  '(org-outline-path-complete-in-steps nil)
  '(org-refile-allow-creating-parent-nodes t)
  '(org-refile-targets

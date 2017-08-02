@@ -17,7 +17,8 @@
 
    (:eval (if (and (buffer-file-name) (file-remote-p (buffer-file-name)))
               (let ((parts (tramp-dissect-file-name (buffer-file-name))))
-                (concat " " (propertize (concat (tramp-file-name-user parts) "@" (tramp-file-name-host parts))
+                (concat " " (propertize (concat (tramp-file-name-user parts) "@"
+                                                (car (split-string (tramp-file-name-host parts) "\\.")))
                                         'face 'mode-line-emphasis)))))
 
    (vc-mode vc-mode)

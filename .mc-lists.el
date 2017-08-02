@@ -19,6 +19,7 @@
         ess-smarter-underscore
         ess-yank
         forward-sexp
+        forward-symbol
         h/kill-sexp-appropriately
         h/slurp-appropriately
         haskell-indentation-common-electric-command
@@ -135,6 +136,7 @@
         subword-right
         upcase-region
         yas-expand
+        zop-to-char
         ))
 
 (setq mc/cmds-to-run-once
@@ -147,6 +149,7 @@
         god-mode-self-insert
         handle-select-window
         handle-switch-frame
+        highlight-symbol-prev
         ido-switch-buffer
         kmacro-end-or-call-macro
         lispy-cursor-down

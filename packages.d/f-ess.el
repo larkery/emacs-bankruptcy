@@ -63,10 +63,5 @@
    '(ess-mode-hook)
    'my-ess-combo-hook
    '(("<" . ("<" "<- " "<<- "))
-     (">" . (">" "%>%\n" "%>%"))))
-  (key-combo-define-hook
-   '(ess-mode-hook inferior-ess-mode-hook)
-   'my-ess-inferior-combo-hook
-   '(("<" . ("<" "<- " "<<- "))
-     (">" . (">" "%>%"))))
+     (">" . (">" "%>%" "%>%\n"))))
   )
