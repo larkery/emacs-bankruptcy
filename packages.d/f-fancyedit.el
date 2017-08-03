@@ -117,3 +117,6 @@
   :commands adaptive-wrap-prefix-mode
   :init
   (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
+
+(req-package tiny
+  :bind ("C-#" . tiny-expand))
