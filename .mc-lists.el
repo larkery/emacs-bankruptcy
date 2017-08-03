@@ -15,6 +15,7 @@
         cycle-just-one-space
         electric-newline-and-maybe-indent
         end-of-visual-line
+        ess-indent-or-complete
         ess-smart-comma
         ess-smarter-underscore
         ess-yank
