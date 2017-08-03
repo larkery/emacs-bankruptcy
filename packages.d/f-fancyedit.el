@@ -67,7 +67,7 @@
    ("C-M" . mc/mark-all-like-this)
    ("C-a" . mc/edit-beginnings-of-lines)
    ("C-e" . mc/edit-ends-of-lines)
-   ("C-c" . mc/insert-numbers))
+   ("#" . mc/insert-numbers))
 
   (smartrep-define-key
       my-mc-map
