@@ -17,6 +17,9 @@
               (setq-local comint-use-prompt-regexp nil)
               (setq-local inhibit-field-text-motion nil)))
 
+  (push '(ess-mode "*.R")
+        semantic-symref-filepattern-alist)
+
   (defun my-prettify-ess-symbols ()
     (interactive)
     (unless (assoc "%>%" prettify-symbols-alist)
