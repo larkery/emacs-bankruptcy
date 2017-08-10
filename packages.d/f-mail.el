@@ -152,7 +152,18 @@
           (mml-attach-file the-file)))
       result))
 
+  (defun guess-address-advice (o &rest args)
+    (let* ((now (decode-time))
+           (hour (nth 2 now))
+           (minute (nth 1 now))
+           (dow (nth 6 now)))
+      (if (or (= 0 dow) (= 6 dow)
+              (< hour 9) (and (> hour 17) (> minute 30)))
+          (car (notmuch-user-other-email))
+          (apply o args))))
+
   (advice-add 'notmuch-mua-new-mail :around 'dired-attach-advice)
+  (advice-add 'notmuch-user-primary-email :around 'guess-address-advice)
 
   (defun my-notmuch-fix-fcc ()
     (interactive)
