@@ -152,15 +152,18 @@
           (mml-attach-file the-file)))
       result))
 
-  (defun guess-address-advice (o &rest args)
+  (defun outside-working-hours ()
     (let* ((now (decode-time))
            (hour (nth 2 now))
            (minute (nth 1 now))
            (dow (nth 6 now)))
-      (if (or (= 0 dow) (= 6 dow)
-              (< hour 9) (and (> hour 17) (> minute 30)))
-          (car (notmuch-user-other-email))
-          (apply o args))))
+      (or (= 0 dow) (= 6 dow)
+          (< hour 9) (and (> hour 17) (> minute 30)))))
+
+  (defun guess-address-advice (o &rest args)
+    (if (outside-working-hours)
+        (car (notmuch-user-other-email))
+      (apply o args)))
 
   (advice-add 'notmuch-mua-new-mail :around 'dired-attach-advice)
   (advice-add 'notmuch-user-primary-email :around 'guess-address-advice)
@@ -216,11 +219,17 @@ This will be the link nearest the end of the message which either contains or fo
   (bind-key "U" #'my-notmuch-show-unsubscribe 'notmuch-show-mode-map)
   (bind-key "u" #'my-notmuch-show-unread 'notmuch-show-mode-map)
 
-  (defun my-inbox ()
-    (interactive)
+  (defun my-inbox (arg)
+    (interactive "P")
 
     (let ((default-directory (expand-file-name "~/")))
-      (notmuch-search "tag:inbox OR tag:flagged OR tag:unread")))
+      (cond
+       (arg (notmuch-search "tag:inbox OR tag:flagged OR tag:unread"))
+       ((outside-working-hours)
+        (notmuch-search "path:fastmail/** AND (tag:inbox OR tag:flagged OR tag:unread)"))
+       (t
+        (notmuch-search "path:cse/** AND (tag:inbox OR tag:flagged OR tag:unread)")))))
+
 
   (defun my-notmuch-retrain-after-tagging (tag-changes &optional beg end)
     (when (loop for tag in tag-changes
@@ -590,8 +599,8 @@ colours from highlight symbol"
   (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
   (add-hook 'notmuch-message-mode-hook #'artbollocks-mode)
 
-  (defface notmuch-standard-tag-face '((t (:foreground "gold"))) "face for boring tags")
-  )
+  (defface notmuch-standard-tag-face '((t (:foreground "gold"))) "face for boring tags"))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
