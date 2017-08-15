@@ -8,7 +8,6 @@
         '(("http://www.antipope.org/charlie/blog-static/atom.xml" sf)
           ("http://www.rifters.com/crawl/?feed=rss2" sf)
           ("http://physics.ucsd.edu/do-the-math/feed/" climate econ sci)
-          ("http://dalynews.org/feed" econ)
           ("http://www.tyndall.ac.uk/rss.xml" climate)
           ("http://feeds.arstechnica.com/arstechnica/features" ars tech)
           ("http://www.daemonology.net/blog/index.rss" tech)
