@@ -10,7 +10,7 @@
   (setq-local face-remapping-alist '((default (:weight bold)))))
 
 (defun unless-minibuffer (o &rest args)
-  (let ((inhibit-message (zerop (minibuffer-depth))))
+  (let ((inhibit-message (not (zerop (minibuffer-depth)))))
     (apply o args)))
 
 (advice-add 'message :around #'unless-minibuffer)
