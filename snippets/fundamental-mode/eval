@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: eval
+# key: =
+# --
+$1 = ${1:$(calc-eval yas-text)}$0
