@@ -6,6 +6,15 @@
   (let ((inhibit-message t))
     (apply o args)))
 
+(with-current-buffer (get-buffer " *Echo Area 0*")
+  (setq-local face-remapping-alist '((default (:weight bold)))))
+
+(defun unless-minibuffer (o &rest args)
+  (let ((inhibit-message (zerop (minibuffer-depth))))
+    (apply o args)))
+
+(advice-add 'message :around #'unless-minibuffer)
+
 (defadvice pop-to-mark-command
     (around ensure-new-position activate)
   (let ((p (point)))
