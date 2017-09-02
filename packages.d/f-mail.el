@@ -579,11 +579,12 @@ colours from highlight symbol"
                       (cons t (cddr font-lock-defaults))))
 
     (font-lock-add-keywords
-     nil `((,(rx bol (* blank) (group ">" (* (| blank ">"))))
-            (0 (progn (add-text-properties (match-beginning 1) (match-end 1)
-                                           `(display
-                                             ,(replace-regexp-in-string ">" "│" (match-string 1))))
-                      nil)))
+     nil `(;; (,(rx bol (* blank) (group ">" (* (| blank ">"))))
+           ;;  (0 (progn (add-text-properties (match-beginning 1) (match-end 1)
+           ;;                                 `(display
+           ;;                                   ,(replace-regexp-in-string ">" "│" (match-string 1))))
+           ;;            nil)))
+
 
            (,(rx bol (* blank) (group ">" (* (| ">" blank))) (* any) eol)
             (0

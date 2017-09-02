@@ -150,8 +150,10 @@
         god-mode-self-insert
         handle-select-window
         handle-switch-frame
+        highlight-region
         highlight-symbol-prev
         ido-switch-buffer
+        iedit-next-occurrence
         kmacro-end-or-call-macro
         lispy-cursor-down
         repeat
