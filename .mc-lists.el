@@ -47,6 +47,8 @@
         my-wrap-paren
         my-wrap-with-\(
         org-backward-sentence
+        org-beginning-of-line
+        org-cycle
         org-delete-char
         org-end-of-line
         org-force-self-insert

@@ -2,4 +2,5 @@
 # name: eval
 # key: =
 # --
-$1 = ${1:$(calc-eval yas-text)}$0
+${1:`(when yas-selected-text
+         (replace-regexp-in-string "= *$" "" yas-selected-text))`} = ${1:$(calc-eval yas-text)}$0

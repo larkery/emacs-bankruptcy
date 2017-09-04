@@ -23,7 +23,7 @@
  ;; If there is more than one, they won't work right.
  '(recentf-exclude
    (quote
-    (".ido.last" "org-clock-save.el" "\\`/net/" ".emacs.d/elpa" ".git" ".emacs.d/state")) t)
+    (".ido.last" "org-clock-save.el" "\\`/net/" ".emacs.d/elpa" ".git" ".emacs.d/state")))
  '(recentf-max-menu-items 50)
  '(recentf-max-saved-items 500)
  '(recentf-save-file (concat (my-state-dir "") "/recentf")))

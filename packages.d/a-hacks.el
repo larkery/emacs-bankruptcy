@@ -6,9 +6,6 @@
   (let ((inhibit-message t))
     (apply o args)))
 
-(with-current-buffer (get-buffer-create " *Echo Area 0*")
-  (setq-local face-remapping-alist '((default (:weight bold)))))
-
 (defun unless-minibuffer (o &rest args)
   (let ((inhibit-message (not (zerop (minibuffer-depth)))))
     (apply o args)))
