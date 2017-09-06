@@ -1,3 +1,4 @@
 (req-package beginend
   :config
-  (beginend-global-mode))
+  (beginend-global-mode)
+  (diminish 'beginend-global-mode))
