@@ -1,6 +1,5 @@
 ;;; Load each thing from packages.d
-(setq gc-cons-percentage 1
-      gc-cons-threshold 1000000000)
+(setq gc-cons-threshold 8000000)
 
 (require 'package)
 
@@ -12,7 +11,8 @@
 
 (add-to-list 'package-directory-list "~/.nix-profile/share/emacs/site-lisp/elpa")
 (let ((inhibit-message t)
-      (inhibit-redisplay t))
+      (inhibit-redisplay t)
+      (file-name-handler-alist nil))
   (package-initialize)
 
   ;; (byte-recompile-directory user-emacs-directory)
@@ -23,5 +23,4 @@
     (load f)))
 (put 'set-goal-column 'disabled nil)
 
-(setq gc-cons-percentage 0.4
-      gc-cons-threshold 80000000)
+(setq gc-cons-threshold 80000000)

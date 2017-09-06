@@ -9,7 +9,6 @@
   :init
   (add-hook 'my-prog-mode-hook 'hl-todo-mode))
 
-
 (req-package highlight-parentheses
   :diminish ""
   :commands highlight-parentheses-mode
