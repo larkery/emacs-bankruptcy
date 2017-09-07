@@ -11,6 +11,10 @@
  ("C-c t SPC" . align-paragraph)
  ("C-c '" . remotely-edit-string))
 
+(req-package transpose-frame
+  :commands transpose-frame
+  :bind ("M-C-o" . transpose-frame))
+
 (bind-keys
  ("C-z" . undo)
  ([remap just-one-space] . cycle-just-one-space)
