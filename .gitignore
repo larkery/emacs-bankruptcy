@@ -13,3 +13,9 @@ org-caldav-backup.org
 projectile-bookmarks.eld
 *.elc
 bookmarks
+diary
+games
+recentf
+smex-items
+snippets/**/.yas-compiled-snippets.el
+history
