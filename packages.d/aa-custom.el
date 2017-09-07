@@ -50,6 +50,7 @@
  '(frames-only-mode nil)
  '(fringe-mode (quote (0)) nil (fringe))
  '(global-mark-ring-max 500)
+ '(grep-command "grep -nHE")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-indent-guides-auto-enabled nil)
  '(highlight-tail-colors (quote (("#ec4780" . 0) ("#424242" . 100))))
