@@ -17,6 +17,15 @@
               (setq-local comint-use-prompt-regexp nil)
               (setq-local inhibit-field-text-motion nil)))
 
+  (defun ess-stupid-customize-alist-advice (o arg-alist proc-name)
+    (if (not (or arg-alist ess-customize-alist))
+        (progn
+          (message "Missing customize-alist, hack hack hack")
+          (R-mode))
+      (funcall o arg-alist proc-name)))
+
+  (advice-add 'ess-mode :around 'ess-stupid-customize-alist-advice)
+
   (with-eval-after-load 'semantic/symref/grep
     (push '(ess-mode "*.R")
           semantic-symref-filepattern-alist))
