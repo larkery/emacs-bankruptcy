@@ -152,16 +152,10 @@
           (mml-attach-file the-file)))
       result))
 
-  (defun outside-working-hours ()
-    (let* ((now (decode-time))
-           (hour (nth 2 now))
-           (minute (nth 1 now))
-           (dow (nth 6 now)))
-      (or (= 0 dow) (= 6 dow)
-          (< hour 9) (and (> (+ hour (/ minute 60.0)) 17.5)))))
+
 
   (defun guess-address-advice (o &rest args)
-    (if (outside-working-hours)
+    (if (not (at-work-p))
         (car (notmuch-user-other-email))
       (apply o args)))
 
@@ -225,7 +219,7 @@ This will be the link nearest the end of the message which either contains or fo
     (let ((default-directory (expand-file-name "~/")))
       (cond
        (arg (notmuch-search "tag:inbox OR tag:flagged OR tag:unread"))
-       ((outside-working-hours)
+       ((not (at-work-p))
         (notmuch-search "path:fastmail/** AND (tag:inbox OR tag:flagged OR tag:unread)"))
        (t
         (notmuch-search "path:cse/** AND (tag:inbox OR tag:flagged OR tag:unread)")))))

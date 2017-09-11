@@ -246,3 +246,14 @@
           (goto-char (car position))
           (insert new-text)
           (goto-char (car position))))))
+
+(defun at-work-p ()
+  (let* ((now (decode-time))
+         (hour (nth 2 now))
+         (minute (nth 1 now))
+         (dow (nth 6 now))
+         (outside-working-hours (or (= 0 dow) (= 6 dow)
+                                    (< hour 9) (and (> (+ hour (/ minute 60.0)) 17.5)))))
+    (or (not outside-working-hours))))
+
+;; TODO modify agenda to filter home stuff when at-work-p
