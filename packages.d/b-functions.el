@@ -40,12 +40,6 @@
             (p "%c")
             (t "%x")))))
 
-(defun xman (args)
-  (with-current-buffer (man args)
-    (local-set-key
-     (kbd "q")
-     #'delete-window-or-frame)))
-
 (defun edit-as-root (prefix)
   (interactive "P")
 
