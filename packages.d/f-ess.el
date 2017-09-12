@@ -30,6 +30,13 @@
     (push '(ess-mode "*.R")
           semantic-symref-filepattern-alist))
 
+  (defun ess-stupid-customize-alist-advice (o &rest rest)
+    (if (not (or (car rest) ess-local-customize-alist))
+        (R-mode)
+      (apply o rest)))
+
+  (advice-add 'ess-mode :around 'ess-stupid-customize-alist-advice)
+
   (defun my-prettify-ess-symbols ()
     (interactive)
     (unless (assoc "%>%" prettify-symbols-alist)

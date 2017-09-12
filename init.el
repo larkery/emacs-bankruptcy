@@ -1,6 +1,10 @@
 ;;; Load each thing from packages.d
 (setq gc-cons-threshold 8000000)
 
+(eval-after-load "enriched"
+  '(defun enriched-decode-display-prop (start end &optional param)
+     (list start end)))
+
 (require 'package)
 
 (setq package-archives

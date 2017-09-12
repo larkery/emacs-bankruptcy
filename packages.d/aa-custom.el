@@ -41,6 +41,7 @@
  '(directory-free-space-program nil)
  '(display-battery-mode nil)
  '(display-time-mail-file (quote none))
+ '(editorconfig-exclude-regexps (quote ("\\`\\(?:ftp\\|https?\\|rsync\\|sftp\\|/net\\):")))
  '(eshell-prompt-function (quote my-eshell-prompt-function))
  '(evil-emacs-state-cursor (quote ("#E57373" hbar)) t)
  '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
