@@ -55,6 +55,7 @@
         org-forward-sentence
         org-kill-line
         org-self-insert-command
+        org-yank
         orgtbl-hijacker-command-109
         orgtbl-self-insert-command
         outshine-self-insert-command
