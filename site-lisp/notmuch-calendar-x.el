@@ -13,7 +13,7 @@
   (format "[[mailto:%s]]" email))
 
 (defun notmuch-calendar-email-unlink (link)
-  (when (string-match (rx bos "[[mailto:" (group (* any)) "]]" eos) link)
+  (when (and link (string-match (rx bos "[[mailto:" (group (* any)) "]]" eos) link))
     (match-string 1 link)))
 
 (defun notmuch-calendar-respond (arg response)
@@ -393,7 +393,7 @@ Prefix argument edits before sending"
                               'encoding "base64"
                               'raw "t")
               (let ((here (point)))
-                (insert cal-string)
+                (insert (encode-coding-string cal-string 'us-ascii))
                 (save-excursion
                   (goto-char here)
                   (while (search-forward "" nil t)
