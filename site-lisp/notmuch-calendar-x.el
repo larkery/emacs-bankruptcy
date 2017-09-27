@@ -10,7 +10,11 @@
 ;;;; Creating replies
 
 (defun notmuch-calendar-email-link (email)
-  (format "[[mailto:%s]]" email))
+  ;; avoid double mailto
+  (format "[[mailto:%s]]"
+          (if (string-match (rx bos (| "mailto:" "MAILTO:") (group (* any))) email)
+              (match-string 1 email)
+            email)))
 
 (defun notmuch-calendar-email-unlink (link)
   (when (and link (string-match (rx bos "[[mailto:" (group (* any)) "]]" eos) link))
@@ -178,7 +182,7 @@ Prefix argument edits before sending"
         ;; else
         (format "<%s %s>--<%s %s>" start-d start-t end-d end-t))))
 
-(defun notmuch-calendar-event-insert-headline (e)
+(defun notmuch-calendar-event-insert-headline (c e)
   "Format E as an org headline"
   (let* ((location (icalendar--get-event-property e 'LOCATION))
           (organizer (icalendar--get-event-property e 'ORGANIZER))
@@ -198,12 +202,14 @@ Prefix argument edits before sending"
     ;; Make button to go to agenda. Alternatively could generate day agenda and insert
     (insert org-timestr "\n")))
 
-(defun notmuch-calendar-event-insert-agenda (e)
+
+(defun notmuch-calendar-event-insert-agenda (c e)
   (let* ((location (icalendar--get-event-property e 'LOCATION))
          (organizer (icalendar--get-event-property e 'ORGANIZER))
          (summary (icalendar--convert-string-for-import
-                   (or (icalendar--get-event-property e 'SUMMARY)
-                       "No summary")))
+                   (or (icalendar--get-event-property e 'SUMMARY) "")))
+         (comment (icalendar--convert-string-for-import
+                   (or (icalendar--get-event-property e 'COMMENT) "")))
          (attendees (icalendar--get-event-properties e 'ATTENDEE))
          (org-timestr (notmuch-calendar-ical->org-timestring e))
          (time-parts (org-parse-time-string org-timestr))
@@ -213,7 +219,10 @@ Prefix argument edits before sending"
          (month (nth 4 time-parts))
          (year (nth 5 time-parts)))
 
-    (insert "\n" summary "\n")
+    (unless (string-match-p (rx bos (* blank) eos) summary)
+      (insert summary "\n"))
+    (unless (string-match-p (rx bos (* blank) eos) comment)
+      (insert comment "\n"))
 
     (insert-button org-timestr
                    :type 'notmuch-show-part-button-type
@@ -245,6 +254,31 @@ Prefix argument edits before sending"
                              org-agenda-keymap))
         ))))
 
+(defun notmuch-calendar-event-insert-buttons (c e)
+  (let* ((method (icalendar--get-event-property (car c) 'METHOD))
+         (buttons
+          (pcase method
+            ('"REPLY"
+             `(("Update" ,#'notmuch-calendar-update-reply))
+             )
+            ('"REQUEST"
+             `(("Accept" ,#'notmuch-calendar-accept-and-capture)
+               ("Decline" ,#'notmuch-calendar-decline)
+               ("Capture" ,#'notmuch-calendar-capture)
+               ))
+            )))
+    (if buttons
+        (progn (dolist (button buttons)
+                 (insert-button
+                  (format "[ %s ]" (car button))
+                  :type 'notmuch-show-part-button-type
+                  'action (cadr button)
+                  'calendar-event e
+                  'calendar-object c)
+                 (insert " "))
+               (insert "\n"))
+      (insert "Method: %s\n" method))))
+
 (defun notmuch-calendar-icalendar-render (output-buffer fun)
   "Transform icalendar events in the current buffer into org headlines and insert them into the output-buffer."
   (save-current-buffer
@@ -256,11 +290,11 @@ Prefix argument edits before sending"
           (let* ((ical-contents (icalendar--read-element nil nil))
                  (ical-events (icalendar--all-events ical-contents))
                  (zone-map (icalendar--convert-all-timezones ical-events)))
+
             (with-current-buffer output-buffer
               (let ((here (point)))
                 (dolist (e ical-events)
-                  (funcall fun e))
-
+                  (funcall fun ical-contents e))
                 (list here (point))))
             )))))
 
@@ -276,9 +310,7 @@ Prefix argument edits before sending"
                  (with-temp-buffer
                    (mm-insert-part handle)
                    (delete-trailing-whitespace)
-                   (notmuch-calendar-icalendar-render
-                    output-buffer
-                    #'notmuch-calendar-event-insert-headline)
+                   (notmuch-calendar-icalendar-render output-buffer #'notmuch-calendar-event-insert-headline)
                    ))
                (buffer-substring-no-properties (point-min) (point-max))
                ))))
@@ -309,6 +341,49 @@ Prefix argument edits before sending"
   (let ((cur (org-entry-get-multivalued-property (point) "ATTENDING")) out)
     (mapconcat #'identity (mapcar #'notmuch-calendar-email-unlink cur) ", ")))
 
+(defun icalendar--get-event-attendees (e)
+  (let ((props (car (cddr e))))
+    (cl-loop for prop in props
+             when (eq (car prop) 'ATTENDEE)
+             collect (cdr prop))))
+
+
+(defun notmuch-calendar-update-reply (e)
+  ;; e is an overlay - probably the button?
+  (let* ((props (overlay-properties e))
+         (cal (car (plist-get props 'calendar-object)))
+         (evt (plist-get props 'calendar-event))
+         (uid (icalendar--get-event-property evt 'UID))
+         (uid2 (progn (when
+                          (string-match (rx bos (* alnum) "-" (group (* (| alnum "-"))) eos) uid)
+                        (match-string 1 uid))))
+         (entry (org-id-find uid2 t)))
+    (unless entry (error (format "No entry for UID: %s" uid2)))
+    (pop-to-buffer (marker-buffer entry))
+    (goto-char (marker-position entry))
+    (set-marker entry nil)
+    ;; update properties for attending?
+    (let ((existing-attendees (mapcar #'notmuch-calendar-email-unlink
+                                      (org-entry-get-multivalued-property (point) "ATTENDING")))
+          (new-attendees (icalendar--get-event-attendees evt)))
+      (dolist (a new-attendees)
+        (let* ((a-props (car a))
+               (a-mail (cadr a))
+               (state (plist-get a-props 'PARTSTAT))
+               (addr (notmuch-calendar-email-unlink
+                      (notmuch-calendar-email-link a-mail))))
+          (message "%s" state)
+          (cond
+            ((equal state "ACCEPTED")
+             (unless (member addr existing-attendees)
+               (push addr existing-attendees)))
+            (t (message "wat: %s" state))
+            )))
+      (message "%s" existing-attendees)
+      (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
+             (mapcar #'notmuch-calendar-email-link existing-attendees)))
+    ))
+
 (defun notmuch-calendar-send-invitation-from-org (organizer attendees-list)
   ;; TODO insert identity, support sending information back again etc.
   (interactive
@@ -324,7 +399,8 @@ Prefix argument edits before sending"
          (mapcar #'notmuch-calendar-email-link attendees-list))
 
   (let ((sequence (+ 1 (string-to-number
-                        (or (cdar (org-entry-properties (point) "SEQUENCE")) "-1")))))
+                        (or (cdar (org-entry-properties (point) "SEQUENCE")) "-1"))))
+        (uid (org-id-get-create))) ;; don't actually need UID?
     (org-set-property "SEQUENCE" (number-to-string sequence))
     (save-excursion
       (let ((headline (nth 4 (org-heading-components)))
@@ -436,24 +512,6 @@ Prefix argument edits before sending"
 
 (defun notmuch-calendar-show-insert-part-text/calendar (msg part content-type nth depth button)
   (let ((output-buffer (current-buffer)))
-    (insert-button
-     "[ Accept ]"
-     :type 'notmuch-show-part-button-type
-     'action #'notmuch-calendar-accept-and-capture)
-
-    (insert " ")
-    (insert-button
-     "[ Decline ]"
-     :type 'notmuch-show-part-button-type
-     'action #'notmuch-calendar-decline)
-
-    (insert " ")
-    (insert-button
-     "[ Capture ]"
-     :type 'notmuch-show-part-button-type
-     'action #'notmuch-calendar-capture)
-
-    (insert "\n")
     (with-temp-buffer
       (insert (notmuch-get-bodypart-text msg part notmuch-show-process-crypto))
       ;; notmuch-get-bodypart-text does no newline conversion.
@@ -462,10 +520,12 @@ Prefix argument edits before sending"
       (while (re-search-forward "\r\n" nil t)
         (replace-match "\n" nil nil))
       ;; insert buttons:
+      (notmuch-calendar-icalendar-render output-buffer #'notmuch-calendar-event-insert-agenda)
+      (with-current-buffer output-buffer (insert "--------------\n"))
+      (notmuch-calendar-icalendar-render output-buffer #'notmuch-calendar-event-insert-buttons)
+      ;; (notmuch-calendar-icalendar-render output-buffer (lambda (c e) (insert (format "%s" e))))
 
-      (notmuch-calendar-icalendar-render
-       output-buffer
-       #'notmuch-calendar-event-insert-agenda))
+      )
     t))
 
 (fset 'notmuch-show-insert-part-text/calendar

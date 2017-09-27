@@ -63,6 +63,7 @@
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))
+ '(notmuch-search-flagged-face ((t (:foreground "palegreen"))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )
