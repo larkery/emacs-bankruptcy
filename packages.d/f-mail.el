@@ -649,10 +649,10 @@ colours from highlight symbol"
  '(notmuch-tag-formats
    (quote
     (("unread"
-      (propertize "•"
+      (propertize "🟌"
                   (quote face)
                   (quote notmuch-tag-unread)))
-     ("flagged" "🟌"
+     ("flagged" "⚑"
       (propertize tag
                   (quote face)
                   (quote notmuch-tag-flagged)))
