@@ -73,6 +73,50 @@
               :filter-return
               #'tidy-clock)
 
+  (defface org-agenda-date-2 '((t (:inherit org-agenda-date))) "Alternate days")
+  (defun org-day-colour (date)
+    (let* ((day (calendar-day-of-week date))
+           (weekend (member day org-agenda-weekend-days))
+           (today (org-agenda-todayp date))
+           (even (zerop (% day 2)))
+           faces
+           )
+      (when today (push 'org-agenda-date-today faces))
+      (when weekend (push 'org-agenda-date-weekend faces))
+      (push (if even 'org-agenda-date 'org-agenda-date-2) faces)
+
+      (if (cdr faces)
+          `(:inherit ,(nreverse faces))
+        (car faces))))
+
+
+  (setq org-agenda-day-face-function 'org-day-colour)
+  (defface empty '((t (:background nil :foreground nil))) "No face")
+  (defun org-colourise-entire-days ()
+    (interactive)
+    ;; collect start of each day
+    ;; iterate over ranges and colour in
+    (let* ((markers (gnus-find-text-property-region (point-min) (point-max) 'day))
+           (inhibit-read-only t))
+
+      (loop for range in (cdr markers)
+            do
+
+            (let* ((face (get-text-property (car range) 'face))
+                   (bg (if (symbolp face)
+                           (face-background face nil t)
+                         (face-background 'empty nil (plist-get face :inherit))
+                           ))
+                   )
+
+              (add-face-text-property (car range) (1+ (cadr range))
+                                      `(:background ,bg)))
+
+            (set-marker (car range) nil)
+            (set-marker (cadr range) nil))))
+
+  (add-hook 'org-agenda-finalize-hook 'org-colourise-entire-days)
+
   (defun my-time-to-minutes (str)
     (require 'calc)
     (require 'calc-units)
@@ -245,16 +289,12 @@ END:VALARM\n"
    (quote
     ("~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-include-diary nil)
- '(org-agenda-prefix-format
-   (quote
-    ((agenda . " %i %-12:c%?-12t% s")
-     (timeline . "  % s")
-     (todo . " %i %-12:c %?-6(org-entry-time-indicator) ")
-     (tags . " %i %-12:c")
-     (search . " %i %-12:c"))))
+ '(org-agenda-prefix-format "%t %s")
  '(org-agenda-property-list (quote ("LOCATION")))
+ '(org-agenda-remove-tags (quote prefix))
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-span (quote fortnight))
+ '(org-agenda-tags-column -80)
  '(org-agenda-window-setup (quote other-frame))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t))))

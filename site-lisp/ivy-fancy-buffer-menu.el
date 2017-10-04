@@ -7,7 +7,7 @@
   (if-let ((buffer (get-buffer buffer-name))
            (mode major-mode))
       (with-current-buffer buffer
-        (add-face mode-name
+        (add-face (format-mode-line mode-name)
                   (when (eq mode major-mode)
                     '(:foreground "darkorange"))))
     ""))

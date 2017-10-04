@@ -114,6 +114,7 @@
         (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-use-other-window t)
+ '(kill-ring-max 600)
  '(linum-format " %6d ")
  '(main-line-color1 "#222232")
  '(main-line-color2 "#333343")
