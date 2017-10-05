@@ -19,40 +19,6 @@
   (require 'notmuch-calendar-x)
   (require 'org-notmuch)
 
-  ;; TODO remove this once my patch goes in?
-  (defun notmuch-show-lazy-part (part-args button)
-    ;; Insert the lazy part after the button for the part. We would just
-    ;; move to the start of the new line following the button and insert
-    ;; the part but that point might have text properties (eg colours
-    ;; from a message header etc) so instead we start from the last
-    ;; character of the button by adding a newline and finish by
-    ;; removing the extra newline from the end of the part.
-    (save-excursion
-      (goto-char (button-end button))
-      (insert "\n")
-      (let* ((inhibit-read-only t)
-             ;; We need to use markers for the start and end of the part
-             ;; because the part insertion functions do not guarantee
-             ;; to leave point at the end of the part.
-             (part-beg (copy-marker (point) nil))
-             (part-end (copy-marker (point) t))
-             ;; We have to save the depth as we can't find the depth
-             ;; when narrowed.
-             (depth (notmuch-show-get-depth)))
-        (save-restriction
-          (narrow-to-region part-beg part-end)
-          (delete-region part-beg part-end)
-          (apply #'notmuch-show-insert-bodypart-internal part-args)
-          (indent-rigidly part-beg part-end (* notmuch-show-indent-messages-width depth)))
-        (goto-char part-end)
-        (delete-char 1)
-        (notmuch-show-record-part-information (second part-args)
-                                              (button-start button)
-                                              part-end)
-        ;; Create the overlay. If the lazy-part turned out to be empty/not
-        ;; showable this returns nil.
-        (notmuch-show-create-part-overlays button part-beg part-end))))
-
   (defun notmuch-search-insert-extra-field (o field format-string result)
     (cond ((string-equal field "tags-subset")
            (let* ((keep (cdr format-string))
@@ -367,7 +333,10 @@ Subject: " my-reply-subject "
 
   (defun mm-inline-render-with-render-mail (handle)
     (require 'w3m)
-    (let ((text (mm-get-part handle))
+    (let ((inhibit-message t)
+          (inhibit-redisplay t)
+          (w3m-message-silent t)
+          (text (mm-get-part handle))
           (b (point))
           (charset (or (mail-content-type-get (mm-handle-type handle) 'charset)
                        mail-parse-charset
@@ -392,8 +361,7 @@ Subject: " my-reply-subject "
                           next (next-single-property-change pos 'face object end))
                     (w3m-add-text-properties pos next (list 'font-lock-face (cons name prop)) object)
                     (setq pos next)))))
-          (let ((inhibit-message t)
-                (w3m-use-symbol t)
+          (let ((w3m-use-symbol t)
                 (w3m-default-symbol
                  '("─┼" " ├" "─┬" " ┌" "─┤" " │" "─┐" ""
                    "─┴" " └" "──" ""   "─┘" ""   ""   ""
