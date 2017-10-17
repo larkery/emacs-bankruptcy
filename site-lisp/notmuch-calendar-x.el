@@ -230,28 +230,51 @@ Prefix argument edits before sending"
 
     (insert "\n--------------\n")
 
-    (org-eval-in-environment (org-make-parameter-alist
-                              `(org-agenda-span
-                                'day
-                                org-agenda-start-day ,(format "%04d-%02d-%02d"
-                                                              year month day)
-                                org-agenda-use-time-grid t
-                                org-agenda-remove-tags t
-                                org-agenda-window-setup 'nope))
-      (let* ((wins (current-window-configuration))
-             org-agenda-sticky)
-        ;; TODO for some reason this loses some text properties
-        ;; for org-hd-marker that let it respond to clicks.
-        (save-excursion
-                (with-current-buffer
-                    (get-buffer-create org-agenda-buffer-name)
-                  (pop-to-buffer (current-buffer))
-                  (org-agenda nil "a")))
-        (set-window-configuration wins)
-        (let ((p (point)))
-          (insert-buffer-substring org-agenda-buffer-name)
-          (put-text-property p (point) 'keymap
-                             org-agenda-keymap))
+    (let* ((wins (current-window-configuration))
+           (org-agenda-sticky t)
+           (inhibit-redisplay t)
+           org-agenda-mail-buffer
+           (org-agenda-custom-commands
+            '(("q" "Mail agenda" ((agenda ""))))
+            )
+           )
+      (org-eval-in-environment (org-make-parameter-alist
+                                `(org-agenda-span
+                                  'day
+                                  ;;org-agenda-buffer-name " *notmuch-agenda-buffer*"
+                                  org-agenda-start-day ,(format "%04d-%02d-%02d"
+                                                                year month day)
+                                  org-agenda-use-time-grid t
+                                  org-agenda-remove-tags t
+                                  org-agenda-window-setup 'nope))
+        (progn
+          ;; TODO for some reason this loses some text properties
+          ;; for org-hd-marker that let it respond to clicks.
+          (save-excursion
+            (org-agenda nil "q")
+            (org-agenda-redo)
+            (setq org-agenda-mail-buffer (current-buffer)))
+          (set-window-configuration wins)
+          (let ((p (point)))
+
+            (insert-buffer-substring org-agenda-mail-buffer)
+            (save-restriction
+              (narrow-to-region p (point))
+              (let ((face-regions (gnus-find-text-property-region (point-min) (point-max) 'face)))
+                (loop for range in face-regions
+                      do
+                      (let ((face (get-text-property (car range) 'face)))
+                        (add-text-properties
+                         (car range) (cadr range)
+                         `(font-lock-face ,face)))
+
+
+                      (set-marker (car range) nil)
+                      (set-marker (cadr range) nil))))
+
+            (kill-buffer org-agenda-mail-buffer)
+            (put-text-property p (point) 'keymap
+                               org-agenda-keymap)))
         ))))
 
 (defun notmuch-calendar-event-insert-buttons (c e)
