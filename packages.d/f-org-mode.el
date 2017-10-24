@@ -4,7 +4,7 @@
 
 (req-package org
   :defer t
-  :require org-capture-pop-frame org-agenda-property hydra
+  :require org-capture-pop-frame hydra
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
@@ -115,7 +115,7 @@
             (set-marker (car range) nil)
             (set-marker (cadr range) nil))))
 
-  (add-hook 'org-agenda-finalize-hook 'org-colourise-entire-days)
+;;  (add-hook 'org-agenda-finalize-hook 'org-colourise-entire-days)
 
   (defun my-time-to-minutes (str)
     (require 'calc)
@@ -166,7 +166,8 @@ END:VALARM\n"
     "Refile a subtree to a datetree corresponding to it's timestamp."
     (interactive)
     (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
-           (date (org-date-to-gregorian datetree-date)))
+           (date (org-date-to-gregorian datetree-date))
+           (inhibit-redisplay t))
       (when date
         (save-excursion
           (save-restriction
@@ -289,7 +290,7 @@ END:VALARM\n"
    (quote
     ("~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-include-diary nil)
- '(org-agenda-prefix-format "%t %s")
+ '(org-agenda-prefix-format "%-12:c %t %s")
  '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-remove-tags (quote prefix))
  '(org-agenda-restore-windows-after-quit t)

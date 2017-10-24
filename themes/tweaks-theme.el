@@ -66,11 +66,10 @@
  '(notmuch-search-flagged-face ((t (:foreground "palegreen"))))
  '(notmuch-search-unread-face ((t (:foreground "white" :weight bold))))
 
- '(org-agenda-date ((t (:height 1.1 :foreground "white" :background "grey30"))))
+ '(org-agenda-date ((t (:underline "grey50" :foreground "white" :background "grey30"))))
  '(org-agenda-date-2 ((t (:inherit org-agenda-date :background "grey25"))))
- '(org-agenda-date-today ((t (:slant normal :weight bold :foreground "orange"))))
- '(org-agenda-date-weekend ((t (:foreground "green"))))
-
+ '(org-agenda-date-today ((t (:slant normal :weight bold :foreground "darkorange"))))
+ '(org-agenda-date-weekend ((t (:foreground "cyan"))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )

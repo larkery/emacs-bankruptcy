@@ -146,6 +146,7 @@
 (setq mc/cmds-to-run-once
       '(
         counsel-M-x
+        dired-insert-patricidally
         eval-defun
         eval-print-last-sexp
         god-local-mode
@@ -157,6 +158,7 @@
         highlight-symbol-prev
         ido-switch-buffer
         iedit-next-occurrence
+        iedit-switch-to-mc-mode
         kmacro-end-or-call-macro
         lispy-cursor-down
         repeat
