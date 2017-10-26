@@ -162,6 +162,37 @@ END:VALARM\n"
             (lambda ()
               (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
+  (defun org-refile-with (headline-generator)
+
+    (let ((inhibit-redisplay t))
+
+      (save-excursion
+        (save-restriction
+          (org-save-outline-visibility t
+            (outline-show-all)
+            (let* ((headlines (funcall headline-generator))
+                   (last-command nil)
+                   (insert-at (org-find-olp headlines t)))
+              (org-cut-subtree)
+              (goto-char insert-at)
+              (set-marker insert-at nil)
+              (org-narrow-to-subtree)
+              (org-end-of-subtree t)
+              (goto-char (point-max))
+              (org-paste-subtree (+ 1 (length headlines)))
+              ))))))
+
+  (defun org-refile-year-month ()
+    (interactive)
+
+    (org-refile-with
+     (lambda ()
+       (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
+              (date (org-date-to-gregorian datetree-date)))
+         (list (format "%d" (nth 2 date))
+               (nth (- (car date) 1)
+                    '("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sept" "Oct" "Nov" "Dec")))))))
+
   (defun org-refile-to-datetree ()
     "Refile a subtree to a datetree corresponding to it's timestamp."
     (interactive)
