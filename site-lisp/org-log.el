@@ -1,7 +1,8 @@
+(require 'org-misc)
+
 (defcustom org-log-location
-  '("~/notes/journal/%Y.org"
-    "* %B"
-    "** [%Y-%m-%d %a].")
+  '("~/notes/journal/%Y/Week %W.org"
+    "* [%Y-%m-%d %a]")
   "A list of strings, each of which will be used with `format-time-string'.
 The first will find a file, and the rest headings and subheadings and so on.")
 

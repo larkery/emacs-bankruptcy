@@ -63,6 +63,7 @@
         sgml-slash
         sh-assignment
         sp-backward-sexp
+        sp-backward-up-sexp
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp
