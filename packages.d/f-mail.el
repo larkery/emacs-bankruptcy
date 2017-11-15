@@ -196,7 +196,7 @@ This will be the link nearest the end of the message which either contains or fo
        search-string)))
 
 
-  (advice-add #'notmuch-search-tag :after #'my-notmuch-retrain-after-tagging)
+  ;; (advice-remove #'notmuch-search-tag #'my-notmuch-retrain-after-tagging)
 
   (defun my-notmuch-flip-tags (&rest tags)
     "Given some tags, add those which are missing and remove those which are present"
