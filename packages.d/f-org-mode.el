@@ -32,7 +32,7 @@
   (bind-key "C-M-f" 'org-forward-element org-mode-map)
   (bind-key "C-M-b" 'org-backward-element org-mode-map)
 
-  (require 'org-capture-pop-frame)
+  ;; (require 'org-capture-pop-frame)
   (require 'org-agenda-notify)
   (require 'org-log)
   (require 'org-timesheets)
@@ -308,6 +308,18 @@ END:VALARM\n"
      (holiday-christmas-bank-holidays)
      (holiday-fixed 12 31 "New Year's Eve"))))
  '(org-adapt-indentation nil)
+ '(org-agenda-custom-commands
+   (quote
+    (("w" "Work agenda / todo"
+      ((agenda ""
+               ((org-agenda-tag-filter-preset
+                 (quote
+                  ("-habit")))))
+       (alltodo ""
+                ((org-agenda-category-filter-preset
+                  (quote
+                   ("-personal" "-reviews"))))))
+      nil))))
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
@@ -319,7 +331,7 @@ END:VALARM\n"
  '(org-agenda-restore-windows-after-quit t)
  '(org-agenda-span (quote fortnight))
  '(org-agenda-tags-column -80)
- '(org-agenda-window-setup (quote other-frame))
+ '(org-agenda-window-setup (quote reorganize-frame))
  '(org-archive-default-command (quote org-archive-set-tag))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t))))
  '(org-capture-templates
