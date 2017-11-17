@@ -67,6 +67,28 @@
               :filter-return
               #'tidy-clock)
 
+  (defun org-email-subtree ()
+    (interactive)
+    (let* ((here (save-excursion (beginning-of-line) (point)))
+           (there (save-excursion (org-end-of-subtree)
+                                  (point)))
+           (header (org-get-heading t t t t))
+           (content (buffer-substring-no-properties here there)))
+      (notmuch-mua-new-mail)
+      (message-goto-subject)
+      (insert header)
+      (message-goto-body)
+      (save-excursion
+        (insert content))
+      (orgstruct-mode)
+      (orgtbl-mode)
+
+      (while (> (org-outline-level) 1)
+        (orgstruct-hijacker-org-promote-subtree nil))
+      (delete-region (point)
+                     (save-excursion (forward-line) (point)))
+      (message-goto-to)))
+
   (defface org-agenda-date-2 '((t (:inherit org-agenda-date))) "Alternate days")
   (defun org-day-colour (date)
     (let* ((day (calendar-day-of-week date))
@@ -381,6 +403,7 @@ Source: %u, %c
    (quote
     (("d" . org-refile-to-datetree)
      ("M" . notmuch-calendar-send-invitation-from-org)
+     ("m" . org-email-subtree)
      ("k" . org-cut-subtree)
      ("N" . narrow-dwim))))
  '(org-tags-column 0)
