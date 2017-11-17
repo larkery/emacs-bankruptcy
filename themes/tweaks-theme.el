@@ -55,7 +55,11 @@
  '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
  '(highlight ((((background dark)) (:background "royalblue4"))
-              (((background light)) (:background "black"))))
+              (((background light)) (;; :inverse-video
+
+
+                                     ;; t
+                                     ))))
 
  '(region ((((background dark)) (:background "DarkSlateGray"))
            (((background light)) (:background "khaki"))
@@ -63,8 +67,8 @@
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))
- '(notmuch-search-flagged-face ((t (:foreground "palegreen"))))
- '(notmuch-search-unread-face ((t (:foreground "white" :weight bold))))
+ '(notmuch-search-flagged-face ((((background dark)) (:foreground "palegreen"))))
+ '(notmuch-search-unread-face ((((background dark)) (:foreground "white" :weight bold))))
 
  '(org-agenda-date ((t (:underline "grey50" :foreground "white" :background "grey30"))))
  '(org-agenda-date-2 ((t (:inherit org-agenda-date :background "grey25"))))

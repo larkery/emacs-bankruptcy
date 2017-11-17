@@ -68,7 +68,7 @@
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(hl-paren-colors
    (quote
-    ("yellow" "turquoise" "goldenrod1" "cadetblue3" "goldenrod3")))
+    ("orange" "cyan" "yellow" "turquoise" "goldenrod1")))
  '(hl-sexp-background-color "#060404")
  '(ibuffer-display-summary nil)
  '(ibuffer-formats
