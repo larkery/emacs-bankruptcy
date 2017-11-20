@@ -50,7 +50,7 @@
  '(org-level-8 ((t (:height 1.1 :weight bold))))
  '(org-level-9 ((t (:height 1.1 :weight bold))))
 
- '(not-interesting ((t (:slant italic))))
+ '(not-interesting ((((background dark)) (:foreground "grey60"))))
 
  '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
@@ -67,7 +67,7 @@
 
  '(message-cited-text ((t (:inherit nil))))
  '(notmuch-wash-cited-text ((t (:inherit nil))))
- '(notmuch-search-flagged-face ((((background dark)) (:foreground "palegreen"))))
+ '(notmuch-search-flagged-face ((((background dark)) (:foreground "yellow"))))
  '(notmuch-search-unread-face ((((background dark)) (:foreground "white" :weight bold))))
 
  '(org-agenda-date ((t (:underline "grey50" :foreground "white" :background "grey30"))))
