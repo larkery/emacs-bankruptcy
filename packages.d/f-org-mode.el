@@ -335,13 +335,13 @@ END:VALARM\n"
     (("w" "Work agenda / todo"
       ((agenda ""
                ((org-agenda-tag-filter-preset
-                 (quote
-                  ("-habit")))))
-       (alltodo ""
-                ((org-agenda-category-filter-preset
-                  (quote
-                   ("-personal" "-reviews"))))))
-      nil))))
+                 (quote nil))
+                (org-agenda-span
+                 (quote week))))
+       (alltodo "" nil))
+      ((org-agenda-tag-filter-preset
+        (quote
+         ("-habit" "-personal"))))))))
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
