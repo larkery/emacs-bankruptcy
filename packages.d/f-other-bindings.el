@@ -1,8 +1,14 @@
+(unbind-key "C-x -")
+
 (bind-keys
  ("C-x C-b" . ibuffer)
  ("C-x k" . kill-this-buffer)
  ("C-x C-a" . edit-as-root)
- ("C-x d" . dired-ffap))
+ ("C-x d" . dired-ffap)
+ ("C-x - -" . shrink-window-if-larger-than-buffer)
+ ("C-x - =" . balance-windows)
+ ("C-x - +" . maximize-window)
+ )
 
 (bind-keys
  ("C-c t t" . align-whitespace)

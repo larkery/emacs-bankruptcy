@@ -52,7 +52,7 @@
                            (tramp-file-name-user parts)
                            (when (> (length (tramp-file-name-user parts)) 0) "@")
                            (car (split-string (tramp-file-name-host parts) "\\.")))
-                          '(:background "darkred"))))
+                          font-lock-warning-face)))
           (concat
            hostpart
            ":"
@@ -83,8 +83,8 @@
      'ivy-virtual)))
 
 (setq ivy-switch-buffer-faces-alist '(((dired-mode) . ivy-subdir)
-                                      ((prog-mode ess-mode) . (:foreground "green"))
-                                      ((org-mode) . (:foreground "gold"))))
+                                      ((prog-mode ess-mode) . font-lock-keyword-face)
+                                      ((org-mode) . font-lock-function-name-face)))
 
 (defvar ivy--fancy-buffer-columns
   `((ivy--fancy-buffer-name "%-40.45s")

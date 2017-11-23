@@ -67,6 +67,11 @@
       ;;                 (face-attribute 'default :foreground)
       ;;                 (face-attribute 'default :background)))
 
+      (let ((weight (face-attribute 'default :weight)))
+        (when weight
+          (insert (format "URxvt.font: xft:Monospace:size=12:weight=%s\n" weight))
+          (insert (format "URxvt.boldFont: xft:Monospace:size=12:weight=bold"))))
+
       (goto-char (point-min))
       (unless (search-forward "unspecified" nil t)
         (call-process-region
@@ -83,7 +88,7 @@
 (req-package hc-zenburn-theme
   :config
   (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
-  (load-theme 'hc-zenburn t)
+  (load-theme 'tango t)
   (load-theme 'tweaks t)
   (add-hook 'window-configuration-change-hook 'theme->xresources)
   (add-hook 'after-load-theme-hook 'theme->xresources))

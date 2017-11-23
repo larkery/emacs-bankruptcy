@@ -6,6 +6,10 @@
 (custom-theme-set-faces
  'tweaks
 
+ '(default ((((background light)) (:weight light
+                                           ;; not sure about that one:
+                                           :background "grey93"))))
+
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
 
@@ -15,8 +19,10 @@
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
- '(mode-line ((t (:foreground "white"))))
- '(mode-line-inactive ((t (:foreground "grey50"))))
+ '(mode-line ((t (:box nil))
+              (((background dark)) (:foreground "white"))))
+ '(mode-line-inactive ((t (:box nil))
+                       (((background dark)) (:box nil :foreground "grey50"))))
 
  '(cfw:face-toolbar-button-off ((t (:weight normal :foreground nil))))
  '(cfw:face-toolbar-button-on ((t (:weight normal :foreground nil))))
@@ -69,11 +75,12 @@
  '(notmuch-wash-cited-text ((t (:inherit nil))))
  '(notmuch-search-flagged-face ((((background dark)) (:foreground "yellow"))))
  '(notmuch-search-unread-face ((((background dark)) (:foreground "white" :weight bold))))
+ '(notmuch-standard-tag-face ((((background light)) (:foreground "tan4"))))
 
- '(org-agenda-date ((t (:underline "grey50" :foreground "white" :background "grey30"))))
- '(org-agenda-date-2 ((t (:inherit org-agenda-date :background "grey25"))))
- '(org-agenda-date-today ((t (:slant normal :weight bold :foreground "darkorange"))))
- '(org-agenda-date-weekend ((t (:foreground "cyan"))))
+ '(org-agenda-date ((t (:weight bold :height 1.1))))
+ '(org-agenda-date-2 ((t (:inherit org-agenda-date))))
+ '(org-agenda-date-today ((t (:height 1.1))))
+ '(org-agenda-date-weekend ((t (:foreground "darkcyan"))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )
