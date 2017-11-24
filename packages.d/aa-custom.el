@@ -67,6 +67,7 @@
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(hl-paren-colors (quote ("magenta1" "cyan3" "orange3" "green3")))
+ '(hl-paren-attributes '((:weight bold) (:weight bold) (:weight bold)))
  '(hl-sexp-background-color "#060404")
  '(ibuffer-display-summary nil)
  '(ibuffer-formats
@@ -133,7 +134,18 @@
  '(powerline-color1 "#222232")
  '(powerline-color2 "#333343")
  '(recenter-positions (quote (middle top bottom)))
- '(safe-local-variable-values (quote ((eval org-insert-datetree-entry))))
+ '(safe-local-variable-values
+   (quote
+    ((eval add-hook
+           (quote after-save-hook)
+           (lambda nil
+             (shell-command "xrdb ~/.Xresources")))
+     (eval add-hook
+           (quote after-save-hook)
+           (lambda
+             (& rest)
+             (shell-command "xrdb ~/.Xresources")))
+     (eval org-insert-datetree-entry))))
  '(savehist-additional-variables
    (quote
     (dired-remembered-state kill-ring org-timesheets-history)))

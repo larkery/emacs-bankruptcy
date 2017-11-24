@@ -10,10 +10,10 @@
   (with-eval-after-load 'bbdb
     (require 'bbdb-ext)))
 
-(req-package bbdb-handy :defer t
-  :init
-  (with-eval-after-load 'bbdb
-    (require 'bbdb-handy)))
+;; (req-package bbdb-handy :defer t
+;;   :init
+;;   (with-eval-after-load 'bbdb
+;;     (require 'bbdb-handy)))
 
 (req-package bbdb
   :commands bbdb

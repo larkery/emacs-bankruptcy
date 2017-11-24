@@ -24,6 +24,8 @@
  '(mode-line-inactive ((t (:box nil))
                        (((background dark)) (:box nil :foreground "grey50"))))
 
+ '(mode-line-buffer-id ((((background light)) (:foreground "black"))))
+
  '(cfw:face-toolbar-button-off ((t (:weight normal :foreground nil))))
  '(cfw:face-toolbar-button-on ((t (:weight normal :foreground nil))))
  '(cfw:face-toolbar ((t (:foreground nil :background nil))))
