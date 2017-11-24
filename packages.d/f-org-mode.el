@@ -10,7 +10,9 @@
          ("C-c c" . org-capture)
          ("C-c j" . org-log-goto)
          ("<f11>" . org-log-goto)
-         ("<f6>" . org-timesheets-hydra/body))
+         ("<f6>" . org-timesheets-hydra/body)
+         ("<f5>" . org-relevant-agenda)
+         )
   :init
 
   (defhydra org-timesheets-hydra (:exit t)
@@ -55,6 +57,10 @@
   (defun tidy-clock (s)
     (string-match (rx " [" (group (* any)) "] (" (group (* any)) ")") s)
     (format "[%s %s]" (match-string 2 s) (match-string 1 s)))
+
+  (defun org-relevant-agenda (&optional p)
+    (interactive "P")
+    (org-agenda p (if (at-work-p) "w" "h")))
 
   (defun org-agenda-upd-notify (&rest _) (org-agenda-notify))
   (advice-add 'org-time-stamp :after 'org-agenda-upd-notify)
@@ -334,14 +340,21 @@ END:VALARM\n"
    (quote
     (("w" "Work agenda / todo"
       ((agenda ""
-               ((org-agenda-tag-filter-preset
-                 (quote nil))
-                (org-agenda-span
+               ((org-agenda-span
                  (quote week))))
        (alltodo "" nil))
       ((org-agenda-tag-filter-preset
         (quote
-         ("-habit" "-personal"))))))))
+         ("-habit" "-personal")))))
+     ("h" "Home agenda/todo"
+      ((agenda ""
+               ((org-agenda-span
+                 (quote week))))
+       (alltodo "" nil))
+      ((org-agenda-tag-filter-preset
+        (quote
+         ("-work"))))
+      nil))))
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
@@ -351,7 +364,7 @@ END:VALARM\n"
  '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-remove-tags (quote prefix))
  '(org-agenda-restore-windows-after-quit t)
- '(org-agenda-span (quote fortnight))
+ '(org-agenda-span (quote day))
  '(org-agenda-tags-column -80)
  '(org-agenda-window-setup (quote reorganize-frame))
  '(org-archive-default-command (quote org-archive-set-tag))

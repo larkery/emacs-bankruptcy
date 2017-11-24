@@ -8,7 +8,9 @@
 
  '(default ((((background light)) (:weight light
                                            ;; not sure about that one:
-                                           :background "grey93"))))
+                                           ;; :background
+                                           ;; "grey93"
+                                           ))))
 
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
@@ -24,7 +26,7 @@
  '(mode-line-inactive ((t (:box nil))
                        (((background dark)) (:box nil :foreground "grey50"))))
 
- '(mode-line-buffer-id ((((background light)) (:foreground "black"))))
+ '(show-paren-match ((t (:weight bold))))
 
  '(cfw:face-toolbar-button-off ((t (:weight normal :foreground nil))))
  '(cfw:face-toolbar-button-on ((t (:weight normal :foreground nil))))
@@ -63,11 +65,7 @@
  '(font-lock-comment-delimiter-face ((t (:weight bold))))
 
  '(highlight ((((background dark)) (:background "royalblue4"))
-              (((background light)) (;; :inverse-video
-
-
-                                     ;; t
-                                     ))))
+              ))
 
  '(region ((((background dark)) (:background "DarkSlateGray"))
            (((background light)) (:background "khaki"))
