@@ -67,7 +67,7 @@
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
  '(hl-paren-attributes (quote ((:weight bold) (:weight bold) (:weight bold))))
- '(hl-paren-colors (quote ("magenta1" "cyan3" "orange3" "green3")))
+ '(hl-paren-colors (quote ("cyan3" "orange3" "green3")))
  '(hl-sexp-background-color "#060404")
  '(ibuffer-display-summary nil)
  '(ibuffer-formats

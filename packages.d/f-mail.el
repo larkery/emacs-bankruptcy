@@ -616,10 +616,7 @@ colours from highlight symbol"
  '(notmuch-show-indent-messages-width 2)
  '(notmuch-tag-formats
    (quote
-    (("unread"
-      (propertize "!"
-                  (quote face)
-                  (quote notmuch-tag-unread)))
+    (("unread")
      ("flagged" "⚑"
       (propertize tag
                   (quote face)
@@ -690,7 +687,6 @@ colours from highlight symbol"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(message-cited-text ((t (:inherit font-lock-comment-face))))
- '(notmuch-message-summary-face ((t (:inherit mode-line))))
  '(notmuch-tag-added ((t (:foreground "green" :weight bold))))
  '(notmuch-tag-deleted ((t (:foreground "red" :weight bold))))
  '(notmuch-tag-face ((((background dark)) (:foreground "gold")))))

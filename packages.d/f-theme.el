@@ -4,7 +4,7 @@
     (unless (eq colr 'unspecified)
       (let* ((rgb (color-name-to-rgb colr))
              (hsl (apply 'color-rgb-to-hsl rgb))
-             (hsl2 (list (nth 0 hsl) (min 1.0 (+ 0.3 (nth 1 hsl))) (min 1.0 (+ 0.1 (nth 2 hsl)))))
+             (hsl2 (list (+ 0.05 (nth 0 hsl)) (min 1.0 (+ 0 (nth 1 hsl))) (min 1.0 (+ 0 (nth 2 hsl)))))
              (rgb2 (apply 'color-hsl-to-rgb hsl2))
              (result (apply 'color-rgb-to-hex rgb2)))
         ;; (message "%s %s %s : %s -> %s" colr face attr rgb result)

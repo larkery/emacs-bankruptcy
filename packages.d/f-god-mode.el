@@ -21,7 +21,8 @@
     (if god-local-mode
         (push (face-remap-add-relative
                'mode-line
-               :background "orangered4" :foreground "white" :overline nil)
+               :background "darkorange4"
+               )
               god-cursor-face-remapping)
 
       (progn (dolist (mapping god-cursor-face-remapping)
@@ -31,8 +32,6 @@
 
   (add-hook 'god-mode-enabled-hook #'god-cursor)
   (add-hook 'god-mode-disabled-hook #'god-cursor))
-
-
 
 
 (custom-set-variables

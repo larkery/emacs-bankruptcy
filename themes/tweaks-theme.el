@@ -3,6 +3,9 @@
 
 (defface not-interesting nil "A face for things which just aren't that interesting")
 
+(defface mode-line-read-only nil "Read only buffer name")
+(defface mode-line-modified nil "Modified buffer name")
+
 (custom-theme-set-faces
  'tweaks
 
@@ -16,15 +19,18 @@
  '(ido-only-match ((t (:inverse-video t))))
 
  '(org-tag ((t (:inherit shadow))))
- '(org-todo ((t (:inverse-video t))))
- '(org-done ((t (:inverse-video t))))
+ '(org-todo ((t (:inverse-video nil :weight normal :inherit highlight))))
+ '(org-done ((t (:inverse-video nil :weight normal :inherit shadow))))
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
- '(mode-line ((t (:box nil))
-              (((background dark)) (:foreground "white"))))
- '(mode-line-inactive ((t (:box nil))
-                       (((background dark)) (:box nil :foreground "grey50"))))
+ '(mode-line ((t (:background "darkcyan" :box nil :foreground "white"))))
+ '(compilation-mode-line-run ((t (:foreground "cyan"))))
+ '(compilation-mode-line-exit ((t (:foreground "chartreuse"))))
+ '(compilation-mode-line-error ((t (:foreground "pink"))))
+ '(mode-line-inactive ((t (:background "grey40" :box nil :foreground "grey90"))))
+ '(mode-line-read-only ((t (:foreground "pink"))))
+ '(mode-line-modified ((t (:underline "orange"))))
 
  '(show-paren-match ((t (:weight bold))))
 
@@ -76,6 +82,8 @@
  '(notmuch-search-flagged-face ((((background dark)) (:foreground "yellow"))))
  '(notmuch-search-unread-face ((((background dark)) (:foreground "white" :weight bold))))
  '(notmuch-standard-tag-face ((((background light)) (:foreground "tan4"))))
+ '(notmuch-message-summary-face ((((background light)) (:background "grey90" :foreground "black"))))
+
 
  '(org-agenda-date ((t (:weight bold :height 1.1))))
  '(org-agenda-date-2 ((t (:inherit org-agenda-date))))

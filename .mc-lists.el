@@ -24,6 +24,7 @@
         h/kill-sexp-appropriately
         h/slurp-appropriately
         haskell-indentation-common-electric-command
+        indent-for-tab-command
         ivy-done
         iy-go-to-char--command
         jump-char-process-char
@@ -39,6 +40,7 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        mark-sexp
         math-eval-line
         message-beginning-of-line
         multiple-cursors-mode
@@ -67,6 +69,7 @@
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp
+        sp-slurp-hybrid-sexp
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char

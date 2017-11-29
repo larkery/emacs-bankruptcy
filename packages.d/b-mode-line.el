@@ -11,8 +11,8 @@
                       (remove-if-not
                        #'identity
                        (list
-                        (when buffer-read-only    'error)
-                        (when (buffer-modified-p) 'underline)
+                        (when buffer-read-only    'mode-line-read-only)
+                        (when (buffer-modified-p) 'mode-line-modified)
                         'mode-line-buffer-id))))
 
    (:eval (if (and (buffer-file-name) (file-remote-p (buffer-file-name)))
