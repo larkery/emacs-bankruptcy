@@ -364,7 +364,7 @@ END:VALARM\n"
  '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-remove-tags (quote prefix))
  '(org-agenda-restore-windows-after-quit t)
- '(org-agenda-span (quote day))
+ '(org-agenda-span (quote week))
  '(org-agenda-tags-column -80)
  '(org-agenda-window-setup (quote reorganize-frame))
  '(org-archive-default-command (quote org-archive-set-tag))

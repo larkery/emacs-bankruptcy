@@ -87,8 +87,8 @@
 
  '(org-agenda-date ((t (:weight bold :height 1.1))))
  '(org-agenda-date-2 ((t (:inherit org-agenda-date))))
- '(org-agenda-date-today ((t (:height 1.1))))
- '(org-agenda-date-weekend ((t (:foreground "darkcyan"))))
+ '(org-agenda-date-today ((t (:inherit mode-line))))
+ '(org-agenda-date-weekend ((t (:slant italic))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )
