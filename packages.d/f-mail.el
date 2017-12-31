@@ -489,6 +489,10 @@ Subject: " my-reply-subject "
   ;; could do the sync between save & insert, but then the filename
   ;; would be wrong.
 
+  (defvar message-quote-colors
+    '("darkslategrey" "DeepSkyBlue4")
+    )
+
   (defun message-font-lock-fancy-quoting ()
     "Use font-lock to make quotes fancier.
 
@@ -514,8 +518,8 @@ colours from highlight symbol"
              (list :foreground
                    (nth (mod (loop for x across (match-string 1)
                                    count (= ?> x))
-                             (length highlight-symbol-colors))
-                        highlight-symbol-colors))
+                             (length message-quote-colors))
+                        message-quote-colors))
              )))))
 
   (add-hook 'notmuch-show-mode-hook #'message-font-lock-fancy-quoting)

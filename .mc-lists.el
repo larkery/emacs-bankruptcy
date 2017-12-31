@@ -46,6 +46,7 @@
         multiple-cursors-mode
         mwim-end-of-code-or-line
         my-just-one-space
+        my-rotate-wrappers
         my-wrap-paren
         my-wrap-with-\(
         org-backward-sentence

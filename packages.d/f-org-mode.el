@@ -302,6 +302,7 @@ END:VALARM\n"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(calendar-date-style (quote european))
+ '(calendar-week-start-day 1)
  '(holiday-christian-holidays
    (quote
     ((if calendar-christian-all-holidays-flag
@@ -358,12 +359,18 @@ END:VALARM\n"
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
-    ("~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
+    ("~/notes/journal/2017" "~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-include-diary nil)
  '(org-agenda-prefix-format "%-12:c %t %s")
  '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-remove-tags (quote prefix))
  '(org-agenda-restore-windows-after-quit t)
+ '(org-agenda-sorting-strategy
+   (quote
+    ((agenda habit-down time-up priority-down category-keep)
+     (todo priority-down deadline-up)
+     (tags priority-down category-keep)
+     (search category-keep))))
  '(org-agenda-span (quote week))
  '(org-agenda-tags-column -80)
  '(org-agenda-window-setup (quote reorganize-frame))
@@ -397,15 +404,18 @@ Source: %u, %c
  '(org-clock-report-include-clocking-task t)
  '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/notes/contacts.org")))
+ '(org-default-priority 68)
  '(org-ellipsis "…")
  '(org-export-with-smart-quotes t)
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
  '(org-log-done (quote time))
+ '(org-lowest-priority 68)
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-protocol org-rmail org-w3m)))
  '(org-outline-path-complete-in-steps nil)
+ '(org-priority-start-cycle-with-default t)
  '(org-refile-allow-creating-parent-nodes t)
  '(org-refile-targets
    (quote

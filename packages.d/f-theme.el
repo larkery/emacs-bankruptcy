@@ -88,7 +88,7 @@
 ;(req-package hc-zenburn-theme
 ;  :config
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
-(load-theme 'tango t)
+(load-theme 'leuven t)
 (load-theme 'tweaks t)
 (add-hook 'window-configuration-change-hook 'theme->xresources)
 (add-hook 'after-load-theme-hook 'theme->xresources)

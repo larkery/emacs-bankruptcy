@@ -23,13 +23,14 @@
 (require 'paren)
 (show-paren-mode 1)
 (setq show-paren-delay 0
-      show-paren-style 'parenthesis
+      show-paren-style t
       show-paren-priority 100000)
 
 (req-package paren-face :commands paren-face-mode)
 (add-hook 'lisp-modes-hook 'paren-face-mode)
 
 (req-package smartparens
+  :require flash-region
   :diminish " p"
   :commands smartparens-mode show-smartparens-mode
   :init
@@ -90,4 +91,17 @@
 
    ("C-M-;" . my-comment-sexp)
    )
-  )
+
+  (defun pulse-preceding-expression ()
+    (interactive)
+    (save-excursion
+      (sp-backward-sexp)
+      (let ((bounds (bounds-of-thing-at-point 'sexp)))
+            (flash-region (car bounds) (cdr bounds)))
+      (unless (pos-visible-in-window-p)
+        (let ((line (thing-at-point 'line)))
+          (message "%s" (substring line 0 (- (length line) 1)))))))
+
+  (advice-add 'move-past-close-and-reindent
+              :after
+              'pulse-preceding-expression))

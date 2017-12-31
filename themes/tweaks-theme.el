@@ -11,9 +11,10 @@
 
  '(default ((((background light)) (:weight light
                                            ;; not sure about that one:
-                                           ;; :background
-                                           ;; "grey93"
+                                           ;; :background "#ffefdb"
                                            ))))
+
+ '(variable-pitch ((t (:weight normal))))
 
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
@@ -24,7 +25,7 @@
  '(org-ellipsis ((t (:inherit shadow :underline nil :foreground nil :height 0.8))))
  '(org-mode-line-clock ((t (:background nil))))
 
- '(mode-line ((t (:background "darkcyan" :box nil :foreground "white"))))
+ '(mode-line ((t (:background "#006699" :box nil :foreground "white"))))
  '(compilation-mode-line-run ((t (:foreground "cyan"))))
  '(compilation-mode-line-exit ((t (:foreground "chartreuse"))))
  '(compilation-mode-line-error ((t (:foreground "pink"))))
@@ -32,7 +33,7 @@
  '(mode-line-read-only ((t (:foreground "pink"))))
  '(mode-line-modified ((t (:underline "orange"))))
 
- '(show-paren-match ((t (:weight bold))))
+ '(show-paren-match ((t (:weight bold :foreground "black"))))
 
  '(cfw:face-toolbar-button-off ((t (:weight normal :foreground nil))))
  '(cfw:face-toolbar-button-on ((t (:weight normal :foreground nil))))
@@ -78,6 +79,14 @@
            ))
 
  '(message-cited-text ((t (:inherit nil))))
+
+ '(message-header-name ((t (:family "Monospace"))))
+ '(message-header-subject ((t (:family "Monospace"))))
+ '(message-header-to ((t (:family "Monospace"))))
+ '(message-header-cc ((t (:family "Monospace"))))
+ '(message-header-other ((t (:family "Monospace"))))
+ '(message-header-xheader ((t (:family "Monospace"))))
+
  '(notmuch-wash-cited-text ((t (:inherit nil))))
  '(notmuch-search-flagged-face ((((background dark)) (:foreground "yellow"))))
  '(notmuch-search-unread-face ((((background dark)) (:foreground "white" :weight bold))))
@@ -86,9 +95,9 @@
 
 
  '(org-agenda-date ((t (:weight bold :height 1.1))))
- '(org-agenda-date-2 ((t (:inherit org-agenda-date))))
- '(org-agenda-date-today ((t (:inherit mode-line))))
- '(org-agenda-date-weekend ((t (:slant italic))))
+ '(org-agenda-date-2 ((t (:inherit org-agenda-date :height 1.1))))
+ '(org-agenda-date-today ((t (:inherit highlight :height 1.1))))
+ '(org-agenda-date-weekend ((t (:slant italic :height 1.1))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )
