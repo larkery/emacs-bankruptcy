@@ -184,22 +184,22 @@ END:VALARM\n"
             (lambda ()
               (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
-
-
   (defun org-goto-path (path &optional ff-command)
-    (let ((ff-command (or ff-command #'find-file)))
-      (cl-loop for part in path
-               for ix from 0
-               do (if (zerop ix)
-                      (progn (funcall ff-command part)
-                             (widen)
-                             (goto-char (point-min)))
-                    (setq part (format "%s %s" (make-string ix ?*) part))
-                    (unless (search-forward-regexp (rx-to-string `(seq bol ,part)) nil t)
-                      (goto-char (point-max))
-                      (insert part "\n"))
-                    (org-narrow-to-element)))))
-
+    (let ((ff-command (or ff-command #'find-file))
+          (start (car path))
+          (path (cdr path)))
+      (funcall ff-command start)
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (cl-loop for part in path
+               for ix from 1
+               do
+               (setq part (format "%s %s" (make-string ix ?*) part))
+               (unless (search-forward-regexp (rx-to-string `(seq bol ,part)) nil t)
+                 (goto-char (point-max))
+                 (insert "\n" part))
+               (org-narrow-to-element)))))
   )
 
 

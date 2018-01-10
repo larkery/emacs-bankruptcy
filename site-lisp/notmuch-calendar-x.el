@@ -258,16 +258,16 @@
         (org-goto-path path)
         ;; insert a heading for this event
         ;; add the ID to the database
-        (insert stars " " summary "\n")
+        (insert "\n" stars " " summary "\n")
         (insert (notmuch-calendar-ical->org-timestring calendar-event) "\n")
         (when uid
           (org-set-property "ID" uid)
           (org-id-add-location uid (buffer-file-name)))
         (when seq (org-set-property "SEQUENCE" seq))
         (when location (org-set-property "LOCATION" location))
-        ;; (when organizer (org-set-property "ORGANIZER" ))
-        ;; TODO add attendees
-        (widen)
+        (when organizer (org-set-property "ORGANIZER" (format "[[%s]]" organizer)))
+        (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
+               (mapcar #'notmuch-calendar-email-link attendees))
         ))))
 
 ;; TODO handle calendar REPLY method
