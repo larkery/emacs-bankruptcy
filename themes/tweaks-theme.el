@@ -9,12 +9,8 @@
 (custom-theme-set-faces
  'tweaks
 
- '(default ((((background light)) (:weight light
-                                           ;; not sure about that one:
-                                           ;; :background "#ffefdb"
+ '(default ((((background light)) (:weight light  ;;:background "#fff6eb"
                                            ))))
-
- '(variable-pitch ((t (:weight normal))))
 
  '(ido-first-match ((t (:inverse-video t))))
  '(ido-only-match ((t (:inverse-video t))))
@@ -29,6 +25,9 @@
  '(compilation-mode-line-run ((t (:foreground "cyan"))))
  '(compilation-mode-line-exit ((t (:foreground "chartreuse"))))
  '(compilation-mode-line-error ((t (:foreground "pink"))))
+ '(cursor ((t (:background "#006699"))))
+
+ '(mode-line-buffer-id ((t (:foreground "white"))))
  '(mode-line-inactive ((t (:background "grey40" :box nil :foreground "grey90"))))
  '(mode-line-read-only ((t (:foreground "pink"))))
  '(mode-line-modified ((t (:underline "orange"))))
@@ -57,15 +56,15 @@
  '(outline-8 ((t (:height 1.1 :weight bold))))
  '(outline-9 ((t (:height 1.1 :weight bold))))
 
- '(org-level-1 ((t (:height 1.1 :weight bold))))
- '(org-level-2 ((t (:height 1.1 :weight bold))))
- '(org-level-3 ((t (:height 1.1 :weight bold))))
- '(org-level-4 ((t (:height 1.1 :weight bold))))
- '(org-level-5 ((t (:height 1.1 :weight bold))))
- '(org-level-6 ((t (:height 1.1 :weight bold))))
- '(org-level-7 ((t (:height 1.1 :weight bold))))
- '(org-level-8 ((t (:height 1.1 :weight bold))))
- '(org-level-9 ((t (:height 1.1 :weight bold))))
+ '(org-level-1 ((t (:height 1.1 :weight bold :background "white"))))
+ '(org-level-2 ((t (:inherit org-level-1))))
+ '(org-level-3 ((t (:inherit org-level-1))))
+ '(org-level-4 ((t (:inherit org-level-1))))
+ '(org-level-5 ((t (:inherit org-level-1))))
+ '(org-level-6 ((t (:inherit org-level-1))))
+ '(org-level-7 ((t (:inherit org-level-1))))
+ '(org-level-8 ((t (:inherit org-level-1))))
+ '(org-level-9 ((t (:inherit org-level-1))))
 
  '(not-interesting ((((background dark)) (:foreground "grey60"))))
 
@@ -80,11 +79,11 @@
 
  '(message-cited-text ((t (:inherit nil))))
 
- '(message-header-name ((t (:family "Monospace"))))
+ '(message-header-name    ((t (:weight bold :family "Monospace"))))
  '(message-header-subject ((t (:family "Monospace"))))
- '(message-header-to ((t (:family "Monospace"))))
- '(message-header-cc ((t (:family "Monospace"))))
- '(message-header-other ((t (:family "Monospace"))))
+ '(message-header-to      ((t (:family "Monospace"))))
+ '(message-header-cc      ((t (:family "Monospace"))))
+ '(message-header-other   ((t (:family "Monospace"))))
  '(message-header-xheader ((t (:family "Monospace"))))
 
  '(notmuch-wash-cited-text ((t (:inherit nil))))
@@ -95,9 +94,9 @@
 
 
  '(org-agenda-date ((t (:weight bold :height 1.1))))
- '(org-agenda-date-2 ((t (:inherit org-agenda-date :height 1.1))))
- '(org-agenda-date-today ((t (:inherit highlight :height 1.1))))
- '(org-agenda-date-weekend ((t (:slant italic :height 1.1))))
+ '(org-agenda-date-2 ((t (:inherit org-agenda-date))))
+ '(org-agenda-date-today ((t (:inherit highlight))))
+ '(org-agenda-date-weekend ((t (:slant italic))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )

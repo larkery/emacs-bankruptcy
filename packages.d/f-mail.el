@@ -8,7 +8,6 @@
 ;; WAT?
 (provide 'notmuch-fcc-initialization)
 
-
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
@@ -151,51 +150,6 @@ This will be the link nearest the end of the message which either contains or fo
        (t
         (notmuch-search "path:cse/** AND (tag:inbox OR tag:flagged OR tag:unread)")))))
 
-
-  (defun my-notmuch-retrain-after-tagging (tag-changes &optional beg end)
-    (when (loop for tag in tag-changes
-                if (not
-                    (member (substring tag 1)
-                            '("deleted" "inbox" "sent" "attachment" "unread" "replied"
-                              "sent" "flagged" "meeting" "accepted" "rejected" "tentative"
-                              "low-importance" "normal-importance" "high-importance")))
-                return t)
-
-        (unless (and beg end)
-          (setq beg (car (notmuch-search-interactive-region))
-                end (cadr (notmuch-search-interactive-region))))
-        (let ((search-string (notmuch-search-find-stable-query-region
-                            beg end nil)))
-        (apply #'start-process
-               "classify" "*classify-retrain*"
-               (expand-file-name "~/.mail/.notmuch/hooks/classify")
-               "retrain"
-               search-string
-               "--"
-               tag-changes))))
-
-  (defun notmuch-classify-explain (tag &optional beg end)
-    (interactive "sTag: ")
-    (unless (and beg end)
-          (setq beg (car (notmuch-search-interactive-region))
-                end (cadr (notmuch-search-interactive-region))))
-    (let ((search-string (notmuch-search-find-stable-query-region
-                          beg end nil)))
-      (pop-to-buffer (get-buffer-create "*classify-explain*"))
-      (with-current-buffer (get-buffer-create "*classify-explain*")
-        (erase-buffer))
-      (start-process
-       "*classify-explain*"
-       (get-buffer-create "*classify-explain*")
-       (expand-file-name "~/.mail/.notmuch/hooks/classify")
-       "classify"
-       "--dry-run"
-       "--verbose"
-       "--tag"
-       tag
-       search-string)))
-
-
   ;; (advice-remove #'notmuch-search-tag #'my-notmuch-retrain-after-tagging)
 
   (defun my-notmuch-flip-tags (&rest tags)
@@ -262,14 +216,14 @@ This will be the link nearest the end of the message which either contains or fo
 
         (notmuch-search (mapconcat #'identity terms " ")))))
 
-
   (bind-keys
    :map notmuch-search-mode-map
    ("." . (lambda () (interactive) (my-notmuch-flip-tags "flagged")))
    ("d" . (lambda () (interactive) (my-notmuch-flip-tags "deleted")))
    ("u" . (lambda () (interactive) (my-notmuch-flip-tags "unread")))
-   ("S".  (lambda () (interactive)
-            (notmuch-search-tag '("+spam" "-inbox" "-unread"))))
+   ("S" . (lambda () (interactive) (notmuch-search-tag '("+spam" "-inbox" "-unread"))))
+   (";" . (lambda () (interactive) (my-notmuch-flip-tags "M")))
+   (":" . (lambda () (interactive) (notmuch-search-filter "tag:M")))
    ("'" . my-notmuch-find-related-tags)
    ("@" . my-notmuch-find-related-authors)
    ("g" . notmuch-refresh-this-buffer))
@@ -610,7 +564,8 @@ colours from highlight symbol"
      ("authors" . "%-20s ")
      ("tags-subset" "%-3s " "low-importance" "attachment" "meeting"
       #("unread" 0 6
-        (face notmuch-tag-deleted))
+        (face
+         (notmuch-tag-deleted notmuch-tag-deleted)))
       "high-importance" "replied")
      ("subject" . "%s ")
      ("tags-complement" "%s" "low-importance" "attachment" "meeting" "unread" "high-importance" "replied"))))

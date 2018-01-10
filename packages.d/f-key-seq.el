@@ -5,10 +5,9 @@
   (key-seq-define-global "jk" 'save-buffer)
   (key-seq-define-global "jx" 'split-window-below)
   (key-seq-define-global "jz" 'delete-other-windows)
-  (key-seq-define-global "jc" 'split-window-right)
+
   (key-seq-define-global "jv" 'delete-window)
   (key-seq-define-global "jg" 'magit-status)
-  (key-seq-define-global "jj" 'god-local-mode)
 
   (with-eval-after-load 'god-mode
     (key-seq-define god-local-mode-map  "gg"

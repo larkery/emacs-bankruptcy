@@ -184,58 +184,23 @@ END:VALARM\n"
             (lambda ()
               (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
-  (defun org-refile-with (headline-generator)
-    (let ((inhibit-redisplay t))
-      (save-excursion
-        (save-restriction
-          (org-save-outline-visibility t
-            (outline-show-all)
-            (let* ((headlines (funcall headline-generator))
-                   (last-command nil)
-                   (insert-at (org-find-create-path headlines t)))
-              (org-cut-subtree)
-              (goto-char insert-at)
-              (set-marker insert-at nil)
-              (org-narrow-to-subtree)
-              (org-end-of-subtree t)
-              (goto-char (point-max))
-              (org-paste-subtree (+ 1 (length headlines)))
-              ))))))
 
-  (defun org-refile-year-month ()
-    (interactive)
 
-    (org-refile-with
-     (lambda ()
-       (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
-              (date (org-date-to-gregorian datetree-date)))
-         (list (format "%d" (nth 2 date))
-               (nth (- (car date) 1)
-                    '("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sept" "Oct" "Nov" "Dec")))))))
+  (defun org-goto-path (path &optional ff-command)
+    (let ((ff-command (or ff-command #'find-file)))
+      (cl-loop for part in path
+               for ix from 0
+               do (if (zerop ix)
+                      (progn (funcall ff-command part)
+                             (widen)
+                             (goto-char (point-min)))
+                    (setq part (format "%s %s" (make-string ix ?*) part))
+                    (unless (search-forward-regexp (rx-to-string `(seq bol ,part)) nil t)
+                      (goto-char (point-max))
+                      (insert part "\n"))
+                    (org-narrow-to-element)))))
 
-  (defun org-refile-to-datetree ()
-    "Refile a subtree to a datetree corresponding to it's timestamp."
-    (interactive)
-    (let* ((datetree-date (org-entry-get nil "TIMESTAMP" t))
-           (date (org-date-to-gregorian datetree-date))
-           (inhibit-redisplay t))
-      (when date
-        (save-excursion
-          (save-restriction
-            (org-save-outline-visibility t
-              (save-excursion
-                (outline-show-all)
-                (setq last-command nil) ; prevent kill appending
-                (org-cut-subtree)
-
-                (org-datetree-find-date-create date)
-                (org-narrow-to-subtree)
-                (show-subtree)
-                (org-end-of-subtree t)
-
-                (goto-char (point-max))
-                (org-paste-subtree 4)
-                ))))))))
+  )
 
 
 (req-package org-caldav
@@ -424,8 +389,7 @@ Source: %u, %c
  '(org-refile-use-outline-path (quote file))
  '(org-speed-commands-user
    (quote
-    (("d" . org-refile-to-datetree)
-     ("M" . notmuch-calendar-send-invitation-from-org)
+    (("M" . notmuch-calendar-send-invitation-from-org)
      ("m" . org-email-subtree)
      ("k" . org-cut-subtree)
      ("N" . narrow-dwim))))
