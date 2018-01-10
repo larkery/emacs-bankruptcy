@@ -6,7 +6,7 @@
   :config
 
   (projectile-global-mode t)
-  (counsel-projectile-on)
+  (counsel-projectile-mode)
   (bind-key "C-x M-b" #'projectile-switch-to-buffer)
   (bind-key "C-c d" #'projectile-dired)
   )

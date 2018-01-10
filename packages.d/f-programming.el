@@ -16,6 +16,7 @@
   (add-hook 'my-prog-mode-hook 'highlight-parentheses-mode))
 
 (req-package highlight-symbol
+  :ensure t
   :diminish ""
   :commands highlight-symbol-mode highlight-symbol-nav-mode
   :init
@@ -31,8 +32,8 @@
   :init
   (add-hook 'h-prog-mode-hook #'eldoc-mode)
   :commands eldoc-mode
-  :config
-  (diminish 'eldoc-mode ""))
+  :diminish eldoc-mode
+  )
 
 (req-package anaconda-mode
   :commands anaconda-mode

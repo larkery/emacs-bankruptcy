@@ -26,8 +26,10 @@
       show-paren-style t
       show-paren-priority 100000)
 
-(req-package paren-face :commands paren-face-mode)
-(add-hook 'lisp-modes-hook 'paren-face-mode)
+(req-package paren-face
+  :commands paren-face-mode
+  :config
+  (add-hook 'lisp-modes-hook 'paren-face-mode))
 
 (req-package smartparens
   :require flash-region

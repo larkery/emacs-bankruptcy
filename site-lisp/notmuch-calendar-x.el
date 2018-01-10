@@ -213,7 +213,7 @@
      ((<= existing-sequence sequence)
       (insert "Event is already in calendar\n"))
 
-     ))))
+     )))
 
 (defvar notmuch-calendar-capture-target
   '("~/notes/calendar.org" "%Y" "%Y-%m %B" "%Y-%m-%d %A"))

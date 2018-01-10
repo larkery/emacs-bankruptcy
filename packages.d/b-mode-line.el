@@ -4,6 +4,10 @@
          (reserve (length the-rhs)))
     (list (propertize " " 'display `((space :align-to (- right ,reserve)))) rhs)))
 
+(unless (fboundp 'anzu--update-mode-line)
+  (defun anzu--update-mode-line (&rest _)
+    ""))
+
 (setq-default
  mode-line-format
  `("%5l "

@@ -1,5 +1,4 @@
 (deftheme tweaks "small adjustments to theme")
-(require 'highlight-symbol)
 
 (defface not-interesting nil "A face for things which just aren't that interesting")
 

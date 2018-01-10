@@ -1,6 +1,8 @@
 (initsplit-this-file bos "dired-")
 
 (with-eval-after-load 'dired
+  (require 'dired-x)
+
   (bind-keys
    :map dired-mode-map
    ("V" . magit-status)
@@ -22,6 +24,7 @@
    ("]" . dired-next-subdir)
    ("M-n" . dired-next-subdir)
    ("M-p" . dired-prev-subdir)
+   (")" . dired-omit-mode)
    )
 
   (defvar dired-remembered-state nil)
@@ -144,19 +147,8 @@
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
-(req-package dired-async
-  :defer t
-  :init
-  (add-hook 'dired-load-hook (lambda () (require 'dired-async)
-                               (dired-async-mode 1))))
-
 ;;;; use key ')' to toggle omitted files in dired
-(req-package dired-x
-  :commands dired-omit-mode
-  :init
-  (add-hook 'dired-load-hook (lambda () (require 'dired-x)))
-  (setq dired-omit-verbose nil)
-  (bind-key ")" #'dired-omit-mode dired-mode-map))
+
 
 (req-package dired-narrow
   :commands dired-narrow

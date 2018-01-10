@@ -324,7 +324,7 @@ END:VALARM\n"
  '(org-agenda-diary-file "~/notes/calendar.org")
  '(org-agenda-files
    (quote
-    ("~/notes/journal/2017" "~/notes/journal" "~/notes/work" "~/notes/home" "~/notes")))
+    ("~/notes/journal/2018" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-include-diary nil)
  '(org-agenda-prefix-format "%-12:c %t %s")
  '(org-agenda-property-list (quote ("LOCATION")))
