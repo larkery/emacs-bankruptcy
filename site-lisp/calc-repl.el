@@ -1,3 +1,7 @@
+(require 'calc)
+(require 'calc-math)
+(require 'calc-store)
+
 (defun calc-repl-quick-eval ()
   (interactive)
   (save-excursion
@@ -30,7 +34,7 @@
   (goto-char (point-max))
   (insert "\n> ")
   (local-set-key (kbd "RET") 'calc-repl-quick-eval)
-  )
+  (local-set-key (kbd "C-d") 'delete-window))
 
 (defun calc-repl ()
   (interactive)
