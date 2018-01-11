@@ -94,8 +94,8 @@
 
  '(org-agenda-date ((t (:weight bold :height 1.1))))
  '(org-agenda-date-2 ((t (:inherit org-agenda-date))))
- '(org-agenda-date-today ((t (:inherit highlight))))
- '(org-agenda-date-weekend ((t (:slant italic))))
+ '(org-agenda-date-today ((t (:weight bold :height 1.2 :inherit highlight))))
+ '(org-agenda-date-weekend ((t (:slant italic :inherit org-agenda-date))))
 
  '(pass-mode-directory-face ((t (:inherit dired-directory))))
  )
