@@ -256,6 +256,7 @@
              (seq (icalendar--get-event-property calendar-event 'SEQUENCE))
              )
         (with-current-buffer
+            (require 'org-util)
             (org-goto-path path #'find-file-noselect)
           (display-buffer (current-buffer)
                           '(display-buffer-pop-up-window

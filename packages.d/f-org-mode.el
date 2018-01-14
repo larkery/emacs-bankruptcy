@@ -4,7 +4,7 @@
 
 (req-package org
   :defer t
-  :require org-capture-pop-frame hydra
+  :require org-capture-pop-frame hydra org-log
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
@@ -153,27 +153,8 @@ END:VALARM\n"
             (lambda ()
               (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
-  (defun org-goto-path (path &optional ff-command)
-    "Find / create an org heading. PATH is a list of strings.
-First string is a filename, subsequent strings are heading names, each being
-a subheading of the last. Return the buffer, which will be positioned at the heading."
-    (let ((ff-command (or ff-command #'find-file))
-          (start (car path))
-          (path (cdr path)))
-      (with-current-buffer
-          (funcall ff-command start)
-        (save-restriction
-          (widen)
-          (goto-char (point-min))
-          (cl-loop for part in path
-                   for ix from 1
-                   do
-                   (setq part (format "%s %s" (make-string ix ?*) part))
-                   (unless (search-forward-regexp (rx-to-string `(seq bol ,part)) nil t)
-                     (goto-char (point-max))
-                     (insert "\n" part))
-                   (org-narrow-to-element)))
-        (current-buffer)))))
+
+  )
 
 
 (req-package org-caldav
