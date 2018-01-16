@@ -132,6 +132,7 @@
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")
  '(powerline-color2 "#333343")
+ '(rcirc-default-nick "TomHinton")
  '(recenter-positions (quote (middle top bottom)))
  '(rmh-elfeed-org-files (quote ("~/notes/home/feeds.org")))
  '(safe-local-variable-values

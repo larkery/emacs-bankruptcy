@@ -4,27 +4,13 @@
 
 (req-package org
   :defer t
-  :require org-capture-pop-frame hydra
+  :require org-capture-pop-frame hydra org-log
   :bind (("C-c a" . org-agenda)
          ("C-c l" . org-store-link)
          ("C-c c" . org-capture)
          ("C-c j" . org-log-goto)
-         ("<f11>" . org-log-goto)
-         ("<f6>" . org-timesheets-hydra/body)
-         ("<f5>" . org-relevant-agenda)
          )
   :init
-
-  (defhydra org-timesheets-hydra (:exit t)
-    "Timesheets, logging"
-    ("i" org-timesheets-switch-task "switch")
-    ("I" org-timesheets-switch-task-earlier "switch (past)")
-    ("o" org-timesheets-clock-out "stop")
-    ("l" org-log-goto "jnl")
-    ("O" org-timesheets-clock-out-earlier "stop (past)")
-    ("j" org-clock-goto "goto")
-    ("d" org-timesheets-report-today "day")
-    ("w" org-timesheets-report-this-week "week"))
 
   :config
 
@@ -37,7 +23,6 @@
   ;; (require 'org-capture-pop-frame)
   (require 'org-agenda-notify)
   (require 'org-log)
-  (require 'org-timesheets)
 
   (org-clock-persistence-insinuate)
 
@@ -53,6 +38,15 @@
        (if s (format "S%d" (org-time-stamp-to-now s)) "")
        (if d (format "D%d" (org-time-stamp-to-now d)) ""))
       ))
+
+  (defun org-entry-location ()
+    (let ((loc (org-entry-get (point) "LOCATION")))
+      (if (and loc (> (length loc) 0))
+          (format "{%s} " (replace-regexp-in-string
+                           "[Mm]eeting [Rr]oom"
+                           "MR"
+                           loc))
+        "")))
 
   (defun tidy-clock (s)
     (string-match (rx " [" (group (* any)) "] (" (group (* any)) ")") s)
@@ -113,31 +107,6 @@
 
 
   (setq org-agenda-day-face-function 'org-day-colour)
-  (defface empty '((t (:background nil :foreground nil))) "No face")
-  (defun org-colourise-entire-days ()
-    (interactive)
-    ;; collect start of each day
-    ;; iterate over ranges and colour in
-    (let* ((markers (gnus-find-text-property-region (point-min) (point-max) 'day))
-           (inhibit-read-only t))
-
-      (loop for range in (cdr markers)
-            do
-
-            (let* ((face (get-text-property (car range) 'face))
-                   (bg (if (symbolp face)
-                           (face-background face nil t)
-                         (face-background 'empty nil (plist-get face :inherit))
-                           ))
-                   )
-
-              (add-face-text-property (car range) (1+ (cadr range))
-                                      `(:background ,bg)))
-
-            (set-marker (car range) nil)
-            (set-marker (cadr range) nil))))
-
-;;  (add-hook 'org-agenda-finalize-hook 'org-colourise-entire-days)
 
   (defun my-time-to-minutes (str)
     (require 'calc)
@@ -184,22 +153,7 @@ END:VALARM\n"
             (lambda ()
               (bind-key "Y" 'org-agenda-toggle-empty org-agenda-mode-map)))
 
-  (defun org-goto-path (path &optional ff-command)
-    (let ((ff-command (or ff-command #'find-file))
-          (start (car path))
-          (path (cdr path)))
-      (funcall ff-command start)
-      (save-restriction
-        (widen)
-        (goto-char (point-min))
-        (cl-loop for part in path
-               for ix from 1
-               do
-               (setq part (format "%s %s" (make-string ix ?*) part))
-               (unless (search-forward-regexp (rx-to-string `(seq bol ,part)) nil t)
-                 (goto-char (point-max))
-                 (insert "\n" part))
-               (org-narrow-to-element)))))
+
   )
 
 
@@ -326,7 +280,7 @@ END:VALARM\n"
    (quote
     ("~/notes/journal/2018" "~/notes/work" "~/notes/home" "~/notes")))
  '(org-agenda-include-diary nil)
- '(org-agenda-prefix-format "%-12:c %t %s")
+ '(org-agenda-prefix-format "%-12:c %t %s %(org-entry-location)")
  '(org-agenda-property-list (quote ("LOCATION")))
  '(org-agenda-remove-tags (quote prefix))
  '(org-agenda-restore-windows-after-quit t)

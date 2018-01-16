@@ -1,4 +1,4 @@
-(require 'org-misc)
+(require 'org-util)
 
 (defcustom org-log-location
   '("~/notes/journal/%Y/%B.org"
