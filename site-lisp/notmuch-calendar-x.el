@@ -174,8 +174,7 @@
                     (or (icalendar--get-event-property e 'SEQUENCE) "0")))
          (uid (icalendar--get-event-property e 'UID))
 
-         (existing-entry
-          (unless (zerop sequence) (org-id-find uid t)))
+         (existing-entry (org-id-find uid t))
 
          (existing-sequence
           (or (when existing-entry
@@ -189,7 +188,6 @@
          (is-update
           (and existing-entry (> sequence existing-sequence)))
          )
-
     (cond
      ((and is-update (string= method "REPLY"))
       (insert-button "[ Update ]" :type 'notmuch-show-part-button-type
@@ -202,11 +200,11 @@
       (let ((msg (if is-update "change " "")))
         (dolist (response '(accept reject capture))
           (insert-button (format "[ %s %s]" response msg)
-                       :type 'notmuch-show-part-button-type
-                       'action #'notmuch-calendar-handle-request
-                       'response response
-                       'org-event existing-entry
-                       'calendar-event e)
+                         :type 'notmuch-show-part-button-type
+                         'action #'notmuch-calendar-handle-request
+                         'response response
+                         'org-event existing-entry
+                         'calendar-event e)
           (insert " "))
         (insert "\n")))
 
@@ -262,6 +260,7 @@
         (insert (notmuch-calendar-ical->org-timestring calendar-event) "\n")
         (when uid
           (org-set-property "ID" uid)
+          (require 'org-id)
           (org-id-add-location uid (buffer-file-name)))
         (when seq (org-set-property "SEQUENCE" seq))
         (when location (org-set-property "LOCATION" location))

@@ -42,6 +42,7 @@
  '(display-battery-mode nil)
  '(display-time-mail-file (quote none))
  '(editorconfig-exclude-regexps (quote ("\\`\\(?:ftp\\|https?\\|rsync\\|sftp\\|/net\\):")))
+ '(enable-recursive-minibuffers t)
  '(eshell-prompt-function (quote my-eshell-prompt-function))
  '(evil-emacs-state-cursor (quote ("#E57373" hbar)) t)
  '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
@@ -121,13 +122,12 @@
  '(main-line-color2 "#333343")
  '(mark-ring-max 500)
  '(midnight-mode t)
+ '(minibuffer-depth-indicate-mode t)
  '(mml-secure-openpgp-encrypt-to-self t)
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(package-selected-packages
-   (quote
-    (git-timemachine load-dir req-package initsplit el-get)))
+ '(package-selected-packages (quote (circe load-dir req-package initsplit el-get)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")
