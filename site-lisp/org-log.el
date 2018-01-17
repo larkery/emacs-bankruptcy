@@ -12,20 +12,21 @@ The first will find a file, and the rest headings and subheadings and so on.")
   (when (eq major-mode 'calendar-mode)
     (let ((dt (calendar-cursor-to-date)))
       (when dt
-        (setq date (encode-time 0 0 0 (nth 1 dt) (nth 0 dt) (nth 2 dt))
-              ff-command #'find-file-other-window))))
+        (setq date (encode-time 0 0 0 (nth 1 dt) (nth 0 dt) (nth 2 dt))))))
 
-  (org-goto-path (mapcar (lambda (x) (format-time-string x date))
-                         org-log-location))
+  (with-current-buffer
+      (org-goto-path (mapcar (lambda (x) (format-time-string x date))
+                             org-log-location))
 
-  (org-narrow-to-subtree)
-  (let ((here (point))
-        (end (point-max)))
-    (widen)
-    (outline-hide-sublevels 1)
-    (goto-char here)
     (outline-show-subtree)
-    (goto-char end)))
+    (org-narrow-to-subtree)
+    (let ((here (point))
+          (end (point-max)))
+      (widen)
+      (outline-hide-sublevels 1)
+      (goto-char here)
+      (outline-show-subtree)
+      (goto-char end))))
 
 
 (provide 'org-log)
