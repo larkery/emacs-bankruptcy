@@ -2,6 +2,8 @@
 
 (initsplit-this-file bos (| "org-" "holiday-" "calendar-"))
 
+(req-package org-log :ensure nil)
+
 (req-package org
   :defer t
   :require org-capture-pop-frame hydra org-log
