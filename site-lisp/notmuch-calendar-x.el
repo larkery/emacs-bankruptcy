@@ -256,14 +256,15 @@
         (require 'org-util)
         (require 'org-id)
         (with-current-buffer
-            (org-goto-path path #'find-file-noselect)
+            (org-goto-path (reverse (cons summary (reverse path))) #'find-file)
+          (widen)
+
           (display-buffer (current-buffer)
                           '(display-buffer-pop-up-window))
 
+          (insert "\n" (notmuch-calendar-ical->org-timestring calendar-event) "\n")
           ;; insert a heading for this event
           ;; add the ID to the database
-
-          (insert "\n" stars " " summary "\n")
           (when uid
             (org-set-property "ID" uid)
             (org-id-add-location uid (buffer-file-name)))
@@ -273,8 +274,8 @@
           (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
                  (mapcar #'notmuch-calendar-email-link attendees))
 
-          (insert (notmuch-calendar-ical->org-timestring calendar-event) "\n")
-          (outline-hide-other)
+
+;;          (outline-hide-other)
           )))))
 
 ;; TODO handle calendar REPLY method

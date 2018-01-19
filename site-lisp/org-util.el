@@ -16,10 +16,8 @@ a subheading of the last. Return the buffer, which will be positioned at the hea
                    (setq part (format "%s %s" (make-string ix ?*) part))
                    (unless (search-forward-regexp (rx-to-string `(seq bol ,part)) nil t)
                      (goto-char (point-max))
-                     (insert "\n" part))
+                     (insert "\n" part "\n"))
                    (org-narrow-to-element)))
         (current-buffer))))
-
-
 
 (provide 'org-util)
