@@ -29,6 +29,9 @@
   (org-clock-persistence-insinuate)
 
   (add-hook 'org-mode-hook
+            'auto-revert-mode)
+
+  (add-hook 'org-mode-hook
             (lambda ()
               (visual-line-mode 1)
               (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)))

@@ -249,34 +249,38 @@
                            "No summary")))
              (attendees (icalendar--get-event-properties calendar-event 'ATTENDEE))
 
-
              (uid (icalendar--get-event-property calendar-event 'UID))
              (seq (icalendar--get-event-property calendar-event 'SEQUENCE))
              )
         (require 'org-util)
         (require 'org-id)
-        (with-current-buffer
-            (org-goto-path (reverse (cons summary (reverse path))) #'find-file)
-          (widen)
 
-          (display-buffer (current-buffer)
-                          '(display-buffer-pop-up-window))
+        (let ((target-buffer
+               (org-goto-path (reverse (cons summary (reverse path))) #'find-file)))
+          (display-buffer target-buffer '(display-buffer-pop-up-window))
+          (with-current-buffer
+              target-buffer
+            (widen)
 
-          (insert "\n" (notmuch-calendar-ical->org-timestring calendar-event) "\n")
-          ;; insert a heading for this event
-          ;; add the ID to the database
-          (when uid
-            (org-set-property "ID" uid)
-            (org-id-add-location uid (buffer-file-name)))
-          (when seq (org-set-property "SEQUENCE" seq))
-          (when location (org-set-property "LOCATION" location))
-          (when organizer (org-set-property "ORGANIZER" (format "[[%s]]" organizer)))
-          (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
-                 (mapcar #'notmuch-calendar-email-link attendees))
+            (outline-show-all)
+            (when (org-at-heading-p)
+              (end-of-line)
+              (insert "\n"))
+            (insert  (notmuch-calendar-ical->org-timestring calendar-event) "\n")
+            ;; insert a heading for this event
+            ;; add the ID to the database
+            (when uid
+              (org-set-property "ID" uid)
+              (org-id-add-location uid (buffer-file-name)))
+            (when seq (org-set-property "SEQUENCE" seq))
+            (when location (org-set-property "LOCATION" location))
+            (when organizer (org-set-property "ORGANIZER" (format "[[%s]]" organizer)))
+            (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
+                   (mapcar #'notmuch-calendar-email-link attendees))
 
 
-;;          (outline-hide-other)
-          )))))
+            ;;          (outline-hide-other)
+            ))))))
 
 ;; TODO handle calendar REPLY method
 

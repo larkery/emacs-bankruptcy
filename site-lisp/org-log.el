@@ -17,7 +17,6 @@ The first will find a file, and the rest headings and subheadings and so on.")
   (with-current-buffer
       (org-goto-path (mapcar (lambda (x) (format-time-string x date))
                              org-log-location))
-
     (outline-show-subtree)
     (org-narrow-to-subtree)
     (let ((here (point))
