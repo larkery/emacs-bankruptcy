@@ -17,6 +17,9 @@
   :config
   (require 'notmuch-calendar-x)
   (require 'org-notmuch)
+  (require 'ivy-attach-files)
+
+  (bind-key "C-c RET f" #'mml-ivy-attach-files message-mode-map)
 
   (defun notmuch-search-insert-extra-field (o field format-string result)
     (cond ((string-equal field "tags-subset")

@@ -20,14 +20,21 @@
              (format "zip -r - %s > %s &"
                      (shell-quote-argument file)
                      (shell-quote-argument zip-file)))
-            (mml-attach-file zip-file)
+            (mml-attach-file zip-file
+                             (mm-default-file-encoding zip-file)
+                             "A zipped directory"
+                             "attachment")
             (push zip-file mml-temp-files)
             (add-hook 'message-sent-hook #'mml-ivy-cleanup))
 
         (when (eq this-command 'ivy-done)
           (mml-ivy-attach-files)))
 
-    (mml-attach-file file)))
+    (let* ((type (mml-minibuffer-read-type file))
+           (desc (mml-minibuffer-read-description))
+           (disp (mml-minibuffer-read-disposition type "attachment" file)))
+      (mml-attach-file file desc disp))
+    ))
 
 (defun mml-ivy-attach-files ()
   (interactive)
