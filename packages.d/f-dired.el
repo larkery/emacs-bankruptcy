@@ -65,6 +65,18 @@
   (advice-add 'dired-do-kill-lines :after #'dired-persist)
   (advice-add 'dired-insert-subdir :after #'dired-persist)
 
+  (defun save-window-start (o &rest args)
+    (let* ((inhibit-redisplay t)
+           (wins (get-buffer-window-list (current-buffer)))
+           (--old-window-starts (mapcar #'window-start wins))
+           (result (apply o args)))
+      (dolist (w wins)
+        (set-window-start w (pop --old-window-starts)))
+      result))
+
+  (advice-add 'dired-insert-subdir :around #'save-window-start)
+
+
   (defun dired-mouse-insert-or-find-file-other-window (event)
     "In Dired, visit the file or directory name you click on."
     (interactive "e")
