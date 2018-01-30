@@ -25,11 +25,23 @@
                                                 (car (split-string (tramp-file-name-host parts) "\\.")))
                                         'face 'mode-line-emphasis)))))
 
+   (:propertize
+    (:eval (unless (or (not (buffer-file-name))
+                       (file-remote-p (buffer-file-name))
+                       (not (projectile-project-p)))
+             (list " ["
+                   (projectile-project-name)
+                   "]"
+                   )))
+     face 'bold)
+
    (vc-mode vc-mode)
+
 
    (:eval
     (my-mode-line-pad-right
      (list
+
       '(:propertize (:eval (anzu--update-mode-line)) face 'mode-line-emphasis)
       mode-line-misc-info " " mode-line-modes)
      ))))
