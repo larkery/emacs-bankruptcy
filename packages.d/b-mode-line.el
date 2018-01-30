@@ -33,7 +33,12 @@
                    (projectile-project-name)
                    "]"
                    )))
-     face 'bold)
+    face 'bold
+    mouse-face 'mode-line-highlight
+    local-map ,(make-mode-line-mouse-map 'mouse-1
+                                         #'projectile-dired-other-window
+                                         )
+    )
 
    (vc-mode vc-mode)
 
