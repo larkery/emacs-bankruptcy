@@ -256,7 +256,7 @@
         (require 'org-id)
 
         (let ((target-buffer
-               (org-goto-path (reverse (cons summary (reverse path))) #'find-file)))
+               (org-goto-path (reverse (cons summary (reverse path))) #'find-file-noselect)))
           (display-buffer target-buffer '(display-buffer-pop-up-window))
           (with-current-buffer
               target-buffer
