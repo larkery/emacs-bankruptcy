@@ -1,56 +1,59 @@
-(defun my-mode-line-pad-right (rhs)
+(defun mode-line-pad-right (rhs)
   "Return empty space using FACE and leaving RESERVE space on the right."
   (let* ((the-rhs (format-mode-line rhs))
          (reserve (length the-rhs)))
     (list (propertize " " 'display `((space :align-to (- right ,reserve)))) rhs)))
 
 (unless (fboundp 'anzu--update-mode-line)
-  (defun anzu--update-mode-line (&rest _)
-    ""))
+  (defun anzu--update-mode-line (&rest _) ""))
+
+(defvar mode-line-projectile-map (make-mode-line-mouse-map 'mouse-1 #'projectile-dired-other-window))
+(defvar mode-line-buffer-name-map (make-mode-line-mouse-map 'mouse-1 #'dired-other-window))
+
+(defun mode-line-get-buffer-name-face ()
+  (let ((out '(mode-line-buffer-id)))
+    (when buffer-read-only (setq out (cons 'mode-line-read-only out)))
+    (when (buffer-modified-p) (setq out (cons 'mode-line-modified out)))
+    out))
+
+(defun mode-line-get-project ()
+  (when (and (buffer-file-name)
+             (featurep 'projectile)
+             (not (file-remote-p (buffer-file-name)))
+             (projectile-project-p))
+    (let ((root (projectile-project-root)))
+      (when (string-prefix-p root (buffer-file-name))
+        (concat " (" (propertize (projectile-project-name)
+                                 'face 'italic
+                                 'mouse-face 'mode-line-highlight
+                                 'local-map mode-line-projectile-map
+                                 ) ")")))))
+
+(defun mode-line-get-host ()
+  (when (and (buffer-file-name)
+             (file-remote-p (buffer-file-name)))
+    (let ((parts (tramp-dissect-file-name (buffer-file-name))))
+      (concat " "
+              (tramp-file-name-user parts)
+              "@"
+              (tramp-file-name-host parts)
+              ))))
 
 (setq-default
  mode-line-format
  `("%5l "
-   (:eval (propertize "%b" 'face
-                      (remove-if-not
-                       #'identity
-                       (list
-                        (when buffer-read-only    'mode-line-read-only)
-                        (when (buffer-modified-p) 'mode-line-modified)
-                        'mode-line-buffer-id))))
-
-   (:eval (if (and (buffer-file-name) (file-remote-p (buffer-file-name)))
-              (let ((parts (tramp-dissect-file-name (buffer-file-name))))
-                (concat " " (propertize (concat (tramp-file-name-user parts) "@"
-                                                (car (split-string (tramp-file-name-host parts) "\\.")))
-                                        'face 'mode-line-emphasis)))))
-
-   (:propertize
-    (:eval (unless (or (not (buffer-file-name))
-                       (file-remote-p (buffer-file-name))
-                       (not (projectile-project-p)))
-             (list " ["
-                   (projectile-project-name)
-                   "]"
-                   )))
-    face 'bold
-    mouse-face 'mode-line-highlight
-    local-map ,(make-mode-line-mouse-map 'mouse-1
-                                         #'projectile-dired-other-window
-                                         )
-    )
-
+   (:eval (propertize "%b"
+                      'face (mode-line-get-buffer-name-face)
+                      'mouse-face 'mode-line-highlight
+                      'local-map mode-line-buffer-name-map))
+   (:eval (mode-line-get-project))
+   (:eval (mode-line-get-host))
    (vc-mode vc-mode)
-
-
-   (:eval
-    (my-mode-line-pad-right
-     (list
-
-      '(:propertize (:eval (anzu--update-mode-line)) face 'mode-line-emphasis)
-      mode-line-misc-info " " mode-line-modes)
-     ))))
-
+   (:eval (mode-line-pad-right
+           `((:propertize (:eval (anzu--update-mode-line)) face 'mode-line-emphasis)
+             ,mode-line-misc-info
+             " "
+             ,mode-line-modes)))))
 
 (setq-default
  mode-line-modes
