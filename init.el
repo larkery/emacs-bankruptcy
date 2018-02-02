@@ -8,10 +8,14 @@
 (require 'package)
 
 (setq package-archives
-      '(("melpa-unstable" . "http://melpa.org/packages/")
-        ("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")
-        ("gnu" .  "http://elpa.gnu.org/packages/")))
+      '(("melpa-unstable" . "https://melpa.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("org" . "https://orgmode.org/elpa/")
+        ("gnu" .  "https://elpa.gnu.org/packages/")))
+
+(setq tls-trustcheck t
+      gnutls-verify-error t
+      gnutls-trustfiles '("/etc/ssl/certs/ca-certificates.crt"))
 
 (add-to-list 'package-directory-list "~/.nix-profile/share/emacs/site-lisp/elpa")
 
