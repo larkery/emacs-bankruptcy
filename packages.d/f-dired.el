@@ -188,7 +188,8 @@
  '(dired-dwim-target t)
  '(dired-isearch-filenames (quote dwim))
  '(dired-listing-switches "-lah")
- '(dired-omit-files "^\\.[^\\.]"))
+ '(dired-omit-files "^\\.[^\\.]")
+ '(dired-omit-verbose nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
