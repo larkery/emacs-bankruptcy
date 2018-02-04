@@ -8,6 +8,11 @@
 ;; WAT?
 (provide 'notmuch-fcc-initialization)
 
+(req-package messages-are-flowing
+  :commands messages-are-flowing-use-and-mark-hard-newlines
+  :init
+  (add-hook 'message-mode-hook 'messages-are-flowing-use-and-mark-hard-newlines))
+
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox

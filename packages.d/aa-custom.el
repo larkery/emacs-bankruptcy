@@ -127,7 +127,9 @@
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(package-selected-packages (quote (nginx-mode load-dir req-package initsplit el-get)))
+ '(package-selected-packages
+   (quote
+    (messages-are-flowing load-dir req-package initsplit el-get)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")
