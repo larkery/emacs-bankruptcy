@@ -48,7 +48,7 @@
  '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
  '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
  '(evil-visual-state-cursor (quote ("#C5E1A5" box)) t)
- '(fci-rule-color "#5E5E5E")
+ '(fci-rule-color "#5E5E5E" t)
  '(frames-only-mode nil)
  '(fringe-mode (quote (0)) nil (fringe))
  '(git-commit-finish-query-functions nil)
@@ -127,9 +127,7 @@
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(package-selected-packages
-   (quote
-    (paper-theme minimal-theme monotropic-theme load-dir req-package initsplit el-get)))
+ '(package-selected-packages (quote (load-dir req-package initsplit el-get)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")

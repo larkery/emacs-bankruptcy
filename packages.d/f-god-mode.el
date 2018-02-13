@@ -21,7 +21,8 @@
     (if god-local-mode
         (push (face-remap-add-relative
                'mode-line
-               :background "darkorange4"
+               :background "darkred"
+               :foreground "white"
                )
               god-cursor-face-remapping)
 
