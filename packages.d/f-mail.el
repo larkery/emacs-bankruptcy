@@ -489,8 +489,7 @@ colours from highlight symbol"
   (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
 
 
-  (defface notmuch-standard-tag-face '((t (:foreground "gold"))) "face for boring tags"))
-
+  (defface notmuch-standard-tag-face '((t (:inherit notmuch-tag-face))) "face for boring tags"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -584,7 +583,7 @@ colours from highlight symbol"
  '(notmuch-tag-formats
    (quote
     (("unread")
-     ("flagged" "⚑"
+     ("flagged" "f"
       (propertize tag
                   (quote face)
                   (quote notmuch-tag-flagged)))
@@ -656,4 +655,5 @@ colours from highlight symbol"
  '(message-cited-text ((t (:inherit font-lock-comment-face))))
  '(notmuch-tag-added ((t (:foreground "green" :weight bold))))
  '(notmuch-tag-deleted ((t (:foreground "red" :weight bold))))
- '(notmuch-tag-face ((((background dark)) (:foreground "gold")))))
+ '(notmuch-tag-face ((((background dark))  (:foreground "white" :weight bold))
+                     (((background light)) (:foreground "black" :weight bold)))))
