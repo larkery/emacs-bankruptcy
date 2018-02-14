@@ -8,11 +8,19 @@
    ("V" . magit-status)
    ("C-x C-f" .  dired-C-x-C-f)
    ("e" .  dired-xdg-open)
-   ("K" .  (lambda () (interactive)
-             (let ((here (dired-current-directory)))
-               (and (dired-goto-subdir here)
-                    (progn (dired-do-kill-lines 1)
-                           (dired-goto-file here))))))
+   ("K" .  (lambda (arg) (interactive "P")
+             (message "%s" arg)
+             (if arg
+                 (save-excursion
+                   (goto-char (point-min))
+                   (while (dired-next-subdir (point))
+                     (dired-kill-subdir)
+                     (goto-char (point-min))))
+               (let ((here (dired-current-directory)))
+                 (and (dired-goto-subdir here)
+                      (progn (dired-do-kill-lines 1)
+                             (dired-goto-file here)))))
+             ))
    ("I" .  dired-insert-patricidally)
    ("r" .  dired-from-recentf)
    ("^" .  dired-up-directory-here)
@@ -71,8 +79,12 @@
            (--old-window-starts (mapcar #'window-start wins))
            (result (apply o args)))
       (dolist (w wins)
-        (set-window-start w (pop --old-window-starts)))
+        (let ((old-start (pop --old-window-starts)))
+          (set-window-start w old-start)
+          (unless (pos-visible-in-window-p nil w)
+            (recenter))))
       result))
+
 
   (advice-add 'dired-insert-subdir :around #'save-window-start)
 
