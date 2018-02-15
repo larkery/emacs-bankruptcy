@@ -88,9 +88,12 @@
 ;(req-package hc-zenburn-theme
 ;  :config
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
-(req-package minimal-theme)
-(load-theme 'minimal-light t)
-(load-theme 'tweaks t)
+(req-package minimal-theme
+  :config
+  (load-theme 'minimal-light t)
+  (load-theme 'tweaks t))
+(require 'minimal-theme)
+
 (add-hook 'window-configuration-change-hook 'theme->xresources)
 (add-hook 'after-load-theme-hook 'theme->xresources)
 
