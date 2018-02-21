@@ -127,7 +127,9 @@
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(package-selected-packages (quote (load-dir req-package initsplit el-get)))
+ '(package-selected-packages
+   (quote
+    (fringe-helper visual-fill-column load-dir req-package initsplit el-get)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")
@@ -182,6 +184,7 @@
      (340 . "#9CC7FB")
      (360 . "#E090C7"))))
  '(vc-annotate-very-old-color "#E090C7")
+ '(visual-line-fringe-indicators (quote (nil right-curly-arrow)))
  '(weechat-color-list
    (quote
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))

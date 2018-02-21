@@ -8,11 +8,6 @@
 ;; WAT?
 (provide 'notmuch-fcc-initialization)
 
-(req-package messages-are-flowing
-  :commands messages-are-flowing-use-and-mark-hard-newlines
-  :init
-  (add-hook 'message-mode-hook 'messages-are-flowing-use-and-mark-hard-newlines))
-
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
@@ -387,34 +382,35 @@ Subject: " my-reply-subject "
     ;; replace quoted regions with blockquote tags
     ;; TODO in general, replies get the notmuch wash stuff inserted into them!
 
-    (save-excursion
-      (let* ((region-p (org-region-active-p))
-             (html-start (set-marker
-                          (make-marker)
-                          (or (and region-p (region-beginning))
-                              (save-excursion
-                                (goto-char (point-min))
-                                (search-forward mail-header-separator)
-                                (+ (point) 1)))))
-             (html-end (set-marker
-                        (make-marker)
-                        (or (and region-p (region-end))
-                            (point-max))))
-             (original-text (buffer-substring html-start html-end)))
+    (let ((inhibit-redisplay t))
+     (save-excursion
+       (let* ((region-p (org-region-active-p))
+              (html-start (set-marker
+                           (make-marker)
+                           (or (and region-p (region-beginning))
+                               (save-excursion
+                                 (goto-char (point-min))
+                                 (search-forward mail-header-separator)
+                                 (+ (point) 1)))))
+              (html-end (set-marker
+                         (make-marker)
+                         (or (and region-p (region-end))
+                             (point-max))))
+              (original-text (buffer-substring html-start html-end)))
 
-        (save-restriction
-          (narrow-to-region html-start html-end)
-          (convert-quotes-to-blocks))
+         (save-restriction
+           (narrow-to-region html-start html-end)
+           (convert-quotes-to-blocks))
 
-        ;; htmlize
-        (call-interactively #'org-mime-htmlize)
-        (goto-char (point-min))
-        (when (search-forward "<#multipart type=alternative><#part type=text/plain>" nil t)
-          (let ((start (point)))
-            (when (search-forward "<#multipart type=related>" nil t)
-              (goto-char (match-beginning 0))
-              (delete-region start (point))
-              (insert original-text)))))))
+         ;; htmlize
+         (call-interactively #'org-mime-htmlize)
+         (goto-char (point-min))
+         (when (search-forward "<#multipart type=alternative><#part type=text/plain>" nil t)
+           (let ((start (point)))
+             (when (search-forward "<#multipart type=related>" nil t)
+               (goto-char (match-beginning 0))
+               (delete-region start (point))
+               (insert original-text))))))))
 
   (add-hook 'org-mime-html-hook
             (lambda ()
@@ -655,5 +651,4 @@ colours from highlight symbol"
  '(message-cited-text ((t (:inherit font-lock-comment-face))))
  '(notmuch-tag-added ((t (:foreground "green" :weight bold))))
  '(notmuch-tag-deleted ((t (:foreground "red" :weight bold))))
- '(notmuch-tag-face ((((background dark))  (:foreground "white" :weight bold))
-                     (((background light)) (:foreground "black" :weight bold)))))
+ '(notmuch-tag-face ((((background dark)) (:foreground "white" :weight bold)) (((background light)) (:foreground "black" :weight bold)))))

@@ -74,4 +74,7 @@
 
 (setq-default indent-tabs-mode nil
               case-fold-search t
-              bidi-display-reordering nil)
+              bidi-display-reordering nil
+              indicate-empty-lines t
+              indicate-buffer-boundaries 'right
+              )
