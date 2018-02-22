@@ -79,9 +79,9 @@
           align-rules-list)
     )
 
-;  (key-combo-define-hook
-;   '(ess-mode-hook)
-;   'my-ess-combo-hook
-;   '(("<" . ("<" "<- " "<<- "))
-;     (">" . (">" "%>%" "%>%\n"))))
+  (key-combo-define-hook
+   '(ess-mode-hook)
+   'my-ess-combo-hook
+   '(("<" . ("<" "<- " "<<- "))
+     (">" . (">" "%>%" "%>%\n"))))
   )

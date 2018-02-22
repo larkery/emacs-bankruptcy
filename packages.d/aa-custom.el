@@ -127,9 +127,7 @@
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(package-selected-packages
-   (quote
-    (fringe-helper visual-fill-column load-dir req-package initsplit el-get)))
+ '(package-selected-packages (quote (load-dir req-package initsplit el-get)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(powerline-color1 "#222232")
@@ -160,7 +158,7 @@
  '(tabbar-background-color "#353535")
  '(tramp-remote-path
    (quote
-    ("/run/current-system/sw/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" "/home/hinton/.nix-profile/bin" tramp-own-remote-path)))
+    ("/run/current-system/sw/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" "~/.nix-profile/bin")))
  '(vc-annotate-background "#202020")
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map

@@ -375,6 +375,14 @@ Subject: " my-reply-subject "
               (goto-char (point-max))
               (insert block-end)))))))
 
+  (defun remove-soft-newlines ()
+    (save-excursion
+      (goto-char (point-min))
+      (while (search-forward-regexp "\n" (point-max) t)
+        (unless (get-text-property (1- (point)) 'hard)
+          (delete-char -1)
+          (unless (looking-at "[[:space:]]") (insert " "))))))
+
   (defun org-mime-htmlize-nicely ()
     (interactive)
     (require 'org-mime)
@@ -400,6 +408,8 @@ Subject: " my-reply-subject "
 
          (save-restriction
            (narrow-to-region html-start html-end)
+           (when use-hard-newlines
+             (remove-soft-newlines))
            (convert-quotes-to-blocks))
 
          ;; htmlize
@@ -418,19 +428,60 @@ Subject: " my-reply-subject "
                "blockquote"
                "margin:0; padding:0; padding-left:1em; border-left:2px blue solid;")))
 
+  (defvar mail-is-fancy nil)
+  (make-variable-buffer-local 'mail-is-fancy)
+
+
   (bind-key "C-c h" (lambda () (interactive)
-                      (orgstruct-mode)
-                      (orgtbl-mode))
+                      (setq-local mail-is-fancy (not mail-is-fancy))
+                      (message (if mail-is-fancy
+                                   "HTML (enforced)"
+                                 (if (mail-is-fancy)
+                                     "HTML (auto)"
+                                   "Plain-text")
+                                 )))
+
             notmuch-message-mode-map)
 
-  (defun org-mime-html-automatically (&rest args)
-    (when (or (and (boundp 'orgstruct-mode)
-                   orgstruct-mode)
-              (and (boundp 'orgtbl-mode)
-                   orgtbl-mode))
-      (org-mime-htmlize-nicely)))
+  (add-hook 'message-mode-hook 'orgstruct-mode)
+  (add-hook 'message-mode-hook 'orgtbl-mode)
+  (add-hook 'message-mode-hook 'use-hard-newlines)
+  (add-hook 'message-mode-hook 'auto-fill-mode)
 
-  (advice-add 'notmuch-mua-send-and-exit :before #'org-mime-html-automatically)
+  (defun mail-is-fancy ()
+    (or mail-is-fancy
+        (save-excursion
+          (goto-char (point-min))
+          (search-forward mail-header-separator)
+          (search-forward-regexp
+           (rx (| (seq ;; this is line start constructs
+                   bol
+                   (| (+ "*") ;; heading
+                      (seq (* blank) (| "| " ;; table
+                                        "- " ;; lists
+                                        "+ "
+                                        (seq (* digit) ".")))
+                      ))
+                  ;; this is style stuff
+
+                  (seq bol
+                       (* space)
+                       (not (any ">"))
+                       (seq (group-n 1 (any "_/*"))
+                            (* (any alpha " " digit))
+                            (backref 1)))
+                  ))
+           (point-max) t))))
+
+  (defun org-mime-html-automatically (&rest args)
+    (if (mail-is-fancy)
+        (progn
+          (message "Creating rich-text part")
+          (org-mime-htmlize-nicely))
+      (message "No rich text part")
+      ))
+
+  (add-hook 'message-send-hook #'org-mime-html-automatically)
 
   (defun notmuch-fcc-post-sync-maildirs (&rest args)
     (set-process-sentinel
