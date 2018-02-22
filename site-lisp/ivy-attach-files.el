@@ -40,7 +40,6 @@
   (interactive)
   (ivy-read "Find file: " 'read-file-name-internal
             :matcher #'counsel--find-file-matcher
-            :initial-input (car mml-ivy-history)
             :action #'mml-ivy-select-file
             :preselect (when counsel-find-file-at-point
                          (require 'ffap)

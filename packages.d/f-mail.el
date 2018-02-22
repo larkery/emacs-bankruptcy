@@ -8,6 +8,11 @@
 ;; WAT?
 (provide 'notmuch-fcc-initialization)
 
+(req-package org-mime
+  :config
+  (setq org-mime-beautify-quoted-mail nil)
+  )
+
 (req-package notmuch
   :commands
   notmuch notmuch-mua-new-mail my-inbox
@@ -19,7 +24,7 @@
   (require 'org-notmuch)
   (require 'ivy-attach-files)
 
-  (bind-key "C-c RET f" #'mml-ivy-attach-files message-mode-map)
+  (bind-key "C-c RET f" #'mml-ivy-attach-files mml-mode-map)
 
   (defun notmuch-search-insert-extra-field (o field format-string result)
     (cond ((string-equal field "tags-subset")
