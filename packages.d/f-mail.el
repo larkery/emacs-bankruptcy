@@ -86,8 +86,6 @@
           (mml-attach-file the-file)))
       result))
 
-
-
   (defun guess-address-advice (o &rest args)
     (if (not (at-work-p))
         (car (notmuch-user-other-email))
@@ -548,7 +546,7 @@ colours from highlight symbol"
   (add-hook 'notmuch-show-mode-hook #'message-font-lock-fancy-quoting)
   (add-hook 'notmuch-message-mode-hook #'message-font-lock-fancy-quoting)
   (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
-
+  (add-hook 'notmuch-message-mode-hook #'show-hard-newlines-mode)
 
   (defface notmuch-standard-tag-face '((t (:inherit notmuch-tag-face))) "face for boring tags"))
 

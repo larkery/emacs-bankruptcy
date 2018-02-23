@@ -216,6 +216,8 @@
 (defvar notmuch-calendar-capture-target
   '("~/notes/calendar.org" "%Y" "%Y-%m %B" "%Y-%m-%d %A"))
 
+(defvar notmuch-calendar-default-tags '("work"))
+
 (defun notmuch-calendar-handle-request (button)
   "What happens when you click a button in a request method invite"
   (let* ((button-properties (overlay-properties button))
@@ -223,6 +225,7 @@
          (org-event (plist-get button-properties 'org-event))
          (calendar-event (plist-get button-properties 'calendar-event)))
     ;; send a response
+
     (notmuch-calendar-respond response)
     ;; capture it or update it
     (require 'org-id)
@@ -277,7 +280,7 @@
             (when organizer (org-set-property "ORGANIZER" (format "[[%s]]" organizer)))
             (apply #'org-entry-put-multivalued-property (point) "ATTENDING"
                    (mapcar #'notmuch-calendar-email-link attendees))
-
+            (org-set-tags notmuch-calendar-default-tags)
 
             ;;          (outline-hide-other)
             ))))))
