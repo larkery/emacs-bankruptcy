@@ -24,6 +24,8 @@
   (require 'org-notmuch)
   (require 'ivy-attach-files)
 
+  (diminish 'mml-mode)
+
   (bind-key "C-c RET f" #'mml-ivy-attach-files mml-mode-map)
 
   (defun notmuch-search-insert-extra-field (o field format-string result)
@@ -382,7 +384,8 @@ Subject: " my-reply-subject "
     (save-excursion
       (goto-char (point-min))
       (while (search-forward "\n" (point-max) t)
-        (unless (get-text-property (1- (point)) 'hard)
+        (unless (or (get-text-property (1- (point)) 'hard)
+                    (org-context-p 'headline 'item 'table))
           (delete-char -1)
           (unless (looking-at "[[:space:]]") (insert " "))))))
 

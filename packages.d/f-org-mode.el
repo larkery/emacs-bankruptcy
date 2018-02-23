@@ -26,6 +26,9 @@
   (require 'org-agenda-notify)
   (require 'org-log)
 
+  (diminish 'orgtbl-mode " ◫")
+  (diminish 'orgstruct-mode " ⫢")
+
   (org-clock-persistence-insinuate)
 
   (add-hook 'org-mode-hook

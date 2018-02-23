@@ -5,6 +5,7 @@
   (diminish 'orgtbl-mode " 🞕")
   (diminish 'visual-line-mode " ⮱")
   (diminish 'abbrev-mode " …")
+  (diminish 'auto-fill-mode " af")
 
   )
 
