@@ -383,10 +383,17 @@ Subject: " my-reply-subject "
   (defun remove-soft-newlines ()
     (save-excursion
       (goto-char (point-min))
-      (while (search-forward-regexp "\n" (point-max) t)
+      (while (search-forward "\n" (point-max) t)
         (unless (get-text-property (1- (point)) 'hard)
           (delete-char -1)
           (unless (looking-at "[[:space:]]") (insert " "))))))
+
+  (defun double-hard-newlines ()
+    (save-excursion
+      (goto-char (point-min))
+      (while (search-forward "\n" (point-max) t)
+        (when (get-text-property (1- (point)) 'hard)
+          (insert (propertize "\n" 'hard t))))))
 
   (defun org-mime-htmlize-nicely ()
     (interactive)
@@ -414,7 +421,8 @@ Subject: " my-reply-subject "
          (save-restriction
            (narrow-to-region html-start html-end)
            (when use-hard-newlines
-             (remove-soft-newlines))
+             (remove-soft-newlines)
+             (double-hard-newlines))
            (convert-quotes-to-blocks))
 
          ;; htmlize
@@ -433,18 +441,18 @@ Subject: " my-reply-subject "
                "blockquote"
                "margin:0; padding:0; padding-left:1em; border-left:2px blue solid;")))
 
-  (defvar mail-is-fancy nil)
+  (defvar mail-is-fancy 'auto)
   (make-variable-buffer-local 'mail-is-fancy)
 
-
   (bind-key "C-c h" (lambda () (interactive)
-                      (setq-local mail-is-fancy (not mail-is-fancy))
-                      (message (if mail-is-fancy
-                                   "HTML (enforced)"
-                                 (if (mail-is-fancy)
-                                     "HTML (auto)"
-                                   "Plain-text")
-                                 )))
+                      (setq-local mail-is-fancy
+                                  (or (case mail-is-fancy
+                                        (auto 'yes)
+                                        (yes 'no)
+                                        (no 'auto))
+                                      'auto))
+
+                      (message "Rich text: %s" mail-is-fancy))
 
             notmuch-message-mode-map)
 
@@ -454,29 +462,30 @@ Subject: " my-reply-subject "
   (add-hook 'message-mode-hook 'auto-fill-mode)
 
   (defun mail-is-fancy ()
-    (or mail-is-fancy
-        (save-excursion
-          (goto-char (point-min))
-          (search-forward mail-header-separator)
-          (search-forward-regexp
-           (rx (| (seq ;; this is line start constructs
-                   bol
-                   (| (+ "*") ;; heading
-                      (seq (* blank) (| "| " ;; table
-                                        "- " ;; lists
-                                        "+ "
-                                        (seq (* digit) ".")))
-                      ))
-                  ;; this is style stuff
+    (and (not (eq 'no mail-is-fancy))
+         (or (eq 'yes mail-is-fancy)
+             (save-excursion
+               (goto-char (point-min))
+               (search-forward mail-header-separator)
+               (search-forward-regexp
+                (rx (| (seq ;; this is line start constructs
+                        bol
+                        (| (+ "*") ;; heading
+                           (seq (* blank) (| "| " ;; table
+                                             "- " ;; lists
+                                             "+ "
+                                             (seq (* digit) ".")))
+                           ))
+                       ;; this is style stuff
 
-                  (seq bol
-                       (* space)
-                       (not (any ">"))
-                       (seq (group-n 1 (any "_/*"))
-                            (* (any alpha " " digit))
-                            (backref 1)))
-                  ))
-           (point-max) t))))
+                       (seq bol
+                            (* space)
+                            (not (any ">"))
+                            (seq (group-n 1 (any "_/*"))
+                                 (* (any alpha " " digit))
+                                 (backref 1)))
+                       ))
+                (point-max) t)))))
 
   (defun org-mime-html-automatically (&rest args)
     (if (mail-is-fancy)
