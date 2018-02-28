@@ -1,3 +1,8 @@
+;; -*- lexical-binding: t -*-
+
+(defface hard-newline-face '((t (:foreground "grey80")))
+  "Face for showing where hard newlines are")
+
 (define-minor-mode show-hard-newlines-mode
   "Display hard newlines differently"
   nil " ¶" nil
@@ -29,12 +34,17 @@
       (goto-char from)
       (while (search-forward "\n" to t)
         (let ((pos (1- (point))))
-          (if (get-text-property pos 'hard)
+          (if (and (get-text-property pos 'hard)
+                   (not
+                    (save-excursion
+                      (forward-char -2)
+                      (looking-at "\n"))
+                    ))
               ;; Use `copy-sequence', because display property values must not be `eq'!
               (add-text-properties pos (1+ pos)
                                    (list 'display
                                          (propertize
                                           "¶\n"
-                                          'font-lock-face 'shadow)))
+                                          'font-lock-face 'hard-newline-face)))
             (remove-text-properties pos (1+ pos) '(display nil))))
         ))))

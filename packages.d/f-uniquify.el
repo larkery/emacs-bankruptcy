@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos "uniquify-")
 
 ;; When uniquifying a bunch of files if some of them are remote

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "notmuch-"
                             "message-"
                             "mm-"
@@ -351,90 +352,23 @@ Subject: " my-reply-subject "
 
   (advice-add 'notmuch-show-insert-part-text/html :around #'notmuch-elide-citations-in-html)
 
-  (defun convert-quotes-to-blocks (&optional block-start block-end)
-    (let ((block-start (or block-start "#+BEGIN_QUOTE\n"))
-          (block-end (or block-end "\n#+END_QUOTE"))
-          (changed t))
-      (while changed
-        (goto-char (point-min))
-        (setq changed nil)
-        (while (and (< (point) (point-max))
-                    (search-forward-regexp "^>" nil t))
-          (setq changed t)
-          (let* ((first-quote (match-beginning 0))
-                 (last-quote first-quote))
-            (goto-char first-quote)
-            (while (and (< (point) (point-max))
-                        (looking-at (rx bol (| ">" eol))))
-              (when (looking-at (rx bol ">"))
-                (end-of-line)
-                (setq last-quote (point)))
-              (forward-line))
+  (require 'fancy-mail)
 
-            (save-restriction
-              (narrow-to-region first-quote last-quote)
-              (goto-char (point-min))
-              (replace-regexp "^>" "")
-              (goto-char (point-min))
-              (insert block-start)
-              (goto-char (point-max))
-              (insert block-end)))))))
-
-  (defun remove-soft-newlines ()
-    (save-excursion
-      (goto-char (point-min))
-      (while (search-forward "\n" (point-max) t)
-        (unless (or (get-text-property (1- (point)) 'hard)
-                    (org-context-p 'headline 'item 'table))
-          (delete-char -1)
-          (unless (looking-at "[[:space:]]") (insert " "))))))
-
-  (defun double-hard-newlines ()
-    (save-excursion
-      (goto-char (point-min))
-      (while (search-forward "\n" (point-max) t)
-        (when (get-text-property (1- (point)) 'hard)
-          (insert (propertize "\n" 'hard t))))))
-
-  (defun org-mime-htmlize-nicely ()
+  (defun org-mime-htmlize-body ()
     (interactive)
-    (require 'org-mime)
-
-    ;; replace quoted regions with blockquote tags
-    ;; TODO in general, replies get the notmuch wash stuff inserted into them!
 
     (let ((inhibit-redisplay t))
-     (save-excursion
-       (let* ((region-p (org-region-active-p))
-              (html-start (set-marker
-                           (make-marker)
-                           (or (and region-p (region-beginning))
-                               (save-excursion
-                                 (goto-char (point-min))
-                                 (search-forward mail-header-separator)
-                                 (+ (point) 1)))))
-              (html-end (set-marker
-                         (make-marker)
-                         (or (and region-p (region-end))
-                             (point-max))))
-              (original-text (buffer-substring html-start html-end)))
-
-         (save-restriction
-           (narrow-to-region html-start html-end)
-           (when use-hard-newlines
-             (remove-soft-newlines)
-             (double-hard-newlines))
-           (convert-quotes-to-blocks))
-
-         ;; htmlize
-         (call-interactively #'org-mime-htmlize)
-         (goto-char (point-min))
-         (when (search-forward "<#multipart type=alternative><#part type=text/plain>" nil t)
-           (let ((start (point)))
-             (when (search-forward "<#multipart type=related>" nil t)
-               (goto-char (match-beginning 0))
-               (delete-region start (point))
-               (insert original-text))))))))
+      (save-excursion
+        (goto-char (point-min))
+        (search-forward mail-header-separator)
+        (forward-char)
+        (let ((end-of-message
+               (or (save-excursion
+                     (and (search-forward "<#" nil t) (- (point) 2)))
+                   (point-max))))
+          (set-mark end-of-message)
+          (call-interactively #'org-mime-htmlize)
+          ))))
 
   (add-hook 'org-mime-html-hook
             (lambda ()
@@ -442,8 +376,7 @@ Subject: " my-reply-subject "
                "blockquote"
                "margin:0; padding:0; padding-left:1em; border-left:2px blue solid;")))
 
-  (defvar mail-is-fancy 'auto)
-  (make-variable-buffer-local 'mail-is-fancy)
+  (setq org-mime-preserve-breaks nil)
 
   (bind-key "C-c h" (lambda () (interactive)
                       (setq-local mail-is-fancy
@@ -462,39 +395,12 @@ Subject: " my-reply-subject "
   (add-hook 'message-mode-hook 'use-hard-newlines)
   (add-hook 'message-mode-hook 'auto-fill-mode)
 
-  (defun mail-is-fancy ()
-    (and (not (eq 'no mail-is-fancy))
-         (or (eq 'yes mail-is-fancy)
-             (save-excursion
-               (goto-char (point-min))
-               (search-forward mail-header-separator)
-               (search-forward-regexp
-                (rx (| (seq ;; this is line start constructs
-                        bol
-                        (| (+ "*") ;; heading
-                           (seq (* blank) (| "| " ;; table
-                                             "- " ;; lists
-                                             "+ "
-                                             (seq (* digit) ".")))
-                           ))
-                       ;; this is style stuff
-
-                       (seq bol
-                            (* space)
-                            (not (any ">"))
-                            (seq (group-n 1 (any "_/*"))
-                                 (* (any alpha " " digit))
-                                 (backref 1)))
-                       ))
-                (point-max) t)))))
-
   (defun org-mime-html-automatically (&rest args)
     (if (mail-is-fancy)
         (progn
           (message "Creating rich-text part")
-          (org-mime-htmlize-nicely))
-      (message "No rich text part")
-      ))
+          (org-mime-htmlize-body))
+      (message "No rich text part")))
 
   (add-hook 'message-send-hook #'org-mime-html-automatically)
 
@@ -548,7 +454,8 @@ colours from highlight symbol"
 
   (add-hook 'notmuch-show-mode-hook #'message-font-lock-fancy-quoting)
   (add-hook 'notmuch-message-mode-hook #'message-font-lock-fancy-quoting)
-  (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
+  ;; (add-hook 'notmuch-message-mode-hook #'visual-line-mode)
+
   (add-hook 'notmuch-message-mode-hook #'show-hard-newlines-mode)
 
   (defface notmuch-standard-tag-face '((t (:inherit notmuch-tag-face))) "face for boring tags"))

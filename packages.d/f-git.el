@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "magit-" "git-timemachine-"))
 
 (req-package magit

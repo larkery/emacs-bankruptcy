@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defvar sandboxes-directory (expand-file-name (concat user-emacs-directory "sandboxes/")))
 
 (defun nix-set-python-interpreter (arg)

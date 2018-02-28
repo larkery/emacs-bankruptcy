@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "auth-pass" "pass-"))
 
 (req-package pass

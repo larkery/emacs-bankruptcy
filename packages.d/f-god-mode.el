@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos "god-")
 
 (req-package god-mode

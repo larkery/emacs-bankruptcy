@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; settings for org mode
 
 (initsplit-this-file bos (| "org-" "holiday-" "calendar-"))

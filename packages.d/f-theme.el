@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; (req-package zenburn-theme)
 (defun face-rgb-color (face attr)
   (let* ((colr (face-attribute face attr)))

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (with-eval-after-load
     'ibuffer
 

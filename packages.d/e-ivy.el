@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "counsel-" "ivy-"))
 
 ;(req-package ido-describe-prefix-bindings

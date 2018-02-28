@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defun mode-line-pad-right (rhs)
   "Return empty space using FACE and leaving RESERVE space on the right."
   (let* ((the-rhs (format-mode-line rhs))

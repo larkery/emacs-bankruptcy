@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defun align-whitespace (start end)
   "Align region so that non-whitespace bits line up"
   (interactive "r")

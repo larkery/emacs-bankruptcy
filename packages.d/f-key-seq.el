@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package key-seq
   :config
   (key-seq-define-global "jd" 'dired-ffap)

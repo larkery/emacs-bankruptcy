@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos "pdf-")
 
 (req-package pdf-tools

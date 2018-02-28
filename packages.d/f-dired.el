@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos "dired-")
 
 (with-eval-after-load 'dired

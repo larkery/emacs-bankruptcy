@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "highlight-parentheses" "highlight-symbol" "eldoc"))
 
 (defvar my-prog-mode-hook ())

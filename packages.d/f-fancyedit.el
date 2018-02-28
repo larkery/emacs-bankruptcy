@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package pcre2el
   :diminish (pcre-mode . "")
   :config

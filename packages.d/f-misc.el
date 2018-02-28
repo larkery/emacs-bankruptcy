@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package winner
   :demand t
   :bind (("<XF86Tools>" . winner-undo)

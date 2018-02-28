@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (with-eval-after-load 'eshell
   (defvar eshell-dired-buffer nil)
   (defvar eshell-dired-following nil)

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package imenu
   :bind ("<menu>" . imenu)
   :require flimenu

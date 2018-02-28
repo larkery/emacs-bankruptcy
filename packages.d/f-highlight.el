@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defun highlight-region (u p m)
   (interactive "P\nr")
 

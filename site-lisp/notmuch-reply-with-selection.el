@@ -50,6 +50,10 @@
             (minimally-indent (point) (mark))
             (goto-char here)
             )))
-    (message-cite-original-without-signature))
+    ;; harden up newlines in cited text
+    (let ((here (point)))
+      (message-cite-original-without-signature)
+      (add-text-properties here (point-max)
+                           (list 'quoted-reply t))))
 
 (provide 'notmuch-reply-with-selection)

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos "ediff-")
 
 (defun ediff-expand-org-mode ()

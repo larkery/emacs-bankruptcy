@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (unbind-key "C-x -")
 
 (bind-keys

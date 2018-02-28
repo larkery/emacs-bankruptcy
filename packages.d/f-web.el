@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "web-mode" "js2-mode"))
 
 (req-package web-mode

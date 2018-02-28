@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package yasnippet
   :diminish ""
   :config

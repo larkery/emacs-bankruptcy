@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos "bbdb-")
 
 (req-package bbdb-vcard
@@ -29,4 +30,6 @@
  '(bbdb-address-label-list (quote ("home" "work" "other")))
  '(bbdb-default-country "United Kingdom")
  '(bbdb-file "~/notes/bbdb")
- '(bbdb-file-remote nil))
+ '(bbdb-file-remote nil)
+ '(bbdb-phone-label-list (quote ("home" "work" "cell" "other")))
+ '(bbdb-phone-style nil))

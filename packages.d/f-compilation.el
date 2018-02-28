@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (require 'ansi-color)
 
 (with-eval-after-load 'compile

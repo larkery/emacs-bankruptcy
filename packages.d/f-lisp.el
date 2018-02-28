@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (initsplit-this-file bos (| "clojure-" "cider-" "paren-face-" "smartparens-"))
 
 (defvar lisp-modes-hook ())

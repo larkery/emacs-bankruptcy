@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (defvar my-scratch-state (concat (my-state-dir "") "scratch.el"))
 
 ;; on startup, recover scratch

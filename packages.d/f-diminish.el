@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package diminish
   :config
   (diminish 'isearch-mode " 🔎")

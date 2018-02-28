@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 (req-package ess-site
   :ensure ess
   :commands R
