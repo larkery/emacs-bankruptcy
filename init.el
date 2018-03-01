@@ -39,11 +39,9 @@
 
   (package-initialize)
 
-  (require-package 'use-package)
-  (require 'use-package)
   (require-package 'req-package)
   (require 'req-package)
-  (setq use-package-always-ensure t)
+
   (req-package load-dir
     :ensure t
     :force true
