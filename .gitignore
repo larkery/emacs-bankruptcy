@@ -19,3 +19,4 @@ recentf
 smex-items
 snippets/**/.yas-compiled-snippets.el
 history
+.persistent-scratch
