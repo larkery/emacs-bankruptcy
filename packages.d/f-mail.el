@@ -273,16 +273,15 @@ This will be the link nearest the end of the message which either contains or fo
 
   (defun message-insert-outlook-citation ()
     (eval-when-compile (require 'nnheader))
-    (insert "
+    (let ((nl (propertize "\n" 'hard t)))
+      (insert nl nl
+              "-----Original Message-----" nl
+              "From: " (mail-header-from message-reply-headers) nl
+              "Sent: " (mail-header-date message-reply-headers) nl
+              "To: " my-reply-to nl
+              "Subject: " my-reply-subject nl nl
+              )))
 
------Original Message-----
-From: " (mail-header-from message-reply-headers) "
-Sent: " (mail-header-date message-reply-headers) "
-To: " my-reply-to "
-Subject: " my-reply-subject "
-
-")
-    )
 
   (defvar message-cite-styles
     '(("Roger\\.Lampert" .
@@ -390,7 +389,7 @@ Subject: " my-reply-subject "
 
             notmuch-message-mode-map)
 
-  (add-hook 'message-mode-hook 'orgstruct-mode)
+  (add-hook 'message-mode-hook 'orgstruct++-mode)
   (add-hook 'message-mode-hook 'orgtbl-mode)
   (add-hook 'message-mode-hook 'use-hard-newlines)
   (add-hook 'message-mode-hook 'auto-fill-mode)

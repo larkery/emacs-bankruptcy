@@ -33,7 +33,9 @@
     (let* ((type (mml-minibuffer-read-type file))
            (desc (mml-minibuffer-read-description))
            (disp (mml-minibuffer-read-disposition type "attachment" file)))
-      (mml-attach-file file desc disp))
+      (save-excursion
+        (goto-char (point-max))
+        (mml-attach-file file desc disp)))
     ))
 
 (defun mml-ivy-attach-files ()
