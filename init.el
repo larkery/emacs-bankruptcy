@@ -1,4 +1,5 @@
 ;;; Load each thing from packages.d
+(setq load-prefer-newer t)
 (setq gc-cons-threshold 8000000)
 
 (eval-after-load "enriched"
@@ -39,8 +40,13 @@
 
   (package-initialize)
 
+  (require-package 'auto-compile)
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode)
+
   (require-package 'req-package)
   (require 'req-package)
+  (setq use-package-always-ensure t)
 
   (req-package load-dir
     :ensure t

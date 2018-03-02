@@ -1,6 +1,13 @@
 ;; -*- lexical-binding: t -*-
 (unbind-key "C-x -")
 
+(defun split-or-unsplit-window ()
+  (interactive)
+  (if (cdr (window-list))
+      (delete-other-windows)
+    (progn (split-window-sensibly)
+           (other-window 1))))
+
 (bind-keys
  ("C-x C-b" . ibuffer)
  ("C-x k" . kill-this-buffer)
@@ -9,6 +16,8 @@
  ("C-x - -" . shrink-window-if-larger-than-buffer)
  ("C-x - =" . balance-windows)
  ("C-x - +" . maximize-window)
+ ("C-<f5>" . maximize-window)
+ ("<f5>" . split-or-unsplit-window)
  )
 
 (bind-keys

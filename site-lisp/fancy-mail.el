@@ -85,10 +85,10 @@ If ARG is not nil, use `org-mime-fixedwith-wrap' to wrap the exported text."
       (insert (org-mime-multipart
                orig-body html (mapconcat 'identity html-images "\n"))))))
 
+;; TODO this is not good yet
 (defun org-mime-blockify-quotes ()
-    (message "blockifying")
-    (let ((block-start "#+BEGIN_QUOTE\n")
-          (block-end "\n#+END_QUOTE")
+    (let ((block-start "#+BEGIN_EXPORT html\n<blockquote>\n")
+          (block-end "\n</blockquote>\n#+END_EXPORT")
           (changed t))
       (while changed
         (goto-char (point-min))
@@ -113,15 +113,19 @@ If ARG is not nil, use `org-mime-fixedwith-wrap' to wrap the exported text."
               (goto-char (point-min))
               (insert block-start)
               (goto-char (point-max))
-              (insert block-end)))))))
+              (insert block-end))))
+        (setq block-start "<blockquote>\n"
+              block-end "\n</blockquote>")
+        )))
 
 (defun org-mime-clean-newlines ()
   (when use-hard-newlines
     (goto-char (point-min))
     (while (search-forward "\n" (point-max) t)
       (cond
-       ((get-text-property (1- (point)) 'hard)
-        (insert (propertize "\n" 'hard t)))
+       ;; ((get-text-property (1- (point)) 'hard)
+       ;;  (insert (propertize "\n" 'hard t)))
+
        ((not (or (get-text-property (1- (point)) 'quoted-reply)
                  (looking-at (rx bol (* space) eol))
                  (org-context-p 'headline 'item 'table)))
