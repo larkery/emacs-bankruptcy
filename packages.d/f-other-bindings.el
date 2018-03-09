@@ -8,9 +8,16 @@
     (progn (split-window-sensibly)
            (other-window 1))))
 
+(defun kill-this-buffer-and-delete-window ()
+  (interactive)
+
+  (kill-this-buffer)
+  (delete-window))
+
 (bind-keys
  ("C-x C-b" . ibuffer)
  ("C-x k" . kill-this-buffer)
+ ("C-x M-k" . kill-this-buffer-and-delete-window)
  ("C-x C-a" . edit-as-root)
  ("C-x d" . dired-ffap)
  ("C-x - -" . shrink-window-if-larger-than-buffer)
