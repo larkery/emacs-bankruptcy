@@ -35,11 +35,12 @@
       (while (search-forward "\n" to t)
         (let ((pos (1- (point))))
           (if (and (get-text-property pos 'hard)
-                   (not
-                    (save-excursion
-                      (forward-char -2)
-                      (looking-at "\n"))
-                    ))
+                   ;; (not
+                   ;;  (save-excursion
+                   ;;    (forward-char -2)
+                   ;;    (looking-at "\n"))
+                   ;;  )
+                   )
               ;; Use `copy-sequence', because display property values must not be `eq'!
               (add-text-properties pos (1+ pos)
                                    (list 'display
