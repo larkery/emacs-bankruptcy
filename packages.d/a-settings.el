@@ -79,3 +79,5 @@
               indicate-empty-lines t
               indicate-buffer-boundaries 'right
               )
+
+(global-auto-revert-mode 1)

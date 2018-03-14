@@ -34,9 +34,13 @@
            (desc (mml-minibuffer-read-description))
            (disp (mml-minibuffer-read-disposition type "attachment" file)))
       (save-excursion
-        (goto-char (point-max))
-        (mml-attach-file file desc disp)))
-    ))
+        (goto-char (point-min))
+        (if (search-forward "<#part" nil t)
+            (backward-char (length "<#part"))
+          (goto-char (point-max))
+          (insert "\n\n"))
+        (mml-attach-file file desc disp)))))
+
 
 (defun mml-ivy-attach-files ()
   (interactive)
