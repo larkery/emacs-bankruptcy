@@ -56,4 +56,7 @@
       (add-text-properties here (point-max)
                            (list 'quoted-reply t))))
 
+(push '(quoted-reply . t)
+      text-property-default-nonsticky)
+
 (provide 'notmuch-reply-with-selection)

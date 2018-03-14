@@ -85,54 +85,72 @@ If ARG is not nil, use `org-mime-fixedwith-wrap' to wrap the exported text."
       (insert (org-mime-multipart
                orig-body html (mapconcat 'identity html-images "\n"))))))
 
-;; TODO this is not good yet
 (defun org-mime-blockify-quotes ()
-    (let ((block-start "#+BEGIN_EXPORT html\n<blockquote>\n")
-          (block-end "\n</blockquote>\n#+END_EXPORT")
-          (changed t))
-      (while changed
-        (goto-char (point-min))
-        (setq changed nil)
-        (while (and (< (point) (point-max))
-                    (search-forward-regexp "^>" nil t))
-          (setq changed t)
-          (let* ((first-quote (match-beginning 0))
-                 (last-quote first-quote))
-            (goto-char first-quote)
-            (while (and (< (point) (point-max))
-                        (looking-at (rx bol (| ">" eol))))
-              (when (looking-at (rx bol ">"))
-                (end-of-line)
-                (setq last-quote (point)))
-              (forward-line))
+  (let ((block-start "#+BEGIN_QUOTE html\n")
+        (block-end "\n#+END_QUOTE")
+        (changed t))
+    (while changed
+      (goto-char (point-min))
+      (setq changed nil)
+      (while (and (< (point) (point-max))
+                  (search-forward-regexp "^>" nil t))
+        (setq changed t)
+        (let* ((first-quote (match-beginning 0))
+               (last-quote first-quote))
+          (goto-char first-quote)
+          (while (and (< (point) (point-max))
+                      (looking-at (rx bol (| ">" eol))))
+            (when (looking-at (rx bol ">"))
+              (end-of-line)
+              (setq last-quote (point)))
+            (forward-line))
 
-            (save-restriction
-              (narrow-to-region first-quote last-quote)
-              (goto-char (point-min))
-              (replace-regexp "^>" "")
-              (goto-char (point-min))
-              (insert block-start)
-              (goto-char (point-max))
-              (insert block-end))))
-        (setq block-start "<blockquote>\n"
-              block-end "\n</blockquote>")
-        )))
+          (save-restriction
+            (narrow-to-region first-quote last-quote)
+            (goto-char (point-min))
+            (replace-regexp "^>" "")
+            (goto-char (point-min))
+            (insert block-start)
+            (goto-char (point-max))
+            (insert block-end))))
+      )))
+
+(defun mail-add-hard-newlines ()
+  (when use-hard-newlines
+    (save-excursion
+      (goto-char (point-min))
+      (while (search-forward "\n" nil t)
+        (let ((pos (point)))
+          (move-to-left-margin)
+          (when (looking-at paragraph-start)
+            (set-hard-newline-properties (1- pos) pos))
+          ;; If paragraph-separate, newline after it is hard too.
+          (when (looking-at paragraph-separate)
+            (set-hard-newline-properties (1- pos) pos)
+            (end-of-line)
+            (unless (eobp)
+              (set-hard-newline-properties (point) (1+ (point))))))))
+
+    (save-excursion
+      (goto-char (point-min))
+      (search-forward mail-header-separator)
+
+      (while (search-forward "\n" (point-max) t)
+        (when (or (get-text-property (1- (point)) 'quoted-reply)
+                  (org-context-p 'headline 'table))
+          (add-text-properties (1- (point)) (point) (list 'hard t)))))))
 
 (defun org-mime-clean-newlines ()
   (when use-hard-newlines
-    (goto-char (point-min))
     (while (search-forward "\n" (point-max) t)
-      (cond
-       ;; ((get-text-property (1- (point)) 'hard)
-       ;;  (insert (propertize "\n" 'hard t)))
-
-       ((not (or (get-text-property (1- (point)) 'quoted-reply)
-                 (looking-at (rx bol (* space) eol))
-                 (org-context-p 'headline 'item 'table)))
+      (unless (or (get-text-property (1- (point)) 'quoted-reply)
+                  (get-text-property (1- (point)) 'hard)
+                  (looking-at (rx bol (* space) eol))
+                  (org-context-p 'item 'headline 'table))
         (delete-char -1)
-        (unless (looking-at "[[:space:]]") (insert " ")))))))
+        (unless (looking-at "[[:space:]]") (insert " "))))))
 
-
+(add-hook 'message-send-hook 'mail-add-hard-newlines)
 (add-hook 'org-mime-pre-html-hook #'org-mime-blockify-quotes)
 (add-hook 'org-mime-pre-html-hook #'org-mime-clean-newlines)
 
