@@ -33,10 +33,24 @@
       frame-title-format
       '((:eval
          (cond
+          ((derived-mode-p 'notmuch-message-mode)
+           (concat "to: "
+                   (save-excursion
+                     (message-goto-to)
+                     (let ((p (point)))
+                       (message-beginning-of-line)
+                       (buffer-substring (point) p)))
+                   " subject: "
+                   (save-excursion
+                     (message-goto-subject)
+                     (let ((p (point)))
+                       (message-beginning-of-line)
+                       (buffer-substring (point) p)))))
+
           ((buffer-file-name)
            (abbreviate-file-name (buffer-file-name)))
           ((derived-mode-p 'notmuch-show-mode 'notmuch-tree-mode)
-           (concat "mail: " (notmuch-show-get-subject)))
+           (concat "read mail: " (notmuch-show-get-subject)))
           (t "%b"))
          ))
 
