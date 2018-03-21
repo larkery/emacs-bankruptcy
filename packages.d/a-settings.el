@@ -33,6 +33,8 @@
       frame-title-format
       '((:eval
          (cond
+          ((derived-mode-p 'dired-mode)
+           default-directory)
           ((derived-mode-p 'notmuch-message-mode)
            (concat "to: "
                    (save-excursion
