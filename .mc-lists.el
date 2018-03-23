@@ -10,6 +10,7 @@
         c-electric-paren
         c-electric-semi&comma
         c-electric-slash
+        c-indent-line-or-region
         composable-kill-region
         composable-save-region
         cycle-just-one-space
