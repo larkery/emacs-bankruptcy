@@ -335,6 +335,7 @@ Source: %u, %c
  '(org-export-with-smart-quotes t)
  '(org-fontify-whole-heading-line t)
  '(org-id-locations-file "~/notes/.metadata/org-id-locations")
+ '(org-latex-compiler "xelatex")
  '(org-log-done (quote time))
  '(org-lowest-priority 68)
  '(org-modules

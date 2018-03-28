@@ -11,7 +11,7 @@
 
   (advice-add 'pass-display-item :around 'my-pass-display-item))
 
-(req-package auth-password-store
+(req-package auth-source-pass
   :demand
   :config
-  (auth-pass-enable))
+  (auth-source-pass-enable))
