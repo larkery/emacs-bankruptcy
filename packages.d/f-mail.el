@@ -465,7 +465,8 @@ colours from highlight symbol"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(message-auto-save-directory "~/temp/messages/")
- '(message-citation-line-format "On %a, %b %d %Y, %N wrote:
+ '(message-citation-line-format "------------------
+On %a, %b %d %Y, %N wrote:
 ")
  '(message-citation-line-function (quote message-insert-formatted-citation-line))
  '(message-cite-function
