@@ -275,6 +275,7 @@ This will be the link nearest the end of the message which either contains or fo
     (eval-when-compile (require 'nnheader))
     (let ((nl (propertize "\n" 'hard t)))
       (insert nl nl
+              "--------------------------" nl
               "-----Original Message-----" nl
               "From: " (mail-header-from message-reply-headers) nl
               "Sent: " (mail-header-date message-reply-headers) nl
