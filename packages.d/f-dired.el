@@ -28,7 +28,11 @@
    ("C-M-p" . dired-up-directory-here)
    ("J" .  bookmark-jump)
    ("C-c RET" .  run-terminal-here)
+
+   ;; so this is related to mouse-1-click-follows-link
+   ;; which makes mouse-1 raise a mouse-2 event on a link.
    ("<mouse-2>" . dired-mouse-insert-or-find-file-other-window)
+
    ("[" . dired-prev-subdir)
    ("]" . dired-next-subdir)
    ("M-n" . dired-next-subdir)
@@ -88,7 +92,6 @@
 
 
   (advice-add 'dired-insert-subdir :around #'save-window-start)
-
 
   (defun dired-mouse-insert-or-find-file-other-window (event)
     "In Dired, visit the file or directory name you click on."
