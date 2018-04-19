@@ -395,6 +395,31 @@ This will be the link nearest the end of the message which either contains or fo
   (add-hook 'message-mode-hook 'use-hard-newlines)
   (add-hook 'message-mode-hook 'auto-fill-mode)
 
+  (defun message-update-buffer-name (beg end len)
+    (save-mark-and-excursion
+     (goto-char (point-min))
+     (or (search-forward (concat "\n" mail-header-separator "\n") nil t)
+         (search-forward-regexp "[^:]+:\\([^\n]\\|\n[ \t]\\)+\n\n" nil t))
+     (when (<= beg (point) end)
+       (rename-buffer
+        (concat "mail: "
+                (progn
+                  (goto-char (point-min))
+                  (when (search-forward-regexp "^To: " nil t)
+                    (buffer-substring (point) (save-excursion (end-of-line) (point)))))
+                ", "
+                (progn
+                  (goto-char (point-min))
+                  (when (search-forward-regexp "^Subject: " nil t)
+                   (buffer-substring (point) (save-excursion (end-of-line) (point)))))
+                )))))
+
+  (defun message-update-buffer-name-on-change ()
+    (push #'message-update-buffer-name after-change-functions))
+
+  (add-hook 'message-mode-hook 'message-update-buffer-name-on-change)
+
+
   (defun org-mime-html-automatically (&rest args)
     (if (mail-is-fancy)
         (progn
@@ -466,8 +491,7 @@ colours from highlight symbol"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(message-auto-save-directory "~/temp/messages/")
- '(message-citation-line-format "------------------
-On %a, %b %d %Y, %N wrote:
+ '(message-citation-line-format "On %a, %b %d %Y, %N wrote:
 ")
  '(message-citation-line-function (quote message-insert-formatted-citation-line))
  '(message-cite-function

@@ -35,24 +35,7 @@
          (let ((inhibit-message t)
                (inhibit-redisplay t))
            (cond
-            ((derived-mode-p 'dired-mode)
-             default-directory)
-            ((derived-mode-p 'notmuch-message-mode)
-             (save-mark-and-excursion
-              (concat "to: "
-                      (progn (message-goto-to)
-                             (let ((p (point)))
-                               (message-beginning-of-line)
-                               (buffer-substring (point) p)))
-
-                      " subject: "
-                      (progn (message-goto-subject)
-                             (let ((p (point)))
-                               (message-beginning-of-line)
-                               (buffer-substring (point) p))))))
-
-            ((buffer-file-name)
-             (abbreviate-file-name (buffer-file-name)))
+            ((derived-mode-p 'dired-mode) default-directory)
             ((derived-mode-p 'notmuch-show-mode 'notmuch-tree-mode)
              (concat "read mail: " (notmuch-show-get-subject)))
             (t "%b")))

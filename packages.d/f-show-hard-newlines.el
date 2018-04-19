@@ -22,8 +22,8 @@
 
 (defun harden-paragraph-breaks ()
   (interactive)
-  (let ((start (if (region-active-p (region-beginning) (point-min))))
-        (end (if (region-active-p (region-end) (point-max)))))
+  (let ((start (if (region-active-p) (region-beginning) (point-min)))
+        (end (if (region-active-p) (region-end) (point-max))))
     (save-mark-and-excursion
      (goto-char start)
      (while (search-forward "\n" end t)
