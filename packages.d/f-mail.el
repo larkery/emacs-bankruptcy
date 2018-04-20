@@ -406,7 +406,10 @@ This will be the link nearest the end of the message which either contains or fo
                 (progn
                   (goto-char (point-min))
                   (when (search-forward-regexp "^To: " nil t)
-                    (buffer-substring (point) (save-excursion (end-of-line) (point)))))
+                    (buffer-substring (point) (save-excursion
+                                                (search-forward-regexp (rx (| " <" eol)))
+                                                (backward-char 2)
+                                                (point)))))
                 ", "
                 (progn
                   (goto-char (point-min))
